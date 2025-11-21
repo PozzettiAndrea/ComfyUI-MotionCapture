@@ -1,20 +1,18 @@
 # ComfyUI-MotionCapture Dependencies
-# Based on GVHMR requirements
+# Compatible with ComfyUI's existing PyTorch installation
 
-# PyTorch ecosystem (usually already installed with ComfyUI, but included for completeness)
---extra-index-url https://download.pytorch.org/whl/cu121
-torch==2.3.0+cu121
-torchvision==0.18.0+cu121
-timm==0.9.12
+# SKIPPED: PyTorch/torchvision (use ComfyUI's existing installation)
+# timm - Vision transformer library
+timm>=0.9.0
 
 # Training/inference frameworks
-lightning==2.3.0
-hydra-core==1.3
+lightning>=2.0.0
+hydra-core>=1.3
 hydra-zen
 hydra_colorlog
 
-# Core utilities
-numpy==1.23.5
+# Core utilities (flexible versions for ComfyUI compatibility)
+numpy>=1.23.0,<2.0.0
 einops
 rich
 termcolor
@@ -23,8 +21,8 @@ joblib
 # Computer vision
 opencv-python
 scikit-image
-imageio==2.34.1
-av==13.0.0
+imageio>=2.34.0
+av>=13.0.0
 
 # Video processing
 ffmpeg-python
@@ -34,9 +32,9 @@ matplotlib
 tensorboardX
 
 # 3D vision and body models
-pytorch3d @ https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/py310_cu121_pyt230/pytorch3d-0.7.6-cp310-cp310-linux_x86_64.whl
+# SKIPPED: pytorch3d (optional, for advanced rendering only)
 trimesh
-chumpy
+chumpy-fork
 smplx
 wis3d
 pycolmap
