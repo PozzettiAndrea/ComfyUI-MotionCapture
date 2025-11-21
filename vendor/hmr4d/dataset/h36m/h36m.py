@@ -5,7 +5,7 @@ from hmr4d.configs import MainStore, builds
 
 from hmr4d.utils.pylogger import Log
 from hmr4d.dataset.imgfeat_motion.base_dataset import ImgfeatMotionDatasetBase
-from pytorch3d.transforms import axis_angle_to_matrix, matrix_to_axis_angle
+from hmr4d.utils.pytorch3d_shim import axis_angle_to_matrix, matrix_to_axis_angle
 from hmr4d.utils import matrix
 from hmr4d.utils.smplx_utils import make_smplx
 from tqdm import tqdm

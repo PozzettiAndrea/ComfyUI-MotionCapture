@@ -1,6 +1,6 @@
 import torch
 import torch.nn.functional as F
-from pytorch3d.transforms import (
+from hmr4d.utils.pytorch3d_shim import (
     axis_angle_to_matrix,
     matrix_to_axis_angle,
     matrix_to_rotation_6d,

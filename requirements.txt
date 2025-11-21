@@ -32,7 +32,7 @@ matplotlib
 tensorboardX
 
 # 3D vision and body models
-# SKIPPED: pytorch3d (optional, for advanced rendering only)
+# SKIPPED: pytorch3d (replaced with custom pure-PyTorch shim in vendor/hmr4d/utils/pytorch3d_shim.py)
 trimesh
 chumpy-fork
 smplx
@@ -46,6 +46,7 @@ lapx
 
 # Additional utilities
 setuptools>=68.0
+yacs
 
 # Model downloads
 huggingface_hub>=0.20.0

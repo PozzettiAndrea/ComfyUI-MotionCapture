@@ -1,6 +1,6 @@
 import torch
 from torch.cuda.amp import autocast
-from pytorch3d.transforms import (
+from hmr4d.utils.pytorch3d_shim import (
     matrix_to_rotation_6d,
     rotation_6d_to_matrix,
     axis_angle_to_matrix,
