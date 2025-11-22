@@ -125,13 +125,18 @@ const ANIMATION_VIEWER_HTML = `
                     currentModel = fbx;
                     scene.add(fbx);
 
-                    // Enable shadows
+                    // Enable shadows and check mesh visibility
+                    let meshCount = 0;
                     fbx.traverse((child) => {
                         if (child.isMesh) {
+                            meshCount++;
                             child.castShadow = true;
                             child.receiveShadow = true;
+                            child.visible = showMesh;
+                            console.log(`[FBXAnimationViewer] Mesh found: ${child.name}, vertices: ${child.geometry.attributes.position.count}, visible: ${child.visible}`);
                         }
                     });
+                    console.log(`[FBXAnimationViewer] Total meshes loaded: ${meshCount}`);
 
                     // Create skeleton helper
                     const skeleton = fbx.children.find(child => child.isSkinnedMesh)?.skeleton;
