@@ -1,0 +1,176 @@
+{
+  "id": "smpl-bvh-vroid-pipeline",
+  "revision": 1,
+  "last_node_id": 5,
+  "last_link_id": 4,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "LoadSMPL",
+      "pos": [0, 0],
+      "size": [270, 150],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "smpl_params",
+          "type": "SMPL_PARAMS",
+          "links": [1]
+        },
+        {
+          "name": "info",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadSMPL"
+      },
+      "widgets_values": [null, true, "refresh", "output"]
+    },
+    {
+      "id": 2,
+      "type": "SMPLtoBVH",
+      "pos": [320, 0],
+      "size": [300, 200],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "smpl_params",
+          "type": "SMPL_PARAMS",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "bvh_data",
+          "type": "BVH_DATA",
+          "links": [2, 3]
+        },
+        {
+          "name": "file_path",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "info",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SMPLtoBVH"
+      },
+      "widgets_values": ["output/motion.bvh", 30, 1.0]
+    },
+    {
+      "id": 3,
+      "type": "BVHViewer",
+      "pos": [670, -100],
+      "size": [400, 720],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "bvh_data",
+          "type": "BVH_DATA",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "info",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BVHViewer"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 4,
+      "type": "LoadFBXCharacter",
+      "pos": [670, 300],
+      "size": [270, 150],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "fbx_path",
+          "type": "STRING",
+          "links": [4]
+        },
+        {
+          "name": "info",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadFBXCharacter"
+      },
+      "widgets_values": ["", false, "refresh", "output"]
+    },
+    {
+      "id": 5,
+      "type": "BVHtoFBX",
+      "pos": [1020, 200],
+      "size": [350, 250],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "bvh_data",
+          "type": "BVH_DATA",
+          "link": 3
+        },
+        {
+          "name": "character_path",
+          "type": "STRING",
+          "link": 4
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_path",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "info",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BVHtoFBX"
+      },
+      "widgets_values": ["output/retargeted.fbx", "auto", "fbx"]
+    }
+  ],
+  "links": [
+    [1, 1, 0, 2, 0, "SMPL_PARAMS"],
+    [2, 2, 0, 3, 0, "BVH_DATA"],
+    [3, 2, 0, 5, 0, "BVH_DATA"],
+    [4, 4, 0, 5, 1, "STRING"]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 1.0,
+      "offset": [50, 50]
+    }
+  },
+  "version": 0.4
+}

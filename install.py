@@ -505,6 +505,11 @@ def main():
         action="store_true",
         help="Install Blender for FBX retargeting support"
     )
+    parser.add_argument(
+        "--install-blender-addons",
+        action="store_true",
+        help="Install Blender addons (VRM and BVH Retargeter) for enhanced retargeting"
+    )
     args = parser.parse_args()
 
     # Get ComfyUI models directory (not in the custom node repo!)
@@ -533,6 +538,27 @@ def main():
             print("  • Install manually from https://www.blender.org/download/")
             print("  • Or run: python install.py --install-blender")
 
+    # Install Blender addons if requested
+    if args.install_blender_addons:
+        print("\n" + "="*60)
+        print("Installing Blender Addons for BVH Retargeting")
+        print("="*60 + "\n")
+
+        try:
+            from lib.blender_addon_installer import install_all_addons
+            success = install_all_addons()
+            if success:
+                print("\n✅ Blender addons installed successfully!")
+                print("  • VRM Addon: Import/export VRM character files")
+                print("  • BVH Retargeter: Advanced BVH motion retargeting")
+            else:
+                print("\n⚠ Some addons failed to install. Check logs above for details.")
+        except Exception as e:
+            print(f"\n⚠ Failed to install Blender addons: {e}")
+            print("  You can install them manually:")
+            print("  • VRM Addon: https://github.com/saturday06/VRM-Addon-for-Blender")
+            print("  • BVH Retargeter: https://github.com/Diffeomorphic/retarget-bvh")
+
     # Final message
     print_header("Installation Complete!")
     print("✅ All models downloaded successfully!")
@@ -541,6 +567,10 @@ def main():
         print("🎨 Blender installed for FBX retargeting support.")
     else:
         print("💡 To enable FBX retargeting, run: python install.py --install-blender")
+    if args.install_blender_addons:
+        print("🔧 Blender addons installed for enhanced BVH retargeting.")
+    else:
+        print("💡 For BVH→VRM retargeting, run: python install.py --install-blender-addons")
     print("💡 Restart ComfyUI to load the new nodes.\n")
 
     return 0 if success else 1

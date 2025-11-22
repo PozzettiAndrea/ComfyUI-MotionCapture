@@ -25,6 +25,9 @@ from .nodes.retarget_node import SMPLToFBX
 from .nodes.fbx_loader_node import LoadFBXCharacter
 from .nodes.fbx_preview_node import FBXPreview
 from .nodes.fbx_animation_viewer_node import FBXAnimationViewer
+from .nodes.smpl_to_bvh_node import SMPLtoBVH
+from .nodes.bvh_viewer_node import BVHViewer
+from .nodes.bvh_retarget_node import BVHtoFBX
 
 # ComfyUI node registration
 NODE_CLASS_MAPPINGS = {
@@ -37,6 +40,9 @@ NODE_CLASS_MAPPINGS = {
     "LoadFBXCharacter": LoadFBXCharacter,
     "FBXPreview": FBXPreview,
     "FBXAnimationViewer": FBXAnimationViewer,
+    "SMPLtoBVH": SMPLtoBVH,
+    "BVHViewer": BVHViewer,
+    "BVHtoFBX": BVHtoFBX,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -49,6 +55,9 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "LoadFBXCharacter": "Load FBX Character",
     "FBXPreview": "FBX 3D Preview",
     "FBXAnimationViewer": "FBX Animation Viewer",
+    "SMPLtoBVH": "SMPL to BVH Converter",
+    "BVHViewer": "BVH Animation Viewer",
+    "BVHtoFBX": "BVH to FBX Retargeter",
 }
 
 # Module info
@@ -68,6 +77,9 @@ print(f"  - SMPLToFBX: Retarget SMPL motion to FBX characters")
 print(f"  - LoadFBXCharacter: Load FBX files with folder browser")
 print(f"  - FBXPreview: Interactive 3D FBX viewer")
 print(f"  - FBXAnimationViewer: Animated FBX playback viewer")
+print(f"  - SMPLtoBVH: Convert SMPL motion to BVH format")
+print(f"  - BVHViewer: Interactive 3D viewer for BVH animations")
+print(f"  - BVHtoFBX: Retarget BVH motion to FBX/VRM characters")
 print(f"{'='*60}\n")
 
 # Web extensions path for ComfyUI
