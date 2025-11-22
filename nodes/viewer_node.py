@@ -125,10 +125,10 @@ class SMPLViewer:
 
         Log.info("[SMPLViewer] Viewer data prepared successfully!")
 
-        # Return in format expected by ComfyUI
+        # Return in SAM3 pattern: ui dict for frontend, result tuple for outputs
         return {
             "ui": {
-                "smpl_viewer": [viewer_data]
+                "smpl_mesh": [viewer_data]  # Matches JavaScript: message.smpl_mesh
             },
             "result": (viewer_data,)
         }
