@@ -240,7 +240,13 @@ class LoadGVHMRModels:
         # Load GVHMR model
         Log.info(f"[LoadGVHMRModels] Loading GVHMR from {gvhmr_path}...")
         device = "cuda" if torch.cuda.is_available() else "cpu"
-        model_gvhmr = DemoPL.load_from_checkpoint(str(gvhmr_path), map_location=device, strict=False)
+
+        # Instantiate DemoPL with pipeline from config
+        from hydra.utils import instantiate
+        model_gvhmr = instantiate(cfg.model)
+
+        # Load pretrained weights
+        model_gvhmr.load_pretrained_model(str(gvhmr_path))
         model_gvhmr.eval()
         model_gvhmr.to(device)
 

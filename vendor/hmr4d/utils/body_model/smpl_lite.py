@@ -10,25 +10,27 @@ from time import time
 
 import pickle
 
-from .smplx_lite import batch_rigid_transform_v2
+from .smplx_lite import batch_rigid_transform_v2, get_body_model_path
 
 
 class SmplLite(nn.Module):
     def __init__(
         self,
-        model_path="inputs/checkpoints/body_models/smpl",
+        model_path=None,
         gender="neutral",
         num_betas=10,
     ):
         super().__init__()
 
         # Load the model
+        if model_path is None:
+            model_path = get_body_model_path("smpl")
         model_path = Path(model_path)
         if model_path.is_dir():
             smpl_path = Path(model_path) / f"SMPL_{gender.upper()}.pkl"
         else:
             smpl_path = model_path
-        assert smpl_path.exists()
+        assert smpl_path.exists(), f"SMPL model not found at {smpl_path}"
         with open(smpl_path, "rb") as smpl_file:
             data_struct = Struct(**pickle.load(smpl_file, encoding="latin1"))
         self.faces = data_struct.f  # (F, 3)

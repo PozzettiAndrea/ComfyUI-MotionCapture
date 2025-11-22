@@ -11,22 +11,31 @@ from time import time
 from hmr4d import PROJ_ROOT
 
 
+def get_body_model_path(model_type="smplx"):
+    """Get path to body models in ComfyUI models directory."""
+    # Body models are always in ComfyUI/models/motion_capture/body_models/
+    comfy_path = PROJ_ROOT.parent.parent.parent.parent / "models" / "motion_capture" / "body_models" / model_type
+    return comfy_path
+
+
 class SmplxLite(nn.Module):
     def __init__(
         self,
-        model_path=PROJ_ROOT / "inputs/checkpoints/body_models/smplx",
+        model_path=None,
         gender="neutral",
         num_betas=10,
     ):
         super().__init__()
 
         # Load the model
+        if model_path is None:
+            model_path = get_body_model_path("smplx")
         model_path = Path(model_path)
         if model_path.is_dir():
             smplx_path = Path(model_path) / f"SMPLX_{gender.upper()}.npz"
         else:
             smplx_path = model_path
-        assert smplx_path.exists()
+        assert smplx_path.exists(), f"SMPLX model not found at {smplx_path}"
         model_data = np.load(smplx_path, allow_pickle=True)
 
         data_struct = Struct(**model_data)

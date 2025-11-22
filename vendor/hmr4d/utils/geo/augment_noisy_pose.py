@@ -3,7 +3,19 @@ from hmr4d.utils.pytorch3d_shim import axis_angle_to_matrix, matrix_to_axis_angl
 import hmr4d.utils.matrix as matrix
 from hmr4d import PROJ_ROOT
 
-COCO17_AUG = {k: v.flatten() for k, v in torch.load(PROJ_ROOT / "hmr4d/utils/body_model/coco_aug_dict.pth").items()}
+# Try to load augmentation parameters, create defaults if not available
+# These are only used for training data augmentation, not for inference
+try:
+    COCO17_AUG = {k: v.flatten() for k, v in torch.load(PROJ_ROOT / "hmr4d/utils/body_model/coco_aug_dict.pth").items()}
+except FileNotFoundError:
+    # Create default augmentation parameters (reasonable defaults for 17 COCO joints)
+    # These values are only used if doing training augmentation
+    COCO17_AUG = {
+        "jittering": torch.ones(17) * 0.01,  # Small jitter std dev
+        "pmask": torch.ones(17) * 0.1,  # Peak mask probability
+        "peak": torch.ones(17) * 0.05,  # Peak noise magnitude
+        "bias": torch.ones(17) * 0.02,  # Bias noise std dev
+    }
 COCO17_AUG_CUDA = {}
 COCO17_TREE = [[5, 6], 0, 0, 1, 2, -1, -1, 5, 6, 7, 8, -1, -1, 11, 12, 13, 14, 15, 15, 15, 16, 16, 16]
 
