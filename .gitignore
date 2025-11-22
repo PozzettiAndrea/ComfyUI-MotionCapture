@@ -30,3 +30,6 @@ _hf_cache/
 # Blender installation
 lib/blender/
 _temp_blender_download/
+
+# Temp files for retargeting
+temp/
