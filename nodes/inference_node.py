@@ -115,28 +115,19 @@ class GVHMRInference:
         Log.info("[GVHMRInference] Extracting 2D pose with ViTPose...")
         vitpose_extractor = model_bundle["vitpose_extractor"]
 
-        # ViTPose expects video frames as numpy array (F, H, W, 3)
-        kp2d_list = []
-        for i, img in enumerate(images_np):
-            # Crop to bbox
-            x, y, w, h = bboxes_xywh[i]
-            cropped = img[y:y+h, x:x+w]
+        # Use get_batch to preprocess images for extractors
+        from hmr4d.utils.preproc.vitfeat_extractor import get_batch
 
-            # Resize to 256x256 for ViTPose
-            resized = cv2.resize(cropped, (256, 256))
+        # Prepare images in the right format for get_batch (expects (F, H, W, 3) RGB numpy array)
+        imgs_tensor, bbx_xys_processed = get_batch(images_np, bbx_xys, img_ds=1.0, path_type="np")
 
-            # Extract keypoints (this is a simplified approach; actual implementation may vary)
-            # The real ViTPose extractor processes the whole video at once
-            kp2d_list.append(resized)
-
-        # Use the actual extractor (note: this expects a video path, so we may need to adapt)
-        # For now, we'll create a temporary processing pipeline
-        kp2d = vitpose_extractor.extract_from_images(images_np, bbx_xys)
+        # Extract 2D keypoints with ViTPose
+        kp2d = vitpose_extractor.extract(imgs_tensor, bbx_xys_processed, img_ds=1.0)
 
         # Extract ViT features
         Log.info("[GVHMRInference] Extracting image features...")
         feature_extractor = model_bundle["feature_extractor"]
-        f_imgseq = feature_extractor.extract_from_images(images_np, bbx_xys)
+        f_imgseq = feature_extractor.extract_video_features(imgs_tensor, bbx_xys_processed, img_ds=1.0)
 
         # Estimate camera intrinsics
         if focal_length_mm > 0:

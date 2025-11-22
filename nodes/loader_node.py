@@ -243,7 +243,13 @@ class LoadGVHMRModels:
 
         # Instantiate DemoPL with pipeline from config
         from hydra.utils import instantiate
-        model_gvhmr = instantiate(cfg.model)
+        from omegaconf import OmegaConf
+
+        # Only resolve the model part to avoid missing path values
+        model_cfg_dict = OmegaConf.to_container(cfg.model, resolve=True)
+        model_cfg = OmegaConf.create(model_cfg_dict)
+
+        model_gvhmr = instantiate(model_cfg, _recursive_=False)
 
         # Load pretrained weights
         model_gvhmr.load_pretrained_model(str(gvhmr_path))

@@ -12,7 +12,6 @@ build/
 models/
 *.ckpt
 *.pth
-*.pt
 *.pkl
 *.npz
 
