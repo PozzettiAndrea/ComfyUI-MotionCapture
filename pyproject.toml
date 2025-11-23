@@ -1,0 +1,44 @@
+[project]
+name = "comfyui-motioncapture"
+description = "Motion Capture nodes for ComfyUI: SMPL data/retargeting using GVHMR. This node is a very first draft, putting it out there in the hope some blender whizzes can help me figure out retargeting *prayer emoji*"
+version = "0.0.1"
+license = {file = "LICENSE"}
+requires-python = ">=3.10"
+
+# Standard dependencies that can be installed via pip
+# CUDA-specific packages (spconv, torch-scatter, torch-cluster) are handled by install.py
+dependencies = [
+    # ─── Core computation ─────────────────────────
+    "numpy>=1.20",
+    "scipy",
+
+    # ─── 3D mesh + SMPL models ────────────────────
+    "trimesh",
+    "smplx",
+    "chumpy-fork",     # SMPL/SMPL-X uses this
+
+    # ─── Motion / BVH handling ────────────────────
+    "bvh>=0.3",
+
+    # ─── Image / video IO (tiny) ──────────────────
+    "imageio>=2.34",
+    "av>=13.0.0",
+
+    # ─── Utility deps ─────────────────────────────
+    "einops",
+    "tqdm",
+    "addict",
+    "omegaconf",
+    "huggingface-hub",
+]
+
+[project.urls]
+Repository = "https://github.com/PozzettiAndrea/ComfyUI-MotionCapture"
+Documentation = "https://github.com/PozzettiAndrea/ComfyUI-MotionCapture#readme"
+"Bug Tracker" = "https://github.com/PozzettiAndrea/ComfyUI-MotionCapture/issues"
+
+# ComfyUI Registry configuration
+[tool.comfy]
+PublisherId = "pznodes"
+DisplayName = "MotionCapture"
+Icon = ""
