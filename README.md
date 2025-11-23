@@ -2,6 +2,15 @@
 
 A ComfyUI custom node package for GVHMR-based 3D human motion capture from video. Extract SMPL parameters and 3D skeletal motion using state-of-the-art pose estimation.
 
+
+
+https://github.com/user-attachments/assets/17638ca5-8139-40ca-b215-0d7dabf0ea73
+
+
+https://github.com/user-attachments/assets/ba7a7797-713d-4750-9210-ff07bcc6bb01
+
+
+
 ## Features
 
 - **GVHMR Integration**: World-grounded human motion recovery with gravity-view coordinates
