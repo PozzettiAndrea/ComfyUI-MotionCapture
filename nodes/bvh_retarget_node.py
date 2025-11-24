@@ -284,6 +284,14 @@ try:
         sys.exit(1)
 
     print(f"[BVHtoFBX] Found character armature: {char_armature.name}")
+    print(f"[BVHtoFBX] Armature scale: {char_armature.scale[:]}")
+    print(f"[BVHtoFBX] Armature location: {char_armature.location[:]}")
+
+    # List all objects in scene
+    print(f"[BVHtoFBX] All objects in scene:")
+    for obj in bpy.data.objects:
+        print(f"[BVHtoFBX]   - {obj.name} (type: {obj.type}, parent: {obj.parent.name if obj.parent else 'None'})")
+
     # Print character bone names for debugging
     print(f"[BVHtoFBX] Character Armature Bones: {[b.name for b in char_armature.data.bones]}")
 
@@ -294,8 +302,11 @@ try:
     # Load BVH (Source Motion)
     bvh_path = "REPLACE_BVH_INPUT"
     print(f"[BVHtoFBX] Loading BVH animation: {bvh_path}")
-    bpy.ops.import_anim.bvh(filepath=bvh_path)
-    
+    # Import BVH with global_scale=1.0 (SMPL BVH output is already in meters)
+    # Default settings (axis_forward='-Z', axis_up='Y') convert to Blender's Z-up coordinate system
+    # This matches VRoid which also uses Z-up
+    bpy.ops.import_anim.bvh(filepath=bvh_path, global_scale=1.0)
+
     # Find BVH armature
     bvh_armature = None
     for obj in bpy.data.objects:
@@ -311,15 +322,16 @@ try:
     print(f"[BVHtoFBX] BVH Armature Bones: {[b.name for b in bvh_armature.data.bones]}")
 
     # --- RETARGETING LOGIC ---
-    print("[BVHtoFBX] Starting retargeting...")
-    
-    bpy.context.view_layer.objects.active = char_armature
-    bpy.ops.object.mode_set(mode='POSE')
+    print("[BVHtoFBX] Starting retargeting with T-pose normalization...")
+
+    import mathutils
+    from mathutils import Matrix, Quaternion, Vector
+    from math import radians, degrees, atan2, acos, sqrt
 
     # Auto-detect bone naming convention (Standard VRM vs VRoid FBX)
     bone_names = char_armature.pose.bones.keys()
     is_vroid = any("J_Bip_C_Hips" in b for b in bone_names)
-    
+
     if is_vroid:
         print("[BVHtoFBX] Detected VRoid bone naming convention (J_Bip_...)")
         vroid_map = {
@@ -352,63 +364,208 @@ try:
             if vrm in vroid_map:
                 new_map[smpl] = vroid_map[vrm]
             else:
-                new_map[smpl] = vrm 
+                new_map[smpl] = vrm
         BONE_MAP = new_map
-    
-    # Apply constraints
-    constraints_applied = 0
+
+    # ===========================================
+    # STEP 1: Normalize target character to T-pose
+    # ===========================================
+    print("[BVHtoFBX] Step 1: Normalizing character to T-pose via pose mode...")
+
+    bpy.context.view_layer.objects.active = char_armature
+    bpy.ops.object.mode_set(mode='POSE')
+
+    # For VRoid characters, rotate arm bones to T-pose using pose transforms
+    if is_vroid:
+        arm_corrections = [
+            # (bone_name, rotation_axis, angle_degrees)
+            # VRoid A-pose has arms ~40° down, need to rotate up to horizontal
+            ('J_Bip_L_UpperArm', 'Z', 40),   # Rotate left arm up
+            ('J_Bip_R_UpperArm', 'Z', -40),  # Rotate right arm up
+        ]
+
+        for bone_name, axis, angle in arm_corrections:
+            if bone_name in char_armature.pose.bones:
+                pose_bone = char_armature.pose.bones[bone_name]
+
+                # Get current bone direction to determine exact correction needed
+                bone_data = char_armature.data.bones[bone_name]
+                bone_vec = bone_data.tail_local - bone_data.head_local
+
+                # Calculate angle from horizontal
+                current_angle = degrees(atan2(bone_vec.z, abs(bone_vec.y)))
+                correction_angle = -current_angle  # Negate to correct to horizontal
+
+                print(f"[BVHtoFBX]   {bone_name}: current angle = {current_angle:.1f}°, applying correction = {correction_angle:.1f}°")
+
+                # Apply rotation in pose mode
+                pose_bone.rotation_mode = 'XYZ'
+                if axis == 'Z':
+                    if 'L_' in bone_name:
+                        pose_bone.rotation_euler.z = radians(correction_angle)
+                    else:
+                        pose_bone.rotation_euler.z = radians(-correction_angle)
+
+    # Update the view layer to apply pose
+    bpy.context.view_layer.update()
+
+    # Apply pose as rest pose - this makes the T-pose the new rest pose
+    print("[BVHtoFBX] Applying T-pose as new rest pose...")
+    bpy.ops.pose.armature_apply(selected=False)
+
+    # Clear pose transforms (now rest pose is T-pose, so clearing gives T-pose)
+    bpy.ops.pose.transforms_clear()
+
+    bpy.ops.object.mode_set(mode='OBJECT')
+    print("[BVHtoFBX] T-pose normalization complete")
+
+    # ===========================================
+    # STEP 2: Set up bone mapping
+    # ===========================================
+    print("[BVHtoFBX] Step 2: Setting up bone mapping...")
+
+    bpy.context.view_layer.objects.active = char_armature
+    bpy.ops.object.mode_set(mode='POSE')
+
+    # Build valid bone mapping
+    valid_mappings = []
     for smpl_bone, vrm_bone in BONE_MAP.items():
         if vrm_bone not in char_armature.pose.bones:
             print(f"[BVHtoFBX] WARNING: Target bone '{vrm_bone}' not found. Skipping.")
             continue
-            
-        if smpl_bone not in bvh_armature.data.bones:
+        if smpl_bone not in bvh_armature.pose.bones:
             print(f"[BVHtoFBX] WARNING: Source bone '{smpl_bone}' not found. Skipping.")
             continue
-            
+        valid_mappings.append((smpl_bone, vrm_bone))
+        print(f"[BVHtoFBX] Mapping: '{smpl_bone}' -> '{vrm_bone}'")
+
+    print(f"[BVHtoFBX] Total valid bone mappings: {len(valid_mappings)}")
+
+    if len(valid_mappings) == 0:
+        print("[BVHtoFBX] ERROR: No valid bone mappings found.")
+        sys.exit(1)
+
+    # ===========================================
+    # STEP 3: Calculate scale ratio between skeletons
+    # ===========================================
+    print("[BVHtoFBX] Step 3: Calculating skeleton scale ratio...")
+
+    # Calculate height of each skeleton (from hips to head)
+    def get_skeleton_height(armature, hips_name, head_name):
+        if hips_name in armature.data.bones and head_name in armature.data.bones:
+            hips = armature.data.bones[hips_name]
+            head = armature.data.bones[head_name]
+            return (head.head_local - hips.head_local).length
+        return 1.0
+
+    # Get BVH skeleton height
+    bvh_height = get_skeleton_height(bvh_armature, 'Pelvis', 'Head')
+
+    # Get target skeleton height
+    if is_vroid:
+        target_height = get_skeleton_height(char_armature, 'J_Bip_C_Hips', 'J_Bip_C_Head')
+    else:
+        target_height = get_skeleton_height(char_armature, 'Hips', 'Head')
+
+    # Calculate scale ratio (target / source)
+    if bvh_height > 0.01:
+        scale_ratio = target_height / bvh_height
+    else:
+        scale_ratio = 1.0
+
+    print(f"[BVHtoFBX] BVH skeleton height: {bvh_height:.3f}m")
+    print(f"[BVHtoFBX] Target skeleton height: {target_height:.3f}m")
+    print(f"[BVHtoFBX] Scale ratio: {scale_ratio:.3f}")
+
+    # ===========================================
+    # STEP 4: Apply retargeting with constraints
+    # ===========================================
+    print("[BVHtoFBX] Step 4: Applying animation via constraints...")
+
+    # Apply rotation constraints using LOCAL space
+    # LOCAL space copies rotation relative to the bone's local axes
+    # This works because both skeletons are normalized to T-pose
+    constraints_applied = 0
+
+    for smpl_bone, vrm_bone in valid_mappings:
         p_bone = char_armature.pose.bones[vrm_bone]
-        
+
         const = p_bone.constraints.new('COPY_ROTATION')
         const.target = bvh_armature
         const.subtarget = smpl_bone
         const.mix_mode = 'REPLACE'
-        const.owner_space = 'WORLD'
-        const.target_space = 'WORLD'
-        print(f"[BVHtoFBX] Applied COPY_ROTATION: '{smpl_bone}' -> '{vrm_bone}'")
-        constraints_applied += 1
-        
-        if smpl_bone == 'Pelvis':
-            const_loc = p_bone.constraints.new('COPY_LOCATION')
-            const_loc.target = bvh_armature
-            const_loc.subtarget = smpl_bone
-            const_loc.owner_space = 'WORLD'
-            const_loc.target_space = 'WORLD'
-            print(f"[BVHtoFBX] Applied COPY_LOCATION: '{smpl_bone}' -> '{vrm_bone}'")
-            constraints_applied += 1
-            
-    print(f"[BVHtoFBX] Total constraints applied: {constraints_applied}")
-    
-    if constraints_applied == 0:
-        print("[BVHtoFBX] ERROR: No constraints were applied.")
-        sys.exit(1)
+        const.owner_space = 'LOCAL'
+        const.target_space = 'LOCAL'
 
-    # Bake
-    print("[BVHtoFBX] Baking animation...")
+        constraints_applied += 1
+
+        # Root location will be handled separately with proper scaling
+        # (constraints don't support scaling, so we'll keyframe it manually)
+
+    print(f"[BVHtoFBX] Applied {constraints_applied} constraints")
+
+    # ===========================================
+    # STEP 5: Bake animation with scaled root location
+    # ===========================================
+    print("[BVHtoFBX] Step 5: Baking animation...")
+
     action = bvh_armature.animation_data.action
     frame_start = int(action.frame_range[0])
     frame_end = int(action.frame_range[1])
-    
+    print(f"[BVHtoFBX] Animation frames: {frame_start} to {frame_end}")
+
+    # Extract root local positions from BVH for all frames
+    # Using local positions since both skeletons use similar local coordinate systems
+    bvh_root = 'Pelvis'
+    root_local_positions = {}
+    if bvh_root in bvh_armature.pose.bones:
+        bvh_root_bone = bvh_armature.pose.bones[bvh_root]
+        for frame in range(frame_start, frame_end + 1):
+            bpy.context.scene.frame_set(frame)
+            root_local_positions[frame] = bvh_root_bone.location.copy()
+        print(f"[BVHtoFBX] Extracted {len(root_local_positions)} root position frames")
+        # Show sample positions for debugging
+        if 1 in root_local_positions:
+            p = root_local_positions[1]
+            print(f"[BVHtoFBX]   Frame 1 local pos: [{p.x:.3f}, {p.y:.3f}, {p.z:.3f}]")
+
+    # Select all pose bones for baking
+    bpy.ops.pose.select_all(action='SELECT')
+
     bpy.ops.nla.bake(
         frame_start=frame_start,
         frame_end=frame_end,
         only_selected=True,
         visual_keying=True,
         clear_constraints=True,
-        use_current_action=True,
+        use_current_action=False,
         bake_types={'POSE'}
     )
+
+    # Apply scaled root locations to target
+    print(f"[BVHtoFBX] Applying scaled root location (scale: {scale_ratio:.3f})...")
+
+    if is_vroid:
+        target_root = 'J_Bip_C_Hips'
+    else:
+        target_root = 'Hips'
+
+    if target_root in char_armature.pose.bones and root_local_positions:
+        target_root_bone = char_armature.pose.bones[target_root]
+
+        for frame, bvh_loc in root_local_positions.items():
+            bpy.context.scene.frame_set(frame)
+
+            # Scale the location and apply directly
+            # Both skeletons use similar local coordinate systems
+            scaled_loc = bvh_loc * scale_ratio
+            target_root_bone.location = scaled_loc
+            target_root_bone.keyframe_insert(data_path="location", frame=frame)
+
+        print(f"[BVHtoFBX] Applied scaled root location to {len(root_local_positions)} frames")
+
     print("[BVHtoFBX] Baking complete")
-    
+
     # Delete BVH armature
     bpy.ops.object.mode_set(mode='OBJECT')
     bpy.data.objects.remove(bvh_armature, do_unlink=True)
@@ -419,9 +576,27 @@ try:
 
     bpy.ops.object.select_all(action='DESELECT')
     char_armature.select_set(True)
-    for child in char_armature.children:
-        if child.type == 'MESH':
-            child.select_set(True)
+    bpy.context.view_layer.objects.active = char_armature
+
+    # Find all meshes that use this armature (via modifier or parenting)
+    mesh_count = 0
+    for obj in bpy.data.objects:
+        if obj.type == 'MESH':
+            # Check if parented to armature
+            if obj.parent == char_armature:
+                obj.select_set(True)
+                mesh_count += 1
+                print(f"[BVHtoFBX] Selected mesh (child): {obj.name}")
+            else:
+                # Check if has armature modifier pointing to our armature
+                for mod in obj.modifiers:
+                    if mod.type == 'ARMATURE' and mod.object == char_armature:
+                        obj.select_set(True)
+                        mesh_count += 1
+                        print(f"[BVHtoFBX] Selected mesh (modifier): {obj.name}")
+                        break
+
+    print(f"[BVHtoFBX] Total meshes selected for export: {mesh_count}")
 
     if output_format == "vrm":
         print("[BVHtoFBX] Exporting as VRM...")
@@ -439,7 +614,10 @@ try:
             filepath=output_path,
             use_selection=True,
             bake_anim=True,
-            add_leaf_bones=False
+            add_leaf_bones=False,
+            apply_scale_options='FBX_SCALE_ALL',
+            global_scale=1.0,
+            apply_unit_scale=True,
         )
 
     print(f"[BVHtoFBX] Output saved to: {output_path}")
