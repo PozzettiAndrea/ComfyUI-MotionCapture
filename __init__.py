@@ -29,7 +29,6 @@ from .nodes.smpl_to_bvh_node import SMPLtoBVH
 from .nodes.bvh_viewer_node import BVHViewer
 from .nodes.bvh_retarget_node import BVHtoFBX
 from .nodes.compare_smpl_bvh_node import CompareSMPLtoBVH
-from .nodes.smpl_to_bvh_tpose import SMPLtoBVH_TPose
 from .nodes.bvh_loader_node import LoadBVHFromFolder
 
 # ComfyUI node registration
@@ -47,7 +46,6 @@ NODE_CLASS_MAPPINGS = {
     "BVHViewer": BVHViewer,
     "BVHtoFBX": BVHtoFBX,
     "CompareSMPLtoBVH": CompareSMPLtoBVH,
-    "SMPLtoBVH_TPose": SMPLtoBVH_TPose,
     "LoadBVHFromFolder": LoadBVHFromFolder,
 }
 
@@ -65,7 +63,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "BVHViewer": "BVH Animation Viewer",
     "BVHtoFBX": "BVH to FBX Retargeter",
     "CompareSMPLtoBVH": "Compare SMPL vs BVH",
-    "SMPLtoBVH_TPose": "SMPL to BVH (T-Pose Fix)",
     "LoadBVHFromFolder": "Load BVH (Dropdown)",
 }
 
@@ -90,7 +87,6 @@ print(f"  - SMPLtoBVH: Convert SMPL motion to BVH format")
 print(f"  - BVHViewer: Interactive 3D viewer for BVH animations")
 print(f"  - BVHtoFBX: Retarget BVH motion to FBX/VRM characters")
 print(f"  - CompareSMPLtoBVH: Side-by-side comparison of SMPL and BVH animations")
-print(f"  - SMPLtoBVH_TPose: SMPL to BVH (T-Pose Fix) with arm axis correction")
 print(f"{'='*60}\n")
 
 # Web extensions path for ComfyUI
