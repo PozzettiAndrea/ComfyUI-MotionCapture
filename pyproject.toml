@@ -1,7 +1,7 @@
 [project]
 name = "comfyui-motioncapture"
 description = "Motion Capture nodes for ComfyUI: SMPL data/retargeting using GVHMR. This node is a very first draft, putting it out there in the hope some blender whizzes can help me figure out retargeting *prayer emoji*"
-version = "0.0.1"
+version = "0.0.2"
 license = {file = "LICENSE"}
 requires-python = ">=3.10"
 
