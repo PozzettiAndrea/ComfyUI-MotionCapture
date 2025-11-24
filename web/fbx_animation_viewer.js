@@ -116,6 +116,14 @@ const ANIMATION_VIEWER_HTML = `
                 url,
                 (fbx) => {
                     console.log('[FBXAnimationViewer] FBX loaded successfully');
+                    console.log('[FBXAnimationViewer] === FBX STRUCTURE ===');
+                    console.log('[FBXAnimationViewer] Root name: ' + fbx.name);
+                    console.log('[FBXAnimationViewer] Root type: ' + fbx.type);
+                    console.log('[FBXAnimationViewer] Direct children: ' + fbx.children.length);
+
+                    fbx.children.forEach((child, i) => {
+                        console.log('[FBXAnimationViewer] Child[' + i + ']: ' + child.name + ' (type: ' + child.type + ')');
+                    });
 
                     // Clear previous model
                     if (currentModel) scene.remove(currentModel);
@@ -127,24 +135,62 @@ const ANIMATION_VIEWER_HTML = `
 
                     // Enable shadows and check mesh visibility
                     let meshCount = 0;
+                    let skinnedMeshCount = 0;
                     fbx.traverse((child) => {
                         if (child.isMesh) {
                             meshCount++;
                             child.castShadow = true;
                             child.receiveShadow = true;
                             child.visible = showMesh;
-                            console.log('[FBXAnimationViewer] Mesh found: ' + child.name + ', vertices: ' + child.geometry.attributes.position.count + ', visible: ' + child.visible);
+
+                            const vertCount = child.geometry.attributes.position?.count || 0;
+                            const isSkinned = child.isSkinnedMesh;
+                            if (isSkinned) skinnedMeshCount++;
+
+                            console.log('[FBXAnimationViewer] === MESH DEBUG ===');
+                            console.log('[FBXAnimationViewer] Name: ' + child.name);
+                            console.log('[FBXAnimationViewer] Vertices: ' + vertCount);
+                            console.log('[FBXAnimationViewer] Is SkinnedMesh: ' + isSkinned);
+                            console.log('[FBXAnimationViewer] Visible: ' + child.visible);
+
+                            // Material info
+                            const materials = Array.isArray(child.material) ? child.material : [child.material];
+                            console.log('[FBXAnimationViewer] Material count: ' + materials.length);
+
+                            materials.forEach((mat, i) => {
+                                if (mat) {
+                                    console.log('[FBXAnimationViewer] Material[' + i + ']: ' + mat.name + ' (type: ' + mat.type + ')');
+                                    console.log('[FBXAnimationViewer]   Color: ' + (mat.color ? mat.color.getHexString() : 'none'));
+                                    console.log('[FBXAnimationViewer]   Map (diffuse): ' + (mat.map ? mat.map.name || 'yes' : 'none'));
+                                    console.log('[FBXAnimationViewer]   NormalMap: ' + (mat.normalMap ? 'yes' : 'none'));
+                                    console.log('[FBXAnimationViewer]   Transparent: ' + mat.transparent);
+                                    console.log('[FBXAnimationViewer]   Opacity: ' + mat.opacity);
+                                    console.log('[FBXAnimationViewer]   Side: ' + mat.side);
+                                } else {
+                                    console.log('[FBXAnimationViewer] Material[' + i + ']: NULL');
+                                }
+                            });
                         }
                     });
-                    console.log('[FBXAnimationViewer] Total meshes loaded: ' + meshCount);
+                    console.log('[FBXAnimationViewer] Total meshes: ' + meshCount + ', SkinnedMeshes: ' + skinnedMeshCount);
 
-                    // Create skeleton helper
-                    const skeleton = fbx.children.find(child => child.isSkinnedMesh)?.skeleton;
-                    if (skeleton) {
+                    // Create skeleton helper - search all descendants, not just direct children
+                    let skinnedMesh = null;
+                    fbx.traverse((child) => {
+                        if (child.isSkinnedMesh && !skinnedMesh) {
+                            skinnedMesh = child;
+                        }
+                    });
+
+                    if (skinnedMesh && skinnedMesh.skeleton) {
+                        console.log('[FBXAnimationViewer] Found skeleton on: ' + skinnedMesh.name);
+                        console.log('[FBXAnimationViewer] Skeleton bones: ' + skinnedMesh.skeleton.bones.length);
                         skeletonHelper = new THREE.SkeletonHelper(fbx);
                         skeletonHelper.material.linewidth = 2;
                         skeletonHelper.visible = showSkeleton;
                         scene.add(skeletonHelper);
+                    } else {
+                        console.warn('[FBXAnimationViewer] No skinned mesh with skeleton found');
                     }
 
                     // Setup animations

@@ -322,7 +322,7 @@ try:
     print(f"[BVHtoFBX] BVH Armature Bones: {[b.name for b in bvh_armature.data.bones]}")
 
     # --- RETARGETING LOGIC ---
-    print("[BVHtoFBX] Starting retargeting with T-pose normalization...")
+    print("[BVHtoFBX] Starting retargeting...")
 
     import mathutils
     from mathutils import Matrix, Quaternion, Vector
@@ -368,56 +368,14 @@ try:
         BONE_MAP = new_map
 
     # ===========================================
-    # STEP 1: Normalize target character to T-pose
+    # STEP 1: Skip T-pose normalization
     # ===========================================
-    print("[BVHtoFBX] Step 1: Normalizing character to T-pose via pose mode...")
-
-    bpy.context.view_layer.objects.active = char_armature
-    bpy.ops.object.mode_set(mode='POSE')
-
-    # For VRoid characters, rotate arm bones to T-pose using pose transforms
-    if is_vroid:
-        arm_corrections = [
-            # (bone_name, rotation_axis, angle_degrees)
-            # VRoid A-pose has arms ~40° down, need to rotate up to horizontal
-            ('J_Bip_L_UpperArm', 'Z', 40),   # Rotate left arm up
-            ('J_Bip_R_UpperArm', 'Z', -40),  # Rotate right arm up
-        ]
-
-        for bone_name, axis, angle in arm_corrections:
-            if bone_name in char_armature.pose.bones:
-                pose_bone = char_armature.pose.bones[bone_name]
-
-                # Get current bone direction to determine exact correction needed
-                bone_data = char_armature.data.bones[bone_name]
-                bone_vec = bone_data.tail_local - bone_data.head_local
-
-                # Calculate angle from horizontal
-                current_angle = degrees(atan2(bone_vec.z, abs(bone_vec.y)))
-                correction_angle = -current_angle  # Negate to correct to horizontal
-
-                print(f"[BVHtoFBX]   {bone_name}: current angle = {current_angle:.1f}°, applying correction = {correction_angle:.1f}°")
-
-                # Apply rotation in pose mode
-                pose_bone.rotation_mode = 'XYZ'
-                if axis == 'Z':
-                    if 'L_' in bone_name:
-                        pose_bone.rotation_euler.z = radians(correction_angle)
-                    else:
-                        pose_bone.rotation_euler.z = radians(-correction_angle)
-
-    # Update the view layer to apply pose
-    bpy.context.view_layer.update()
-
-    # Apply pose as rest pose - this makes the T-pose the new rest pose
-    print("[BVHtoFBX] Applying T-pose as new rest pose...")
-    bpy.ops.pose.armature_apply(selected=False)
-
-    # Clear pose transforms (now rest pose is T-pose, so clearing gives T-pose)
-    bpy.ops.pose.transforms_clear()
-
-    bpy.ops.object.mode_set(mode='OBJECT')
-    print("[BVHtoFBX] T-pose normalization complete")
+    # With WORLD space constraints, we copy world rotations directly.
+    # This means we don't need to normalize the rest pose - the WORLD space
+    # constraint will match orientations regardless of rest pose differences.
+    # Modifying the rest pose with armature_apply() breaks mesh skinning
+    # because the mesh bind matrices don't get updated.
+    print("[BVHtoFBX] Step 1: Skipping T-pose normalization (using WORLD space constraints)")
 
     # ===========================================
     # STEP 2: Set up bone mapping
@@ -494,10 +452,10 @@ try:
         const.target = bvh_armature
         const.subtarget = smpl_bone
         const.mix_mode = 'REPLACE'
-        # WORLD space copies world-space rotations directly
-        # Calibration testing found this achieves 0.00° error vs 69° with LOCAL
-        const.owner_space = 'WORLD'
-        const.target_space = 'WORLD'
+        # LOCAL space copies rotations relative to parent bone
+        # This preserves the motion while letting each skeleton keep its own orientation
+        const.owner_space = 'LOCAL'
+        const.target_space = 'LOCAL'
 
         constraints_applied += 1
 
@@ -516,20 +474,26 @@ try:
     frame_end = int(action.frame_range[1])
     print(f"[BVHtoFBX] Animation frames: {frame_start} to {frame_end}")
 
-    # Extract root local positions from BVH for all frames
-    # Using local positions since both skeletons use similar local coordinate systems
+    # Extract root WORLD positions from BVH for all frames
+    # World positions are needed for global movement (walking around)
     bvh_root = 'Pelvis'
-    root_local_positions = {}
+    root_world_positions = {}
     if bvh_root in bvh_armature.pose.bones:
         bvh_root_bone = bvh_armature.pose.bones[bvh_root]
         for frame in range(frame_start, frame_end + 1):
             bpy.context.scene.frame_set(frame)
-            root_local_positions[frame] = bvh_root_bone.location.copy()
-        print(f"[BVHtoFBX] Extracted {len(root_local_positions)} root position frames")
+            # Get world position: armature world matrix @ bone matrix @ bone head
+            bone_world_matrix = bvh_armature.matrix_world @ bvh_root_bone.matrix
+            world_pos = bone_world_matrix.translation.copy()
+            root_world_positions[frame] = world_pos
+        print(f"[BVHtoFBX] Extracted {len(root_world_positions)} root world position frames")
         # Show sample positions for debugging
-        if 1 in root_local_positions:
-            p = root_local_positions[1]
-            print(f"[BVHtoFBX]   Frame 1 local pos: [{p.x:.3f}, {p.y:.3f}, {p.z:.3f}]")
+        if 1 in root_world_positions:
+            p = root_world_positions[1]
+            print(f"[BVHtoFBX]   Frame 1 world pos: [{p.x:.3f}, {p.y:.3f}, {p.z:.3f}]")
+        if frame_end in root_world_positions:
+            p = root_world_positions[frame_end]
+            print(f"[BVHtoFBX]   Frame {frame_end} world pos: [{p.x:.3f}, {p.y:.3f}, {p.z:.3f}]")
 
     # Select all pose bones for baking
     bpy.ops.pose.select_all(action='SELECT')
@@ -544,7 +508,7 @@ try:
         bake_types={'POSE'}
     )
 
-    # Apply scaled root locations to target
+    # Apply scaled root world positions to target
     print(f"[BVHtoFBX] Applying scaled root location (scale: {scale_ratio:.3f})...")
 
     if is_vroid:
@@ -552,19 +516,34 @@ try:
     else:
         target_root = 'Hips'
 
-    if target_root in char_armature.pose.bones and root_local_positions:
+    if target_root in char_armature.pose.bones and root_world_positions:
         target_root_bone = char_armature.pose.bones[target_root]
 
-        for frame, bvh_loc in root_local_positions.items():
+        # Get the initial BVH world position
+        initial_bvh_world = root_world_positions.get(frame_start, Vector((0, 0, 0)))
+
+        # Get the bone's rest matrix to convert world deltas to local space
+        # The bone's local axes may be different from world axes
+        bone_rest_matrix = target_root_bone.bone.matrix_local.to_3x3()
+        bone_rest_inv = bone_rest_matrix.inverted()
+
+        for frame, bvh_world_pos in root_world_positions.items():
             bpy.context.scene.frame_set(frame)
 
-            # Scale the location and apply directly
-            # Both skeletons use similar local coordinate systems
-            scaled_loc = bvh_loc * scale_ratio
-            target_root_bone.location = scaled_loc
+            # Calculate displacement from initial position (delta movement in world space)
+            world_delta = bvh_world_pos - initial_bvh_world
+
+            # Scale the displacement
+            scaled_world_delta = world_delta * scale_ratio
+
+            # Convert world delta to bone local space
+            # pose_bone.location is relative to the bone's rest orientation
+            local_delta = bone_rest_inv @ scaled_world_delta
+
+            target_root_bone.location = local_delta
             target_root_bone.keyframe_insert(data_path="location", frame=frame)
 
-        print(f"[BVHtoFBX] Applied scaled root location to {len(root_local_positions)} frames")
+        print(f"[BVHtoFBX] Applied root location to {len(root_world_positions)} frames")
 
     print("[BVHtoFBX] Baking complete")
 
@@ -620,6 +599,9 @@ try:
             apply_scale_options='FBX_SCALE_ALL',
             global_scale=1.0,
             apply_unit_scale=True,
+            # Texture settings - embed textures in FBX for portability
+            path_mode='COPY',
+            embed_textures=True,
         )
 
     print(f"[BVHtoFBX] Output saved to: {output_path}")
