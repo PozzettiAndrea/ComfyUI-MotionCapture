@@ -243,6 +243,55 @@ import traceback
 
 print("[BVHtoFBX] Starting Blender retargeting script")
 
+# =============================================================================
+# RETARGETING DOCUMENTATION
+# =============================================================================
+#
+# PROBLEM:
+#   Retarget motion from SMPL BVH (from HMR4D/motion capture) to VRoid/VRM skeleton.
+#   The two skeletons have very different bone orientations:
+#   - SMPL Pelvis Y-axis points UP (+Z world)
+#   - VRoid Hips Y-axis points DOWN (-Z world)
+#   - Difference is ~158 degrees for pelvis, varies for other bones
+#
+# APPROACHES TRIED:
+#
+# 1. WORLD space COPY_ROTATION:
+#    - Forces target bones to match source bone world orientations
+#    - RESULT: Bone positions look correct BUT skeleton hierarchy breaks
+#    - The spine ends up BELOW the hips because world rotation doesn't
+#      account for different bone rest poses
+#    - Mesh deforms incorrectly ("gremlin" distortion)
+#
+# 2. LOCAL space COPY_ROTATION:
+#    - Copies local rotations directly from source to target
+#    - RESULT: Skeleton hierarchy preserved (spine above hips)
+#    - But bone orientations may not match exactly because rest poses differ
+#    - This is the current approach - hierarchy is more important than exact matching
+#
+# 3. LOCAL space + 180° BVH armature rotation:
+#    - Tried rotating BVH armature 180° to align forward directions
+#    - RESULT: Didn't help - armature rotation doesn't affect bone local rotations
+#    - Made things worse (character more tilted)
+#
+# 4. FBX export scale issues:
+#    - apply_unit_scale=True converts meters to centimeters (100x larger)
+#    - global_scale=0.01 makes character 2cm tall (too small)
+#    - Default export settings seem to work best
+#
+# CURRENT STATUS:
+#   - Using LOCAL space for rotations (preserves skeleton hierarchy)
+#   - Using WORLD space for root location (preserves movement)
+#   - Skeleton structure is correct but orientations may not match BVH exactly
+#   - FBX scale may appear wrong in some viewers (Three.js expects different units)
+#
+# KNOWN ISSUES:
+#   - Character orientation may not match BVH exactly
+#   - FBX may appear giant/tiny in some viewers due to unit interpretation
+#   - Mesh deformation quality depends on how well LOCAL rotations transfer
+#
+# =============================================================================
+
 # Bone Mapping Dictionary - Will be replaced by Python
 BONE_MAP = REPLACE_BONE_MAP
 
@@ -370,12 +419,11 @@ try:
     # ===========================================
     # STEP 1: Skip T-pose normalization
     # ===========================================
-    # With WORLD space constraints, we copy world rotations directly.
-    # This means we don't need to normalize the rest pose - the WORLD space
-    # constraint will match orientations regardless of rest pose differences.
-    # Modifying the rest pose with armature_apply() breaks mesh skinning
-    # because the mesh bind matrices don't get updated.
-    print("[BVHtoFBX] Step 1: Skipping T-pose normalization (using WORLD space constraints)")
+    # We don't modify the rest pose because:
+    # - armature_apply() breaks mesh skinning (bind matrices don't update)
+    # - LOCAL space constraints work with existing rest poses
+    # - The skeleton hierarchy is preserved this way
+    print("[BVHtoFBX] Step 1: Skipping T-pose normalization (preserving original rest pose)")
 
     # ===========================================
     # STEP 2: Set up bone mapping
@@ -435,37 +483,49 @@ try:
     print(f"[BVHtoFBX] Target skeleton height: {target_height:.3f}m")
     print(f"[BVHtoFBX] Scale ratio: {scale_ratio:.3f}")
 
+    # Scale the BVH armature to match target skeleton size
+    # This allows COPY_LOCATION constraint to work without manual scaling
+    bvh_armature.scale = (scale_ratio, scale_ratio, scale_ratio)
+    bpy.context.view_layer.update()
+    print(f"[BVHtoFBX] Scaled BVH armature by {scale_ratio:.3f}")
+
     # ===========================================
     # STEP 4: Apply retargeting with constraints
     # ===========================================
     print("[BVHtoFBX] Step 4: Applying animation via constraints...")
 
-    # Apply rotation constraints using LOCAL space
-    # LOCAL space copies rotation relative to the bone's local axes
-    # This works because both skeletons are normalized to T-pose
+    # CONSTRAINT SPACE CHOICE (see documentation at top of file):
+    # - ROTATION: LOCAL space - preserves skeleton hierarchy
+    #   (WORLD space was tried but breaks hierarchy - spine ends up below hips)
+    # - LOCATION: WORLD space for root only - preserves world movement
     constraints_applied = 0
 
     for smpl_bone, vrm_bone in valid_mappings:
         p_bone = char_armature.pose.bones[vrm_bone]
 
+        # LOCAL space rotation - preserves parent-child bone relationships
         const = p_bone.constraints.new('COPY_ROTATION')
         const.target = bvh_armature
         const.subtarget = smpl_bone
         const.mix_mode = 'REPLACE'
-        # LOCAL space copies rotations relative to parent bone
-        # This preserves the motion while letting each skeleton keep its own orientation
         const.owner_space = 'LOCAL'
         const.target_space = 'LOCAL'
 
         constraints_applied += 1
 
-        # Root location will be handled separately with proper scaling
-        # (constraints don't support scaling, so we'll keyframe it manually)
+        # WORLD space location for root bone only
+        if smpl_bone == 'Pelvis':
+            loc_const = p_bone.constraints.new('COPY_LOCATION')
+            loc_const.target = bvh_armature
+            loc_const.subtarget = smpl_bone
+            loc_const.owner_space = 'WORLD'
+            loc_const.target_space = 'WORLD'
+            print(f"[BVHtoFBX] Added COPY_LOCATION constraint for root bone: {smpl_bone} -> {vrm_bone}")
 
     print(f"[BVHtoFBX] Applied {constraints_applied} constraints")
 
     # ===========================================
-    # STEP 5: Bake animation with scaled root location
+    # STEP 5: Bake animation (constraints handle everything)
     # ===========================================
     print("[BVHtoFBX] Step 5: Baking animation...")
 
@@ -474,30 +534,11 @@ try:
     frame_end = int(action.frame_range[1])
     print(f"[BVHtoFBX] Animation frames: {frame_start} to {frame_end}")
 
-    # Extract root WORLD positions from BVH for all frames
-    # World positions are needed for global movement (walking around)
-    bvh_root = 'Pelvis'
-    root_world_positions = {}
-    if bvh_root in bvh_armature.pose.bones:
-        bvh_root_bone = bvh_armature.pose.bones[bvh_root]
-        for frame in range(frame_start, frame_end + 1):
-            bpy.context.scene.frame_set(frame)
-            # Get world position: armature world matrix @ bone matrix @ bone head
-            bone_world_matrix = bvh_armature.matrix_world @ bvh_root_bone.matrix
-            world_pos = bone_world_matrix.translation.copy()
-            root_world_positions[frame] = world_pos
-        print(f"[BVHtoFBX] Extracted {len(root_world_positions)} root world position frames")
-        # Show sample positions for debugging
-        if 1 in root_world_positions:
-            p = root_world_positions[1]
-            print(f"[BVHtoFBX]   Frame 1 world pos: [{p.x:.3f}, {p.y:.3f}, {p.z:.3f}]")
-        if frame_end in root_world_positions:
-            p = root_world_positions[frame_end]
-            print(f"[BVHtoFBX]   Frame {frame_end} world pos: [{p.x:.3f}, {p.y:.3f}, {p.z:.3f}]")
-
     # Select all pose bones for baking
     bpy.ops.pose.select_all(action='SELECT')
 
+    # Bake with visual keying - converts constraint results to keyframes
+    # After baking, constraints are removed and animation is stored as local rotations
     bpy.ops.nla.bake(
         frame_start=frame_start,
         frame_end=frame_end,
@@ -508,44 +549,62 @@ try:
         bake_types={'POSE'}
     )
 
-    # Apply scaled root world positions to target
-    print(f"[BVHtoFBX] Applying scaled root location (scale: {scale_ratio:.3f})...")
+    print("[BVHtoFBX] Baking complete")
 
+    # ===========================================
+    # STEP 6: Compensate for foot height offset
+    # ===========================================
+    # Different skeleton proportions cause feet to be at different heights.
+    # We adjust by moving the armature to align minimum foot heights.
+    print("[BVHtoFBX] Step 6: Calculating foot height compensation...")
+
+    # Find foot bones
+    bvh_l_foot = 'L_Ankle'
+    bvh_r_foot = 'R_Ankle'
     if is_vroid:
+        target_l_foot = 'J_Bip_L_Foot'
+        target_r_foot = 'J_Bip_R_Foot'
         target_root = 'J_Bip_C_Hips'
     else:
+        target_l_foot = 'LeftFoot'
+        target_r_foot = 'RightFoot'
         target_root = 'Hips'
 
-    if target_root in char_armature.pose.bones and root_world_positions:
-        target_root_bone = char_armature.pose.bones[target_root]
+    # Sample foot heights at multiple frames to find ground level
+    bvh_min_foot_z = float('inf')
+    target_min_foot_z = float('inf')
 
-        # Get the initial BVH world position
-        initial_bvh_world = root_world_positions.get(frame_start, Vector((0, 0, 0)))
+    sample_frames = list(range(frame_start, frame_end + 1, max(1, (frame_end - frame_start) // 20)))
+    for frame in sample_frames:
+        bpy.context.scene.frame_set(frame)
 
-        # Get the bone's rest matrix to convert world deltas to local space
-        # The bone's local axes may be different from world axes
-        bone_rest_matrix = target_root_bone.bone.matrix_local.to_3x3()
-        bone_rest_inv = bone_rest_matrix.inverted()
+        # BVH foot heights
+        if bvh_l_foot in bvh_armature.pose.bones:
+            bvh_l_z = (bvh_armature.matrix_world @ bvh_armature.pose.bones[bvh_l_foot].matrix).translation.z
+            bvh_min_foot_z = min(bvh_min_foot_z, bvh_l_z)
+        if bvh_r_foot in bvh_armature.pose.bones:
+            bvh_r_z = (bvh_armature.matrix_world @ bvh_armature.pose.bones[bvh_r_foot].matrix).translation.z
+            bvh_min_foot_z = min(bvh_min_foot_z, bvh_r_z)
 
-        for frame, bvh_world_pos in root_world_positions.items():
-            bpy.context.scene.frame_set(frame)
+        # Target foot heights
+        if target_l_foot in char_armature.pose.bones:
+            target_l_z = (char_armature.matrix_world @ char_armature.pose.bones[target_l_foot].matrix).translation.z
+            target_min_foot_z = min(target_min_foot_z, target_l_z)
+        if target_r_foot in char_armature.pose.bones:
+            target_r_z = (char_armature.matrix_world @ char_armature.pose.bones[target_r_foot].matrix).translation.z
+            target_min_foot_z = min(target_min_foot_z, target_r_z)
 
-            # Calculate displacement from initial position (delta movement in world space)
-            world_delta = bvh_world_pos - initial_bvh_world
+    foot_height_offset = target_min_foot_z - bvh_min_foot_z
+    print(f"[BVHtoFBX] BVH min foot Z: {bvh_min_foot_z:.3f}m")
+    print(f"[BVHtoFBX] Target min foot Z: {target_min_foot_z:.3f}m")
+    print(f"[BVHtoFBX] Foot height offset: {foot_height_offset:.3f}m")
 
-            # Scale the displacement
-            scaled_world_delta = world_delta * scale_ratio
-
-            # Convert world delta to bone local space
-            # pose_bone.location is relative to the bone's rest orientation
-            local_delta = bone_rest_inv @ scaled_world_delta
-
-            target_root_bone.location = local_delta
-            target_root_bone.keyframe_insert(data_path="location", frame=frame)
-
-        print(f"[BVHtoFBX] Applied root location to {len(root_world_positions)} frames")
-
-    print("[BVHtoFBX] Baking complete")
+    # Move armature to compensate for height difference
+    if abs(foot_height_offset) > 0.05:
+        print(f"[BVHtoFBX] Applying height compensation: lowering armature by {foot_height_offset:.3f}m")
+        char_armature.location.z -= foot_height_offset
+        bpy.context.view_layer.update()
+        print("[BVHtoFBX] Height compensation applied")
 
     # Delete BVH armature
     bpy.ops.object.mode_set(mode='OBJECT')
@@ -596,9 +655,6 @@ try:
             use_selection=True,
             bake_anim=True,
             add_leaf_bones=False,
-            apply_scale_options='FBX_SCALE_ALL',
-            global_scale=1.0,
-            apply_unit_scale=True,
             # Texture settings - embed textures in FBX for portability
             path_mode='COPY',
             embed_textures=True,
