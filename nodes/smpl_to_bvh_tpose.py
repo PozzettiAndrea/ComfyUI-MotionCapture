@@ -356,8 +356,32 @@ class SMPLtoBVH_TPose:
             traceback.print_exc()
             return ({}, "", error_msg)
 
+    def _get_bvh_joint_order(self, parent_indices: list) -> list:
+        """
+        Get the depth-first traversal order of joints for BVH motion data.
+        BVH requires motion data to be in the same order as joints appear in hierarchy.
+
+        Args:
+            parent_indices: list of parent indices for each joint
+
+        Returns:
+            list of joint indices in depth-first order
+        """
+        joint_order = []
+
+        def traverse(joint_idx):
+            joint_order.append(joint_idx)
+            # Find children of this joint
+            children = [i for i, parent in enumerate(parent_indices) if parent == joint_idx]
+            for child_idx in children:
+                traverse(child_idx)
+
+        # Start from root (joint 0)
+        traverse(0)
+        return joint_order
+
     def _axis_angle_to_euler(
-        self, 
+        self,
         axis_angle: np.ndarray, 
         s_x: float, s_y: float, s_z: float,
         e_x: float, e_y: float, e_z: float
@@ -432,6 +456,9 @@ class SMPLtoBVH_TPose:
         self.joint_names = joint_names
         self.parent_indices = parent_indices
 
+        # Get BVH joint order (depth-first traversal)
+        joint_order = self._get_bvh_joint_order(parent_indices)
+
         # Build BVH hierarchy
         lines = ["HIERARCHY"]
         self._write_joint(lines, 0, 0, scale)
@@ -445,18 +472,18 @@ class SMPLtoBVH_TPose:
         for frame in range(num_frames):
             frame_data = []
 
-            # Root translation (Pelvis)
-            tx, ty, tz = translations[frame] * scale
-            frame_data.extend([f"{tx:.6f}", f"{ty:.6f}", f"{tz:.6f}"])  # SMPL and BVH both use Y-up (X, Y, Z order)
-
-            # Root rotation (Pelvis)
-            rz, rx, ry = rotations[frame, 0]
-            frame_data.extend([f"{rz:.6f}", f"{rx:.6f}", f"{ry:.6f}"])
-
-            # All other joint rotations (1 to num_joints-1)
-            for joint in range(1, num_joints):
-                rz, rx, ry = rotations[frame, joint]
-                frame_data.extend([f"{rz:.6f}", f"{rx:.6f}", f"{ry:.6f}"])
+            # Write joints in BVH hierarchy order (depth-first traversal)
+            for joint_idx in joint_order:
+                if joint_idx == 0:
+                    # Root has translation + rotation
+                    tx, ty, tz = translations[frame] * scale
+                    frame_data.extend([f"{tx:.6f}", f"{ty:.6f}", f"{tz:.6f}"])
+                    rz, rx, ry = rotations[frame, joint_idx]
+                    frame_data.extend([f"{rz:.6f}", f"{rx:.6f}", f"{ry:.6f}"])
+                else:
+                    # Other joints only have rotation
+                    rz, rx, ry = rotations[frame, joint_idx]
+                    frame_data.extend([f"{rz:.6f}", f"{rx:.6f}", f"{ry:.6f}"])
 
             lines.append(" ".join(frame_data))
 
