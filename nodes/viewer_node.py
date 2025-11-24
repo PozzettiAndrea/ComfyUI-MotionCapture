@@ -27,10 +27,14 @@ class SMPLViewer:
     @classmethod
     def INPUT_TYPES(cls):
         return {
-            "required": {
-                "smpl_params": ("SMPL_PARAMS",),
-            },
+            "required": {},
             "optional": {
+                "smpl_params": ("SMPL_PARAMS",),
+                "npz_path": ("STRING", {
+                    "default": "",
+                    "multiline": False,
+                    "tooltip": "Path to .npz file with SMPL parameters (alternative to smpl_params input)"
+                }),
                 "frame_skip": ("INT", {
                     "default": 1,
                     "min": 1,
@@ -51,12 +55,13 @@ class SMPLViewer:
     CATEGORY = "MotionCapture/GVHMR"
     OUTPUT_NODE = True
 
-    def create_viewer_data(self, smpl_params, frame_skip=1, mesh_color="#4a9eff"):
+    def create_viewer_data(self, smpl_params=None, npz_path="", frame_skip=1, mesh_color="#4a9eff"):
         """
         Generate 3D mesh data from SMPL parameters for web visualization.
 
         Args:
-            smpl_params: Dictionary with 'global' key containing SMPL parameters
+            smpl_params: Dictionary with 'global' key containing SMPL parameters (optional)
+            npz_path: Path to .npz file with SMPL parameters (optional)
             frame_skip: Skip every N frames to reduce data size
             mesh_color: Hex color for the mesh
 
@@ -65,8 +70,30 @@ class SMPLViewer:
         """
         Log.info("[SMPLViewer] Generating 3D mesh data for visualization...")
 
-        # Extract SMPL parameters
-        params = smpl_params['global']
+        # Handle input sources - priority: smpl_params > npz_path
+        if smpl_params is not None:
+            # Use provided SMPL_PARAMS from node connection
+            Log.info("[SMPLViewer] Using SMPL parameters from node input")
+            params = smpl_params['global']
+        elif npz_path and npz_path.strip():
+            # Load from npz file
+            Log.info(f"[SMPLViewer] Loading SMPL parameters from: {npz_path}")
+            file_path = Path(npz_path)
+            if not file_path.exists():
+                raise FileNotFoundError(f"NPZ file not found: {file_path}")
+
+            # Load npz file
+            data = np.load(str(file_path))
+            params = {}
+            for key in data.files:
+                params[key] = torch.from_numpy(data[key])
+
+            Log.info(f"[SMPLViewer] Loaded {len(data.files)} parameter arrays from npz")
+        else:
+            raise ValueError("Either 'smpl_params' or 'npz_path' must be provided")
+
+        # Extract SMPL parameters (now from either source)
+        # params now contains the 'global' parameters
         body_pose = params['body_pose']  # (F, 63)
         betas = params['betas']  # (F, 10)
         global_orient = params['global_orient']  # (F, 3)

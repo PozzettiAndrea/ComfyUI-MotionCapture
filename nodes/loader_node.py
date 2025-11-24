@@ -16,7 +16,8 @@ from hmr4d.configs import register_store_gvhmr
 from hmr4d.model.gvhmr.gvhmr_pl_demo import DemoPL
 from hmr4d.utils.preproc import VitPoseExtractor, Extractor
 from hmr4d.utils.pylogger import Log
-from hydra import initialize_config_module, compose, GlobalHydra
+from hydra import initialize_config_module, compose
+from hydra.core.global_hydra import GlobalHydra
 
 
 class LoadGVHMRModels:
