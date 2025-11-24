@@ -16,7 +16,7 @@ from hmr4d.configs import register_store_gvhmr
 from hmr4d.model.gvhmr.gvhmr_pl_demo import DemoPL
 from hmr4d.utils.preproc import VitPoseExtractor, Extractor
 from hmr4d.utils.pylogger import Log
-from hydra import initialize_config_module, compose
+from hydra import initialize_config_module, compose, GlobalHydra
 
 
 class LoadGVHMRModels:
@@ -224,6 +224,9 @@ class LoadGVHMRModels:
 
         # Initialize Hydra config for GVHMR
         Log.info("[LoadGVHMRModels] Initializing GVHMR configuration...")
+        # Clear any existing Hydra instance to allow re-initialization
+        if GlobalHydra.instance().is_initialized():
+            GlobalHydra.instance().clear()
         with initialize_config_module(version_base="1.3", config_module="hmr4d.configs"):
             register_store_gvhmr()
             cfg = compose(config_name="demo", overrides=["static_cam=True", "verbose=False"])
