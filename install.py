@@ -81,30 +81,7 @@ MODELS = {
         "description": "SMPL Neutral body model",
         "source": "huggingface",
     },
-    "smplx_male": {
-        "repo_id": "lithiumice/models_hub",
-        "filename": "4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz",
-        "path": "models/body_models/smplx/SMPLX_MALE.npz",
-        "size": "~2MB",
-        "description": "SMPL-X Male body model",
-        "source": "huggingface",
-    },
-    "smplx_female": {
-        "repo_id": "lithiumice/models_hub",
-        "filename": "4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz",
-        "path": "models/body_models/smplx/SMPLX_FEMALE.npz",
-        "size": "~2MB",
-        "description": "SMPL-X Female body model",
-        "source": "huggingface",
-    },
-    "smplx_neutral": {
-        "repo_id": "lithiumice/models_hub",
-        "filename": "4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz",
-        "path": "models/body_models/smplx/SMPLX_NEUTRAL.npz",
-        "size": "~2MB",
-        "description": "SMPL-X Neutral body model",
-        "source": "huggingface",
-    },
+    # Note: SMPL-X models removed - not needed for basic motion capture
 }
 
 
