@@ -163,11 +163,16 @@ const VIEWER_HTML = `
 
             // Convert absolute path to relative path for /view endpoint
             // ComfyUI's /view expects filenames relative to input/output dirs
+            // and needs type=input for input folder files
             let relativePath = filepath;
+            let fileType = 'output';  // default
+
             if (filepath.includes('/output/')) {
                 relativePath = filepath.split('/output/')[1];
+                fileType = 'output';
             } else if (filepath.includes('/input/')) {
                 relativePath = filepath.split('/input/')[1];
+                fileType = 'input';
             } else if (!filepath.startsWith('http')) {
                 // Just use the basename if no standard directory found
                 relativePath = filepath.split('/').pop();
@@ -178,7 +183,9 @@ const VIEWER_HTML = `
             // Use absolute URL since iframe runs from blob URL context
             const url = filepath.startsWith('http')
                 ? filepath
-                : \`\${window.parent.location.origin}/view?filename=\${encodeURIComponent(relativePath)}\`;
+                : \`\${window.parent.location.origin}/view?filename=\${encodeURIComponent(relativePath)}&type=\${fileType}\`;
+
+            console.log('[FBXPreview] Loading URL:', url, '(type:', fileType, ')');
 
             loader.load(
                 url,
