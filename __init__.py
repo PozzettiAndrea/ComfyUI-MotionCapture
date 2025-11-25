@@ -30,6 +30,7 @@ from .nodes.bvh_viewer_node import BVHViewer
 from .nodes.bvh_retarget_node import BVHtoFBX
 from .nodes.compare_smpl_bvh_node import CompareSMPLtoBVH
 from .nodes.bvh_loader_node import LoadBVHFromFolder
+from .nodes.smpl_retarget_node import SMPLRetargetToSMPL
 
 # ComfyUI node registration
 NODE_CLASS_MAPPINGS = {
@@ -47,6 +48,7 @@ NODE_CLASS_MAPPINGS = {
     "BVHtoFBX": BVHtoFBX,
     "CompareSMPLtoBVH": CompareSMPLtoBVH,
     "LoadBVHFromFolder": LoadBVHFromFolder,
+    "SMPLRetargetToSMPL": SMPLRetargetToSMPL,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -64,6 +66,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "BVHtoFBX": "BVH to FBX Retargeter",
     "CompareSMPLtoBVH": "Compare SMPL vs BVH",
     "LoadBVHFromFolder": "Load BVH (Dropdown)",
+    "SMPLRetargetToSMPL": "SMPL to SMPL Retargeting",
 }
 
 # Module info
@@ -87,6 +90,7 @@ print(f"  - SMPLtoBVH: Convert SMPL motion to BVH format")
 print(f"  - BVHViewer: Interactive 3D viewer for BVH animations")
 print(f"  - BVHtoFBX: Retarget BVH motion to FBX/VRM characters")
 print(f"  - CompareSMPLtoBVH: Side-by-side comparison of SMPL and BVH animations")
+print(f"  - SMPLRetargetToSMPL: Apply SMPL motion to SMPL-rigged FBX")
 print(f"{'='*60}\n")
 
 # Web extensions path for ComfyUI
