@@ -210,509 +210,334 @@ class SMPLToFBX:
         rig_type: str,
         fps: int,
     ) -> str:
-        """Create Python script for Blender to execute retargeting."""
+        """Create Python script for Blender to execute retargeting.
+
+        Uses BVH workflow with Rokoko + horizontal root motion.
+        This approach produces good rotations/poses without mesh twisting.
+        """
+
+        # Get the addons directory path
+        blender_exe = self._find_blender()
+        if blender_exe:
+            addons_dir = str(blender_exe.parent / "4.2" / "scripts" / "addons")
+        else:
+            addons_dir = ""
 
         script = f'''
+import sys
+import os
+
+# Add addons directory to path for Rokoko
+addons_dir = "{addons_dir}"
+if addons_dir and addons_dir not in sys.path:
+    sys.path.insert(0, addons_dir)
+
 import bpy
 import numpy as np
 import mathutils
-from pathlib import Path
 
+# ============================================================
+# ROKOKO ADDON SETUP
+# ============================================================
+def setup_rokoko():
+    """Load and register Rokoko addon."""
+    try:
+        import rokoko_studio_live_blender
+        rokoko_studio_live_blender.register()
+        print("Rokoko Studio Live addon loaded successfully!")
+        return True
+    except Exception as e:
+        print(f"Warning: Could not load Rokoko addon: {{e}}")
+        return False
+
+# ============================================================
+# SMPL TO BVH CONVERSION
+# ============================================================
+SMPL_BONE_NAMES = [
+    "Pelvis", "L_Hip", "R_Hip", "Spine1", "L_Knee", "R_Knee",
+    "Spine2", "L_Ankle", "R_Ankle", "Spine3", "L_Foot", "R_Foot",
+    "Neck", "L_Collar", "R_Collar", "Head", "L_Shoulder", "R_Shoulder",
+    "L_Elbow", "R_Elbow", "L_Wrist", "R_Wrist"
+]
+
+SMPL_PARENTS = [-1, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9, 12, 13, 14, 16, 17, 18, 19]
+
+SMPL_OFFSETS = [
+    [0, 0, 0], [1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, -1, 0],
+    [0, 1, 0], [0, -1, 0], [0, -1, 0], [0, 1, 0], [0, -0.5, 0.5], [0, -0.5, 0.5],
+    [0, 1, 0], [1, 0, 0], [-1, 0, 0], [0, 1, 0], [1, 0, 0], [-1, 0, 0],
+    [1, 0, 0], [-1, 0, 0], [1, 0, 0], [-1, 0, 0]
+]
+
+def axis_angle_to_euler_zxy(axis_angle):
+    \"\"\"Convert axis-angle to ZXY Euler angles (BVH standard).\"\"\"
+    angle = np.linalg.norm(axis_angle)
+    if angle < 1e-8:
+        return [0.0, 0.0, 0.0]
+    axis = axis_angle / angle
+    c, s = np.cos(angle), np.sin(angle)
+    t = 1 - c
+    x, y, z = axis
+
+    # Rotation matrix
+    R = np.array([
+        [t*x*x + c,    t*x*y - s*z,  t*x*z + s*y],
+        [t*x*y + s*z,  t*y*y + c,    t*y*z - s*x],
+        [t*x*z - s*y,  t*y*z + s*x,  t*z*z + c]
+    ])
+
+    # Extract ZXY Euler
+    if abs(R[2, 1]) < 0.99999:
+        x_rot = np.arcsin(-R[2, 1])
+        y_rot = np.arctan2(R[2, 0], R[2, 2])
+        z_rot = np.arctan2(R[0, 1], R[1, 1])
+    else:
+        x_rot = np.pi / 2 if R[2, 1] < 0 else -np.pi / 2
+        y_rot = np.arctan2(-R[0, 2], R[0, 0])
+        z_rot = 0
+
+    return [np.degrees(z_rot), np.degrees(x_rot), np.degrees(y_rot)]
+
+def smpl_to_bvh(smpl_params, output_path, fps=30):
+    \"\"\"Convert SMPL parameters to BVH file.\"\"\"
+    body_pose = smpl_params.get('body_pose')
+    global_orient = smpl_params.get('global_orient')
+    transl = smpl_params.get('transl')
+
+    if body_pose is None:
+        raise ValueError("No body_pose in SMPL params")
+
+    num_frames = body_pose.shape[0]
+    body_pose = body_pose.reshape(num_frames, 21, 3)
+
+    # Build BVH header
+    lines = ["HIERARCHY", "ROOT Pelvis", "{{", "\\tOFFSET 0.0 0.0 0.0",
+             "\\tCHANNELS 6 Xposition Yposition Zposition Zrotation Xrotation Yrotation"]
+
+    def add_joint(idx, depth):
+        indent = "\\t" * depth
+        name = SMPL_BONE_NAMES[idx]
+        offset = SMPL_OFFSETS[idx]
+        children = [i for i, p in enumerate(SMPL_PARENTS) if p == idx]
+
+        if children:
+            for child_idx in children:
+                child_name = SMPL_BONE_NAMES[child_idx]
+                child_offset = SMPL_OFFSETS[child_idx]
+                lines.append(f"{{indent}}JOINT {{child_name}}")
+                lines.append(f"{{indent}}{{{{")
+                lines.append(f"{{indent}}\\tOFFSET {{child_offset[0]*10:.4f}} {{child_offset[1]*10:.4f}} {{child_offset[2]*10:.4f}}")
+                lines.append(f"{{indent}}\\tCHANNELS 3 Zrotation Xrotation Yrotation")
+                add_joint(child_idx, depth + 1)
+                lines.append(f"{{indent}}}}}}")
+        else:
+            lines.append(f"{{indent}}End Site")
+            lines.append(f"{{indent}}{{{{")
+            lines.append(f"{{indent}}\\tOFFSET {{offset[0]*5:.4f}} {{offset[1]*5:.4f}} {{offset[2]*5:.4f}}")
+            lines.append(f"{{indent}}}}}}")
+
+    add_joint(0, 1)
+    lines.append("}}")
+
+    # Motion section
+    lines.append("MOTION")
+    lines.append(f"Frames: {{num_frames}}")
+    lines.append(f"Frame Time: {{1.0/fps:.6f}}")
+
+    for frame in range(num_frames):
+        values = []
+
+        # Root position (convert SMPL Y-up to BVH Z-up)
+        if transl is not None:
+            t = transl[frame]
+            values.extend([t[0]*100, t[2]*100, t[1]*100])  # Scale and swap Y/Z
+        else:
+            values.extend([0, 0, 0])
+
+        # Root rotation
+        if global_orient is not None:
+            euler = axis_angle_to_euler_zxy(global_orient[frame])
+            values.extend(euler)
+        else:
+            values.extend([0, 0, 0])
+
+        # Body pose rotations
+        for joint_idx in range(21):
+            euler = axis_angle_to_euler_zxy(body_pose[frame, joint_idx])
+            values.extend(euler)
+
+        lines.append(" ".join(f"{{v:.4f}}" for v in values))
+
+    with open(output_path, 'w') as f:
+        f.write("\\n".join(lines))
+
+    print(f"Created BVH: {{output_path}} ({{num_frames}} frames)")
+    return output_path
+
+# ============================================================
+# MAIN FUNCTIONS
+# ============================================================
 def clear_scene():
-    """Clear default scene."""
+    \"\"\"Clear default scene.\"\"\"
     bpy.ops.object.select_all(action='SELECT')
     bpy.ops.object.delete()
 
 def load_smpl_params(smpl_path):
-    """Load SMPL parameters from npz file."""
+    \"\"\"Load SMPL parameters from npz file.\"\"\"
     data = np.load(smpl_path)
     return {{key: data[key] for key in data.files}}
 
-def import_fbx(fbx_path):
-    """Import FBX character."""
-    bpy.ops.import_scene.fbx(filepath=fbx_path)
-    # Get the armature
-    armatures = [obj for obj in bpy.context.scene.objects if obj.type == 'ARMATURE']
-    if not armatures:
-        raise RuntimeError("No armature found in FBX file")
-    return armatures[0]
-
-def validate_vroid_rig(armature):
-    """Validate that armature has VRoid bone naming."""
-    print(f"Validating VRoid rig for armature: {{armature.name}}")
-
-    # Required VRoid bones for basic retargeting
-    required_bones = [
-        'J_Bip_C_Hips',
-        'J_Bip_C_Spine',
-        'J_Bip_C_Chest',
-        'J_Bip_C_UpperChest',
-        'J_Bip_L_Shoulder',
-        'J_Bip_R_Shoulder',
-    ]
-
-    # Check which required bones exist
-    found_bones = []
-    missing_bones = []
-
-    for bone_name in required_bones:
-        if bone_name in armature.data.bones:
-            found_bones.append(bone_name)
-        else:
-            missing_bones.append(bone_name)
-
-    print(f"Found {{len(found_bones)}}/{{len(required_bones)}} required VRoid bones")
-
-    if len(found_bones) < 4:
-        print("\\n" + "="*60)
-        print("ERROR: This does not appear to be a VRoid rig!")
-        print("="*60)
-        print(f"Only {{len(found_bones)}}/{{len(required_bones)}} required bones found.")
-        print(f"\\nMissing bones: {{', '.join(missing_bones)}}")
-        print(f"\\nAvailable bones in FBX:")
-        for bone in list(armature.data.bones.keys())[:20]:
-            print(f"  - {{bone}}")
-        if len(armature.data.bones) > 20:
-            print(f"  ... and {{len(armature.data.bones) - 20}} more")
-        print("\\nPlease use a VRoid character FBX for retargeting.")
-        print("="*60)
-        raise ValueError(f"Invalid rig: Only {{len(found_bones)}}/{{len(required_bones)}} required VRoid bones found")
-
-    print(f"✓ VRoid rig validation passed! Found bones: {{', '.join(found_bones)}}")
-    return True
-
-def create_smpl_armature(smpl_params):
-    """Create SMPL armature from parameters."""
-    # For now, create a simple skeleton
-    # TODO: Full SMPL skeleton implementation
-    bpy.ops.object.armature_add()
-    smpl_armature = bpy.context.active_object
-    smpl_armature.name = "SMPL_Armature"
-    return smpl_armature
-
-def apply_smpl_animation(armature, smpl_params, fps):
-    """Apply SMPL animation to armature."""
-    # Get parameters
-    body_pose = smpl_params.get('body_pose')  # Shape: (B, L, 63) or (B, L, 21, 3)
-    global_orient = smpl_params.get('global_orient')  # Shape: (B, L, 3)
-    transl = smpl_params.get('transl')  # Shape: (B, L, 3)
-
-    if body_pose is None:
-        print("No body_pose found in SMPL params")
-        return
-
-    # Set scene FPS
-    bpy.context.scene.render.fps = fps
-
-    # Get number of frames
-    num_frames = body_pose.shape[1] if len(body_pose.shape) > 2 else body_pose.shape[0]
-    print(f"Applying animation: {{num_frames}} frames at {{fps}} FPS")
-
-    # Set animation range
-    bpy.context.scene.frame_start = 1
-    bpy.context.scene.frame_end = num_frames
-
-    # Apply root translation if available
-    if transl is not None and len(transl.shape) >= 2:
-        for frame_idx in range(num_frames):
-            bpy.context.scene.frame_set(frame_idx + 1)
-            # Assuming transl shape is (B, L, 3), take first batch
-            trans = transl[0, frame_idx] if len(transl.shape) == 3 else transl[frame_idx]
-            armature.location = mathutils.Vector(trans.tolist())
-            armature.keyframe_insert(data_path="location", frame=frame_idx + 1)
-
-    print(f"Animation applied successfully")
-
-def retarget_smpl_to_armature(target_armature, smpl_params, fps, rig_type):
-    """
-    Retarget SMPL motion to target armature using proper coordinate system conversion.
-
-    This function handles:
-    1. Y-up (SMPL) to Z-up (Blender) coordinate conversion
-    2. Bone rest pose transformation
-    3. Both rotations AND translations
-    """
-
-    # SMPL joint order (22 joints)
-    SMPL_JOINTS = [
-        "hips", "leftUpLeg", "rightUpLeg", "spine", "leftLeg", "rightLeg",
-        "spine1", "leftFoot", "rightFoot", "spine2", "leftToeBase", "rightToeBase",
-        "neck", "leftShoulder", "rightShoulder", "head", "leftArm", "rightArm",
-        "leftForeArm", "rightForeArm", "leftHand", "rightHand"
-    ]
-
-    # VRoid bone mapping
-    SMPL_TO_VROID_MAPPING = {{
-        "hips": "J_Bip_C_Hips",
-        "spine": "J_Bip_C_Spine",
-        "spine1": "J_Bip_C_Chest",
-        "spine2": "J_Bip_C_UpperChest",
-        "neck": "J_Bip_C_Neck",
-        "head": "J_Bip_C_Head",
-        "leftShoulder": "J_Bip_L_Shoulder",
-        "leftArm": "J_Bip_L_UpperArm",
-        "leftForeArm": "J_Bip_L_LowerArm",
-        "leftHand": "J_Bip_L_Hand",
-        "rightShoulder": "J_Bip_R_Shoulder",
-        "rightArm": "J_Bip_R_UpperArm",
-        "rightForeArm": "J_Bip_R_LowerArm",
-        "rightHand": "J_Bip_R_Hand",
-        "leftUpLeg": "J_Bip_L_UpperLeg",
-        "leftLeg": "J_Bip_L_LowerLeg",
-        "leftFoot": "J_Bip_L_Foot",
-        "leftToeBase": "J_Bip_L_ToeBase",
-        "rightUpLeg": "J_Bip_R_UpperLeg",
-        "rightLeg": "J_Bip_R_LowerLeg",
-        "rightFoot": "J_Bip_R_Foot",
-        "rightToeBase": "J_Bip_R_ToeBase",
-    }}
-
-    # ========== COORDINATE SYSTEM CONVERSION ==========
-    # SMPL uses Z-up with Y=forward: (X=right, Y=forward, Z=up)
-    # Blender uses Z-up with Y=back: (X=right, Y=back, Z=up)
-    # Conversion matrix: X→X, Y→-Y, Z→Z
-    print("\\n" + "="*60)
-    print("COORDINATE SYSTEM SETUP")
-    print("="*60)
-    print("SMPL coordinate system: (X=right, Y=forward, Z=up)")
-    print("Blender coordinate system: (X=right, Y=back, Z=up)")
-    print("Conversion: X→X, Y→-Y, Z→Z (flip Y axis)")
-
-    SMPL_TO_BLENDER = mathutils.Matrix((
-        (1,  0,  0),   # X stays X (right)
-        (0, -1,  0),   # Y becomes -Y (forward becomes back)
-        (0,  0,  1)    # Z stays Z (up)
-    ))
-    print(f"SMPL-to-Blender conversion matrix:\\n{{SMPL_TO_BLENDER}}")
-
-    # ========== T-POSE TO A-POSE OFFSET ==========
-    # SMPL uses T-pose (arms horizontal), VRoid uses A-pose (arms ~45° down)
-    # Apply corrective rotation for affected bones
-    import math
-    ARM_POSE_OFFSETS = {{
-        "J_Bip_L_Shoulder": math.radians(45),   # 45° offset
-        "J_Bip_L_UpperArm": math.radians(45),
-        "J_Bip_R_Shoulder": math.radians(45),
-        "J_Bip_R_UpperArm": math.radians(45),
-    }}
-    print(f"\\nT-pose to A-pose offsets defined for {{len(ARM_POSE_OFFSETS)}} bones")
-
-    # Get bone mapping based on rig type
-    if rig_type == "vroid":
-        bone_mapping = SMPL_TO_VROID_MAPPING
-    else:
-        print(f"Warning: Rig type '{{rig_type}}' not implemented, using VRoid mapping")
-        bone_mapping = SMPL_TO_VROID_MAPPING
-
-    # Get SMPL parameters
-    body_pose = smpl_params.get('body_pose')  # Shape: (B, L, 63) or (L, 63)
-    global_orient = smpl_params.get('global_orient')  # Shape: (B, L, 3) or (L, 3)
-    transl = smpl_params.get('transl')  # Shape: (B, L, 3) or (L, 3)
-
-    if body_pose is None:
-        print("ERROR: No body_pose found in SMPL params")
-        return
-
-    print(f"body_pose shape: {{body_pose.shape}}")
-    print(f"global_orient shape: {{global_orient.shape if global_orient is not None else 'None'}}")
-    print(f"transl shape: {{transl.shape if transl is not None else 'None'}}")
-
-    # Handle batch dimension - take first batch if present
-    if len(body_pose.shape) == 3:  # (B, L, 63)
-        body_pose = body_pose[0]  # (L, 63)
-    if global_orient is not None and len(global_orient.shape) == 3:  # (B, L, 3)
-        global_orient = global_orient[0]  # (L, 3)
-    if transl is not None and len(transl.shape) == 3:  # (B, L, 3)
-        transl = transl[0]  # (L, 3)
-
-    # Reshape body_pose from (L, 63) to (L, 21, 3)
-    num_frames = body_pose.shape[0]
-    body_pose = body_pose.reshape(num_frames, 21, 3)
-
-    print(f"Retargeting {{num_frames}} frames to {{target_armature.name}}")
-
-    # Debug: Print armature scale and bone count
-    print(f"\\nTarget Armature Info:")
-    print(f"  Name: {{target_armature.name}}")
-    print(f"  Scale: {{target_armature.scale}}")
-    print(f"  Location: {{target_armature.location}}")
-    print(f"  Bone count: {{len(target_armature.data.bones)}}")
-
-    # Set scene FPS and frame range
-    bpy.context.scene.render.fps = fps
-    bpy.context.scene.frame_start = 1
-    bpy.context.scene.frame_end = num_frames
-
-    # Set armature as active and enter pose mode
-    bpy.context.view_layer.objects.active = target_armature
-    bpy.ops.object.mode_set(mode='POSE')
-
-    # ========== EXTRACT BONE REST POSE MATRICES ==========
-    # CRITICAL: We need bone rest orientations to transform rotations properly
-    print("\\n" + "="*60)
-    print("EXTRACTING BONE REST POSE MATRICES")
-    print("="*60)
-    bone_rest_matrices = {{}}
-    for bone_name in target_armature.pose.bones.keys():
-        pose_bone = target_armature.pose.bones[bone_name]
-        # matrix_local is the bone's rest pose matrix in armature space
-        # We need the 3x3 rotation part for coordinate transformations
-        rest_matrix_3x3 = pose_bone.bone.matrix_local.to_3x3()
-        bone_rest_matrices[bone_name] = rest_matrix_3x3
-        # Debug: Print first few bones
-        if len(bone_rest_matrices) <= 3:
-            print(f"  {{bone_name}}: rest matrix extracted (shape: 3x3)")
-    print(f"✓ Extracted rest matrices for {{len(bone_rest_matrices)}} bones")
-
-    # ========== APPLY ROOT TRANSLATION (WITH COORDINATE CONVERSION) ==========
-    if transl is not None:
-        print("\\n" + "="*60)
-        print("APPLYING ROOT TRANSLATION (SMPL → Blender)")
-        print("="*60)
-        # Debug: Show first translation
-        trans_smpl_0 = transl[0]
-        trans_blender_0 = mathutils.Vector((
-            trans_smpl_0[0],      # X stays X (right)
-            -trans_smpl_0[1],     # -Y (forward becomes back)
-            trans_smpl_0[2]       # Z stays Z (up)
-        ))
-        print(f"Frame 1 SMPL translation:    {{trans_smpl_0}} (X=right, Y=forward, Z=up)")
-        print(f"Frame 1 Blender translation: {{trans_blender_0}} (X=right, Y=back, Z=up)")
-
-        for frame_idx in range(num_frames):
-            bpy.context.scene.frame_set(frame_idx + 1)
-            trans_smpl = transl[frame_idx]
-            # Convert SMPL (Y=forward) to Blender (Y=back)
-            trans_blender = mathutils.Vector((
-                trans_smpl[0],      # X stays X (right)
-                -trans_smpl[1],     # -Y (forward becomes back)
-                trans_smpl[2]       # Z stays Z (up)
-            ))
-            target_armature.location = trans_blender
-            target_armature.keyframe_insert(data_path="location", frame=frame_idx + 1)
-        print(f"✓ Applied translation for {{num_frames}} frames")
-
-    # ========== APPLY ROTATIONS TO EACH BONE ==========
-    print("\\n" + "="*60)
-    print("BONE MAPPING AND ROTATION RETARGETING")
-    print("="*60)
-    bones_mapped = 0
-    bones_skipped = 0
-    mapping_log = []
-
-    for joint_idx, smpl_joint_name in enumerate(SMPL_JOINTS):
-        # Skip hips - its rotation is handled by global_orient
-        if smpl_joint_name == "hips":
-            continue
-
-        # Get target bone name from mapping
-        target_bone_name = bone_mapping.get(smpl_joint_name)
-
-        if target_bone_name is None:
-            mapping_log.append(f"✗ {{smpl_joint_name:20s}} → [NO MAPPING]")
-            bones_skipped += 1
-            continue
-
-        # Check if bone exists in armature
-        if target_bone_name not in target_armature.pose.bones:
-            mapping_log.append(f"✗ {{smpl_joint_name:20s}} → {{target_bone_name}} [NOT FOUND]")
-            bones_skipped += 1
-            continue
-
-        pose_bone = target_armature.pose.bones[target_bone_name]
-        rest_matrix = bone_rest_matrices[target_bone_name]
-        mapping_log.append(f"✓ {{smpl_joint_name:20s}} → {{target_bone_name}}")
-
-        # Set rotation mode to QUATERNION (more stable than AXIS_ANGLE)
-        pose_bone.rotation_mode = 'QUATERNION'
-
-        # Debug: Sample first frame rotation values
-        body_pose_idx = joint_idx - 1
-        sample_axis_angle = body_pose[0, body_pose_idx]
-        sample_angle = np.linalg.norm(sample_axis_angle)
-
-        # Debug first bone transformation in detail
-        if bones_mapped == 0:
-            print(f"\\n--- DEBUG: First Bone Transformation ({{smpl_joint_name}} → {{target_bone_name}}) ---")
-            print(f"  SMPL axis-angle (frame 1): {{sample_axis_angle}}")
-            print(f"  Angle magnitude: {{sample_angle:.4f}} radians ({{np.degrees(sample_angle):.2f}} degrees)")
-            if sample_angle > 1e-8:
-                sample_axis = sample_axis_angle / sample_angle
-                print(f"  Rotation axis: {{sample_axis}}")
-
-        # Apply rotation for each frame
-        for frame_idx in range(num_frames):
-            bpy.context.scene.frame_set(frame_idx + 1)
-
-            # Get axis-angle rotation from body_pose (3D vector)
-            # Note: body_pose excludes hips (joint 0), so subtract 1 from index
-            axis_angle = body_pose[frame_idx, body_pose_idx]  # (3,)
-            angle = np.linalg.norm(axis_angle)
-
-            if angle > 1e-8:
-                # ===== PROPER ROTATION TRANSFORMATION =====
-                # Step 1: Convert axis-angle to rotation matrix
-                axis = axis_angle / angle
-                R_smpl = mathutils.Matrix.Rotation(
-                    angle, 3, mathutils.Vector(axis.tolist())
-                )
-
-                # Step 2: Apply Y-up to Z-up coordinate conversion
-                # R_converted = Y_TO_Z @ R_smpl @ Y_TO_Z.T
-                R_converted = SMPL_TO_BLENDER @ R_smpl @ SMPL_TO_BLENDER.transposed()
-
-                # Step 3: Apply T-pose to A-pose offset for arm bones
-                if target_bone_name in ARM_POSE_OFFSETS:
-                    offset_angle = ARM_POSE_OFFSETS[target_bone_name]
-                    # Test X-axis rotation first (typical for shoulder rotation)
-                    offset_axis = mathutils.Vector((1, 0, 0))
-                    R_offset = mathutils.Matrix.Rotation(offset_angle, 3, offset_axis)
-                    # Apply as: R_offset @ R_converted @ R_offset^-1
-                    R_converted = R_offset @ R_converted @ R_offset.inverted()
-
-                    # Debug first arm bone
-                    if bones_mapped == 0 and frame_idx == 0:
-                        print(f"  Applied {{math.degrees(offset_angle):.1f}}° offset on X-axis for {{target_bone_name}}")
-
-                # Step 4: Transform to bone's local space using rest_matrix
-                # This transforms rotation from world space to bone's local space
-                R_local = rest_matrix.inverted() @ R_converted @ rest_matrix
-
-                # Step 5: Convert to quaternion
-                quat = R_local.to_quaternion()
-                pose_bone.rotation_quaternion = quat
-
-                # Debug first bone, first frame
-                if bones_mapped == 0 and frame_idx == 0:
-                    print(f"  Final quaternion (with rest_matrix): {{quat}}")
-            else:
-                # Identity rotation
-                pose_bone.rotation_quaternion = mathutils.Quaternion((1, 0, 0, 0))
-
-            pose_bone.keyframe_insert(data_path="rotation_quaternion", frame=frame_idx + 1)
-
-        bones_mapped += 1
-
-    # Print mapping results
-    print("\\nBone Mapping Results:")
-    for log_line in mapping_log:
-        print(f"  {{log_line}}")
-
-    # ========== APPLY GLOBAL ORIENTATION TO ROOT BONE (HIPS) ==========
-    if global_orient is not None:
-        print("\\n" + "="*60)
-        print("APPLYING GLOBAL ORIENTATION (ROOT/HIPS)")
-        print("="*60)
-        root_bone_name = bone_mapping.get("hips")
-        if root_bone_name and root_bone_name in target_armature.pose.bones:
-            root_bone = target_armature.pose.bones[root_bone_name]
-            root_rest_matrix = bone_rest_matrices[root_bone_name]
-
-            # Use QUATERNION mode for consistency
-            root_bone.rotation_mode = 'QUATERNION'
-
-            # Debug first frame
-            sample_global_orient = global_orient[0]
-            sample_global_angle = np.linalg.norm(sample_global_orient)
-            print(f"Frame 1 global_orient: {{sample_global_orient}}")
-            print(f"Angle magnitude: {{sample_global_angle:.4f}} radians ({{np.degrees(sample_global_angle):.2f}} degrees)")
-
-            for frame_idx in range(num_frames):
-                bpy.context.scene.frame_set(frame_idx + 1)
-
-                # Get axis-angle rotation
-                axis_angle = global_orient[frame_idx]
-                angle = np.linalg.norm(axis_angle)
-
-                if angle > 1e-8:
-                    # Same transformation as other bones
-                    axis = axis_angle / angle
-                    R_smpl = mathutils.Matrix.Rotation(
-                        angle, 3, mathutils.Vector(axis.tolist())
-                    )
-                    R_converted = SMPL_TO_BLENDER @ R_smpl @ SMPL_TO_BLENDER.transposed()
-                    R_local = root_rest_matrix.inverted() @ R_converted @ root_rest_matrix
-                    quat = R_local.to_quaternion()
-                    root_bone.rotation_quaternion = quat
-
-                    # Debug first frame
-                    if frame_idx == 0:
-                        print(f"  Root quaternion (with rest_matrix, frame 1): {{quat}}")
-                else:
-                    root_bone.rotation_quaternion = mathutils.Quaternion((1, 0, 0, 0))
-
-                root_bone.keyframe_insert(data_path="rotation_quaternion", frame=frame_idx + 1)
-
-            print(f"✓ Applied global orientation for {{num_frames}} frames")
-
-    # Return to object mode
-    bpy.ops.object.mode_set(mode='OBJECT')
-
-    print("\\n" + "="*60)
-    print("RETARGETING SUMMARY")
-    print("="*60)
-    print(f"✓ Total frames processed: {{num_frames}}")
-    print(f"✓ Bones successfully mapped: {{bones_mapped}}")
-    print(f"✗ Bones skipped: {{bones_skipped}}")
-    print(f"✓ Root translation: {{'Applied' if transl is not None else 'Not available'}}")
-    print(f"✓ Global orientation: {{'Applied' if global_orient is not None else 'Not available'}}")
-    print("="*60)
-
-def export_fbx(output_path):
-    """Export scene as FBX with armature, mesh, and textures."""
-    # Deselect all first
-    bpy.ops.object.select_all(action='DESELECT')
-
-    # Select armature and all mesh objects
-    for obj in bpy.data.objects:
-        if obj.type in ['MESH', 'ARMATURE']:
-            obj.select_set(True)
-            print(f"(bpy.data.{{obj.type.lower()}}s['{{obj.name}}'], '{{obj.mode}}')")
-
-    # Export with mesh and textures
-    bpy.ops.export_scene.fbx(
-        filepath=output_path,
-        use_selection=True,  # Export selected objects only
-        object_types={{'ARMATURE', 'MESH'}},  # Include armature and meshes
-        bake_anim=True,  # Bake animation
-        add_leaf_bones=False,
-        mesh_smooth_type='FACE',  # Preserve mesh smoothing
-        path_mode='COPY',  # Copy textures to output directory
-        embed_textures=True,  # Embed textures in FBX
-    )
+def fix_bone_list_duplicates():
+    \"\"\"Remove duplicate target bones from the Rokoko bone list.\"\"\"
+    bone_list = bpy.context.scene.rsl_retargeting_bone_list
+    seen_targets = {{}}
+    to_clear = []
+    for i, item in enumerate(bone_list):
+        if item.bone_name_target and item.bone_name_target in seen_targets:
+            to_clear.append(i)
+        elif item.bone_name_target:
+            seen_targets[item.bone_name_target] = i
+    for i in to_clear:
+        bone_list[i].bone_name_target = ""
 
 def main():
     print("="*60)
-    print("SMPL to FBX Retargeting")
+    print("SMPL to FBX Retargeting (BVH + Rokoko + Horizontal Motion)")
     print("="*60)
 
+    # Setup Rokoko addon
+    rokoko_available = setup_rokoko()
+
     # Clear scene
-    print("Clearing scene...")
     clear_scene()
 
     # Load SMPL data
-    print(f"Loading SMPL data from: {smpl_data!r}")
-    smpl_params = load_smpl_params("{smpl_data}")
-    print(f"SMPL params loaded: {{list(smpl_params.keys())}}")
+    smpl_path = "{smpl_data}"
+    print(f"\\nLoading SMPL data from: {{smpl_path}}")
+    smpl_params = load_smpl_params(smpl_path)
+    print(f"Loaded: {{list(smpl_params.keys())}}")
+
+    # Convert SMPL to BVH
+    import tempfile
+    bvh_path = tempfile.gettempdir() + "/smpl_temp.bvh"
+    print(f"\\nConverting SMPL to BVH: {{bvh_path}}")
+    smpl_to_bvh(smpl_params, bvh_path, fps={fps})
+
+    # Import BVH
+    print("\\nImporting BVH...")
+    bpy.ops.import_anim.bvh(filepath=bvh_path)
+    bvh_armature = [obj for obj in bpy.context.scene.objects if obj.type == 'ARMATURE'][0]
+
+    # Store horizontal root motion from BVH (X, Y only)
+    print("\\nStoring BVH horizontal root motion...")
+    bpy.context.view_layer.objects.active = bvh_armature
+    bpy.ops.object.mode_set(mode='POSE')
+    pelvis = bvh_armature.pose.bones.get("Pelvis")
+
+    original_xy = []
+    num_frames = int(bpy.context.scene.frame_end)
+    for frame in range(1, num_frames + 1):
+        bpy.context.scene.frame_set(frame)
+        world_pos = bvh_armature.matrix_world @ pelvis.head
+        original_xy.append((world_pos.x, world_pos.y))
+
+    bpy.ops.object.mode_set(mode='OBJECT')
 
     # Import target FBX
-    print(f"Importing FBX from: {fbx_input!r}")
-    target_armature = import_fbx("{fbx_input}")
-    print(f"Imported armature: {{target_armature.name}}")
+    fbx_path = "{fbx_input}"
+    print(f"\\nImporting target FBX: {{fbx_path}}")
+    bpy.ops.import_scene.fbx(filepath=fbx_path, automatic_bone_orientation=True)
+    armatures = [obj for obj in bpy.context.scene.objects if obj.type == 'ARMATURE']
+    target_armature = [a for a in armatures if a != bvh_armature][0]
 
-    # Validate VRoid rig
-    validate_vroid_rig(target_armature)
+    # Retarget with Rokoko (auto_scaling OFF for better rotations)
+    if rokoko_available:
+        print("\\nRetargeting with Rokoko...")
+        bpy.context.scene.rsl_retargeting_auto_scaling = False
+        bpy.context.scene.rsl_retargeting_armature_source = bvh_armature
+        bpy.context.scene.rsl_retargeting_armature_target = target_armature
+        bpy.ops.rsl.build_bone_list()
+        fix_bone_list_duplicates()
+        bpy.ops.rsl.retarget_animation()
+    else:
+        print("\\nWARNING: Rokoko addon not available!")
 
-    # Retarget SMPL motion to target armature
-    print(f"Retargeting SMPL motion to {{target_armature.name}} (rig_type: {rig_type})...")
-    retarget_smpl_to_armature(target_armature, smpl_params, {fps}, "{rig_type}")
+    # Delete BVH armature
+    bpy.data.objects.remove(bvh_armature, do_unlink=True)
 
-    # Export animated FBX
-    print(f"Exporting to: {fbx_output!r}")
-    export_fbx("{fbx_output}")
+    # Apply HORIZONTAL root motion only (X, Y - no vertical adjustment)
+    print("\\nApplying horizontal root motion...")
+    bpy.context.view_layer.objects.active = target_armature
+    bpy.ops.object.mode_set(mode='POSE')
 
-    print("="*60)
-    print("Retargeting complete!")
+    hips = target_armature.pose.bones.get("mixamorig:Hips")
+    if not hips:
+        # Try other common naming conventions
+        for name in ["Hips", "pelvis", "Pelvis", "hip", "Root"]:
+            hips = target_armature.pose.bones.get(name)
+            if hips:
+                break
+
+    if hips and len(original_xy) > 0:
+        # Get frame 1 reference
+        bpy.context.scene.frame_set(1)
+        ref_hips_world = target_armature.matrix_world @ hips.head
+        ref_xy = original_xy[0]
+
+        for frame in range(1, min(num_frames + 1, len(original_xy) + 1)):
+            bpy.context.scene.frame_set(frame)
+
+            current_world = target_armature.matrix_world @ hips.head
+
+            # Target XY relative to frame 1
+            target_x = original_xy[frame - 1][0] - ref_xy[0]
+            target_y = original_xy[frame - 1][1] - ref_xy[1]
+
+            # Current XY relative to frame 1
+            current_x = current_world.x - ref_hips_world.x
+            current_y = current_world.y - ref_hips_world.y
+
+            # Delta needed (horizontal only)
+            delta_world = mathutils.Vector((target_x - current_x, target_y - current_y, 0))
+
+            # Convert to bone local space
+            bone_matrix_inv = hips.bone.matrix_local.inverted()
+            delta_local = bone_matrix_inv.to_3x3() @ delta_world
+
+            hips.location = hips.location + delta_local
+            hips.keyframe_insert(data_path="location", frame=frame)
+
+    bpy.ops.object.mode_set(mode='OBJECT')
+
+    # Export
+    output_path = "{fbx_output}"
+    print(f"\\nExporting to: {{output_path}}")
+
+    bpy.ops.object.select_all(action='DESELECT')
+    target_armature.select_set(True)
+    for obj in bpy.data.objects:
+        if obj.type == 'MESH' and obj.parent == target_armature:
+            obj.select_set(True)
+
+    bpy.context.view_layer.objects.active = target_armature
+
+    bpy.ops.export_scene.fbx(
+        filepath=output_path,
+        use_selection=True,
+        object_types={{'ARMATURE', 'MESH'}},
+        bake_anim=True,
+        bake_anim_use_all_bones=True,
+        bake_anim_use_nla_strips=False,
+        bake_anim_use_all_actions=False,
+        bake_anim_step=1.0,
+        bake_anim_simplify_factor=0.0,
+        add_leaf_bones=False,
+    )
+
+    print("\\n" + "="*60)
+    print("RETARGETING COMPLETE!")
+    print(f"Output: {{output_path}}")
+    print(f"Frames: {{num_frames}}")
     print("="*60)
 
 if __name__ == "__main__":
