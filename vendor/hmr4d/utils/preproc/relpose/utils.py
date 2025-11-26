@@ -1,8 +1,6 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import cv2
 from pathlib import Path
-from .viz2d import plot_matches, plot_images, save_plot
 
 # ================================
 # Visualization
@@ -11,6 +9,7 @@ from .viz2d import plot_matches, plot_images, save_plot
 
 def visualize_matches(img0, img1, kp0, kp1, output_dir):
     """Visualize the matched features between two images."""
+    from .viz2d import plot_matches, plot_images, save_plot
     plot_images([img0, img1], ["Image 0", "Image 1"])
     plot_matches(kp0, kp1)
     save_plot(Path(output_dir) / "matches.png")
@@ -20,6 +19,7 @@ def visualize_T_w2c_rotations(T_w2c_list, output_dir):
     """Visualize camera rotation trajectory with OpenCV coordinate system conversion.
     Camera x-axis remains pointing right, z-axis (optical axis) becomes horizontal forward,
     and camera y-axis (pointing down) corresponds to plt -z axis (i.e. down)."""
+    import matplotlib.pyplot as plt
 
     # Define transformation matrix: convert OpenCV coordinates (x:right, y:down, z:forward)
     # to world coordinates (x:right, y:forward, z:up)
@@ -108,6 +108,8 @@ def visualize_T_w2c_rotations(T_w2c_list, output_dir):
 
 def visualize_rotation_angles(T_w2c_list, output_dir):
     """Visualize rotation as Euler angles over time."""
+    import matplotlib.pyplot as plt
+
     # Extract rotation matrices
     rotations = [T[:3, :3] for T in T_w2c_list]
 

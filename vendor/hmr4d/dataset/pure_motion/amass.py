@@ -10,7 +10,6 @@ from hmr4d.configs import MainStore, builds
 from .base_dataset import BaseDataset
 from .utils import *
 from hmr4d.utils.geo.hmr_global import get_tgtcoord_rootparam
-from hmr4d.utils.wis3d_utils import make_wis3d, add_motion_as_lines, convert_motion_as_line_mesh
 
 
 class AmassDataset(BaseDataset):

@@ -9,7 +9,6 @@ from hmr4d.utils.geo.hmr_global import get_c_rootparam, get_R_c2gv
 from hmr4d.utils.net_utils import get_valid_mask, repeat_to_max_len, repeat_to_max_len_dict
 from hmr4d.utils.geo_transform import compute_cam_angvel, apply_T_on_points, project_p2d, cvt_p2d_from_i_to_c
 
-from hmr4d.utils.wis3d_utils import make_wis3d, add_motion_as_lines, convert_motion_as_line_mesh
 from hmr4d.utils.smplx_utils import make_smplx
 
 
@@ -78,6 +77,7 @@ class BaseDataset(Dataset):
             w_j3d = w_j3d.repeat_interleave(N, dim=0) + smpl_params_w["transl"][:, None]  # (F, 24, 3)
 
             if False:
+                from hmr4d.utils.wis3d_utils import make_wis3d, add_motion_as_lines
                 wis3d = make_wis3d(name="debug_amass")
                 add_motion_as_lines(w_j3d, wis3d, "w_j3d")
 
@@ -90,6 +90,7 @@ class BaseDataset(Dataset):
             raise NotImplementedError
 
         if False:  # render
+            from hmr4d.utils.wis3d_utils import convert_motion_as_line_mesh
             for idx_render in range(10):
                 T_w2c = wham_cam_augmentor(smpl_params_w["transl"])
 

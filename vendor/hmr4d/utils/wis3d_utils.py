@@ -1,4 +1,3 @@
-from wis3d import Wis3D
 from pathlib import Path
 from datetime import datetime
 import torch
@@ -13,6 +12,7 @@ def make_wis3d(output_dir="outputs/wis3d", name="debug", time_postfix=False):
         from hmr4d.utils.wis3d_utils import make_wis3d
         wis3d = make_wis3d(time_postfix=True)
     """
+    from wis3d import Wis3D
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     if time_postfix:
