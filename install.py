@@ -103,14 +103,14 @@ def download_model(model_name: str, model_info: dict, base_dir: Path, force: boo
 
     # Check if already exists
     if check_model_exists(model_path) and not force:
-        print(f"✓ {model_name}: Already downloaded at {model_path}")
+        print(f"[OK] {model_name}: Already downloaded at {model_path}")
         return True
 
     # Create directory
     model_path.parent.mkdir(parents=True, exist_ok=True)
 
     # Download
-    print(f"\n⬇ Downloading {model_name}...")
+    print(f"\n[DOWNLOADING] {model_name}...")
     print(f"  Description: {model_info['description']}")
     print(f"  Size: {model_info['size']}")
     print(f"  Destination: {model_path}")
@@ -140,10 +140,10 @@ def download_model(model_name: str, model_info: dict, base_dir: Path, force: boo
                 file_id = model_info["url"].split("id=")[-1]
                 gdown.download(id=file_id, output=str(model_path), quiet=False)
 
-        print(f"✓ {model_name} downloaded successfully!")
+        print(f"[OK] {model_name} downloaded successfully!")
         return True
     except Exception as e:
-        print(f"✗ Failed to download {model_name}: {e}")
+        print(f"[FAILED] Failed to download {model_name}: {e}")
         import traceback
         traceback.print_exc()
         return False
@@ -154,19 +154,19 @@ def download_all_models(base_dir: Path, force: bool = False):
     print_header("ComfyUI-MotionCapture Model Installer")
 
     print("This script will download the following models from HuggingFace:")
-    print("\n🤗 Main Models (camenduru/GVHMR):")
+    print("\nMain Models (camenduru/GVHMR):")
     for name, info in MODELS.items():
         if info.get("repo_id") == "camenduru/GVHMR":
-            print(f"  • {name}: {info['description']} ({info['size']})")
+            print(f"  - {name}: {info['description']} ({info['size']})")
 
-    print("\n🤗 SMPL Body Models (lithiumice/models_hub):")
+    print("\nSMPL Body Models (lithiumice/models_hub):")
     for name, info in MODELS.items():
         if info.get("repo_id") == "lithiumice/models_hub":
-            print(f"  • {name}: {info['description']} ({info['size']})")
+            print(f"  - {name}: {info['description']} ({info['size']})")
 
-    print("\n💾 Total download size: ~5.2GB")
-    print("⏱  This may take a while depending on your connection speed.")
-    print("✨ All models auto-download from HuggingFace!\n")
+    print("\nTotal download size: ~5.2GB")
+    print("This may take a while depending on your connection speed.")
+    print("All models auto-download from HuggingFace!\n")
 
     # Download each model
     results = {}
@@ -179,13 +179,13 @@ def download_all_models(base_dir: Path, force: bool = False):
     total_count = len(results)
 
     for model_name, success in results.items():
-        status = "✓ SUCCESS" if success else "✗ FAILED"
+        status = "[OK] SUCCESS" if success else "[FAILED]"
         print(f"  {model_name}: {status}")
 
     print(f"\n{success_count}/{total_count} models downloaded successfully.")
 
     if success_count < total_count:
-        print("\n⚠ Some models failed to download.")
+        print("\n[WARNING] Some models failed to download.")
         print("You can retry by running this script again with --force flag.")
         print("Or models will be auto-downloaded when you first use the nodes.")
 
@@ -196,14 +196,14 @@ def print_smpl_info():
     """Print information about SMPL body models."""
     print_header("SMPL Body Models - Auto-Downloaded!")
 
-    print("✨ Good news! SMPL body models are now automatically downloaded from HuggingFace.")
+    print("Good news! SMPL body models are now automatically downloaded from HuggingFace.")
     print("   Source: lithiumice/models_hub repository")
     print("   License: These models are provided for research purposes.\n")
 
-    print("📝 Note: If you need official SMPL models for commercial use:")
-    print("   • SMPL: https://smpl.is.tue.mpg.de/")
-    print("   • SMPL-X: https://smpl-x.is.tue.mpg.de/")
-    print("   • You can replace the auto-downloaded files with official ones.")
+    print("Note: If you need official SMPL models for commercial use:")
+    print("   - SMPL: https://smpl.is.tue.mpg.de/")
+    print("   - SMPL-X: https://smpl-x.is.tue.mpg.de/")
+    print("   - You can replace the auto-downloaded files with official ones.")
 
 
 # Blender Installation Functions
@@ -503,11 +503,11 @@ def main():
     # Install Blender automatically
     blender_path = install_blender()
     if blender_path:
-        print(f"\n✅ Blender installed successfully at: {blender_path}")
+        print(f"\n[OK] Blender installed successfully at: {blender_path}")
     else:
-        print("\n⚠ Blender installation failed. You can:")
-        print("  • Install manually from https://www.blender.org/download/")
-        print("  • Or run: python install.py")
+        print("\n[WARNING] Blender installation failed. You can:")
+        print("  - Install manually from https://www.blender.org/download/")
+        print("  - Or run: python install.py")
 
     # Install Blender addons if requested
     if args.install_blender_addons:
@@ -519,27 +519,27 @@ def main():
             from lib.blender_addon_installer import install_all_addons
             success = install_all_addons()
             if success:
-                print("\n✅ Blender addons installed successfully!")
-                print("  • VRM Addon: Import/export VRM character files")
-                print("  • BVH Retargeter: Advanced BVH motion retargeting")
+                print("\n[OK] Blender addons installed successfully!")
+                print("  - VRM Addon: Import/export VRM character files")
+                print("  - BVH Retargeter: Advanced BVH motion retargeting")
             else:
-                print("\n⚠ Some addons failed to install. Check logs above for details.")
+                print("\n[WARNING] Some addons failed to install. Check logs above for details.")
         except Exception as e:
-            print(f"\n⚠ Failed to install Blender addons: {e}")
+            print(f"\n[WARNING] Failed to install Blender addons: {e}")
             print("  You can install them manually:")
-            print("  • VRM Addon: https://github.com/saturday06/VRM-Addon-for-Blender")
-            print("  • BVH Retargeter: https://github.com/Diffeomorphic/retarget-bvh")
+            print("  - VRM Addon: https://github.com/saturday06/VRM-Addon-for-Blender")
+            print("  - BVH Retargeter: https://github.com/Diffeomorphic/retarget-bvh")
 
     # Final message
     print_header("Installation Complete!")
-    print("✅ All models downloaded successfully!")
-    print("🚀 You can now use ComfyUI-MotionCapture nodes in ComfyUI.")
-    print("🎨 Blender is now installed for FBX retargeting support.")
+    print("[OK] All models downloaded successfully!")
+    print("You can now use ComfyUI-MotionCapture nodes in ComfyUI.")
+    print("Blender is now installed for FBX retargeting support.")
     if args.install_blender_addons:
-        print("🔧 Blender addons installed for enhanced BVH retargeting.")
+        print("Blender addons installed for enhanced BVH retargeting.")
     else:
-        print("💡 For BVH→VRM retargeting, run: python install.py --install-blender-addons")
-    print("💡 Restart ComfyUI to load the new nodes.\n")
+        print("[TIP] For BVH->VRM retargeting, run: python install.py --install-blender-addons")
+    print("[TIP] Restart ComfyUI to load the new nodes.\n")
 
     return 0 if success else 1
 

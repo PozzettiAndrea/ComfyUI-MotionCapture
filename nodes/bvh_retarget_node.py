@@ -6,7 +6,6 @@ from pathlib import Path
 from typing import Dict, Tuple
 import subprocess
 import tempfile
-import shutil
 import os
 
 from hmr4d.utils.pylogger import Log
@@ -109,7 +108,7 @@ class BVHtoFBX:
             )
 
             # Write script to temporary file
-            with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False, encoding='utf-8') as f:
                 script_path = Path(f.name)
                 f.write(blender_script)
 
@@ -269,8 +268,8 @@ print("[BVHtoFBX] Starting Blender retargeting script")
 #    - But bone orientations may not match exactly because rest poses differ
 #    - This is the current approach - hierarchy is more important than exact matching
 #
-# 3. LOCAL space + 180° BVH armature rotation:
-#    - Tried rotating BVH armature 180° to align forward directions
+# 3. LOCAL space + 180deg BVH armature rotation:
+#    - Tried rotating BVH armature 180deg to align forward directions
 #    - RESULT: Didn't help - armature rotation doesn't affect bone local rotations
 #    - Made things worse (character more tilted)
 #

@@ -527,29 +527,29 @@ def kabsch_algorithm_batch(X1, X2):
     X1 = X1.reshape(-1, *X_shape[-2:])
     X2 = X2.reshape(-1, *X_shape[-2:])
 
-    # 1. 计算质心
+    # 1. Compute centroids
     centroid_X1 = torch.mean(X1, dim=-2, keepdim=True)
     centroid_X2 = torch.mean(X2, dim=-2, keepdim=True)
 
-    # 2. 去中心化
+    # 2. Center the points
     X1_centered = X1 - centroid_X1
     X2_centered = X2 - centroid_X2
 
-    # 3. 计算协方差矩阵
+    # 3. Compute covariance matrix
     H = torch.matmul(X1_centered.transpose(-2, -1), X2_centered)
 
-    # 4. 奇异值分解
+    # 4. Singular value decomposition
     U, S, Vt = torch.linalg.svd(H)
 
-    # 5. 计算旋转矩阵
+    # 5. Compute rotation matrix
     R = torch.matmul(Vt.transpose(-2, -1), U.transpose(-2, -1))
 
-    # 修正反射矩阵
+    # Fix reflection matrix
     d = (torch.det(R) < 0).unsqueeze(-1).unsqueeze(-1)
     Vt = torch.where(d, -Vt, Vt)
     R = torch.matmul(Vt.transpose(-2, -1), U.transpose(-2, -1))
 
-    # 6. 计算平移向量
+    # 6. Compute translation vector
     t = centroid_X2.transpose(-2, -1) - torch.matmul(R, centroid_X1.transpose(-2, -1))
 
     # -------
@@ -583,17 +583,17 @@ def ransac_gravity_vec(xyz, num_iterations=100, threshold=0.05, verbose=False):
     norms = xyz.norm(dim=-1)  # (L,)
 
     for _ in range(num_iterations):
-        # 随机选择一个样本
+        # Randomly select a sample
         sample_index = np.random.randint(N)
         sample = xyz[sample_index]  # (3,)
 
-        # 计算所有点与样本点的角度差
+        # Compute angle difference between all points and sample
         dot_product = (xyz * sample).sum(dim=-1)  # (L,)
         angles = dot_product / norms * norms[sample_index]  # (L,)
-        angles = torch.clamp(angles, -1, 1)  # 防止数值误差导致的异常
+        angles = torch.clamp(angles, -1, 1)  # Prevent numerical errors
         angles = torch.acos(angles)
 
-        # 确定内点
+        # Determine inliers
         inliers = xyz[angles < threshold]
 
         if len(inliers) > len(max_inliers):

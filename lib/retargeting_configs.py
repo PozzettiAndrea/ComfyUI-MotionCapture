@@ -2,7 +2,7 @@
 Bone mapping configurations for retargeting SMPL motion to different rig types.
 """
 
-# SMPL to VRoid bone mapping (22 joints → 22 bones, perfect 1:1 match)
+# SMPL to VRoid bone mapping (22 joints -> 22 bones, perfect 1:1 match)
 SMPL_TO_VROID_MAPPING = {
     # Root & Spine
     "hips": "J_Bip_C_Hips",

@@ -59,7 +59,7 @@ class MyTQDMProgressBar(TQDMProgressBar, pl.Callback):
     def init_train_tqdm(self):
         bar = Tqdm(
             desc="Training",  # this will be overwritten anyway
-            bar_format="{desc}{percentage:3.0f}%[{bar:10}][{n_fmt}/{total_fmt}, {elapsed}→{remaining},{rate_fmt}]{postfix}",
+            bar_format="{desc}{percentage:3.0f}%[{bar:10}][{n_fmt}/{total_fmt}, {elapsed}->{remaining},{rate_fmt}]{postfix}",
             position=(2 * self.process_position),
             disable=self.is_disabled,
             leave=False,
@@ -107,8 +107,8 @@ class ProgressReporter(ProgressBar, pl.Callback):
         self.exp_name = exp_name
         self.data_name = data_name
         self.batch_time_queue = deque(maxlen=5)
-        self.start_prompt = "🚀"
-        self.finish_prompt = "✅"
+        self.start_prompt = "[START]"
+        self.finish_prompt = "[DONE]"
         # 2. Utils for evaluation
         self.n_finished = 0
 
@@ -192,7 +192,7 @@ class ProgressReporter(ProgressBar, pl.Callback):
         speed_str = f"{speed:.2f}it/s" if speed > 1 else f"{1/speed:.1f}s/it"
         n_digit = len(str(total))
         desc_speed = (
-            f"[{n_finished:{n_digit}d}/{total}={percent:3.0f}%, {time_elapsed_str} → {time_remaining_str}, {speed_str}]"
+            f"[{n_finished:{n_digit}d}/{total}={percent:3.0f}%, {time_elapsed_str} -> {time_remaining_str}, {speed_str}]"
         )
 
         # ===== Set postfix string ===== #
@@ -237,7 +237,7 @@ class ProgressReporter(ProgressBar, pl.Callback):
         train_metrics_str = convert_kwargs_to_str(**train_metrics)
 
         Log.info(
-            f"{self.finish_prompt}[FIT][Epoch {trainer.current_epoch}] finished! {time_elapsed_str}→{time_remaining_str} | {train_metrics_str}"
+            f"{self.finish_prompt}[FIT][Epoch {trainer.current_epoch}] finished! {time_elapsed_str}->{time_remaining_str} | {train_metrics_str}"
         )
 
     # ===== Validation/Test/Prediction ===== #
@@ -263,7 +263,7 @@ class ProgressReporter(ProgressBar, pl.Callback):
         time_remaining = time_elapsed * (total - n_finished) / n_finished  # second
         time_elapsed_str = convert_t_to_str(time_elapsed)
         time_remaining_str = convert_t_to_str(time_remaining)
-        desc_speed = f"[{n_finished}/{total} ={percent:3.0f}%, {time_elapsed_str}→{time_remaining_str}]"
+        desc_speed = f"[{n_finished}/{total} ={percent:3.0f}%, {time_elapsed_str}->{time_remaining_str}]"
 
         # Output
         bar_output = f"{desc} {desc_speed}"
@@ -288,11 +288,11 @@ class EmojiProgressReporter(ProgressBar, pl.Callback):
         self.refresh_rate_epoch = refresh_rate_epoch
 
         # Style of the progress bar.
-        self.title_prompt = "📝"
-        self.prog_prompt = "🚀"
-        self.timer_prompt = "⌛️"
-        self.metric_prompt = "📌"
-        self.finish_prompt = "✅"
+        self.title_prompt = "[TITLE]"
+        self.prog_prompt = "[PROG]"
+        self.timer_prompt = "[TIME]"
+        self.metric_prompt = "[METRIC]"
+        self.finish_prompt = "[DONE]"
 
     def disable(self):
         self.enable = False

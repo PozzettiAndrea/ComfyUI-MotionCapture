@@ -298,7 +298,7 @@ class SMPLtoBVH:
             )
 
             # Save to file
-            with open(output_path, 'w') as f:
+            with open(output_path, 'w', encoding='utf-8') as f:
                 f.write(bvh_content)
 
             # Prepare BVH data structure for next nodes

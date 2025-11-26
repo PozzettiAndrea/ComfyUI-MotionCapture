@@ -106,7 +106,7 @@ class SMPLToFBX:
             )
 
             script_path = temp_dir / "retarget_script.py"
-            with open(script_path, 'w') as f:
+            with open(script_path, 'w', encoding='utf-8') as f:
                 f.write(blender_script)
 
             Log.info(f"[SMPLToFBX] Created Blender script: {script_path}")
@@ -368,7 +368,7 @@ def smpl_to_bvh(smpl_params, output_path, fps=30):
 
         lines.append(" ".join(f"{{v:.4f}}" for v in values))
 
-    with open(output_path, 'w') as f:
+    with open(output_path, 'w', encoding='utf-8') as f:
         f.write("\\n".join(lines))
 
     print(f"Created BVH: {{output_path}} ({{num_frames}} frames)")

@@ -56,16 +56,16 @@ def get_frame_id_list_from_mask(mask):
 def get_batch_frame_id_lists_from_mask_BLC(masks):
     # batch=64, 0.10s
     """
-    处理三维掩码数组，为每个批次和通道提取连续True区段的索引列表。
+    Process 3D mask array, extract continuous True segment index lists for each batch and channel.
 
-    参数:
-        masks (B, L, C), 布尔张量：每个元素代表一个掩码，True表示需要处理的帧。
+    Args:
+        masks (B, L, C), boolean tensor: each element represents a mask, True indicates frames to process.
 
-    返回:
-        batch_frame_id_lists: 对应于每个批次和每个通道的帧id列表的嵌套列表。
+    Returns:
+        batch_frame_id_lists: nested list of frame id lists for each batch and channel.
     """
     B, L, C = masks.size()
-    # 在序列长度两端添加一个False
+    # Add False at both ends of sequence length
     padded_masks = torch.cat(
         [
             torch.zeros((B, 1, C), dtype=torch.bool, device=masks.device),
@@ -74,18 +74,18 @@ def get_batch_frame_id_lists_from_mask_BLC(masks):
         ],
         dim=1,
     )
-    # 计算差分来找到True区段的起始和结束点
+    # Compute diff to find start and end of True segments
     diffs = torch.diff(padded_masks.int(), dim=1)
     starts = (diffs == 1).nonzero(as_tuple=True)
     ends = (diffs == -1).nonzero(as_tuple=True)
 
-    # 初始化返回列表
+    # Initialize return list
     batch_frame_id_lists = [[[] for _ in range(C)] for _ in range(B)]
     for b in range(B):
         for c in range(C):
             batch_start = starts[0][(starts[0] == b) & (starts[2] == c)]
             batch_end = ends[0][(ends[0] == b) & (ends[2] == c)]
-            # 确保start和end都是1维张量
+            # Ensure start and end are 1D tensors
             batch_frame_id_lists[b][c] = [
                 torch.arange(start.item(), end.item()) for start, end in zip(batch_start, batch_end)
             ]

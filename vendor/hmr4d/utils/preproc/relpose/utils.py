@@ -17,36 +17,36 @@ def visualize_matches(img0, img1, kp0, kp1, output_dir):
 
 
 def visualize_T_w2c_rotations(T_w2c_list, output_dir):
-    """可视化相机旋转轨迹，并考虑 OpenCV 坐标系转换，
-    使得相机的 x 轴保持右向，z 轴（光轴）变为水平前向，
-    而相机的 y 轴（朝下）对应于 plt 的 -z 轴（即向下）。"""
+    """Visualize camera rotation trajectory with OpenCV coordinate system conversion.
+    Camera x-axis remains pointing right, z-axis (optical axis) becomes horizontal forward,
+    and camera y-axis (pointing down) corresponds to plt -z axis (i.e. down)."""
 
-    # 定义转换矩阵：将 OpenCV 坐标 (x:right, y:down, z:forward)
-    # 转换为 world 坐标 (x:right, y:forward, z:up)
+    # Define transformation matrix: convert OpenCV coordinates (x:right, y:down, z:forward)
+    # to world coordinates (x:right, y:forward, z:up)
     R_align = np.array([[0, 0, 1], [-1, 0, 0], [0, -1, 0]])
 
-    # 原始光轴：在 OpenCV 中通常为 [0, 0, 1]
+    # Original optical axis: typically [0, 0, 1] in OpenCV
     normal_vector = np.array([0, 0, 1])
     aligned_rotated_normals = []
 
-    # 对每一帧的旋转矩阵，先计算光轴旋转后的方向，再进行坐标转换
+    # For each frame's rotation matrix, compute rotated optical axis direction, then apply coordinate conversion
     for T in T_w2c_list:
         R = T[:3, :3]
         rotated_normal = R.T @ normal_vector
-        # 应用对齐变换
+        # Apply alignment transformation
         aligned_normal = R_align @ rotated_normal
         aligned_rotated_normals.append(aligned_normal)
     aligned_rotated_normals = np.array(aligned_rotated_normals)
 
-    # ------------------ 3D 可视化 ------------------
+    # ------------------ 3D Visualization ------------------
     fig = plt.figure(figsize=(12, 10))
     ax = fig.add_subplot(111, projection="3d")
 
-    # 绘制调整后的旋转法向量轨迹
+    # Plot adjusted rotation normal vector trajectory
     ax.plot(aligned_rotated_normals[:, 0], aligned_rotated_normals[:, 1], aligned_rotated_normals[:, 2], "b-")
     ax.scatter(aligned_rotated_normals[:, 0], aligned_rotated_normals[:, 1], aligned_rotated_normals[:, 2], c="r", s=10)
 
-    # 标记起点与终点
+    # Mark start and end points
     ax.scatter(
         aligned_rotated_normals[0, 0],
         aligned_rotated_normals[0, 1],
@@ -66,7 +66,7 @@ def visualize_T_w2c_rotations(T_w2c_list, output_dir):
         label="End",
     )
 
-    # 绘制单位球以便参考：对球面上每个点也应用相同的转换
+    # Draw unit sphere for reference: apply same transformation to each sphere point
     u, v = np.mgrid[0 : 2 * np.pi : 20j, 0 : np.pi : 10j]
     x = np.cos(u) * np.sin(v)
     y = np.sin(u) * np.sin(v)
@@ -78,7 +78,7 @@ def visualize_T_w2c_rotations(T_w2c_list, output_dir):
     Z_aligned = sphere_points_aligned[:, :, 2]
     ax.plot_wireframe(X_aligned, Y_aligned, Z_aligned, color="gray", alpha=0.2)
 
-    # 设置坐标轴比例和范围
+    # Set axis scale and range
     ax.set_box_aspect([1, 1, 1])
     ax.set_xlim([-1.1, 1.1])
     ax.set_ylim([-1.1, 1.1])
@@ -90,7 +90,7 @@ def visualize_T_w2c_rotations(T_w2c_list, output_dir):
     ax.set_title("Camera Rotation T_w2c_list (3D) - Aligned to Camera Conventions")
     ax.legend()
 
-    # 添加帧数标记
+    # Add frame number labels
     frame_count = len(T_w2c_list)
     interval = max(1, frame_count // 10)
     for i in range(0, frame_count, interval):

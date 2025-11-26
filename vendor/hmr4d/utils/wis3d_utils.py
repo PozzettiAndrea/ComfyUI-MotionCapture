@@ -341,7 +341,7 @@ def create_checkerboard_mesh(y=0.0, grid_size=1.0, bounds=((-3, -3), (3, 3))):
     color1 = np.array([236, 240, 241], np.uint8)  # light
     color2 = np.array([120, 120, 120], np.uint8)  # dark
 
-    # 扩大范围
+    # Expand range
     min_x, min_z = bounds[0]
     max_x, max_z = bounds[1]
     min_x = grid_size * np.floor(min_x / grid_size)

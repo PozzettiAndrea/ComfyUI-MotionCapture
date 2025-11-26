@@ -103,7 +103,7 @@ SMPLH_PART_IDX_FULL = {
     'lower_body': [_name_2_idx_full[x] for x in ['pelvis'] + SMPLH_LEFT_LEG + SMPLH_RIGHT_LEG]
 }
 
-# ===== ⬇️ Fitting optimizer ⬇️ ===== #
+# ===== Fitting optimizer ===== #
 SMPL_JOINTS = {'hips': 0, 'leftUpLeg': 1, 'rightUpLeg': 2, 'spine': 3, 'leftLeg': 4, 'rightLeg': 5,
                'spine1': 6, 'leftFoot': 7, 'rightFoot': 8, 'spine2': 9, 'leftToeBase': 10, 'rightToeBase': 11,
                'neck': 12, 'leftShoulder': 13, 'rightShoulder': 14, 'head': 15, 'leftArm': 16, 'rightArm': 17,

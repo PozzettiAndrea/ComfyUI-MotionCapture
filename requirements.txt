@@ -27,16 +27,14 @@ av>=13.0.0
 # Video processing
 ffmpeg-python
 
-# Visualization
-matplotlib
-tensorboardX
+# Visualization (matplotlib and tensorboardX removed - not needed for inference)
 
 # 3D vision and body models
 # SKIPPED: pytorch3d (replaced with custom pure-PyTorch shim in vendor/hmr4d/utils/pytorch3d_shim.py)
 trimesh
 chumpy-fork
 smplx
-wis3d
+# wis3d removed - only used for training visualization
 pycolmap
 
 # BVH (Biovision Hierarchy) file format support
