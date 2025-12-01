@@ -8,8 +8,9 @@ __pycache__/
 dist/
 build/
 
-# Models (stored in ComfyUI/models/motion_capture/ instead)
-models/
+# Model weights (stored in ComfyUI/models/motion_capture/ instead)
+/models/
+!vendor/sam_3d_body/models/
 *.ckpt
 *.pth
 *.pkl
