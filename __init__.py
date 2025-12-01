@@ -1,8 +1,9 @@
 """
 ComfyUI-MotionCapture Custom Node Package
 
-A ComfyUI node package for GVHMR-based motion capture from video.
-Extracts 3D human motion and SMPL parameters from video with SAM3 segmentation.
+A ComfyUI node package for motion capture from video.
+Supports both GVHMR (SMPL output) and SAM 3D Body (MHR output) backends.
+Extracts 3D human motion from video with SAM3 segmentation.
 """
 
 import sys
@@ -32,6 +33,12 @@ from .nodes.compare_smpl_bvh_node import CompareSMPLtoBVH
 from .nodes.bvh_loader_node import LoadBVHFromFolder
 from .nodes.smpl_retarget_node import SMPLRetargetToSMPL
 
+# SAM 3D Body nodes (MHR 70-keypoint skeleton)
+from .nodes.sam3d_loader_node import LoadSAM3DBodyModels
+from .nodes.sam3d_inference_node import SAM3DVideoInference
+from .nodes.mhr_viewer_node import MHRViewer
+from .nodes.save_mhr_node import SaveMHR
+
 # ComfyUI node registration
 NODE_CLASS_MAPPINGS = {
     "LoadGVHMRModels": LoadGVHMRModels,
@@ -49,6 +56,11 @@ NODE_CLASS_MAPPINGS = {
     "CompareSMPLtoBVH": CompareSMPLtoBVH,
     "LoadBVHFromFolder": LoadBVHFromFolder,
     "SMPLRetargetToSMPL": SMPLRetargetToSMPL,
+    # SAM 3D Body nodes
+    "LoadSAM3DBodyModels": LoadSAM3DBodyModels,
+    "SAM3DVideoInference": SAM3DVideoInference,
+    "MHRViewer": MHRViewer,
+    "SaveMHR": SaveMHR,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -67,6 +79,11 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "CompareSMPLtoBVH": "Compare SMPL vs BVH",
     "LoadBVHFromFolder": "Load BVH (Dropdown)",
     "SMPLRetargetToSMPL": "SMPL to SMPL Retargeting",
+    # SAM 3D Body nodes
+    "LoadSAM3DBodyModels": "Load SAM 3D Body Models",
+    "SAM3DVideoInference": "SAM3D Video Inference",
+    "MHRViewer": "MHR Skeleton Viewer",
+    "SaveMHR": "Save MHR Motion",
 }
 
 # Module info
@@ -76,9 +93,18 @@ __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"]
 
 print(f"\n{'='*60}")
 print(f"ComfyUI-MotionCapture v{__version__} loaded successfully!")
-print(f"Nodes available:")
+print(f"")
+print(f"GVHMR Nodes (SMPL 24-joint output):")
 print(f"  - LoadGVHMRModels: Load GVHMR model pipeline")
-print(f"  - GVHMRInference: Run motion capture inference")
+print(f"  - GVHMRInference: Run GVHMR motion capture inference")
+print(f"")
+print(f"SAM 3D Body Nodes (MHR 70-keypoint output with hands):")
+print(f"  - LoadSAM3DBodyModels: Load SAM 3D Body model")
+print(f"  - SAM3DVideoInference: Run SAM3D inference with temporal smoothing")
+print(f"  - MHRViewer: Interactive 3D skeleton viewer for MHR output")
+print(f"  - SaveMHR: Save MHR motion data to disk")
+print(f"")
+print(f"Common Nodes:")
 print(f"  - SMPLViewer: Interactive 3D viewer for SMPL meshes")
 print(f"  - SaveSMPL: Save SMPL motion data to disk")
 print(f"  - LoadSMPL: Load SMPL motion data from disk")
