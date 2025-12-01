@@ -198,6 +198,7 @@ class SAM3DBodyEstimator:
                     "mask": masks[idx] if masks is not None else None,
                     "pred_joint_coords": out["pred_joint_coords"][idx],
                     "pred_global_rots": out["joint_global_rots"][idx],
+                    "pred_keypoints_3d_cam": out["pred_keypoints_3d_cam"][idx],
                 }
             )
 

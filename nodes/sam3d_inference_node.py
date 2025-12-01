@@ -283,6 +283,7 @@ class SAM3DVideoInference:
 
         # Stack arrays
         keypoints_3d = []
+        keypoints_3d_cam = []
         keypoints_2d = []
         vertices = []
         cam_t = []
@@ -299,6 +300,7 @@ class SAM3DVideoInference:
                 out = valid_outputs[min(i, len(valid_outputs)-1)]
 
             keypoints_3d.append(out["pred_keypoints_3d"])
+            keypoints_3d_cam.append(out.get("pred_keypoints_3d_cam", out["pred_keypoints_3d"] + out["pred_cam_t"]))
             keypoints_2d.append(out["pred_keypoints_2d"])
             vertices.append(out["pred_vertices"])
             cam_t.append(out["pred_cam_t"])
@@ -313,6 +315,7 @@ class SAM3DVideoInference:
             "type": "mhr",
             "num_frames": num_frames,
             "keypoints_3d": torch.from_numpy(np.stack(keypoints_3d)).float(),  # [F, 70, 3]
+            "keypoints_3d_cam": torch.from_numpy(np.stack(keypoints_3d_cam)).float(),  # [F, 70, 3] camera-space
             "keypoints_2d": torch.from_numpy(np.stack(keypoints_2d)).float(),  # [F, 70, 2]
             "vertices": torch.from_numpy(np.stack(vertices)).float(),          # [F, V, 3]
             "cam_t": torch.from_numpy(np.stack(cam_t)).float(),                # [F, 3]
@@ -337,6 +340,16 @@ class SAM3DVideoInference:
             method=method,
         )
         mhr_params["keypoints_3d"] = smoothed_kp3d
+
+        # Smooth camera-space keypoints
+        if mhr_params.get("keypoints_3d_cam") is not None:
+            smoothed_kp3d_cam, _ = self.smooth_mhr_sequence(
+                mhr_params["keypoints_3d_cam"],
+                None,
+                sigma=sigma,
+                method=method,
+            )
+            mhr_params["keypoints_3d_cam"] = smoothed_kp3d_cam
 
         # Smooth joint coords
         if mhr_params.get("joint_coords") is not None:
