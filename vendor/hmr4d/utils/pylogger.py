@@ -9,20 +9,21 @@ def sync_time():
     return time()
 
 
-Log = logging.getLogger()
+Log = logging.getLogger("hmr4d")  # Use named logger to avoid polluting root logger
 Log.time = time
 Log.sync_time = sync_time
 
-# Set default
-Log.setLevel(logging.INFO)
-ch = logging.StreamHandler()
-ch.setLevel(logging.INFO)
-# Use colorlog
-formatstring = "[%(cyan)s%(asctime)s%(reset)s][%(log_color)s%(levelname)s%(reset)s] %(message)s"
-datefmt = "%m/%d %H:%M:%S"
-ch.setFormatter(ColoredFormatter(formatstring, datefmt=datefmt))
-
-Log.addHandler(ch)
+# Set default - only if no handlers exist (prevents duplicate handlers on reload)
+if not Log.handlers:
+    Log.setLevel(logging.INFO)
+    Log.propagate = False  # Don't propagate to root logger
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.INFO)
+    # Use colorlog
+    formatstring = "[%(cyan)s%(asctime)s%(reset)s][%(log_color)s%(levelname)s%(reset)s] %(message)s"
+    datefmt = "%m/%d %H:%M:%S"
+    ch.setFormatter(ColoredFormatter(formatstring, datefmt=datefmt))
+    Log.addHandler(ch)
 # Log.info("Init-Logger")
 
 
