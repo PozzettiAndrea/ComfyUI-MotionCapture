@@ -21,6 +21,7 @@ from hmr4d.utils.geo.hmr_cam import get_bbx_xys_from_xyxy, estimate_K, create_ca
 from hmr4d.utils.geo_transform import compute_cam_angvel
 from hmr4d.utils.smplx_utils import make_smplx
 from hmr4d.utils.net_utils import to_cuda
+from hmr4d.utils.preproc.relpose.simple_vo import SimpleVO
 
 # Import local utilities
 from .utils import (
@@ -31,6 +32,19 @@ from .utils import (
     validate_masks,
     validate_images,
 )
+
+
+def _save_temp_video(images_np: np.ndarray, fps: int = 30) -> str:
+    """Save numpy images to temporary video file for SimpleVO."""
+    import tempfile
+    temp_path = tempfile.mktemp(suffix=".mp4")
+    h, w = images_np.shape[1:3]
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    writer = cv2.VideoWriter(temp_path, fourcc, fps, (w, h))
+    for frame in images_np:
+        writer.write(cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
+    writer.release()
+    return temp_path
 
 
 class GVHMRInference:
@@ -65,6 +79,19 @@ class GVHMRInference:
                     "step": 0.1,
                     "tooltip": "Expand bounding box by this factor to ensure full person capture"
                 }),
+                "vo_scale": ("FLOAT", {
+                    "default": 0.5,
+                    "min": 0.1,
+                    "max": 1.0,
+                    "step": 0.1,
+                    "tooltip": "Scale factor for visual odometry processing (lower = faster, only used when static_camera=False)"
+                }),
+                "vo_step": ("INT", {
+                    "default": 8,
+                    "min": 1,
+                    "max": 30,
+                    "tooltip": "Frame step for feature matching in VO (higher = faster but less accurate, only used when static_camera=False)"
+                }),
             }
         }
 
@@ -81,6 +108,8 @@ class GVHMRInference:
         static_camera: bool,
         focal_length_mm: int,
         bbox_scale: float,
+        vo_scale: float,
+        vo_step: int,
     ) -> Dict:
         """
         Prepare data dictionary for GVHMR inference from images and masks.
@@ -139,10 +168,29 @@ class GVHMRInference:
         if static_camera:
             R_w2c = torch.eye(3).repeat(batch_size, 1, 1)
         else:
-            # For moving camera, we would need to run visual odometry
-            # For now, default to static if not implemented
-            Log.warn("[GVHMRInference] Moving camera mode not fully implemented, using static")
-            R_w2c = torch.eye(3).repeat(batch_size, 1, 1)
+            # Run visual odometry to estimate camera motion
+            try:
+                Log.info("[GVHMRInference] Running visual odometry for moving camera...")
+
+                # Save frames to temp video (SimpleVO requires video path)
+                temp_video = _save_temp_video(images_np)
+
+                # Run SimpleVO
+                f_mm = focal_length_mm if focal_length_mm > 0 else 24
+                vo = SimpleVO(temp_video, scale=vo_scale, step=vo_step, method="sift", f_mm=f_mm)
+                T_w2c_list = vo.compute()
+
+                # Clean up temp file
+                os.remove(temp_video)
+
+                # Extract rotation matrices (upper-left 3x3 of each 4x4 transform)
+                R_w2c = torch.tensor(np.stack([T[:3, :3] for T in T_w2c_list]), dtype=torch.float32)
+
+                Log.info(f"[GVHMRInference] Visual odometry complete: {len(T_w2c_list)} poses estimated")
+
+            except Exception as e:
+                Log.warn(f"[GVHMRInference] Visual odometry failed: {e}, falling back to static camera")
+                R_w2c = torch.eye(3).repeat(batch_size, 1, 1)
 
         cam_angvel = compute_cam_angvel(R_w2c)
 
@@ -166,6 +214,8 @@ class GVHMRInference:
         static_camera: bool = True,
         focal_length_mm: int = 0,
         bbox_scale: float = 1.2,
+        vo_scale: float = 0.5,
+        vo_step: int = 8,
     ):
         """
         Run GVHMR inference on images with SAM3 masks.
@@ -176,7 +226,7 @@ class GVHMRInference:
 
             # Prepare data
             data, K_fullimg = self.prepare_data_from_masks(
-                images, masks, model, static_camera, focal_length_mm, bbox_scale
+                images, masks, model, static_camera, focal_length_mm, bbox_scale, vo_scale, vo_step
             )
 
             # Run GVHMR inference
