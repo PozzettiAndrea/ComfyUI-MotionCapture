@@ -101,3 +101,4 @@ pytorch_version = "auto"
 # Other ComfyUI custom nodes required by workflows (if any)
 
 [node_reqs]
+ComfyUI-VideoHelperSuite = "Kosinkadink/ComfyUI-VideoHelperSuite"

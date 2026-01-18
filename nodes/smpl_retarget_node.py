@@ -43,6 +43,8 @@ class SMPLRetargetWorker:
     Runs in the mocap isolated environment with bpy package.
     """
 
+    FUNCTION = "retarget"
+
     def retarget(
         self,
         input_fbx: str,
