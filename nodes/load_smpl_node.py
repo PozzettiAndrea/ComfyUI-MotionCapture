@@ -57,9 +57,16 @@ class LoadSMPL:
 
     @classmethod
     def INPUT_TYPES(cls):
+        # Get files from both directories for server-side validation
+        npz_files = list(set(
+            cls.get_npz_files_from_output() + cls.get_npz_files_from_input()
+        ))
+        if not npz_files:
+            npz_files = [""]  # Provide fallback to avoid empty list
+
         return {
             "required": {
-                "npz_file": ("COMBO", {
+                "npz_file": (npz_files, {
                     "remote": {
                         "route": "/motioncapture/npz_files",
                         "refresh_button": True,
