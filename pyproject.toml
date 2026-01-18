@@ -30,6 +30,9 @@ dependencies = [
     "addict",
     "omegaconf",
     "huggingface-hub",
+    "comfy-env",
+    "comfy-test",
+    "comfy-3d-viewers",
 ]
 
 [project.urls]
