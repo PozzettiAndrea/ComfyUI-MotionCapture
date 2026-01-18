@@ -1,70 +1,94 @@
 """
-FBX Preview Node - Interactive 3D viewer for FBX characters
+FBX Preview Node - Interactive 3D viewer for FBX meshes using comfy-3d-viewers.
+
+Displays rigged FBX files with Three.js viewer and skeleton visualization.
 """
 
-from typing import Tuple
-from hmr4d.utils.pylogger import Log
+import os
+from pathlib import Path
+
+try:
+    import folder_paths
+except ImportError:
+    folder_paths = None
 
 
-class FBXPreview:
+class MocapPreviewRiggedMesh:
     """
-    Display an interactive 3D preview of an FBX character.
-    Shows mesh, skeleton, and allows rotation/zoom.
+    Preview rigged mesh with interactive FBX viewer.
+
+    Displays the rigged FBX in a Three.js viewer with skeleton visualization
+    and interactive controls. Uses the shared comfy-3d-viewers infrastructure.
     """
 
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "fbx_path": ("STRING", {
-                    "forceInput": True,
+                "fbx_output_path": ("STRING", {
+                    "tooltip": "FBX filename from output directory"
                 }),
+            },
+        }
+
+    RETURN_TYPES = ()
+    OUTPUT_NODE = True
+    FUNCTION = "preview"
+    CATEGORY = "MotionCapture/Visualization"
+
+    def preview(self, fbx_output_path):
+        """Preview the rigged mesh in an interactive FBX viewer."""
+        print(f"[MocapPreviewRiggedMesh] Preparing preview...")
+
+        # Get output directory
+        if folder_paths:
+            output_dir = folder_paths.get_output_directory()
+        else:
+            output_dir = Path("output")
+
+        fbx_path = os.path.join(output_dir, fbx_output_path)
+
+        if not os.path.exists(fbx_path):
+            print(f"[MocapPreviewRiggedMesh] Warning: FBX file not found: {fbx_output_path}")
+            return {
+                "ui": {
+                    "fbx_file": [fbx_output_path],
+                    "has_skinning": [False],
+                    "has_skeleton": [False],
+                    "error": ["File not found"],
+                }
+            }
+
+        print(f"[MocapPreviewRiggedMesh] FBX path: {fbx_path}")
+
+        # Assume FBX files have skinning and skeleton (retargeted animations)
+        has_skinning = True
+        has_skeleton = True
+
+        print(f"[MocapPreviewRiggedMesh] Has skinning: {has_skinning}")
+        print(f"[MocapPreviewRiggedMesh] Has skeleton: {has_skeleton}")
+
+        return {
+            "ui": {
+                "fbx_file": [fbx_output_path],
+                "has_skinning": [bool(has_skinning)],
+                "has_skeleton": [bool(has_skeleton)],
             }
         }
 
-    RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("fbx_path",)
-    FUNCTION = "preview"
-    OUTPUT_NODE = True
+
+# Keep FBXPreview as an alias for backwards compatibility
+class FBXPreview(MocapPreviewRiggedMesh):
+    """Alias for MocapPreviewRiggedMesh for backwards compatibility."""
     CATEGORY = "MotionCapture"
-
-    def preview(self, fbx_path: str):
-        """
-        Display FBX preview in ComfyUI UI.
-
-        Args:
-            fbx_path: Absolute path to FBX file
-
-        Returns:
-            Dict with ui key for web extension
-        """
-        try:
-            Log.info(f"[FBXPreview] Displaying preview for: {fbx_path}")
-
-            # The actual preview is handled by the web extension
-            # Return ui dict to send data to onExecuted callback
-            return {
-                "ui": {
-                    "fbx_path": [fbx_path]
-                }
-            }
-
-        except Exception as e:
-            error_msg = f"FBXPreview failed: {str(e)}"
-            Log.error(error_msg)
-            import traceback
-            traceback.print_exc()
-            return {
-                "ui": {
-                    "fbx_path": [""]
-                }
-            }
 
 
 NODE_CLASS_MAPPINGS = {
-    "FBXPreview": FBXPreview,
+    "MocapPreviewRiggedMesh": MocapPreviewRiggedMesh,
+    "FBXPreview": FBXPreview,  # Keep old name for compatibility
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "FBXPreview": "FBX 3D Preview",
+    "MocapPreviewRiggedMesh": "Mocap: Preview Rigged Mesh",
+    "FBXPreview": "FBX 3D Preview (Legacy)",
 }
