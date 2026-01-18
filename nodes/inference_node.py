@@ -70,7 +70,7 @@ class GVHMRInference:
                     "default": 0,
                     "min": 0,
                     "max": 300,
-                    "tooltip": "Camera focal length in mm (0 = auto-estimate). For phones: 13-77mm typical"
+                    "tooltip": "Camera focal length in mm (0 = auto-estimate). Ignored if intrinsics input is connected. Phones: 13-77mm typical"
                 }),
                 "bbox_scale": ("FLOAT", {
                     "default": 1.2,
@@ -92,6 +92,9 @@ class GVHMRInference:
                     "max": 30,
                     "tooltip": "Frame step for feature matching in VO (higher = faster but less accurate, only used when static_camera=False)"
                 }),
+                "intrinsics": ("INTRINSICS", {
+                    "tooltip": "Camera intrinsics matrix (3x3). Connect from DepthAnything V3 or other source. Overrides focal_length_mm if provided."
+                }),
             }
         }
 
@@ -110,6 +113,7 @@ class GVHMRInference:
         bbox_scale: float,
         vo_scale: float,
         vo_step: int,
+        intrinsics: torch.Tensor = None,
     ) -> Dict:
         """
         Prepare data dictionary for GVHMR inference from images and masks.
@@ -158,13 +162,33 @@ class GVHMRInference:
         feature_extractor = model_bundle["feature_extractor"]
         f_imgseq = feature_extractor.extract_video_features(imgs_tensor, bbx_xys_processed, img_ds=1.0)
 
-        # Estimate camera intrinsics
-        if focal_length_mm > 0:
+        # Camera intrinsics: use provided K, or estimate from focal_length_mm, or auto-estimate
+        if intrinsics is not None:
+            Log.info(f"[GVHMRInference] Using provided camera intrinsics, input shape: {intrinsics.shape}")
+            # Squeeze extra dimensions (DA3 outputs [1, 1, 3, 3])
+            K = intrinsics.squeeze()
+            while K.dim() > 3:
+                K = K.squeeze(0)
+            # Handle different input shapes
+            if K.dim() == 2:  # (3, 3) - single matrix
+                K_fullimg = K.unsqueeze(0).repeat(batch_size, 1, 1)
+            elif K.dim() == 3 and K.shape[0] == 1:  # (1, 3, 3)
+                K_fullimg = K.repeat(batch_size, 1, 1)
+            elif K.dim() == 3 and K.shape[0] == batch_size:  # (B, 3, 3)
+                K_fullimg = K
+            else:
+                Log.warn(f"[GVHMRInference] Unexpected intrinsics shape {K.shape}, falling back to estimation")
+                K_fullimg = estimate_K(width, height).repeat(batch_size, 1, 1)
+            Log.info(f"[GVHMRInference] Intrinsics fx={K_fullimg[0,0,0]:.1f}, fy={K_fullimg[0,1,1]:.1f}, cx={K_fullimg[0,0,2]:.1f}, cy={K_fullimg[0,1,2]:.1f}")
+        elif focal_length_mm > 0:
+            Log.info(f"[GVHMRInference] Using focal length: {focal_length_mm}mm")
             K_fullimg = create_camera_sensor(width, height, focal_length_mm)[2].repeat(batch_size, 1, 1)
         else:
+            Log.info("[GVHMRInference] Auto-estimating camera intrinsics (53° FOV)")
             K_fullimg = estimate_K(width, height).repeat(batch_size, 1, 1)
 
         # Handle camera motion
+        t_w2c = None  # Camera translation (for future use)
         if static_camera:
             R_w2c = torch.eye(3).repeat(batch_size, 1, 1)
         else:
@@ -185,8 +209,11 @@ class GVHMRInference:
 
                 # Extract rotation matrices (upper-left 3x3 of each 4x4 transform)
                 R_w2c = torch.tensor(np.stack([T[:3, :3] for T in T_w2c_list]), dtype=torch.float32)
+                # Extract translation vectors (right column of each 4x4 transform)
+                t_w2c = torch.tensor(np.stack([T[:3, 3] for T in T_w2c_list]), dtype=torch.float32)
 
                 Log.info(f"[GVHMRInference] Visual odometry complete: {len(T_w2c_list)} poses estimated")
+                Log.info(f"[GVHMRInference] Camera translation range: {t_w2c.abs().max().item():.3f}m")
 
             except Exception as e:
                 Log.warn(f"[GVHMRInference] Visual odometry failed: {e}, falling back to static camera")
@@ -204,7 +231,14 @@ class GVHMRInference:
             "f_imgseq": f_imgseq,
         }
 
-        return data, K_fullimg
+        # Store camera transforms for potential future use
+        camera_data = {
+            "R_w2c": R_w2c,
+            "t_w2c": t_w2c,
+            "K_fullimg": K_fullimg,
+        }
+
+        return data, camera_data
 
     def run_inference(
         self,
@@ -216,6 +250,7 @@ class GVHMRInference:
         bbox_scale: float = 1.2,
         vo_scale: float = 0.5,
         vo_step: int = 8,
+        intrinsics: torch.Tensor = None,
     ):
         """
         Run GVHMR inference on images with SAM3 masks.
@@ -225,8 +260,8 @@ class GVHMRInference:
             Log.info(f"[GVHMRInference] Input shape: {images.shape}, Masks shape: {masks.shape}")
 
             # Prepare data
-            data, K_fullimg = self.prepare_data_from_masks(
-                images, masks, model, static_camera, focal_length_mm, bbox_scale, vo_scale, vo_step
+            data, camera_data = self.prepare_data_from_masks(
+                images, masks, model, static_camera, focal_length_mm, bbox_scale, vo_scale, vo_step, intrinsics
             )
 
             # Run GVHMR inference
@@ -241,7 +276,9 @@ class GVHMRInference:
             smpl_params = {
                 "global": pred["smpl_params_global"],
                 "incam": pred["smpl_params_incam"],
-                "K_fullimg": K_fullimg,
+                "K_fullimg": camera_data["K_fullimg"],
+                "R_w2c": camera_data["R_w2c"],
+                "t_w2c": camera_data["t_w2c"],
             }
 
             # Create visualization
