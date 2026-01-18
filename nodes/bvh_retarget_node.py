@@ -83,6 +83,8 @@ class BVHtoFBXWorker:
     Runs in the mocap isolated environment with bpy package.
     """
 
+    FUNCTION = "retarget"
+
     def retarget(
         self,
         bvh_file: str,

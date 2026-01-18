@@ -201,6 +201,8 @@ class SMPLToFBXWorker:
     Runs in the mocap isolated environment with bpy package.
     """
 
+    FUNCTION = "retarget"
+
     def retarget(
         self,
         smpl_data_path: str,
