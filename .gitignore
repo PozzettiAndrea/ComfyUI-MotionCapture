@@ -34,3 +34,9 @@ _temp_blender_download/
 
 # Temp files for retargeting
 temp/
+
+# Web viewer files (generated at runtime from comfy-3d-viewers)
+web/
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
