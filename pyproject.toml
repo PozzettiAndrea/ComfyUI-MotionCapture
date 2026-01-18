@@ -7,33 +7,7 @@ requires-python = ">=3.10"
 
 # Standard dependencies that can be installed via pip
 # CUDA-specific packages (spconv, torch-scatter, torch-cluster) are handled by install.py
-dependencies = [
-    # ─── Core computation ─────────────────────────
-    "numpy>=1.20",
-    "scipy",
-
-    # ─── 3D mesh + SMPL models ────────────────────
-    "trimesh",
-    "smplx",
-    "chumpy-fork",     # SMPL/SMPL-X uses this
-
-    # ─── Motion / BVH handling ────────────────────
-    "bvh>=0.3",
-
-    # ─── Image / video IO (tiny) ──────────────────
-    "imageio>=2.34",
-    "av>=13.0.0",
-
-    # ─── Utility deps ─────────────────────────────
-    "einops",
-    "tqdm",
-    "addict",
-    "omegaconf",
-    "huggingface-hub",
-    "comfy-env",
-    "comfy-test",
-    "comfy-3d-viewers",
-]
+dynamic = ["dependencies"]
 
 [project.urls]
 Repository = "https://github.com/PozzettiAndrea/ComfyUI-MotionCapture"
@@ -41,6 +15,13 @@ Documentation = "https://github.com/PozzettiAndrea/ComfyUI-MotionCapture#readme"
 "Bug Tracker" = "https://github.com/PozzettiAndrea/ComfyUI-MotionCapture/issues"
 
 # ComfyUI Registry configuration
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
 [tool.comfy]
 PublisherId = "pznodes"
 DisplayName = "MotionCapture"
