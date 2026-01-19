@@ -32,7 +32,7 @@ class VitPoseExtractor:
 
         # Inference
         L, _, H, W = imgs.shape  # (L, 3, H, W)
-        batch_size = 16
+        batch_size = 8  # Reduced from 16 for lower memory usage
         vitpose = []
         for j in tqdm(range(0, L, batch_size), desc="ViTPose", leave=self.tqdm_leave):
             # Heat map
@@ -69,6 +69,10 @@ class VitPoseExtractor:
                 kp2d = torch.from_numpy(kp2d)
 
             vitpose.append(kp2d.detach().cpu().clone())
+
+            # Periodic memory cleanup to prevent fragmentation
+            if j > 0 and j % (batch_size * 4) == 0:
+                torch.cuda.empty_cache()
 
         vitpose = torch.cat(vitpose, dim=0).clone()  # (F, 17, 3)
         return vitpose

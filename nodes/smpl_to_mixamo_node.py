@@ -96,28 +96,64 @@ def _ensure_rokoko_addon():
     except Exception:
         pass
 
-    # Download and install Rokoko addon
-    print("[SMPLToMixamo] Downloading Rokoko addon...")
-    addon_url = "https://github.com/Rokoko/rokoko-studio-live-blender/releases/download/v2.6.0/rokoko_studio_live_blender_v2.6.0.zip"
+    # Download and install Rokoko addon v1.4.3
+    print("[SMPLToMixamo] Downloading Rokoko addon v1.4.3...")
+    addon_url = "https://github.com/Rokoko/rokoko-studio-live-blender/archive/refs/tags/v1-4-3.zip"
 
     try:
         import urllib.request
-        addon_path = os.path.join(tempfile.gettempdir(), "rokoko_addon.zip")
-        urllib.request.urlretrieve(addon_url, addon_path)
+        import zipfile
+        import shutil
 
-        # Install addon
-        bpy.ops.preferences.addon_install(filepath=addon_path)
-        bpy.ops.preferences.addon_enable(module="rokoko_studio_live_blender")
+        temp_dir = tempfile.gettempdir()
+        zip_path = os.path.join(temp_dir, "rokoko_addon.zip")
+        extract_dir = os.path.join(temp_dir, "rokoko_extract")
 
-        # Cleanup
-        os.remove(addon_path)
+        # Download
+        urllib.request.urlretrieve(addon_url, zip_path)
 
-        _ROKOKO_INSTALLED = True
-        print("[SMPLToMixamo] Rokoko addon installed and enabled")
-        return True
+        # Extract
+        if os.path.exists(extract_dir):
+            shutil.rmtree(extract_dir)
+        with zipfile.ZipFile(zip_path, 'r') as zf:
+            zf.extractall(extract_dir)
+
+        # Find the extracted folder (rokoko-studio-live-blender-1-4-3)
+        extracted_folder = None
+        for item in os.listdir(extract_dir):
+            if item.startswith("rokoko-studio-live-blender"):
+                extracted_folder = os.path.join(extract_dir, item)
+                break
+
+        if extracted_folder:
+            # Rename to expected addon name
+            addon_folder = os.path.join(extract_dir, "rokoko_studio_live_blender")
+            if os.path.exists(addon_folder):
+                shutil.rmtree(addon_folder)
+            shutil.move(extracted_folder, addon_folder)
+
+            # Create zip for Blender addon installer
+            addon_zip = os.path.join(temp_dir, "rokoko_ready.zip")
+            shutil.make_archive(addon_zip.replace('.zip', ''), 'zip', extract_dir, "rokoko_studio_live_blender")
+
+            # Install addon
+            bpy.ops.preferences.addon_install(filepath=addon_zip)
+            bpy.ops.preferences.addon_enable(module="rokoko_studio_live_blender")
+
+            # Cleanup
+            os.remove(zip_path)
+            os.remove(addon_zip)
+            shutil.rmtree(extract_dir)
+
+            _ROKOKO_INSTALLED = True
+            print("[SMPLToMixamo] Rokoko addon v1.4.3 installed and enabled")
+            return True
+
     except Exception as e:
         print(f"[SMPLToMixamo] Warning: Could not install Rokoko addon: {e}")
         return False
+
+    return False
 
 
 def _axis_angle_to_euler_zxy(axis_angle):

@@ -54,6 +54,10 @@ else:
     from .nodes.mixamo_loader_node import LoadMixamoCharacter
     from .nodes.smpl_to_mixamo_node import SMPLToMixamo
 
+    # Skeleton comparison nodes
+    from .nodes.rest_pose_node import ExtractRestPose
+    from .nodes.compare_skeletons_node import CompareSkeletons
+
     # SAM 3D Body nodes (MHR 70-keypoint skeleton)
     from .nodes.sam3d_loader_node import LoadSAM3DBodyModels
     from .nodes.sam3d_inference_node import SAM3DVideoInference
@@ -80,6 +84,9 @@ else:
         # Mixamo nodes
         "LoadMixamoCharacter": LoadMixamoCharacter,
         "SMPLToMixamo": SMPLToMixamo,
+        # Skeleton comparison nodes
+        "ExtractRestPose": ExtractRestPose,
+        "CompareSkeletons": CompareSkeletons,
         # SAM 3D Body nodes
         "LoadSAM3DBodyModels": LoadSAM3DBodyModels,
         "SAM3DVideoInference": SAM3DVideoInference,
@@ -106,6 +113,9 @@ else:
         # Mixamo nodes
         "LoadMixamoCharacter": "Load Mixamo Character",
         "SMPLToMixamo": "SMPL to Mixamo",
+        # Skeleton comparison nodes
+        "ExtractRestPose": "Extract Rest Pose",
+        "CompareSkeletons": "Compare Skeletons",
         # SAM 3D Body nodes
         "LoadSAM3DBodyModels": "Load SAM 3D Body Models",
         "SAM3DVideoInference": "SAM3D Video Inference",
