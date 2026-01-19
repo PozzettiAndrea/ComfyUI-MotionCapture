@@ -135,11 +135,12 @@ def copy_viewers():
 
 
 def copy_assets():
-    """Copy all files from assets/ to ComfyUI/input/"""
+    """Copy all files from assets/ to ComfyUI/input/ (FBX files go to input/3d/)"""
     try:
         custom_node_dir = Path(__file__).parent
         comfyui_dir = custom_node_dir.parent.parent
         input_dir = comfyui_dir / "input"
+        input_3d_dir = input_dir / "3d"  # Subfolder for 3D assets (FBX, etc.)
         assets_src = custom_node_dir / "assets"
 
         if not assets_src.exists():
@@ -147,6 +148,10 @@ def copy_assets():
             return
 
         input_dir.mkdir(parents=True, exist_ok=True)
+        input_3d_dir.mkdir(parents=True, exist_ok=True)
+
+        # File extensions that should go to input/3d/
+        EXTENSIONS_3D = {".fbx"}
 
         copied_count = 0
         skipped_count = 0
@@ -157,7 +162,11 @@ def copy_assets():
             if item.is_dir():
                 continue
 
-            dest = input_dir / item.name
+            # Route FBX and other 3D files to input/3d/, others to input/
+            if item.suffix.lower() in EXTENSIONS_3D:
+                dest = input_3d_dir / item.name
+            else:
+                dest = input_dir / item.name
 
             if dest.exists():
                 skipped_count += 1
@@ -171,7 +180,7 @@ def copy_assets():
                 print(f"[MotionCapture] Failed to copy {item.name}: {e}")
 
         if copied_count > 0:
-            print(f"[MotionCapture] Copied {copied_count} asset file(s) to {input_dir}")
+            print(f"[MotionCapture] Copied {copied_count} asset file(s)")
         if skipped_count > 0:
             print(f"[MotionCapture] Skipped {skipped_count} existing asset file(s)")
 

@@ -50,6 +50,10 @@ else:
     from .nodes.bvh_loader_node import LoadBVHFromFolder
     from .nodes.smpl_retarget_node import SMPLRetargetToSMPL
 
+    # Mixamo nodes
+    from .nodes.mixamo_loader_node import LoadMixamoCharacter
+    from .nodes.smpl_to_mixamo_node import SMPLToMixamo
+
     # SAM 3D Body nodes (MHR 70-keypoint skeleton)
     from .nodes.sam3d_loader_node import LoadSAM3DBodyModels
     from .nodes.sam3d_inference_node import SAM3DVideoInference
@@ -73,6 +77,9 @@ else:
         "CompareSMPLtoBVH": CompareSMPLtoBVH,
         "LoadBVHFromFolder": LoadBVHFromFolder,
         "SMPLRetargetToSMPL": SMPLRetargetToSMPL,
+        # Mixamo nodes
+        "LoadMixamoCharacter": LoadMixamoCharacter,
+        "SMPLToMixamo": SMPLToMixamo,
         # SAM 3D Body nodes
         "LoadSAM3DBodyModels": LoadSAM3DBodyModels,
         "SAM3DVideoInference": SAM3DVideoInference,
@@ -96,6 +103,9 @@ else:
         "CompareSMPLtoBVH": "Compare SMPL vs BVH",
         "LoadBVHFromFolder": "Load BVH (Dropdown)",
         "SMPLRetargetToSMPL": "SMPL to SMPL Retargeting",
+        # Mixamo nodes
+        "LoadMixamoCharacter": "Load Mixamo Character",
+        "SMPLToMixamo": "SMPL to Mixamo",
         # SAM 3D Body nodes
         "LoadSAM3DBodyModels": "Load SAM 3D Body Models",
         "SAM3DVideoInference": "SAM3D Video Inference",
@@ -129,6 +139,10 @@ else:
     print(f"  - BVHtoFBX: Retarget BVH motion to FBX/VRM characters")
     print(f"  - CompareSMPLtoBVH: Side-by-side comparison of SMPL and BVH animations")
     print(f"  - SMPLRetargetToSMPL: Apply SMPL motion to SMPL-rigged FBX")
+    print(f"")
+    print(f"Mixamo Nodes:")
+    print(f"  - LoadMixamoCharacter: Load FBX characters from input/3d")
+    print(f"  - SMPLToMixamo: Retarget SMPL motion to Mixamo characters")
     print(f"{'='*60}\n")
 
     # Web extensions path for ComfyUI
@@ -156,6 +170,18 @@ else:
                 return web.json_response([])
 
         print("[MotionCapture] API endpoint registered: /motioncapture/fbx_files")
+
+        @PromptServer.instance.routes.get('/motioncapture/mixamo_files')
+        async def get_mixamo_files(request):
+            """API endpoint to fetch Mixamo FBX file list from input/3d."""
+            try:
+                files = LoadMixamoCharacter.get_mixamo_files()
+                return web.json_response(files)
+            except Exception as e:
+                print(f"[MotionCapture API] Error getting Mixamo files: {e}")
+                return web.json_response([])
+
+        print("[MotionCapture] API endpoint registered: /motioncapture/mixamo_files")
 
         @PromptServer.instance.routes.get('/motioncapture/npz_files')
         async def get_npz_files(request):

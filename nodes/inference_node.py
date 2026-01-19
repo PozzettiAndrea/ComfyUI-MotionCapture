@@ -23,6 +23,17 @@ from hmr4d.utils.smplx_utils import make_smplx
 from hmr4d.utils.net_utils import to_cuda
 from hmr4d.utils.preproc.relpose.simple_vo import SimpleVO
 
+# Check DPVO availability
+DPVO_AVAILABLE = False
+try:
+    from dpvo.dpvo import DPVO
+    from dpvo.config import cfg as dpvo_cfg
+    from dpvo.utils import Timer
+    DPVO_AVAILABLE = True
+    Log.info("[GVHMRInference] DPVO is available")
+except ImportError:
+    Log.info("[GVHMRInference] DPVO not installed - only SimpleVO will be available")
+
 # Import local utilities
 from .utils import (
     extract_bboxes_from_masks,
@@ -45,6 +56,124 @@ def _save_temp_video(images_np: np.ndarray, fps: int = 30) -> str:
         writer.write(cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
     writer.release()
     return temp_path
+
+
+def _quaternion_to_matrix(quaternions: torch.Tensor) -> torch.Tensor:
+    """
+    Convert quaternions to rotation matrices.
+
+    Args:
+        quaternions: Tensor of shape (N, 4) with quaternions in [w, x, y, z] format
+
+    Returns:
+        Rotation matrices of shape (N, 3, 3)
+    """
+    w, x, y, z = quaternions.unbind(-1)
+
+    # Compute rotation matrix elements
+    xx = 2 * x * x
+    yy = 2 * y * y
+    zz = 2 * z * z
+    xy = 2 * x * y
+    xz = 2 * x * z
+    yz = 2 * y * z
+    wx = 2 * w * x
+    wy = 2 * w * y
+    wz = 2 * w * z
+
+    R = torch.stack([
+        torch.stack([1 - yy - zz, xy - wz, xz + wy], dim=-1),
+        torch.stack([xy + wz, 1 - xx - zz, yz - wx], dim=-1),
+        torch.stack([xz - wy, yz + wx, 1 - xx - yy], dim=-1),
+    ], dim=-2)
+
+    return R
+
+
+def _run_dpvo(images_np: np.ndarray, intrinsics: torch.Tensor, checkpoint_path: str = None) -> Tuple[torch.Tensor, torch.Tensor]:
+    """
+    Run DPVO visual odometry on images.
+
+    Args:
+        images_np: RGB images as numpy array (N, H, W, 3)
+        intrinsics: Camera intrinsics matrix (3, 3) or (N, 3, 3)
+        checkpoint_path: Path to DPVO checkpoint (optional, uses default if None)
+
+    Returns:
+        Tuple of (R_w2c, t_w2c) - rotation matrices (N, 3, 3) and translations (N, 3)
+    """
+    if not DPVO_AVAILABLE:
+        raise RuntimeError("DPVO is not installed")
+
+    # Find checkpoint
+    if checkpoint_path is None:
+        # Try common locations
+        possible_paths = [
+            Path(__file__).parent.parent / "checkpoints" / "dpvo.pth",
+            Path.home() / ".cache" / "dpvo" / "dpvo.pth",
+            Path("/models/dpvo/dpvo.pth"),
+        ]
+        for p in possible_paths:
+            if p.exists():
+                checkpoint_path = str(p)
+                break
+
+        if checkpoint_path is None:
+            raise FileNotFoundError(
+                "DPVO checkpoint not found. Please download dpvo.pth and place it in one of: "
+                f"{[str(p) for p in possible_paths]}"
+            )
+
+    Log.info(f"[GVHMRInference] Running DPVO with checkpoint: {checkpoint_path}")
+
+    num_frames, height, width = images_np.shape[:3]
+
+    # Get intrinsics values
+    if intrinsics.dim() == 3:
+        K = intrinsics[0]
+    else:
+        K = intrinsics
+    fx, fy = K[0, 0].item(), K[1, 1].item()
+    cx, cy = K[0, 2].item(), K[1, 2].item()
+
+    # Initialize DPVO
+    dpvo_cfg.merge_from_file(Path(checkpoint_path).parent / "config.yaml")
+    slam = DPVO(dpvo_cfg, checkpoint_path, ht=height, wd=width, viz=False)
+
+    # Process frames
+    for i, frame in enumerate(tqdm(images_np, desc="DPVO")):
+        # DPVO expects BGR
+        frame_bgr = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        intrinsics_arr = np.array([fx, fy, cx, cy])
+        slam(i, frame_bgr, intrinsics_arr)
+
+    # Get trajectory
+    # DPVO outputs poses as (N, 7): [tx, ty, tz, qx, qy, qz, qw]
+    poses = slam.terminate()
+
+    if poses is None or len(poses) == 0:
+        raise RuntimeError("DPVO failed to estimate camera poses")
+
+    # Convert to torch tensors
+    poses = torch.from_numpy(poses).float()
+
+    # Extract translation (first 3 elements)
+    t_w2c = poses[:, :3]
+
+    # Extract quaternion [qx, qy, qz, qw] -> convert to [w, x, y, z]
+    quat_xyzw = poses[:, 3:7]
+    quat_wxyz = torch.cat([quat_xyzw[:, 3:4], quat_xyzw[:, :3]], dim=-1)
+
+    # Convert quaternion to rotation matrix
+    R_w2c = _quaternion_to_matrix(quat_wxyz)
+
+    # DPVO gives camera-to-world, we need world-to-camera
+    R_w2c = R_w2c.transpose(-1, -2)  # Inverse of rotation = transpose
+    t_w2c = -torch.bmm(R_w2c, t_w2c.unsqueeze(-1)).squeeze(-1)
+
+    Log.info(f"[GVHMRInference] DPVO complete: {len(poses)} poses estimated")
+
+    return R_w2c, t_w2c
 
 
 class GVHMRInference:
@@ -79,6 +208,10 @@ class GVHMRInference:
                     "step": 0.1,
                     "tooltip": "Expand bounding box by this factor to ensure full person capture"
                 }),
+                "vo_method": (["simple_vo", "dpvo"], {
+                    "default": "simple_vo",
+                    "tooltip": "Visual odometry method. DPVO is more accurate but requires extra dependencies (dpvo package + checkpoint)"
+                }),
                 "vo_scale": ("FLOAT", {
                     "default": 0.5,
                     "min": 0.1,
@@ -111,6 +244,7 @@ class GVHMRInference:
         static_camera: bool,
         focal_length_mm: int,
         bbox_scale: float,
+        vo_method: str,
         vo_scale: float,
         vo_step: int,
         intrinsics: torch.Tensor = None,
@@ -188,36 +322,47 @@ class GVHMRInference:
             K_fullimg = estimate_K(width, height).repeat(batch_size, 1, 1)
 
         # Handle camera motion
-        t_w2c = None  # Camera translation (for future use)
+        t_w2c = None  # Camera translation
         if static_camera:
             R_w2c = torch.eye(3).repeat(batch_size, 1, 1)
         else:
             # Run visual odometry to estimate camera motion
             try:
-                Log.info("[GVHMRInference] Running visual odometry for moving camera...")
+                if vo_method == "dpvo":
+                    if not DPVO_AVAILABLE:
+                        Log.warn("[GVHMRInference] DPVO requested but not installed, falling back to SimpleVO")
+                        vo_method = "simple_vo"
+                    else:
+                        Log.info("[GVHMRInference] Running DPVO for moving camera...")
+                        R_w2c, t_w2c = _run_dpvo(images_np, K_fullimg)
+                        Log.info(f"[GVHMRInference] Camera translation range: {t_w2c.abs().max().item():.3f}m")
 
-                # Save frames to temp video (SimpleVO requires video path)
-                temp_video = _save_temp_video(images_np)
+                if vo_method == "simple_vo":
+                    Log.info("[GVHMRInference] Running SimpleVO for moving camera...")
 
-                # Run SimpleVO
-                f_mm = focal_length_mm if focal_length_mm > 0 else 24
-                vo = SimpleVO(temp_video, scale=vo_scale, step=vo_step, method="sift", f_mm=f_mm)
-                T_w2c_list = vo.compute()
+                    # Save frames to temp video (SimpleVO requires video path)
+                    temp_video = _save_temp_video(images_np)
 
-                # Clean up temp file
-                os.remove(temp_video)
+                    # Run SimpleVO
+                    f_mm = focal_length_mm if focal_length_mm > 0 else 24
+                    vo = SimpleVO(temp_video, scale=vo_scale, step=vo_step, method="sift", f_mm=f_mm)
+                    T_w2c_list = vo.compute()
 
-                # Extract rotation matrices (upper-left 3x3 of each 4x4 transform)
-                R_w2c = torch.tensor(np.stack([T[:3, :3] for T in T_w2c_list]), dtype=torch.float32)
-                # Extract translation vectors (right column of each 4x4 transform)
-                t_w2c = torch.tensor(np.stack([T[:3, 3] for T in T_w2c_list]), dtype=torch.float32)
+                    # Clean up temp file
+                    os.remove(temp_video)
 
-                Log.info(f"[GVHMRInference] Visual odometry complete: {len(T_w2c_list)} poses estimated")
-                Log.info(f"[GVHMRInference] Camera translation range: {t_w2c.abs().max().item():.3f}m")
+                    # Extract rotation matrices (upper-left 3x3 of each 4x4 transform)
+                    R_w2c = torch.tensor(np.stack([T[:3, :3] for T in T_w2c_list]), dtype=torch.float32)
+                    # Extract translation vectors (right column of each 4x4 transform)
+                    t_w2c = torch.tensor(np.stack([T[:3, 3] for T in T_w2c_list]), dtype=torch.float32)
+
+                    Log.info(f"[GVHMRInference] SimpleVO complete: {len(T_w2c_list)} poses estimated")
+                    Log.info(f"[GVHMRInference] Camera translation range: {t_w2c.abs().max().item():.3f}m")
 
             except Exception as e:
                 Log.warn(f"[GVHMRInference] Visual odometry failed: {e}, falling back to static camera")
                 R_w2c = torch.eye(3).repeat(batch_size, 1, 1)
+                t_w2c = None
 
         cam_angvel = compute_cam_angvel(R_w2c)
 
@@ -248,6 +393,7 @@ class GVHMRInference:
         static_camera: bool = True,
         focal_length_mm: int = 0,
         bbox_scale: float = 1.2,
+        vo_method: str = "simple_vo",
         vo_scale: float = 0.5,
         vo_step: int = 8,
         intrinsics: torch.Tensor = None,
@@ -261,7 +407,7 @@ class GVHMRInference:
 
             # Prepare data
             data, camera_data = self.prepare_data_from_masks(
-                images, masks, model, static_camera, focal_length_mm, bbox_scale, vo_scale, vo_step, intrinsics
+                images, masks, model, static_camera, focal_length_mm, bbox_scale, vo_method, vo_scale, vo_step, intrinsics
             )
 
             # Run GVHMR inference
@@ -287,10 +433,12 @@ class GVHMRInference:
 
             # Create info string
             num_frames = images.shape[0]
+            vo_info = "N/A (static)" if static_camera else vo_method
             info = (
                 f"GVHMR Inference Complete\n"
                 f"Frames processed: {num_frames}\n"
                 f"Static camera: {static_camera}\n"
+                f"VO method: {vo_info}\n"
                 f"Device: {device}\n"
             )
 
