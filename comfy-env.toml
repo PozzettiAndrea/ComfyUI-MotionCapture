@@ -13,7 +13,7 @@ pytorch_version = "auto"
     [mocap.cuda]
     # CUDA extensions - resolved automatically by comfy-env
     detectron2 = "*"
-    lietorch = "*"
+    dpvo-cuda = "*"  # DPVO CUDA extensions (cuda_corr, cuda_ba, lietorch_backends)
     torch-scatter = "*"
 
     [mocap.packages]

@@ -1,0 +1,363 @@
+{
+  "id": "238c5f4b-4d79-4c1f-a3f2-2b7b9d6b2977",
+  "revision": 0,
+  "last_node_id": 8,
+  "last_link_id": 8,
+  "nodes": [
+    {
+      "id": 3,
+      "type": "LoadSMPL",
+      "pos": [
+        122.43818556804413,
+        -220.8956864587061
+      ],
+      "size": [
+        270,
+        150
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "smpl_params",
+          "type": "SMPL_PARAMS",
+          "links": [
+            1,
+            5
+          ]
+        },
+        {
+          "name": "info",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-motioncapture",
+        "ver": "8dd7b70352f93a7b1ce1a3bde8426816fcb12c26",
+        "Node name for S&R": "LoadSMPL"
+      },
+      "widgets_values": [
+        "tennis.npz",
+        false,
+        "refresh",
+        "output"
+      ]
+    },
+    {
+      "id": 1,
+      "type": "SMPLToMixamo",
+      "pos": [
+        595.1734436142171,
+        -109.57545047008308
+      ],
+      "size": [
+        270,
+        146
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "smpl_params",
+          "type": "SMPL_PARAMS",
+          "link": 1
+        },
+        {
+          "name": "mixamo_fbx_path",
+          "type": "STRING",
+          "widget": {
+            "name": "mixamo_fbx_path"
+          },
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "fbx_path",
+          "type": "STRING",
+          "links": []
+        },
+        {
+          "name": "frame_count",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "info",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-motioncapture",
+        "ver": "8dd7b70352f93a7b1ce1a3bde8426816fcb12c26",
+        "Node name for S&R": "SMPLToMixamo"
+      },
+      "widgets_values": [
+        "",
+        "mixamo_animated",
+        30
+      ]
+    },
+    {
+      "id": 2,
+      "type": "LoadMixamoCharacter",
+      "pos": [
+        157.0463587051959,
+        41.786021123282076
+      ],
+      "size": [
+        270,
+        126
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "fbx_path",
+          "type": "STRING",
+          "links": [
+            2,
+            7
+          ]
+        },
+        {
+          "name": "info",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-motioncapture",
+        "ver": "8dd7b70352f93a7b1ce1a3bde8426816fcb12c26",
+        "Node name for S&R": "LoadMixamoCharacter"
+      },
+      "widgets_values": [
+        "mixamo.fbx",
+        false,
+        "refresh"
+      ]
+    },
+    {
+      "id": 8,
+      "type": "ExtractRestPose",
+      "pos": [
+        478.47611612081647,
+        -644.1996835884742
+      ],
+      "size": [
+        270,
+        126
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "smpl_params",
+          "shape": 7,
+          "type": "SMPL_PARAMS",
+          "link": null
+        },
+        {
+          "name": "fbx_path",
+          "shape": 7,
+          "type": "STRING",
+          "widget": {
+            "name": "fbx_path"
+          },
+          "link": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "fbx_path",
+          "type": "STRING",
+          "links": [
+            8
+          ]
+        },
+        {
+          "name": "info",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-motioncapture",
+        "ver": "8dd7b70352f93a7b1ce1a3bde8426816fcb12c26",
+        "Node name for S&R": "ExtractRestPose"
+      },
+      "widgets_values": [
+        "fbx",
+        "rest_pose_mixamo",
+        ""
+      ]
+    },
+    {
+      "id": 7,
+      "type": "CompareSkeletons",
+      "pos": [
+        854.9882828886376,
+        -1081.0569510574387
+      ],
+      "size": [
+        675.3952918897362,
+        662.2523214634043
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "fbx_path_left",
+          "type": "STRING",
+          "widget": {
+            "name": "fbx_path_left"
+          },
+          "link": 6
+        },
+        {
+          "name": "fbx_path_right",
+          "type": "STRING",
+          "widget": {
+            "name": "fbx_path_right"
+          },
+          "link": 8
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "cnr_id": "comfyui-motioncapture",
+        "ver": "8dd7b70352f93a7b1ce1a3bde8426816fcb12c26",
+        "Node name for S&R": "CompareSkeletons"
+      },
+      "widgets_values": [
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": 6,
+      "type": "ExtractRestPose",
+      "pos": [
+        169.52983133461785,
+        -730.8490589542189
+      ],
+      "size": [
+        270,
+        126
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "smpl_params",
+          "shape": 7,
+          "type": "SMPL_PARAMS",
+          "link": 5
+        }
+      ],
+      "outputs": [
+        {
+          "name": "fbx_path",
+          "type": "STRING",
+          "links": [
+            6
+          ]
+        },
+        {
+          "name": "info",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-motioncapture",
+        "ver": "8dd7b70352f93a7b1ce1a3bde8426816fcb12c26",
+        "Node name for S&R": "ExtractRestPose"
+      },
+      "widgets_values": [
+        "smpl",
+        "rest_pose_smpl",
+        ""
+      ]
+    }
+  ],
+  "links": [
+    [
+      1,
+      3,
+      0,
+      1,
+      0,
+      "SMPL_PARAMS"
+    ],
+    [
+      2,
+      2,
+      0,
+      1,
+      1,
+      "STRING"
+    ],
+    [
+      5,
+      3,
+      0,
+      6,
+      0,
+      "SMPL_PARAMS"
+    ],
+    [
+      6,
+      6,
+      0,
+      7,
+      0,
+      "STRING"
+    ],
+    [
+      7,
+      2,
+      0,
+      8,
+      1,
+      "STRING"
+    ],
+    [
+      8,
+      8,
+      0,
+      7,
+      1,
+      "STRING"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "workflowRendererVersion": "LG",
+    "ds": {
+      "scale": 0.8011770114934955,
+      "offset": [
+        138.81735748335984,
+        1430.5124416589808
+      ]
+    },
+    "frontendVersion": "1.36.14",
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
+  },
+  "version": 0.4
+}
