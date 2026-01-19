@@ -116,14 +116,14 @@ def _quaternion_to_matrix(quaternions: torch.Tensor) -> torch.Tensor:
     return R
 
 
-def _run_dpvo(images_np: np.ndarray, intrinsics: torch.Tensor, checkpoint_path: str = None) -> Tuple[torch.Tensor, torch.Tensor]:
+def _run_dpvo(images_np: np.ndarray, intrinsics: torch.Tensor, dpvo_model: Dict = None) -> Tuple[torch.Tensor, torch.Tensor]:
     """
     Run DPVO visual odometry on images.
 
     Args:
         images_np: RGB images as numpy array (N, H, W, 3)
         intrinsics: Camera intrinsics matrix (3, 3) or (N, 3, 3)
-        checkpoint_path: Path to DPVO checkpoint (optional, uses default if None)
+        dpvo_model: Pre-loaded DPVO model bundle from LoadDPVOModel node
 
     Returns:
         Tuple of (R_w2c, t_w2c) - rotation matrices (N, 3, 3) and translations (N, 3)
@@ -131,24 +131,14 @@ def _run_dpvo(images_np: np.ndarray, intrinsics: torch.Tensor, checkpoint_path: 
     if not DPVO_AVAILABLE:
         raise RuntimeError("DPVO is not installed")
 
-    # Find checkpoint
-    if checkpoint_path is None:
-        # Try common locations
-        possible_paths = [
-            Path(__file__).parent.parent / "checkpoints" / "dpvo.pth",
-            Path.home() / ".cache" / "dpvo" / "dpvo.pth",
-            Path("/models/dpvo/dpvo.pth"),
-        ]
-        for p in possible_paths:
-            if p.exists():
-                checkpoint_path = str(p)
-                break
+    if dpvo_model is None:
+        raise RuntimeError(
+            "DPVO model not provided. Please connect a LoadDPVOModel node to the dpvo_model input."
+        )
 
-        if checkpoint_path is None:
-            raise FileNotFoundError(
-                "DPVO checkpoint not found. Please download dpvo.pth and place it in one of: "
-                f"{[str(p) for p in possible_paths]}"
-            )
+    # Extract model bundle components
+    checkpoint_path = dpvo_model["checkpoint_path"]
+    config_path = dpvo_model.get("config_path")
 
     Log.info(f"[GVHMRInference] Running DPVO with checkpoint: {checkpoint_path}")
 
@@ -162,9 +152,16 @@ def _run_dpvo(images_np: np.ndarray, intrinsics: torch.Tensor, checkpoint_path: 
     fx, fy = K[0, 0].item(), K[1, 1].item()
     cx, cy = K[0, 2].item(), K[1, 2].item()
 
-    # Initialize DPVO
-    dpvo_cfg.merge_from_file(Path(checkpoint_path).parent / "config.yaml")
-    slam = DPVO(dpvo_cfg, checkpoint_path, ht=height, wd=width, viz=False)
+    # Initialize DPVO with pre-loaded config
+    # Use the config from the model bundle if available
+    if "config" in dpvo_model:
+        cfg = dpvo_model["config"].clone()
+    else:
+        # Fall back to loading from file
+        dpvo_cfg.merge_from_file(config_path or Path(checkpoint_path).parent / "config.yaml")
+        cfg = dpvo_cfg
+
+    slam = DPVO(cfg, checkpoint_path, ht=height, wd=width, viz=False)
 
     # Process frames
     for i, frame in enumerate(tqdm(images_np, desc="DPVO")):
@@ -175,7 +172,7 @@ def _run_dpvo(images_np: np.ndarray, intrinsics: torch.Tensor, checkpoint_path: 
 
     # Get trajectory
     # DPVO outputs poses as (N, 7): [tx, ty, tz, qx, qy, qz, qw]
-    poses = slam.terminate()
+    poses, tstamps = slam.terminate()
 
     if poses is None or len(poses) == 0:
         raise RuntimeError("DPVO failed to estimate camera poses")
@@ -254,6 +251,9 @@ class GVHMRInference:
                 "intrinsics": ("INTRINSICS", {
                     "tooltip": "Camera intrinsics matrix (3x3). Connect from DepthAnything V3 or other source. Overrides focal_length_mm if provided."
                 }),
+                "dpvo_model": ("DPVO_MODEL", {
+                    "tooltip": "DPVO model from LoadDPVOModel node. Required for vo_method=dpvo"
+                }),
             }
         }
 
@@ -274,6 +274,7 @@ class GVHMRInference:
         vo_scale: float,
         vo_step: int,
         intrinsics: torch.Tensor = None,
+        dpvo_model: Dict = None,
     ) -> Dict:
         """
         Prepare data dictionary for GVHMR inference from images and masks.
@@ -374,9 +375,12 @@ class GVHMRInference:
                     if not DPVO_AVAILABLE:
                         Log.warn("[GVHMRInference] DPVO requested but not installed, falling back to SimpleVO")
                         vo_method = "simple_vo"
+                    elif dpvo_model is None:
+                        Log.warn("[GVHMRInference] DPVO requested but no dpvo_model provided. Connect a LoadDPVOModel node. Falling back to SimpleVO")
+                        vo_method = "simple_vo"
                     else:
                         Log.info("[GVHMRInference] Running DPVO for moving camera...")
-                        R_w2c, t_w2c = _run_dpvo(images_np, K_fullimg)
+                        R_w2c, t_w2c = _run_dpvo(images_np, K_fullimg, dpvo_model)
                         _clear_cuda_memory()
                         Log.info(f"[GVHMRInference] DPVO complete, camera translation range: {t_w2c.abs().max().item():.3f}m")
 
@@ -441,6 +445,7 @@ class GVHMRInference:
         vo_scale: float = 0.5,
         vo_step: int = 8,
         intrinsics: torch.Tensor = None,
+        dpvo_model: Dict = None,
     ):
         """
         Run GVHMR inference on images with SAM3 masks.
@@ -451,7 +456,7 @@ class GVHMRInference:
 
             # Prepare data
             data, camera_data = self.prepare_data_from_masks(
-                images, masks, model, static_camera, focal_length_mm, bbox_scale, vo_method, vo_scale, vo_step, intrinsics
+                images, masks, model, static_camera, focal_length_mm, bbox_scale, vo_method, vo_scale, vo_step, intrinsics, dpvo_model
             )
 
             # Reload features from disk if they were offloaded

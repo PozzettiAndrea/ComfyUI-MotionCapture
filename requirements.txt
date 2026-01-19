@@ -55,6 +55,9 @@ lapx
 setuptools>=68.0
 yacs
 
+# FBX SDK for debugging/analysis
+fbxsdkpy==2020.1.post2
+
 # Model downloads
 huggingface_hub>=0.20.0
 gdown>=4.7.0

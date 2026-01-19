@@ -35,6 +35,7 @@ else:
 
     # Import nodes
     from .nodes.loader_node import LoadGVHMRModels
+    from .nodes.dpvo_loader_node import LoadDPVOModel
     from .nodes.inference_node import GVHMRInference
     from .nodes.viewer_node import SMPLViewer
     from .nodes.save_smpl_node import SaveSMPL
@@ -67,6 +68,7 @@ else:
     # ComfyUI node registration
     NODE_CLASS_MAPPINGS = {
         "LoadGVHMRModels": LoadGVHMRModels,
+        "LoadDPVOModel": LoadDPVOModel,
         "GVHMRInference": GVHMRInference,
         "SMPLViewer": SMPLViewer,
         "SaveSMPL": SaveSMPL,
@@ -96,6 +98,7 @@ else:
 
     NODE_DISPLAY_NAME_MAPPINGS = {
         "LoadGVHMRModels": "Load GVHMR Models",
+        "LoadDPVOModel": "Load DPVO Model",
         "GVHMRInference": "GVHMR Inference",
         "SMPLViewer": "SMPL 3D Viewer",
         "SaveSMPL": "Save SMPL Motion",
@@ -128,6 +131,7 @@ else:
     print(f"")
     print(f"GVHMR Nodes (SMPL 24-joint output):")
     print(f"  - LoadGVHMRModels: Load GVHMR model pipeline")
+    print(f"  - LoadDPVOModel: Load DPVO visual odometry model (for moving camera)")
     print(f"  - GVHMRInference: Run GVHMR motion capture inference")
     print(f"")
     print(f"SAM 3D Body Nodes (MHR 70-keypoint output with hands):")
