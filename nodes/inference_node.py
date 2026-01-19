@@ -44,6 +44,32 @@ from .utils import (
     validate_images,
 )
 
+import gc
+import tempfile as tempfile_module
+
+
+def _clear_cuda_memory():
+    """Clear CUDA memory cache between pipeline stages."""
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+        torch.cuda.synchronize()
+
+
+def _save_tensor_to_disk(tensor, prefix="tensor"):
+    """Save tensor to temp file and return path."""
+    fd, path = tempfile_module.mkstemp(suffix=".pt", prefix=prefix)
+    os.close(fd)
+    torch.save(tensor.cpu(), path)
+    return path
+
+
+def _load_tensor_from_disk(path, device="cuda"):
+    """Load tensor from disk and delete temp file."""
+    tensor = torch.load(path, map_location=device, weights_only=True)
+    os.remove(path)
+    return tensor
+
 
 def _save_temp_video(images_np: np.ndarray, fps: int = 30) -> str:
     """Save numpy images to temporary video file for SimpleVO."""
@@ -290,11 +316,27 @@ class GVHMRInference:
 
         # Extract 2D keypoints with ViTPose
         kp2d = vitpose_extractor.extract(imgs_tensor, bbx_xys_processed, img_ds=1.0)
+        kp2d = kp2d.cpu()  # Move to CPU immediately
+        _clear_cuda_memory()
+        Log.info("[GVHMRInference] ViTPose complete, GPU memory cleared")
 
         # Extract ViT features
         Log.info("[GVHMRInference] Extracting image features...")
         feature_extractor = model_bundle["feature_extractor"]
         f_imgseq = feature_extractor.extract_video_features(imgs_tensor, bbx_xys_processed, img_ds=1.0)
+
+        # Offload features to disk for long videos to save GPU memory
+        f_imgseq_path = None
+        if f_imgseq.shape[0] > 300:
+            f_imgseq_path = _save_tensor_to_disk(f_imgseq, "f_imgseq_")
+            del f_imgseq
+            f_imgseq = None
+            _clear_cuda_memory()
+            Log.info(f"[GVHMRInference] Features offloaded to disk: {f_imgseq_path}")
+        else:
+            f_imgseq = f_imgseq.cpu()
+            _clear_cuda_memory()
+            Log.info("[GVHMRInference] Features moved to CPU, GPU memory cleared")
 
         # Camera intrinsics: use provided K, or estimate from focal_length_mm, or auto-estimate
         if intrinsics is not None:
@@ -335,7 +377,8 @@ class GVHMRInference:
                     else:
                         Log.info("[GVHMRInference] Running DPVO for moving camera...")
                         R_w2c, t_w2c = _run_dpvo(images_np, K_fullimg)
-                        Log.info(f"[GVHMRInference] Camera translation range: {t_w2c.abs().max().item():.3f}m")
+                        _clear_cuda_memory()
+                        Log.info(f"[GVHMRInference] DPVO complete, camera translation range: {t_w2c.abs().max().item():.3f}m")
 
                 if vo_method == "simple_vo":
                     Log.info("[GVHMRInference] Running SimpleVO for moving camera...")
@@ -356,8 +399,8 @@ class GVHMRInference:
                     # Extract translation vectors (right column of each 4x4 transform)
                     t_w2c = torch.tensor(np.stack([T[:3, 3] for T in T_w2c_list]), dtype=torch.float32)
 
-                    Log.info(f"[GVHMRInference] SimpleVO complete: {len(T_w2c_list)} poses estimated")
-                    Log.info(f"[GVHMRInference] Camera translation range: {t_w2c.abs().max().item():.3f}m")
+                    _clear_cuda_memory()
+                    Log.info(f"[GVHMRInference] SimpleVO complete: {len(T_w2c_list)} poses, GPU memory cleared")
 
             except Exception as e:
                 Log.warn(f"[GVHMRInference] Visual odometry failed: {e}, falling back to static camera")
@@ -374,6 +417,7 @@ class GVHMRInference:
             "K_fullimg": K_fullimg,
             "cam_angvel": cam_angvel,
             "f_imgseq": f_imgseq,
+            "f_imgseq_path": f_imgseq_path,  # Path to offloaded features (None if in memory)
         }
 
         # Store camera transforms for potential future use
@@ -410,6 +454,13 @@ class GVHMRInference:
                 images, masks, model, static_camera, focal_length_mm, bbox_scale, vo_method, vo_scale, vo_step, intrinsics
             )
 
+            # Reload features from disk if they were offloaded
+            if data.get("f_imgseq_path") is not None:
+                Log.info("[GVHMRInference] Reloading features from disk...")
+                data["f_imgseq"] = _load_tensor_from_disk(data["f_imgseq_path"], device="cpu")
+                data["f_imgseq_path"] = None
+                Log.info("[GVHMRInference] Features reloaded from disk")
+
             # Run GVHMR inference
             Log.info("[GVHMRInference] Running GVHMR model...")
             gvhmr_model = model["gvhmr"]
@@ -417,6 +468,9 @@ class GVHMRInference:
 
             with torch.no_grad():
                 pred = gvhmr_model.predict(data, static_cam=static_camera)
+
+            # Clear GPU memory after inference
+            _clear_cuda_memory()
 
             # Extract SMPL parameters
             smpl_params = {

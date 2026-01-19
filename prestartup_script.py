@@ -50,6 +50,9 @@ def copy_viewers():
             # Compare SMPL/BVH viewer
             get_compare_smpl_bvh_html_path,
             get_compare_smpl_bvh_widget_path,
+            # Compare Skeletons viewer (side-by-side FBX)
+            get_fbx_compare_html_path,
+            get_fbx_compare_widget_path,
             # File list updater utility
             get_file_list_updater_path,
         )
@@ -115,6 +118,14 @@ def copy_viewers():
         if copy_viewer_file(get_compare_smpl_bvh_html_path(), web_dir / "viewer_compare_smpl_bvh.html", "viewer_compare_smpl_bvh.html"):
             copied_count += 1
         if copy_viewer_file(get_compare_smpl_bvh_widget_path(), js_dir / "compare_smpl_bvh.js", "compare_smpl_bvh.js"):
+            copied_count += 1
+
+        # ═══════════════════════════════════════════════════════════════
+        # Compare Skeletons Viewer (viewer_fbx_compare.html + compare_skeleton_widget.js)
+        # ═══════════════════════════════════════════════════════════════
+        if copy_viewer_file(get_fbx_compare_html_path(), web_dir / "viewer_fbx_compare.html", "viewer_fbx_compare.html"):
+            copied_count += 1
+        if copy_viewer_file(get_fbx_compare_widget_path(), js_dir / "compare_skeleton_widget.js", "compare_skeleton_widget.js"):
             copied_count += 1
 
         # ═══════════════════════════════════════════════════════════════
