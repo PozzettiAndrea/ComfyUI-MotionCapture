@@ -40,3 +40,6 @@ web/
 
 # Jupyter notebook checkpoints
 .ipynb_checkpoints/
+
+# comfy-test output
+.comfy-test-logs/

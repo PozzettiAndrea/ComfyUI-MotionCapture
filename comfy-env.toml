@@ -5,6 +5,9 @@
 # ISOLATED ENVIRONMENT
 # ═══════════════════════════════════════════════════════════════════════════════
 
+[system]
+linux = ["python3-dev"]
+
 [mocap]
 python = "3.11"  # bpy only supports up to 3.11
 cuda_version = "auto"
