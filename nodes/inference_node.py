@@ -10,6 +10,7 @@ import numpy as np
 import cv2
 from typing import Dict, Tuple
 from tqdm import tqdm
+import gc
 
 # Add vendor path for GVHMR
 VENDOR_PATH = Path(__file__).parent.parent / "vendor"
@@ -92,8 +93,10 @@ class GVHMRInference:
         device = model_bundle["device"]
         batch_size, height, width, channels = images.shape
 
-        # Convert images to numpy for processing
-        images_np = (images.cpu().numpy() * 255).astype(np.uint8)
+        # Convert images to numpy for processing (granularly to avoid system RAM spike)
+        images_np = np.empty((batch_size, height, width, channels), dtype=np.uint8)
+        for i in range(batch_size):
+            images_np[i] = (images[i] * 255).to(torch.uint8).cpu().numpy()
 
         # Extract bounding boxes from masks
         Log.info("[GVHMRInference] Extracting bounding boxes from SAM3 masks...")
@@ -113,7 +116,17 @@ class GVHMRInference:
 
         # Extract ViTPose 2D keypoints
         Log.info("[GVHMRInference] Extracting 2D pose with ViTPose...")
-        vitpose_extractor = model_bundle["vitpose_extractor"]
+        is_lazy = model_bundle.get("lazy", False)
+        low_vram = model_bundle.get("low_vram_mode", True)
+        batch_size_proc = model_bundle.get("batch_size", 16)
+        
+        if is_lazy:
+            from hmr4d.utils.preproc import VitPoseExtractor
+            vitpose_extractor = VitPoseExtractor(device=device, batch_size=batch_size_proc)
+        else:
+            vitpose_extractor = model_bundle["vitpose_extractor"]
+            if low_vram and device != "cpu":
+                vitpose_extractor.pose.to(device)
 
         # Use get_batch to preprocess images for extractors
         from hmr4d.utils.preproc.vitfeat_extractor import get_batch
@@ -123,11 +136,40 @@ class GVHMRInference:
 
         # Extract 2D keypoints with ViTPose
         kp2d = vitpose_extractor.extract(imgs_tensor, bbx_xys_processed, img_ds=1.0)
+        
+        if is_lazy:
+            del vitpose_extractor
+            gc.collect()
+        elif low_vram and device != "cpu":
+            vitpose_extractor.pose.to("cpu")
+            
+        if device != "cpu":
+            torch.cuda.empty_cache()
 
         # Extract ViT features
         Log.info("[GVHMRInference] Extracting image features...")
-        feature_extractor = model_bundle["feature_extractor"]
+        if is_lazy:
+            from hmr4d.utils.preproc import Extractor
+            feature_extractor = Extractor(device=device, batch_size=batch_size_proc)
+        else:
+            feature_extractor = model_bundle["feature_extractor"]
+            if low_vram and device != "cpu":
+                feature_extractor.extractor.to(device)
+
         f_imgseq = feature_extractor.extract_video_features(imgs_tensor, bbx_xys_processed, img_ds=1.0)
+        
+        if is_lazy:
+            del feature_extractor
+            gc.collect()
+        elif low_vram and device != "cpu":
+            feature_extractor.extractor.to("cpu")
+            
+        if device != "cpu":
+            torch.cuda.empty_cache()
+
+        # Cleanup intermediate tensors
+        del imgs_tensor
+        gc.collect()
 
         # Estimate camera intrinsics
         if focal_length_mm > 0:
@@ -181,11 +223,38 @@ class GVHMRInference:
 
             # Run GVHMR inference
             Log.info("[GVHMRInference] Running GVHMR model...")
-            gvhmr_model = model["gvhmr"]
+            is_lazy = model.get("lazy", False)
+            low_vram = model.get("low_vram_mode", True)
             device = model["device"]
+
+            if is_lazy:
+                from hydra.utils import instantiate
+                from omegaconf import OmegaConf
+                cfg = model["config"]
+                # Instantiate DemoPL with pipeline from config
+                model_cfg_dict = OmegaConf.to_container(cfg.model, resolve=True)
+                model_cfg = OmegaConf.create(model_cfg_dict)
+                gvhmr_model = instantiate(model_cfg, _recursive_=False)
+                # Load pretrained weights
+                gvhmr_model.load_pretrained_model(model["paths"]["gvhmr"])
+                gvhmr_model.eval()
+                gvhmr_model.to(device)
+            else:
+                gvhmr_model = model["gvhmr"]
+                if low_vram and device != "cpu":
+                    gvhmr_model.to(device)
 
             with torch.no_grad():
                 pred = gvhmr_model.predict(data, static_cam=static_camera)
+
+            if is_lazy:
+                del gvhmr_model
+                gc.collect()
+            elif low_vram and device != "cpu":
+                gvhmr_model.to("cpu")
+                
+            if device != "cpu":
+                torch.cuda.empty_cache()
 
             # Extract SMPL parameters
             smpl_params = {
@@ -240,12 +309,12 @@ class GVHMRInference:
 
             # Initialize SMPL model
             smplx = make_smplx("supermotion").to(device)
-            smplx2smpl = torch.load(
-                str(Path(__file__).parent.parent / "vendor" / "hmr4d" / "utils" / "body_model" / "smplx2smpl_sparse.pt")
-            ).to(device)
+            smplx2smpl_path = Path(__file__).parent.parent / "vendor" / "hmr4d" / "utils" / "body_model" / "smplx2smpl_sparse.pt"
+            smplx2smpl = torch.load(str(smplx2smpl_path), map_location=device).to(device)
 
             # Get SMPL vertices
-            smplx_out = smplx(**to_cuda(smpl_params["incam"]))
+            smpl_incam = {k: v.to(device) if isinstance(v, torch.Tensor) else v for k, v in smpl_params["incam"].items()}
+            smplx_out = smplx(**smpl_incam)
             pred_verts = torch.stack([torch.matmul(smplx2smpl, v) for v in smplx_out.vertices])
 
             # Initialize renderer

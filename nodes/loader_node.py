@@ -57,6 +57,21 @@ class LoadGVHMRModels:
                     "multiline": False,
                     "tooltip": "Optional: Override default model checkpoint path"
                 }),
+                "low_vram_mode": ("BOOLEAN", {
+                    "default": True,
+                    "tooltip": "If True, moves models to GPU only when needed and offloads to CPU otherwise. Prevents VRAM overflow while maintaining GPU speed."
+                }),
+                "processing_batch_size": ("INT", {
+                    "default": 16,
+                    "min": 1,
+                    "max": 128,
+                    "step": 1,
+                    "tooltip": "Batch size for preprocessing extractors (ViTPose and Feature Extractor). Lower values save memory."
+                }),
+                "sequential_loading": ("BOOLEAN", {
+                    "default": True,
+                    "tooltip": "If True, loads/unloads each model only when needed. Much slower but significantly saves system RAM (prevents SIGKILL)."
+                }),
             }
         }
 
@@ -189,13 +204,24 @@ class LoadGVHMRModels:
         Log.info(f"[LoadGVHMRModels] SMPL body models found")
         return True
 
-    def load_models(self, model_path_override=""):
+    def load_models(self, model_path_override="", low_vram_mode=True, processing_batch_size=16, sequential_loading=True):
         """Load all GVHMR models and preprocessing components."""
+        device = "cuda" if torch.cuda.is_available() else "cpu"
 
         # Use cached model if available
         if self.cached_model is not None:
-            Log.info("[LoadGVHMRModels] Using cached model")
-            return (self.cached_model,)
+            # Check if cached model config matches current request
+            is_lazy = self.cached_model.get("lazy", False)
+            is_low_vram = self.cached_model.get("low_vram_mode", False)
+            if (self.cached_model["device"] == device and 
+                self.cached_model.get("batch_size") == processing_batch_size and
+                is_lazy == sequential_loading and
+                is_low_vram == low_vram_mode):
+                Log.info("[LoadGVHMRModels] Using cached model")
+                return (self.cached_model,)
+            else:
+                Log.info(f"[LoadGVHMRModels] Config change detected, reloading...")
+                self.cached_model = None
 
         Log.info("[LoadGVHMRModels] Initializing GVHMR models...")
 
@@ -241,10 +267,38 @@ class LoadGVHMRModels:
         except Exception:
             pass
 
+        # Prepare paths bundle
+        paths = {
+            "gvhmr": str(gvhmr_path),
+            "vitpose": str(vitpose_path),
+            "hmr2": str(hmr2_path),
+            "body_models": str(self.models_dir / "body_models"),
+        }
+
+        # Determine devices
+        overall_device = "cuda" if torch.cuda.is_available() else "cpu"
+        # If low_vram_mode is enabled, we load to CPU initially and swap to GPU during inference
+        load_device = "cpu" if low_vram_mode else overall_device
+        
+        Log.info(f"[LoadGVHMRModels] Loading models (low_vram_mode={low_vram_mode})...")
+        Log.info(f"[LoadGVHMRModels] Initial load device: {load_device}")
+
+        if sequential_loading:
+            Log.info("[LoadGVHMRModels] Sequential loading enabled - models will be loaded on demand")
+            model_bundle = {
+                "lazy": True,
+                "low_vram_mode": low_vram_mode,
+                "device": overall_device, # Target device for inference
+                "batch_size": processing_batch_size,
+                "paths": paths,
+                "config": cfg,
+            }
+            self.cached_model = model_bundle
+            return (model_bundle,)
+
         # Load GVHMR model
         Log.info(f"[LoadGVHMRModels] Loading GVHMR from {gvhmr_path}...")
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-
+        
         # Instantiate DemoPL with pipeline from config
         from hydra.utils import instantiate
         from omegaconf import OmegaConf
@@ -258,28 +312,26 @@ class LoadGVHMRModels:
         # Load pretrained weights
         model_gvhmr.load_pretrained_model(str(gvhmr_path))
         model_gvhmr.eval()
-        model_gvhmr.to(device)
+        model_gvhmr.to(load_device)
 
         # Initialize preprocessing components
-        Log.info("[LoadGVHMRModels] Initializing ViTPose extractor...")
-        vitpose_extractor = VitPoseExtractor()
+        Log.info(f"[LoadGVHMRModels] Initializing ViTPose extractor (batch_size={processing_batch_size})...")
+        vitpose_extractor = VitPoseExtractor(device=load_device, batch_size=processing_batch_size)
 
-        Log.info("[LoadGVHMRModels] Initializing feature extractor...")
-        feature_extractor = Extractor()
+        Log.info(f"[LoadGVHMRModels] Initializing feature extractor (batch_size={processing_batch_size})...")
+        feature_extractor = Extractor(device=load_device, batch_size=processing_batch_size)
 
         # Create model bundle
         model_bundle = {
+            "lazy": False,
+            "low_vram_mode": low_vram_mode,
             "gvhmr": model_gvhmr,
             "vitpose_extractor": vitpose_extractor,
             "feature_extractor": feature_extractor,
             "config": cfg,
-            "device": device,
-            "paths": {
-                "gvhmr": str(gvhmr_path),
-                "vitpose": str(vitpose_path),
-                "hmr2": str(hmr2_path),
-                "body_models": str(self.models_dir / "body_models"),
-            }
+            "device": overall_device,
+            "batch_size": processing_batch_size,
+            "paths": paths,
         }
 
         # Cache the model

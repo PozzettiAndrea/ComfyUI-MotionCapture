@@ -12,11 +12,13 @@ from hmr4d import PROJ_ROOT
 
 
 class VitPoseExtractor:
-    def __init__(self, tqdm_leave=True):
+    def __init__(self, tqdm_leave=True, device="cuda", batch_size=16):
         # Point to ComfyUI models directory
+        self.device = device
+        self.batch_size = batch_size
         ckpt_path = PROJ_ROOT.parent.parent.parent / "models" / "motion_capture" / "vitpose" / "vitpose-h-multi-coco.pth"
         self.pose = build_model("ViTPose_huge_coco_256x192", str(ckpt_path))
-        self.pose.cuda().eval()
+        self.pose.to(self.device).eval()
 
         self.flip_test = True
         self.tqdm_leave = tqdm_leave
@@ -32,11 +34,11 @@ class VitPoseExtractor:
 
         # Inference
         L, _, H, W = imgs.shape  # (L, 3, H, W)
-        batch_size = 16
+        batch_size = self.batch_size
         vitpose = []
         for j in tqdm(range(0, L, batch_size), desc="ViTPose", leave=self.tqdm_leave):
             # Heat map
-            imgs_batch = imgs[j : j + batch_size, :, :, 32:224].cuda()
+            imgs_batch = imgs[j : j + batch_size, :, :, 32:224].to(self.device)
             if self.flip_test:
                 heatmap, heatmap_flipped = self.pose(torch.cat([imgs_batch, imgs_batch.flip(3)], dim=0)).chunk(2)
                 heatmap_flipped = flip_heatmap_coco17(heatmap_flipped)

@@ -25,12 +25,11 @@ def extract_bboxes_from_masks(masks: torch.Tensor) -> List[List[int]]:
     if len(masks.shape) == 4:
         masks = masks.squeeze(-1)  # Remove channel dimension if present
 
-    # Convert to numpy for OpenCV processing
-    masks_np = masks.cpu().numpy()
-
-    for mask in masks_np:
-        # Convert to uint8 for OpenCV
-        mask_uint8 = (mask * 255).astype(np.uint8)
+    # Process each mask individually (granularly to avoid system RAM spike)
+    for i in range(len(masks)):
+        mask = masks[i]
+        # Convert to uint8 for OpenCV directly from torch
+        mask_uint8 = (mask * 255).to(torch.uint8).cpu().numpy()
 
         # Find contours
         contours, _ = cv2.findContours(

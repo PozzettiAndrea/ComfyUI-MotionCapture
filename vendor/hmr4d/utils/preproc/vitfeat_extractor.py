@@ -29,17 +29,15 @@ def get_batch(input_path, bbx_xys, img_ds=0.5, img_dst_size=256, path_type="vide
     if True:
         gt_bbx_size_ds = gt_bbx_size * img_ds
         ds_factors = ((gt_bbx_size_ds * 1.0) / img_dst_size / 2.0).numpy()
-        imgs = np.stack(
-            [
-                # gaussian(v, sigma=(d - 1) / 2, channel_axis=2, preserve_range=True) if d > 1.1 else v
-                cv2.GaussianBlur(v, (5, 5), (d - 1) / 2) if d > 1.1 else v
-                for v, d in zip(imgs, ds_factors)
-            ]
-        )
+        for i in range(len(imgs)):
+            d = ds_factors[i]
+            if d > 1.1:
+                imgs[i] = cv2.GaussianBlur(imgs[i], (5, 5), (d - 1) / 2)
 
-    # Output
-    imgs_list = []
-    bbx_xys_ds_list = []
+    # Output (pre-allocate to avoid large temporary lists)
+    imgs_out = torch.empty((len(imgs), 3, img_dst_size, img_dst_size), dtype=torch.float32)
+    bbx_xys_ds_out = torch.empty((len(imgs), 3), dtype=torch.float32)
+    
     for i in range(len(imgs)):
         img, bbx_xys_ds = crop_and_resize(
             imgs[i],
@@ -48,18 +46,21 @@ def get_batch(input_path, bbx_xys, img_ds=0.5, img_dst_size=256, path_type="vide
             img_dst_size,
             enlarge_ratio=1.0,
         )
-        imgs_list.append(img)
-        bbx_xys_ds_list.append(bbx_xys_ds)
-    imgs = torch.from_numpy(np.stack(imgs_list))  # (F, 256, 256, 3), RGB
-    bbx_xys = torch.from_numpy(np.stack(bbx_xys_ds_list)) / img_ds  # (F, 3)
+        # Normalize and store directly in output tensor
+        # (img is uint8 H,W,3 RGB)
+        img_tensor = torch.from_numpy(img).float()
+        imgs_out[i] = ((img_tensor / 255.0 - IMAGE_MEAN) / IMAGE_STD).permute(2, 0, 1)
+        bbx_xys_ds_out[i] = torch.from_numpy(bbx_xys_ds)
 
-    imgs = ((imgs / 255.0 - IMAGE_MEAN) / IMAGE_STD).permute(0, 3, 1, 2)  # (F, 3, 256, 256
-    return imgs, bbx_xys
+    bbx_xys = bbx_xys_ds_out / img_ds
+    return imgs_out, bbx_xys
 
 
 class Extractor:
-    def __init__(self, tqdm_leave=True):
-        self.extractor: HMR2 = load_hmr2().cuda().eval()
+    def __init__(self, tqdm_leave=True, device="cuda", batch_size=16):
+        self.device = device
+        self.batch_size = batch_size
+        self.extractor: HMR2 = load_hmr2().to(self.device).eval()
         self.tqdm_leave = tqdm_leave
 
     def extract_video_features(self, video_path, bbx_xys, img_ds=0.5):
@@ -75,11 +76,10 @@ class Extractor:
 
         # Inference
         F, _, H, W = imgs.shape  # (F, 3, H, W)
-        imgs = imgs.cuda()
-        batch_size = 16  # 5GB GPU memory, occupies all CUDA cores of 3090
+        batch_size = self.batch_size
         features = []
         for j in tqdm(range(0, F, batch_size), desc="HMR2 Feature", leave=self.tqdm_leave):
-            imgs_batch = imgs[j : j + batch_size]
+            imgs_batch = imgs[j : j + batch_size].to(self.device)
 
             with torch.no_grad():
                 feature = self.extractor({"img": imgs_batch})
