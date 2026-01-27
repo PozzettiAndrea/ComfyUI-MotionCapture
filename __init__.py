@@ -26,6 +26,15 @@ if skip_init:
     NODE_DISPLAY_NAME_MAPPINGS = {}
     WEB_DIRECTORY = "./web"
 else:
+    # Setup import stubs BEFORE importing nodes
+    try:
+        from comfy_env import setup_isolated_imports
+        setup_isolated_imports(__file__)
+    except ImportError:
+        print("[MotionCapture] comfy-env not installed, import stubbing disabled")
+    except Exception as e:
+        print(f"[MotionCapture] Failed to setup import stubs: {e}")
+
     # Add the custom nodes directory to Python path
     node_path = Path(__file__).parent / "nodes"
     vendor_path = Path(__file__).parent / "vendor"
@@ -125,6 +134,16 @@ else:
         "MHRViewer": "MHR Skeleton Viewer",
         "SaveMHR": "Save MHR Motion",
     }
+
+    # Enable process isolation - ALL nodes run in pixi env (Python 3.11)
+    try:
+        from comfy_env import enable_isolation
+        enable_isolation(NODE_CLASS_MAPPINGS)
+        print("[MotionCapture] [OK] Process isolation enabled")
+    except ImportError:
+        pass  # Already warned above
+    except Exception as e:
+        print(f"[MotionCapture] Failed to enable isolation: {e}")
 
     print(f"\n{'='*60}")
     print(f"ComfyUI-MotionCapture v{__version__} loaded successfully!")

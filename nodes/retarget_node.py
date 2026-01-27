@@ -1,8 +1,7 @@
 """
 SMPLToFBX Node - Retargets SMPL motion to rigged FBX characters using bpy
 
-Uses the @isolated decorator to run Blender operations in an isolated environment
-with the bpy package.
+Blender operations run in an isolated environment with the bpy package.
 """
 
 from pathlib import Path
@@ -11,8 +10,6 @@ import torch
 import numpy as np
 import tempfile
 import os
-
-from comfy_env import isolated
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -194,7 +191,6 @@ def _smpl_to_bvh(smpl_params: dict, output_path: str, fps: int = 30) -> str:
     return output_path
 
 
-@isolated(env="mocap", import_paths=[".", "..", "../.."])
 class SMPLToFBXWorker:
     """
     Isolated worker for Blender retargeting operations.
