@@ -2,16 +2,13 @@
 MotionCapture Extract Rest Pose Node
 Extract skeleton rest pose from FBX or SMPL parameters, output as FBX.
 
-Uses the @isolated decorator to run Blender operations in an isolated environment
-with the bpy package.
+Blender operations run in an isolated environment with the bpy package.
 """
 
 import os
 import numpy as np
 from pathlib import Path
 from typing import Dict, Tuple, Optional
-
-from comfy_env import isolated
 
 try:
     import folder_paths
@@ -63,7 +60,6 @@ SMPL_REST_POSITIONS = np.array([
 # ISOLATED BLENDER WORKERS
 # ═══════════════════════════════════════════════════════════════════════════════
 
-@isolated(env="mocap", import_paths=[".", "..", "../.."])
 class RestPoseFromFBXWorker:
     """
     Isolated worker for extracting rest pose from FBX using bpy.
@@ -129,7 +125,6 @@ class RestPoseFromFBXWorker:
         return bone_count
 
 
-@isolated(env="mocap", import_paths=[".", "..", "../.."])
 class SMPLSkeletonWorker:
     """
     Isolated worker for creating SMPL skeleton FBX using bpy.

@@ -1,14 +1,11 @@
 """
 BVHtoFBX Node - Retarget BVH motion to rigged FBX/VRM characters using bpy
 
-Uses the @isolated decorator to run Blender operations in an isolated environment
-with the bpy package.
+Blender operations run in an isolated environment with the bpy package.
 """
 
 from pathlib import Path
 from typing import Dict, Tuple
-
-from comfy_env import isolated
 
 from hmr4d.utils.pylogger import Log
 
@@ -76,7 +73,6 @@ VROID_BONE_MAP = {
 # ISOLATED BLENDER WORKER
 # ═══════════════════════════════════════════════════════════════════════════════
 
-@isolated(env="mocap", import_paths=[".", "..", "../.."])
 class BVHtoFBXWorker:
     """
     Isolated worker for BVH to FBX retargeting using bpy.

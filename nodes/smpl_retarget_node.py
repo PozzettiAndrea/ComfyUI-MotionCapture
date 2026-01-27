@@ -1,8 +1,7 @@
 """
 SMPLRetargetToSMPL Node - Apply SMPL motion to a rigged SMPL skeleton FBX
 
-Uses the @isolated decorator to run Blender operations in an isolated environment
-with the bpy package.
+Blender operations run in an isolated environment with the bpy package.
 
 This node takes SMPL motion data and applies it to a rigged FBX with SMPL skeleton
 (typically from UniRig with SMPL template), producing an animated FBX.
@@ -14,8 +13,6 @@ from typing import Dict, Tuple
 
 import numpy as np
 import torch
-
-from comfy_env import isolated
 
 from hmr4d.utils.pylogger import Log
 
@@ -36,7 +33,6 @@ SMPL_JOINT_NAMES = [
 # ISOLATED BLENDER WORKER
 # ═══════════════════════════════════════════════════════════════════════════════
 
-@isolated(env="mocap", import_paths=[".", "..", "../.."])
 class SMPLRetargetWorker:
     """
     Isolated worker for SMPL-to-SMPL retargeting using bpy.

@@ -1,8 +1,8 @@
 """
 SMPLToMixamo Node - Retarget SMPL motion to Mixamo-rigged FBX characters
 
-Uses the @isolated decorator to run Blender operations in an isolated environment
-with the bpy package and Rokoko addon for automatic bone mapping.
+Blender operations run in an isolated environment with the bpy package and
+Rokoko addon for automatic bone mapping.
 
 This node is specifically optimized for Mixamo characters with the mixamorig: prefix.
 """
@@ -14,8 +14,6 @@ from typing import Dict, Tuple
 
 import numpy as np
 import torch
-
-from comfy_env import isolated
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -266,7 +264,6 @@ def _smpl_to_bvh(smpl_params: dict, output_path: str, fps: int = 30) -> str:
 # ISOLATED BLENDER WORKER
 # ═══════════════════════════════════════════════════════════════════════════════
 
-@isolated(env="mocap", import_paths=[".", "..", "../.."])
 class SMPLToMixamoWorker:
     """
     Isolated worker for SMPL to Mixamo retargeting using bpy + Rokoko.
