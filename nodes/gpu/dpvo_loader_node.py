@@ -12,7 +12,7 @@ from pathlib import Path
 import torch
 
 # Add vendor path for DPVO
-VENDOR_PATH = Path(__file__).parent.parent / "vendor"
+VENDOR_PATH = Path(__file__).parent / "vendor"
 sys.path.insert(0, str(VENDOR_PATH))
 
 # Import logging from GVHMR

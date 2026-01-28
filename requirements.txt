@@ -38,10 +38,13 @@ smplx
 # wis3d removed - only used for training visualization
 pycolmap
 
+# Pillow for image processing
+pillow>=9.0.0
+
 #comfy-deps
-comfy-env>=0.0.1
+comfy-env>=0.0.19
 comfy-test>=0.0.1
-comfy-3d-viewers>=0.0.1
+comfy-3d-viewers>=0.1.0
 
 # BVH (Biovision Hierarchy) file format support
 bvh>=0.3
