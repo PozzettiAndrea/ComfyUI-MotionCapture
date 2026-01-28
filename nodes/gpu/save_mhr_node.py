@@ -8,7 +8,7 @@ import torch
 import numpy as np
 
 import sys
-VENDOR_PATH = Path(__file__).parent.parent / "vendor"
+VENDOR_PATH = Path(__file__).parent / "vendor"
 sys.path.insert(0, str(VENDOR_PATH))
 
 from hmr4d.utils.pylogger import Log

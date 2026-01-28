@@ -12,7 +12,7 @@ from typing import Dict, Tuple
 from tqdm import tqdm
 
 # Add vendor path for GVHMR
-VENDOR_PATH = Path(__file__).parent.parent / "vendor"
+VENDOR_PATH = Path(__file__).parent / "vendor"
 sys.path.insert(0, str(VENDOR_PATH))
 
 # Import GVHMR components
@@ -535,7 +535,7 @@ class GVHMRInference:
             # Initialize SMPL model
             smplx = make_smplx("supermotion").to(device)
             smplx2smpl = torch.load(
-                str(Path(__file__).parent.parent / "vendor" / "hmr4d" / "utils" / "body_model" / "smplx2smpl_sparse.pt")
+                str(Path(__file__).parent / "vendor" / "hmr4d" / "utils" / "body_model" / "smplx2smpl_sparse.pt")
             ).to(device)
 
             # Get SMPL vertices

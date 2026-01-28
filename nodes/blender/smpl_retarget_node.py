@@ -11,10 +11,12 @@ import tempfile
 from pathlib import Path
 from typing import Dict, Tuple
 
+import logging
 import numpy as np
 import torch
 
-from hmr4d.utils.pylogger import Log
+# Simple logger (replaces hmr4d.utils.pylogger.Log)
+Log = logging.getLogger("MotionCapture.blender")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

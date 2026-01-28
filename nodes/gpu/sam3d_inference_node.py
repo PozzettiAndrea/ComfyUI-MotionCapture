@@ -15,7 +15,7 @@ from typing import Dict, Tuple, Optional
 from tqdm import tqdm
 
 # Add vendor path
-VENDOR_PATH = Path(__file__).parent.parent / "vendor"
+VENDOR_PATH = Path(__file__).parent / "vendor"
 sys.path.insert(0, str(VENDOR_PATH))
 
 # Import GVHMR utilities

@@ -4,10 +4,12 @@ BVHtoFBX Node - Retarget BVH motion to rigged FBX/VRM characters using bpy
 Blender operations run in an isolated environment with the bpy package.
 """
 
+import logging
 from pathlib import Path
 from typing import Dict, Tuple
 
-from hmr4d.utils.pylogger import Log
+# Simple logger (replaces hmr4d.utils.pylogger.Log)
+Log = logging.getLogger("MotionCapture.blender")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
