@@ -36,9 +36,9 @@ else:
 
         # GPU nodes
         try:
-            from .nodes.gpu import NODE_CLASS_MAPPINGS as gpu_mappings
-            from .nodes.gpu import NODE_DISPLAY_NAME_MAPPINGS as gpu_display
-            gpu_wrapped = wrap_isolated_nodes(gpu_mappings, nodes_dir / "gpu")
+            from .nodes.nodes_gpu import NODE_CLASS_MAPPINGS as gpu_mappings
+            from .nodes.nodes_gpu import NODE_DISPLAY_NAME_MAPPINGS as gpu_display
+            gpu_wrapped = wrap_isolated_nodes(gpu_mappings, nodes_dir / "nodes_gpu")
             NODE_CLASS_MAPPINGS.update(gpu_wrapped)
             NODE_DISPLAY_NAME_MAPPINGS.update(gpu_display)
             print(f"[MotionCapture] GPU nodes loaded ({len(gpu_mappings)} nodes, isolated)")
@@ -47,9 +47,9 @@ else:
 
         # Blender nodes
         try:
-            from .nodes.blender import NODE_CLASS_MAPPINGS as blender_mappings
-            from .nodes.blender import NODE_DISPLAY_NAME_MAPPINGS as blender_display
-            blender_wrapped = wrap_isolated_nodes(blender_mappings, nodes_dir / "blender")
+            from .nodes.nodes_blender import NODE_CLASS_MAPPINGS as blender_mappings
+            from .nodes.nodes_blender import NODE_DISPLAY_NAME_MAPPINGS as blender_display
+            blender_wrapped = wrap_isolated_nodes(blender_mappings, nodes_dir / "nodes_blender")
             NODE_CLASS_MAPPINGS.update(blender_wrapped)
             NODE_DISPLAY_NAME_MAPPINGS.update(blender_display)
             print(f"[MotionCapture] Blender nodes loaded ({len(blender_mappings)} nodes, isolated)")
