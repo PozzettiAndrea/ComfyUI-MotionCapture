@@ -1,50 +1,28 @@
-# ComfyUI-MotionCapture Dependencies
-# Compatible with ComfyUI's existing PyTorch installation
-# Supports both GVHMR (SMPL) and SAM 3D Body (MHR) backends
+#comfy-deps
+comfy-env>=0.0.19
+comfy-test>=0.0.1
+comfy-3d-viewers>=0.1.0
 
-# SKIPPED: PyTorch/torchvision (use ComfyUI's existing installation)
-# timm - Vision transformer library
 timm>=0.9.0
-
-# Training/inference frameworks
 lightning>=2.0.0
 hydra-core>=1.3
-hydra-zen
-hydra_colorlog
-
-# Core utilities (flexible versions for ComfyUI compatibility)
-numpy>=1.23.0,<2.0.0
+numpy
 einops
 rich
 termcolor
 joblib
 
 # Computer vision
-opencv-python
+opencv-python-headless
 scikit-image
 imageio>=2.34.0
 av>=13.0.0
-
-# Video processing
 ffmpeg-python
-
-# Visualization (matplotlib and tensorboardX removed - not needed for inference)
-
-# 3D vision and body models
-# SKIPPED: pytorch3d (replaced with custom pure-PyTorch shim in vendor/hmr4d/utils/pytorch3d_shim.py)
 trimesh
 chumpy-fork
 smplx
-# wis3d removed - only used for training visualization
 pycolmap
-
-# Pillow for image processing
 pillow>=9.0.0
-
-#comfy-deps
-comfy-env>=0.0.19
-comfy-test>=0.0.1
-comfy-3d-viewers>=0.1.0
 
 # BVH (Biovision Hierarchy) file format support
 bvh>=0.3
@@ -58,23 +36,7 @@ lapx
 setuptools>=68.0
 yacs
 
-# FBX SDK for debugging/analysis
-# fbxsdkpy==2020.1.post2
-
 # Model downloads
 huggingface_hub>=0.20.0
+hf_xet
 gdown>=4.7.0
-
-# SAM 3D Body specific dependencies
-roma>=1.3.0
-dill>=0.3.6
-fvcore>=0.1.5
-transformers>=4.30.0
-braceexpand
-webdataset>=0.2.0
-loguru>=0.7.0
-optree>=0.9.0
-pyrootutils>=1.0.4
-iopath>=0.1.7
-tabulate
-portalocker
