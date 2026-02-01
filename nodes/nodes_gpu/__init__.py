@@ -8,9 +8,7 @@ sys.path.insert(0, str(VENDOR_PATH))
 
 # Import nodes
 from .loader_node import LoadGVHMRModels
-from .dpvo_loader_node import LoadDPVOModel
 from .inference_node import GVHMRInference
-from .viewer_node import SMPLViewer
 from .save_smpl_node import SaveSMPL
 from .load_smpl_node import LoadSMPL
 from .fbx_loader_node import LoadFBXCharacter
@@ -29,9 +27,7 @@ from .save_mhr_node import SaveMHR
 
 NODE_CLASS_MAPPINGS = {
     "LoadGVHMRModels": LoadGVHMRModels,
-    "LoadDPVOModel": LoadDPVOModel,
     "GVHMRInference": GVHMRInference,
-    "SMPLViewer": SMPLViewer,
     "SaveSMPL": SaveSMPL,
     "LoadSMPL": LoadSMPL,
     "LoadFBXCharacter": LoadFBXCharacter,
@@ -51,9 +47,7 @@ NODE_CLASS_MAPPINGS = {
 
 NODE_DISPLAY_NAME_MAPPINGS = {
     "LoadGVHMRModels": "Load GVHMR Models",
-    "LoadDPVOModel": "Load DPVO Model",
     "GVHMRInference": "GVHMR Inference",
-    "SMPLViewer": "SMPL 3D Viewer",
     "SaveSMPL": "Save SMPL Motion",
     "LoadSMPL": "Load SMPL Motion",
     "LoadFBXCharacter": "Load FBX Character",
