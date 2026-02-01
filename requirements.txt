@@ -22,6 +22,7 @@ trimesh
 smplx
 pycolmap
 pillow>=9.0.0
+chumpy-fork
 
 # BVH (Biovision Hierarchy) file format support
 bvh>=0.3

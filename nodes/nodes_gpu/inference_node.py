@@ -259,14 +259,11 @@ class GVHMRInference:
                 "intrinsics": ("INTRINSICS", {
                     "tooltip": "Camera intrinsics matrix (3x3). Connect from DepthAnything V3 or other source. Overrides focal_length_mm if provided."
                 }),
-                "dpvo_model": ("DPVO_MODEL", {
-                    "tooltip": "DPVO model from LoadDPVOModel node. Required for vo_method=dpvo"
-                }),
             }
         }
 
-    RETURN_TYPES = ("SMPL_PARAMS", "IMAGE", "STRING")
-    RETURN_NAMES = ("smpl_params", "visualization", "info")
+    RETURN_TYPES = ("STRING", "IMAGE", "STRING")
+    RETURN_NAMES = ("npz_path", "visualization", "info")
     FUNCTION = "run_inference"
     CATEGORY = "MotionCapture/GVHMR"
 
@@ -551,7 +548,6 @@ class GVHMRInference:
         vo_scale: float = 0.5,
         vo_step: int = 8,
         intrinsics: torch.Tensor = None,
-        dpvo_model: Dict = None,
     ):
         """
         Run GVHMR inference on images with SAM3 masks.
@@ -562,6 +558,9 @@ class GVHMRInference:
 
             # Load models based on config
             model = self._get_or_load_model(config)
+
+            # Get DPVO model from config (loaded by LoadGVHMRModels if load_dpvo=True)
+            dpvo_model = config.get("dpvo_model")
 
             # Prepare data
             data, camera_data = self.prepare_data_from_masks(
@@ -595,6 +594,23 @@ class GVHMRInference:
                 "t_w2c": camera_data["t_w2c"],
             }
 
+            # Save SMPL params to NPZ file (avoids tensor serialization issues)
+            import time
+            output_dir = Path(__file__).parent.parent.parent.parent.parent / "output"
+            output_dir.mkdir(parents=True, exist_ok=True)
+            npz_filename = f"smpl_params_{int(time.time())}.npz"
+            npz_path = output_dir / npz_filename
+
+            global_params = pred["smpl_params_global"]
+            np.savez(
+                str(npz_path),
+                body_pose=global_params['body_pose'].cpu().numpy(),
+                betas=global_params['betas'].cpu().numpy(),
+                global_orient=global_params['global_orient'].cpu().numpy(),
+                transl=global_params['transl'].cpu().numpy(),
+            )
+            Log.info(f"[GVHMRInference] Saved SMPL params to: {npz_path}")
+
             # Create visualization
             Log.info("[GVHMRInference] Rendering visualization...")
             viz_frames = self.render_visualization(images, smpl_params, model)
@@ -608,6 +624,7 @@ class GVHMRInference:
                 f"Static camera: {static_camera}\n"
                 f"VO method: {vo_info}\n"
                 f"Device: {device}\n"
+                f"NPZ saved: {npz_path}\n"
             )
 
             Log.info("[GVHMRInference] Inference complete!")
@@ -618,7 +635,7 @@ class GVHMRInference:
                 del model
                 _clear_cuda_memory()
 
-            return (smpl_params, viz_frames, info)
+            return (str(npz_path), viz_frames, info)
 
         except Exception as e:
             error_msg = f"GVHMR Inference failed: {str(e)}"
@@ -626,7 +643,7 @@ class GVHMRInference:
             import traceback
             traceback.print_exc()
             # Return empty results on error
-            return (None, images, error_msg)
+            return ("", images, error_msg)
 
     def render_visualization(
         self,

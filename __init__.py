@@ -60,6 +60,18 @@ else:
         print("[MotionCapture] comfy-env not installed, isolated nodes disabled")
         print("[MotionCapture] Install with: pip install comfy-env>=0.0.19")
 
+    # ==============================================================================
+    # Viewer nodes - NOT isolated (to avoid IPC size limits for large mesh data)
+    # ==============================================================================
+    try:
+        from .nodes.viewer_node import NODE_CLASS_MAPPINGS as viewer_mappings
+        from .nodes.viewer_node import NODE_DISPLAY_NAME_MAPPINGS as viewer_display
+        NODE_CLASS_MAPPINGS.update(viewer_mappings)
+        NODE_DISPLAY_NAME_MAPPINGS.update(viewer_display)
+        print(f"[MotionCapture] Viewer nodes loaded ({len(viewer_mappings)} nodes, main process)")
+    except ImportError as e:
+        print(f"[MotionCapture] Viewer nodes not available: {e}")
+
     print(f"[MotionCapture] Total nodes loaded: {len(NODE_CLASS_MAPPINGS)}")
 
     # Register API endpoints for dynamic file loading

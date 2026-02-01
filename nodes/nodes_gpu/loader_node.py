@@ -4,7 +4,9 @@ LoadGVHMRModels Node - Downloads and verifies GVHMR model files
 
 import os
 import sys
+import zipfile
 from pathlib import Path
+import torch
 
 # Add vendor path for GVHMR
 VENDOR_PATH = Path(__file__).parent / "vendor"
@@ -12,6 +14,15 @@ sys.path.insert(0, str(VENDOR_PATH))
 
 # Import logger
 from hmr4d.utils.pylogger import Log
+
+# Check DPVO availability
+DPVO_AVAILABLE = False
+try:
+    from dpvo.dpvo import DPVO
+    from dpvo.config import cfg as dpvo_cfg
+    DPVO_AVAILABLE = True
+except ImportError:
+    pass
 
 
 class LoadGVHMRModels:
@@ -54,6 +65,10 @@ class LoadGVHMRModels:
                 "cache_model": ("BOOLEAN", {
                     "default": False,
                     "tooltip": "Keep model in GPU memory between inference runs"
+                }),
+                "load_dpvo": ("BOOLEAN", {
+                    "default": False,
+                    "tooltip": "Load DPVO model for moving camera scenarios (downloads ~100MB if missing)"
                 }),
             }
         }
@@ -108,9 +123,10 @@ class LoadGVHMRModels:
             return False
 
         hf_files = {
-            "SMPL_FEMALE.pkl": "4_SMPLhub/SMPL/X_pkl/SMPL_FEMALE.pkl",
-            "SMPL_MALE.pkl": "4_SMPLhub/SMPL/X_pkl/SMPL_MALE.pkl",
-            "SMPL_NEUTRAL.pkl": "4_SMPLhub/SMPL/X_pkl/SMPL_NEUTRAL.pkl",
+            # Use NPZ versions of SMPL models (no chumpy dependency)
+            "SMPL_FEMALE.npz": "4_SMPLhub/SMPL/X_model_npz/SMPL_F_model.npz",
+            "SMPL_MALE.npz": "4_SMPLhub/SMPL/X_model_npz/SMPL_M_model.npz",
+            "SMPL_NEUTRAL.npz": "4_SMPLhub/SMPL/X_model_npz/SMPL_N_model.npz",
             "SMPLX_FEMALE.npz": "4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz",
             "SMPLX_MALE.npz": "4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz",
             "SMPLX_NEUTRAL.npz": "4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz",
@@ -141,7 +157,7 @@ class LoadGVHMRModels:
         smpl_dir = self.models_dir / "body_models" / "smpl"
         smplx_dir = self.models_dir / "body_models" / "smplx"
 
-        smpl_files = ["SMPL_FEMALE.pkl", "SMPL_MALE.pkl", "SMPL_NEUTRAL.pkl"]
+        smpl_files = ["SMPL_FEMALE.npz", "SMPL_MALE.npz", "SMPL_NEUTRAL.npz"]
         smplx_files = ["SMPLX_FEMALE.npz", "SMPLX_MALE.npz", "SMPLX_NEUTRAL.npz"]
 
         # Check and download SMPL models if missing
@@ -187,7 +203,138 @@ class LoadGVHMRModels:
         Log.info(f"[LoadGVHMRModels] SMPL body models found")
         return True
 
-    def load_models(self, model_path_override="", cache_model=False):
+    def _create_dpvo_config(self, config_path: Path) -> None:
+        """Create default config.yaml with DPVO defaults."""
+        Log.info(f"[LoadGVHMRModels] Creating default DPVO config at {config_path}")
+        default_config = """# DPVO default configuration
+BUFFER_SIZE: 4096
+CENTROID_SEL_STRAT: 'RANDOM'
+PATCHES_PER_FRAME: 80
+REMOVAL_WINDOW: 20
+OPTIMIZATION_WINDOW: 12
+PATCH_LIFETIME: 12
+KEYFRAME_INDEX: 4
+KEYFRAME_THRESH: 12.5
+MOTION_MODEL: 'DAMPED_LINEAR'
+MOTION_DAMPING: 0.5
+MIXED_PRECISION: true
+LOOP_CLOSURE: false
+BACKEND_THRESH: 64.0
+MAX_EDGE_AGE: 1000
+GLOBAL_OPT_FREQ: 15
+CLASSIC_LOOP_CLOSURE: false
+LOOP_CLOSE_WINDOW_SIZE: 3
+LOOP_RETR_THRESH: 0.04
+"""
+        config_path.write_text(default_config)
+
+    def download_dpvo_model(self, target_dir: Path) -> bool:
+        """Download DPVO model from Dropbox if missing."""
+        checkpoint_path = target_dir / "dpvo.pth"
+        config_path = target_dir / "config.yaml"
+
+        if checkpoint_path.exists() and config_path.exists():
+            Log.info(f"[LoadGVHMRModels] DPVO model found at {target_dir}")
+            return True
+
+        Log.info("[LoadGVHMRModels] Downloading DPVO model from Dropbox...")
+        target_dir.mkdir(parents=True, exist_ok=True)
+
+        try:
+            import requests
+            from tqdm import tqdm
+
+            url = "https://www.dropbox.com/s/nap0u8zslspdwm4/models.zip?dl=1"
+            zip_path = target_dir / "models.zip"
+
+            # Download with progress bar
+            response = requests.get(url, stream=True, allow_redirects=True)
+            response.raise_for_status()
+
+            total_size = int(response.headers.get('content-length', 0))
+
+            with open(zip_path, 'wb') as f:
+                with tqdm(total=total_size, unit='B', unit_scale=True, desc="Downloading DPVO") as pbar:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        f.write(chunk)
+                        pbar.update(len(chunk))
+
+            Log.info("[LoadGVHMRModels] Extracting DPVO model files...")
+
+            # Extract zip
+            with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                zip_ref.extractall(target_dir)
+
+            # The zip contains a 'models' subdirectory - move contents up
+            models_subdir = target_dir / "models"
+            if models_subdir.exists():
+                for item in models_subdir.iterdir():
+                    dest = target_dir / item.name
+                    if not dest.exists():
+                        item.rename(dest)
+                try:
+                    models_subdir.rmdir()
+                except OSError:
+                    pass
+
+            # Clean up zip file
+            zip_path.unlink()
+
+            if checkpoint_path.exists():
+                Log.info(f"[LoadGVHMRModels] DPVO downloaded to {target_dir}")
+                if not config_path.exists():
+                    self._create_dpvo_config(config_path)
+                return True
+            else:
+                Log.error(f"[LoadGVHMRModels] dpvo.pth not found after extraction")
+                return False
+
+        except ImportError:
+            Log.error("[LoadGVHMRModels] requests package not installed. Run: pip install requests")
+            return False
+        except Exception as e:
+            Log.error(f"[LoadGVHMRModels] DPVO download failed: {e}")
+            return False
+
+    def load_dpvo_model(self, dpvo_dir: Path) -> dict:
+        """Load DPVO model and return model bundle."""
+        if not DPVO_AVAILABLE:
+            Log.warn("[LoadGVHMRModels] DPVO package not installed, skipping DPVO loading")
+            return None
+
+        checkpoint_path = dpvo_dir / "dpvo.pth"
+        config_path = dpvo_dir / "config.yaml"
+
+        if not checkpoint_path.exists():
+            if not self.download_dpvo_model(dpvo_dir):
+                Log.warn("[LoadGVHMRModels] Could not download DPVO model")
+                return None
+
+        if not config_path.exists():
+            self._create_dpvo_config(config_path)
+
+        try:
+            Log.info(f"[LoadGVHMRModels] Loading DPVO config from {config_path}...")
+            dpvo_cfg.merge_from_file(str(config_path))
+
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+
+            model_bundle = {
+                "config": dpvo_cfg.clone(),
+                "checkpoint_path": str(checkpoint_path),
+                "config_path": str(config_path),
+                "device": device,
+                "model_dir": str(dpvo_dir),
+            }
+
+            Log.info("[LoadGVHMRModels] DPVO model loaded successfully!")
+            return model_bundle
+
+        except Exception as e:
+            Log.error(f"[LoadGVHMRModels] Failed to load DPVO model: {e}")
+            return None
+
+    def load_models(self, model_path_override="", cache_model=False, load_dpvo=False):
         """Download models if needed and return config for GVHMRInference."""
 
         Log.info("[LoadGVHMRModels] Checking GVHMR models...")
@@ -218,6 +365,16 @@ class LoadGVHMRModels:
 
         Log.info("[LoadGVHMRModels] All models verified!")
 
+        # Load DPVO if requested
+        dpvo_model = None
+        if load_dpvo:
+            dpvo_dir = self.models_dir / "dpvo"
+            dpvo_model = self.load_dpvo_model(dpvo_dir)
+            if dpvo_model:
+                Log.info("[LoadGVHMRModels] DPVO model included in config")
+            else:
+                Log.warn("[LoadGVHMRModels] DPVO requested but could not be loaded")
+
         # Return config dict (models will be loaded by GVHMRInference)
         config = {
             "models_dir": str(self.models_dir),
@@ -226,6 +383,7 @@ class LoadGVHMRModels:
             "hmr2_path": str(hmr2_path),
             "body_models_path": str(self.models_dir / "body_models"),
             "cache_model": cache_model,
+            "dpvo_model": dpvo_model,
         }
 
         return (config,)

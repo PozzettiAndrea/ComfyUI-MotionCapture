@@ -160,7 +160,11 @@ class SMPLtoBVH:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "smpl_params": ("SMPL_PARAMS",),
+                "npz_path": ("STRING", {
+                    "default": "",
+                    "multiline": False,
+                    "tooltip": "Path to .npz file with SMPL parameters (from GVHMR Inference)"
+                }),
                 "output_path": ("STRING", {
                     "default": "output/motion.bvh",
                     "multiline": False,
@@ -189,7 +193,7 @@ class SMPLtoBVH:
 
     def convert_to_bvh(
         self,
-        smpl_params: Dict,
+        npz_path: str,
         output_path: str,
         fps: int = 30,
         scale: float = 1.0,
@@ -198,7 +202,7 @@ class SMPLtoBVH:
         Convert SMPL parameters to BVH file format.
 
         Args:
-            smpl_params: SMPL parameters from GVHMRInference or LoadSMPL
+            npz_path: Path to .npz file with SMPL parameters (from GVHMR Inference)
             output_path: Path to save BVH file
             fps: Frames per second for the animation
             scale: Scale factor for the skeleton (1.0 = meters, 100.0 = centimeters)
@@ -209,6 +213,17 @@ class SMPLtoBVH:
         try:
             Log.info("[SMPLtoBVH] Converting SMPL to BVH format...")
 
+            # Load SMPL parameters from NPZ file
+            if not npz_path or not npz_path.strip():
+                raise ValueError("npz_path is required")
+
+            npz_file = Path(npz_path)
+            if not npz_file.exists():
+                raise FileNotFoundError(f"NPZ file not found: {npz_path}")
+
+            Log.info(f"[SMPLtoBVH] Loading SMPL parameters from: {npz_path}")
+            data = np.load(str(npz_file))
+
             # Prepare output directory
             output_path = Path(output_path)
             output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -217,25 +232,17 @@ class SMPLtoBVH:
             if not output_path.suffix == '.bvh':
                 output_path = output_path.with_suffix('.bvh')
 
-            # Extract global parameters
-            global_params = smpl_params.get("global", {})
-
-            # Get motion data
-            body_pose = global_params.get("body_pose")  # [F, 69] or [F, 23, 3]
-            global_orient = global_params.get("global_orient")  # [F, 3]
-            transl = global_params.get("transl")  # [F, 3]
+            # Get motion data from NPZ
+            body_pose = data.get('body_pose')  # [F, 63] or [F, 69]
+            global_orient = data.get('global_orient')  # [F, 3]
+            transl = data.get('transl')  # [F, 3]
 
             if body_pose is None or global_orient is None:
                 raise ValueError("Missing required SMPL parameters: body_pose or global_orient")
 
-            # Convert to numpy
-            if isinstance(body_pose, torch.Tensor):
-                body_pose = body_pose.cpu().numpy()
-            if isinstance(global_orient, torch.Tensor):
-                global_orient = global_orient.cpu().numpy()
-            if transl is not None and isinstance(transl, torch.Tensor):
-                transl = transl.cpu().numpy()
-            else:
+            # NPZ files contain numpy arrays directly
+            # Handle missing transl
+            if transl is None:
                 transl = np.zeros((body_pose.shape[0], 3))
 
             # Auto-detect number of joints and reshape body_pose
