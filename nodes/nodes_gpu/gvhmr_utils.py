@@ -32,9 +32,17 @@ def extract_bboxes_from_masks(masks: torch.Tensor) -> List[List[int]]:
         # Convert to uint8 for OpenCV
         mask_uint8 = (mask * 255).astype(np.uint8)
 
+        # Ensure mask is single-channel (cv2.findContours requires CV_8UC1)
+        if len(mask_uint8.shape) == 3:
+            # Take first channel (all channels should be identical for binary mask)
+            mask_uint8 = mask_uint8[:, :, 0]
+
+        # Ensure binary mask
+        _, mask_binary = cv2.threshold(mask_uint8, 127, 255, cv2.THRESH_BINARY)
+
         # Find contours
         contours, _ = cv2.findContours(
-            mask_uint8,
+            mask_binary,
             cv2.RETR_EXTERNAL,
             cv2.CHAIN_APPROX_SIMPLE
         )

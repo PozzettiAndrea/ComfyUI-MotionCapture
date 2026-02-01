@@ -11,8 +11,12 @@ import cv2
 from typing import Dict, Tuple
 from tqdm import tqdm
 
+# Add nodes_gpu path for local utils (needed when run as subprocess)
+NODES_GPU_PATH = Path(__file__).parent
+sys.path.insert(0, str(NODES_GPU_PATH))
+
 # Add vendor path for GVHMR
-VENDOR_PATH = Path(__file__).parent / "vendor"
+VENDOR_PATH = NODES_GPU_PATH / "vendor"
 sys.path.insert(0, str(VENDOR_PATH))
 
 # Import GVHMR components
@@ -34,8 +38,8 @@ try:
 except ImportError:
     Log.info("[GVHMRInference] DPVO not installed - only SimpleVO will be available")
 
-# Import local utilities
-from .utils import (
+# Import local utilities (renamed to avoid conflict with ComfyUI's utils package)
+from gvhmr_utils import (
     extract_bboxes_from_masks,
     bbox_to_xyxy,
     expand_bbox,
@@ -205,13 +209,17 @@ class GVHMRInference:
     Takes video frames and SAM3 masks, outputs SMPL parameters and 3D mesh.
     """
 
+    # Class-level model cache
+    _cached_model = None
+    _cached_config_hash = None
+
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
                 "images": ("IMAGE",),  # ComfyUI IMAGE tensor (B, H, W, C)
                 "masks": ("MASK",),  # SAM3 masks (B, H, W)
-                "model": ("GVHMR_MODEL",),  # Model bundle from LoadGVHMRModels
+                "config": ("GVHMR_CONFIG",),  # Config from LoadGVHMRModels
                 "static_camera": ("BOOLEAN", {
                     "default": True,
                     "tooltip": "Set to True if camera is stationary (skips visual odometry)"
@@ -261,6 +269,104 @@ class GVHMRInference:
     RETURN_NAMES = ("smpl_params", "visualization", "info")
     FUNCTION = "run_inference"
     CATEGORY = "MotionCapture/GVHMR"
+
+    @classmethod
+    def _get_config_hash(cls, config: Dict) -> str:
+        """Generate hash of config for cache invalidation."""
+        import hashlib
+        config_str = str(sorted(config.items()))
+        return hashlib.md5(config_str.encode()).hexdigest()
+
+    @classmethod
+    def _load_models(cls, config: Dict) -> Dict:
+        """Load GVHMR models based on config."""
+        from pathlib import Path
+        from hmr4d.configs import register_store_gvhmr
+        from hmr4d.model.gvhmr.gvhmr_pl_demo import DemoPL
+        from hmr4d.utils.preproc import VitPoseExtractor, Extractor
+        from hydra import initialize_config_module, compose
+        from hydra.core.global_hydra import GlobalHydra
+        from hydra.utils import instantiate
+        from omegaconf import OmegaConf
+
+        Log.info("[GVHMRInference] Loading GVHMR models...")
+
+        gvhmr_path = Path(config["gvhmr_path"])
+
+        # Initialize Hydra config for GVHMR
+        Log.info("[GVHMRInference] Initializing GVHMR configuration...")
+        if GlobalHydra.instance().is_initialized():
+            GlobalHydra.instance().clear()
+        with initialize_config_module(version_base="1.3", config_module="hmr4d.configs"):
+            register_store_gvhmr()
+            cfg = compose(config_name="demo", overrides=["static_cam=True", "verbose=False"])
+
+        # Check if rendering is available
+        try:
+            from hmr4d.utils.vis.renderer import PYTORCH3D_AVAILABLE
+            if not PYTORCH3D_AVAILABLE:
+                Log.warn("[GVHMRInference] PyTorch3D not installed - visualization rendering will be disabled")
+        except Exception:
+            pass
+
+        # Load GVHMR model
+        Log.info(f"[GVHMRInference] Loading GVHMR from {gvhmr_path}...")
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+
+        # Instantiate DemoPL with pipeline from config
+        model_cfg_dict = OmegaConf.to_container(cfg.model, resolve=True)
+        model_cfg = OmegaConf.create(model_cfg_dict)
+
+        model_gvhmr = instantiate(model_cfg, _recursive_=False)
+        model_gvhmr.load_pretrained_model(str(gvhmr_path))
+        model_gvhmr.eval()
+        model_gvhmr.to(device)
+
+        # Initialize preprocessing components
+        Log.info("[GVHMRInference] Initializing ViTPose extractor...")
+        vitpose_extractor = VitPoseExtractor()
+
+        Log.info("[GVHMRInference] Initializing feature extractor...")
+        feature_extractor = Extractor()
+
+        # Create model bundle
+        model_bundle = {
+            "gvhmr": model_gvhmr,
+            "vitpose_extractor": vitpose_extractor,
+            "feature_extractor": feature_extractor,
+            "config": cfg,
+            "device": device,
+            "paths": config,
+        }
+
+        Log.info("[GVHMRInference] All models loaded successfully!")
+        return model_bundle
+
+    @classmethod
+    def _get_or_load_model(cls, config: Dict) -> Dict:
+        """Get cached model or load new one based on config."""
+        config_hash = cls._get_config_hash(config)
+        cache_model = config.get("cache_model", False)
+
+        # Check if we have a valid cached model
+        if cache_model and cls._cached_model is not None and cls._cached_config_hash == config_hash:
+            Log.info("[GVHMRInference] Using cached model")
+            return cls._cached_model
+
+        # Load fresh model
+        model_bundle = cls._load_models(config)
+
+        # Cache if requested
+        if cache_model:
+            cls._cached_model = model_bundle
+            cls._cached_config_hash = config_hash
+            Log.info("[GVHMRInference] Model cached for future runs")
+        else:
+            # Clear any existing cache
+            cls._cached_model = None
+            cls._cached_config_hash = None
+
+        return model_bundle
 
     def prepare_data_from_masks(
         self,
@@ -437,7 +543,7 @@ class GVHMRInference:
         self,
         images: torch.Tensor,
         masks: torch.Tensor,
-        model: Dict,
+        config: Dict,
         static_camera: bool = True,
         focal_length_mm: int = 0,
         bbox_scale: float = 1.2,
@@ -453,6 +559,9 @@ class GVHMRInference:
         try:
             Log.info("[GVHMRInference] Starting GVHMR inference...")
             Log.info(f"[GVHMRInference] Input shape: {images.shape}, Masks shape: {masks.shape}")
+
+            # Load models based on config
+            model = self._get_or_load_model(config)
 
             # Prepare data
             data, camera_data = self.prepare_data_from_masks(
@@ -502,6 +611,13 @@ class GVHMRInference:
             )
 
             Log.info("[GVHMRInference] Inference complete!")
+
+            # Clear model from memory if not caching
+            if not config.get("cache_model", False):
+                Log.info("[GVHMRInference] Clearing model from memory (cache_model=False)")
+                del model
+                _clear_cuda_memory()
+
             return (smpl_params, viz_frames, info)
 
         except Exception as e:

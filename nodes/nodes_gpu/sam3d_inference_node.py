@@ -14,16 +14,20 @@ import cv2
 from typing import Dict, Tuple, Optional
 from tqdm import tqdm
 
+# Add nodes_gpu path for local utils (needed when run as subprocess)
+NODES_GPU_PATH = Path(__file__).parent
+sys.path.insert(0, str(NODES_GPU_PATH))
+
 # Add vendor path
-VENDOR_PATH = Path(__file__).parent / "vendor"
+VENDOR_PATH = NODES_GPU_PATH / "vendor"
 sys.path.insert(0, str(VENDOR_PATH))
 
 # Import GVHMR utilities
 from hmr4d.utils.pylogger import Log
 from hmr4d.utils.net_utils import gaussian_smooth, moving_average_smooth
 
-# Import local utilities
-from .utils import (
+# Import local utilities (renamed to avoid conflict with ComfyUI's utils package)
+from gvhmr_utils import (
     extract_bboxes_from_masks,
     bbox_to_xyxy,
     expand_bbox,

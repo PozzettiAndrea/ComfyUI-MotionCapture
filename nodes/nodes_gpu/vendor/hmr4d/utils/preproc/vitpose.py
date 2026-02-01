@@ -14,7 +14,8 @@ from hmr4d import PROJ_ROOT
 class VitPoseExtractor:
     def __init__(self, tqdm_leave=True):
         # Point to ComfyUI models directory
-        ckpt_path = PROJ_ROOT.parent.parent.parent / "models" / "motion_capture" / "vitpose" / "vitpose-h-multi-coco.pth"
+        # PROJ_ROOT is at vendor/ level, go up 5 levels to reach ComfyUI/
+        ckpt_path = PROJ_ROOT.parent.parent.parent.parent.parent / "models" / "motion_capture" / "vitpose" / "vitpose-h-multi-coco.pth"
         self.pose = build_model("ViTPose_huge_coco_256x192", str(ckpt_path))
         self.pose.cuda().eval()
 
