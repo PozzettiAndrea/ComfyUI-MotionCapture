@@ -1,7 +1,6 @@
 from time import time
 import logging
 import torch
-from colorlog import ColoredFormatter
 
 
 def sync_time():
@@ -17,10 +16,9 @@ Log.sync_time = sync_time
 Log.setLevel(logging.INFO)
 ch = logging.StreamHandler()
 ch.setLevel(logging.INFO)
-# Use colorlog
-formatstring = "[%(cyan)s%(asctime)s%(reset)s][%(log_color)s%(levelname)s%(reset)s] %(message)s"
+formatstring = "[%(asctime)s][%(levelname)s] %(message)s"
 datefmt = "%m/%d %H:%M:%S"
-ch.setFormatter(ColoredFormatter(formatstring, datefmt=datefmt))
+ch.setFormatter(logging.Formatter(formatstring, datefmt=datefmt))
 
 Log.addHandler(ch)
 # Log.info("Init-Logger")
