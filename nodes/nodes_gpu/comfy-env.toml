@@ -47,6 +47,7 @@ iopath = ">=0.1.7"
 tabulate = "*"
 portalocker = "*"
 comfy-3d-viewers = ">=0.1.0"
+chumpy-fork = "*"
 
 [target.linux-64.pypi-dependencies]
 pyrender = ">=0.1.45"
