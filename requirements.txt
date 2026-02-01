@@ -37,7 +37,7 @@ setuptools>=68.0
 yacs
 
 # Model downloads
-huggingface_hub
-transformers
+huggingface_hub>=1.4.0
+transformers>=4.50.0
 hf_xet
 gdown>=4.7.0
