@@ -14,7 +14,7 @@ import numpy as np
 VENDOR_PATH = Path(__file__).parent / "vendor"
 sys.path.insert(0, str(VENDOR_PATH))
 
-from hmr4d.utils.body_model.smplx_lite import SmplxLite
+from hmr4d.utils.smplx_utils import make_smplx
 from hmr4d.utils.pylogger import Log
 
 
@@ -92,49 +92,68 @@ class SMPLViewer:
         else:
             raise ValueError("Either 'smpl_params' or 'npz_path' must be provided")
 
-        # Extract SMPL parameters (now from either source)
-        # params now contains the 'global' parameters
+        # Extract SMPL parameters
         body_pose = params['body_pose']  # (F, 63)
         betas = params['betas']  # (F, 10)
         global_orient = params['global_orient']  # (F, 3)
         transl = params.get('transl', None)  # (F, 3) or None
 
+        # Debug: log actual shapes
+        Log.info(f"[SMPLViewer] body_pose shape: {body_pose.shape}")
+        Log.info(f"[SMPLViewer] betas shape: {betas.shape}")
+        Log.info(f"[SMPLViewer] global_orient shape: {global_orient.shape}")
+        if transl is not None:
+            Log.info(f"[SMPLViewer] transl shape: {transl.shape}")
+
         num_frames = body_pose.shape[0]
         Log.info(f"[SMPLViewer] Processing {num_frames} frames (skip={frame_skip})")
 
-        # Initialize SMPL model
-        smpl_model = SmplxLite(gender="neutral", num_betas=10)
-        smpl_model.eval()
+        # Determine device
+        device = body_pose.device if hasattr(body_pose, 'device') else 'cpu'
+        if device == 'cpu' and torch.cuda.is_available():
+            device = 'cuda'
 
-        # Move to same device as parameters
-        device = body_pose.device
-        smpl_model = smpl_model.to(device)
+        # Initialize SMPL-X model (same as GVHMRInference)
+        Log.info("[SMPLViewer] Loading SMPL model...")
+        smplx_model = make_smplx("supermotion").to(device)
+        smplx_model.eval()
 
-        # Generate mesh for each frame
+        # Load SMPL-X to SMPL vertex conversion matrix
+        smplx2smpl_path = Path(__file__).parent / "vendor" / "hmr4d" / "utils" / "body_model" / "smplx2smpl_sparse.pt"
+        smplx2smpl = torch.load(str(smplx2smpl_path), weights_only=True).to(device)
+
+        # Get SMPL faces for the output mesh
+        smpl_model = make_smplx("smpl")
+        faces = smpl_model.faces
+
+        # Process frames in batches
         vertices_list = []
         with torch.no_grad():
             for frame_idx in range(0, num_frames, frame_skip):
                 # Get parameters for this frame
-                bp = body_pose[frame_idx:frame_idx+1]  # (1, 63)
-                b = betas[frame_idx:frame_idx+1]  # (1, 10)
-                go = global_orient[frame_idx:frame_idx+1]  # (1, 3)
-                t = transl[frame_idx:frame_idx+1] if transl is not None else None  # (1, 3)
+                bp = body_pose[frame_idx:frame_idx+1].to(device)  # (1, 63)
+                b = betas[frame_idx:frame_idx+1].to(device)  # (1, 10)
+                go = global_orient[frame_idx:frame_idx+1].to(device)  # (1, 3)
+                t = transl[frame_idx:frame_idx+1].to(device) if transl is not None else None  # (1, 3)
 
-                # Generate vertices for this frame
-                verts = smpl_model.forward(
-                    body_pose=bp,
-                    betas=b,
-                    global_orient=go,
-                    transl=t,
-                    rotation_type="aa"
-                )  # (1, V, 3)
+                # Build params dict for SMPL-X model
+                smpl_input = {
+                    'body_pose': bp,
+                    'betas': b,
+                    'global_orient': go,
+                }
+                if t is not None:
+                    smpl_input['transl'] = t
 
-                vertices_list.append(verts[0].cpu().numpy())  # (V, 3)
+                # Generate SMPL-X vertices
+                smplx_out = smplx_model(**smpl_input)
+
+                # Convert SMPL-X vertices to SMPL vertices
+                smpl_verts = torch.matmul(smplx2smpl, smplx_out.vertices[0])  # (V_smpl, 3)
+
+                vertices_list.append(smpl_verts.cpu().numpy())  # (V, 3)
 
         vertices_array = np.stack(vertices_list, axis=0)  # (F', V, 3)
-
-        # Get faces (same for all frames)
-        faces = smpl_model.faces.astype(np.int32)  # (F, 3)
 
         Log.info(f"[SMPLViewer] Generated mesh: {vertices_array.shape[0]} frames, "
                  f"{vertices_array.shape[1]} vertices, {faces.shape[0]} faces")

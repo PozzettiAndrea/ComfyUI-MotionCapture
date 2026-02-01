@@ -14,8 +14,9 @@ from hmr4d import PROJ_ROOT
 def get_body_model_path(model_type="smplx"):
     """Get path to body models in ComfyUI models directory."""
     # Body models are always in ComfyUI/models/motion_capture/body_models/
-    # PROJ_ROOT is at vendor/ level, so go up 3 levels: vendor -> ComfyUI-MotionCapture -> custom_nodes -> ComfyUI
-    comfy_path = PROJ_ROOT.parent.parent.parent / "models" / "motion_capture" / "body_models" / model_type
+    # PROJ_ROOT is at vendor/ level, so go up 5 levels:
+    # vendor -> nodes_gpu -> nodes -> ComfyUI-MotionCapture -> custom_nodes -> ComfyUI
+    comfy_path = PROJ_ROOT.parent.parent.parent.parent.parent / "models" / "motion_capture" / "body_models" / model_type
     return comfy_path
 
 

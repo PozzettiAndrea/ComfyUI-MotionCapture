@@ -1,23 +1,17 @@
 """
-LoadGVHMRModels Node - Loads and initializes GVHMR model pipeline
+LoadGVHMRModels Node - Downloads and verifies GVHMR model files
 """
 
 import os
 import sys
 from pathlib import Path
-import torch
 
 # Add vendor path for GVHMR
 VENDOR_PATH = Path(__file__).parent / "vendor"
 sys.path.insert(0, str(VENDOR_PATH))
 
-# Import GVHMR components
-from hmr4d.configs import register_store_gvhmr
-from hmr4d.model.gvhmr.gvhmr_pl_demo import DemoPL
-from hmr4d.utils.preproc import VitPoseExtractor, Extractor
+# Import logger
 from hmr4d.utils.pylogger import Log
-from hydra import initialize_config_module, compose
-from hydra.core.global_hydra import GlobalHydra
 
 
 class LoadGVHMRModels:
@@ -44,8 +38,8 @@ class LoadGVHMRModels:
 
     def __init__(self):
         # Models are stored in ComfyUI/models/motion_capture/, not in the custom node repo
-        self.models_dir = Path(__file__).parent.parent.parent.parent / "models" / "motion_capture"
-        self.cached_model = None
+        # Go up 5 levels: loader_node.py -> nodes_gpu -> nodes -> ComfyUI-MotionCapture -> custom_nodes -> ComfyUI
+        self.models_dir = Path(__file__).parent.parent.parent.parent.parent / "models" / "motion_capture"
 
     @classmethod
     def INPUT_TYPES(cls):
@@ -57,11 +51,15 @@ class LoadGVHMRModels:
                     "multiline": False,
                     "tooltip": "Optional: Override default model checkpoint path"
                 }),
+                "cache_model": ("BOOLEAN", {
+                    "default": False,
+                    "tooltip": "Keep model in GPU memory between inference runs"
+                }),
             }
         }
 
-    RETURN_TYPES = ("GVHMR_MODEL",)
-    RETURN_NAMES = ("model",)
+    RETURN_TYPES = ("GVHMR_CONFIG",)
+    RETURN_NAMES = ("config",)
     FUNCTION = "load_models"
     CATEGORY = "MotionCapture/GVHMR"
 
@@ -189,15 +187,10 @@ class LoadGVHMRModels:
         Log.info(f"[LoadGVHMRModels] SMPL body models found")
         return True
 
-    def load_models(self, model_path_override=""):
-        """Load all GVHMR models and preprocessing components."""
+    def load_models(self, model_path_override="", cache_model=False):
+        """Download models if needed and return config for GVHMRInference."""
 
-        # Use cached model if available
-        if self.cached_model is not None:
-            Log.info("[LoadGVHMRModels] Using cached model")
-            return (self.cached_model,)
-
-        Log.info("[LoadGVHMRModels] Initializing GVHMR models...")
+        Log.info("[LoadGVHMRModels] Checking GVHMR models...")
 
         # Define model paths
         gvhmr_path = self.models_dir / "gvhmr" / "gvhmr_siga24_release.ckpt"
@@ -223,70 +216,19 @@ class LoadGVHMRModels:
                 "Please check error messages above or run install.py script."
             )
 
-        # Initialize Hydra config for GVHMR
-        Log.info("[LoadGVHMRModels] Initializing GVHMR configuration...")
-        # Clear any existing Hydra instance to allow re-initialization
-        if GlobalHydra.instance().is_initialized():
-            GlobalHydra.instance().clear()
-        with initialize_config_module(version_base="1.3", config_module="hmr4d.configs"):
-            register_store_gvhmr()
-            cfg = compose(config_name="demo", overrides=["static_cam=True", "verbose=False"])
+        Log.info("[LoadGVHMRModels] All models verified!")
 
-        # Check if rendering is available
-        try:
-            from hmr4d.utils.vis.renderer import PYTORCH3D_AVAILABLE
-            if not PYTORCH3D_AVAILABLE:
-                Log.warn("[LoadGVHMRModels] PyTorch3D not installed - visualization rendering will be disabled")
-                Log.warn("[LoadGVHMRModels] SMPL parameters will still be extracted successfully")
-        except Exception:
-            pass
-
-        # Load GVHMR model
-        Log.info(f"[LoadGVHMRModels] Loading GVHMR from {gvhmr_path}...")
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-
-        # Instantiate DemoPL with pipeline from config
-        from hydra.utils import instantiate
-        from omegaconf import OmegaConf
-
-        # Only resolve the model part to avoid missing path values
-        model_cfg_dict = OmegaConf.to_container(cfg.model, resolve=True)
-        model_cfg = OmegaConf.create(model_cfg_dict)
-
-        model_gvhmr = instantiate(model_cfg, _recursive_=False)
-
-        # Load pretrained weights
-        model_gvhmr.load_pretrained_model(str(gvhmr_path))
-        model_gvhmr.eval()
-        model_gvhmr.to(device)
-
-        # Initialize preprocessing components
-        Log.info("[LoadGVHMRModels] Initializing ViTPose extractor...")
-        vitpose_extractor = VitPoseExtractor()
-
-        Log.info("[LoadGVHMRModels] Initializing feature extractor...")
-        feature_extractor = Extractor()
-
-        # Create model bundle
-        model_bundle = {
-            "gvhmr": model_gvhmr,
-            "vitpose_extractor": vitpose_extractor,
-            "feature_extractor": feature_extractor,
-            "config": cfg,
-            "device": device,
-            "paths": {
-                "gvhmr": str(gvhmr_path),
-                "vitpose": str(vitpose_path),
-                "hmr2": str(hmr2_path),
-                "body_models": str(self.models_dir / "body_models"),
-            }
+        # Return config dict (models will be loaded by GVHMRInference)
+        config = {
+            "models_dir": str(self.models_dir),
+            "gvhmr_path": str(gvhmr_path),
+            "vitpose_path": str(vitpose_path),
+            "hmr2_path": str(hmr2_path),
+            "body_models_path": str(self.models_dir / "body_models"),
+            "cache_model": cache_model,
         }
 
-        # Cache the model
-        self.cached_model = model_bundle
-
-        Log.info("[LoadGVHMRModels] All models loaded successfully!")
-        return (model_bundle,)
+        return (config,)
 
 
 # Node registration
