@@ -41,3 +41,4 @@ huggingface_hub
 transformers>=4.50.0
 hf_xet
 gdown>=4.7.0
+hydra-zen
