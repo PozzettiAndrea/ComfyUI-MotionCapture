@@ -19,7 +19,6 @@ imageio>=2.34.0
 av>=13.0.0
 ffmpeg-python
 trimesh
-chumpy-fork
 smplx
 pycolmap
 pillow>=9.0.0
