@@ -10,10 +10,9 @@ This node is specifically optimized for Mixamo characters with the mixamorig: pr
 import tempfile
 import os
 from pathlib import Path
-from typing import Dict, Tuple
+from typing import Tuple
 
 import numpy as np
-import torch
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -466,7 +465,10 @@ class SMPLToMixamo:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "smpl_params": ("SMPL_PARAMS",),
+                "smpl_npz_path": ("STRING", {
+                    "default": "",
+                    "multiline": False,
+                }),
                 "mixamo_fbx_path": ("STRING", {
                     "default": "",
                     "multiline": False,
@@ -493,7 +495,7 @@ class SMPLToMixamo:
 
     def retarget(
         self,
-        smpl_params: Dict,
+        smpl_npz_path: str,
         mixamo_fbx_path: str,
         output_filename: str,
         fps: int = 30,
@@ -502,7 +504,7 @@ class SMPLToMixamo:
         Retarget SMPL motion to Mixamo character.
 
         Args:
-            smpl_params: SMPL parameters from GVHMRInference or LoadSMPL
+            smpl_npz_path: Path to npz file containing SMPL parameters
             mixamo_fbx_path: Path to input Mixamo FBX file
             output_filename: Name for output FBX (without extension)
             fps: Frame rate for animation
@@ -514,6 +516,10 @@ class SMPLToMixamo:
             print("[SMPLToMixamo] Starting SMPL to Mixamo retargeting...")
 
             # Validate inputs
+            smpl_npz_path = Path(smpl_npz_path)
+            if not smpl_npz_path.exists():
+                raise FileNotFoundError(f"SMPL npz file not found: {smpl_npz_path}")
+
             mixamo_fbx_path = Path(mixamo_fbx_path)
             if not mixamo_fbx_path.exists():
                 raise FileNotFoundError(f"Mixamo FBX not found: {mixamo_fbx_path}")
@@ -526,18 +532,12 @@ class SMPLToMixamo:
                 output_filename = f"{output_filename}.fbx"
             output_path = output_dir / output_filename
 
-            # Extract SMPL parameters to temporary file
-            temp_dir = Path(tempfile.gettempdir()) / "mocap_mixamo"
-            temp_dir.mkdir(exist_ok=True)
-            smpl_data_path = temp_dir / "smpl_params.npz"
-            frame_count = self._save_smpl_params(smpl_params, smpl_data_path)
-
-            print(f"[SMPLToMixamo] Saved SMPL data: {smpl_data_path} ({frame_count} frames)")
+            print(f"[SMPLToMixamo] Using SMPL data: {smpl_npz_path}")
 
             # Create worker and run retargeting in isolated environment
             worker = SMPLToMixamoWorker()
             result_path, result_frames, info = worker.retarget(
-                smpl_data_path=str(smpl_data_path),
+                smpl_data_path=str(smpl_npz_path.absolute()),
                 mixamo_fbx=str(mixamo_fbx_path.absolute()),
                 output_fbx=str(output_path.absolute()),
                 fps=fps,
@@ -548,7 +548,8 @@ class SMPLToMixamo:
 
             full_info = (
                 f"SMPLToMixamo Complete\n"
-                f"Input: {mixamo_fbx_path.name}\n"
+                f"SMPL: {smpl_npz_path.name}\n"
+                f"Mixamo: {mixamo_fbx_path.name}\n"
                 f"Output: {output_path.name}\n"
                 f"Frames: {result_frames}\n"
                 f"FPS: {fps}\n"
@@ -563,37 +564,6 @@ class SMPLToMixamo:
             import traceback
             traceback.print_exc()
             return ("", 0, error_msg)
-
-    def _save_smpl_params(self, smpl_params: Dict, output_path: Path) -> int:
-        """
-        Save SMPL parameters to npz file for the isolated worker.
-
-        Returns:
-            Number of frames in the motion
-        """
-        global_params = smpl_params.get("global", smpl_params)
-
-        np_params = {}
-        for key, value in global_params.items():
-            if isinstance(value, torch.Tensor):
-                np_params[key] = value.cpu().numpy()
-            elif isinstance(value, np.ndarray):
-                np_params[key] = value
-            else:
-                np_params[key] = np.array(value)
-
-        # Determine frame count
-        frame_count = 0
-        if 'body_pose' in np_params:
-            frame_count = np_params['body_pose'].shape[0]
-        elif 'global_orient' in np_params:
-            frame_count = np_params['global_orient'].shape[0]
-
-        np.savez(output_path, **np_params)
-        print(f"[SMPLToMixamo] Saved SMPL params: {list(np_params.keys())}")
-
-        return frame_count
-
 
 NODE_CLASS_MAPPINGS = {
     "SMPLToMixamo": SMPLToMixamo,
