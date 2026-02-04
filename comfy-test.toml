@@ -1,15 +1,13 @@
 [test]
-name = "ComfyUI-MotionCapture"
-python_version = "3.11"
-cpu_only = true
-timeout = 300
-levels = ["syntax", "install", "registration", "instantiation", "validation"]
+levels = ["syntax", "install", "registration", "instantiation", "static_capture", "execution"]
 
 [test.workflows]
-run = "all"
-timeout = 120
+timeout = 300
+cpu = []
+gpu = "all"
 
 [test.platforms]
 linux = true
+macos = false
 windows = true
 windows_portable = true

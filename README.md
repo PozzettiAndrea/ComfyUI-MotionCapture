@@ -1,5 +1,7 @@
 # ComfyUI-MotionCapture
 
+**[View Workflow Gallery](https://pozzettiandrea.github.io/ComfyUI-MotionCapture/)**
+
 A ComfyUI custom node package for GVHMR-based 3D human motion capture from video. Extract SMPL parameters and 3D skeletal motion using state-of-the-art pose estimation.
 
 
