@@ -7,10 +7,13 @@ import sys
 import zipfile
 from pathlib import Path
 import torch
+import folder_paths
 
 # Add vendor path for GVHMR
 VENDOR_PATH = Path(__file__).parent / "vendor"
 sys.path.insert(0, str(VENDOR_PATH))
+
+MODELS_DIR = Path(folder_paths.models_dir) / "motion_capture"
 
 # Import logger
 from hmr4d.utils.pylogger import Log
@@ -46,11 +49,6 @@ class LoadGVHMRModels:
             "filename": "hmr2/epoch=10-step=25000.ckpt",
         },
     }
-
-    def __init__(self):
-        # Models are stored in ComfyUI/models/motion_capture/, not in the custom node repo
-        # Go up 4 levels: loader_node.py -> nodes -> ComfyUI-MotionCapture -> custom_nodes -> ComfyUI
-        self.models_dir = Path(__file__).parent.parent.parent.parent / "models" / "motion_capture"
 
     @classmethod
     def INPUT_TYPES(cls):
@@ -103,7 +101,7 @@ class LoadGVHMRModels:
             downloaded_path = hf_hub_download(
                 repo_id=config["repo_id"],
                 filename=config["filename"],
-                cache_dir=str(self.models_dir / "_hf_cache"),
+                cache_dir=str(MODELS_DIR / "_hf_cache"),
             )
             # Copy to target location
             import shutil
@@ -142,7 +140,7 @@ class LoadGVHMRModels:
             downloaded = hf_hub_download(
                 repo_id="lithiumice/models_hub",
                 filename=hf_files[model_name],
-                cache_dir=str(self.models_dir / "_hf_cache"),
+                cache_dir=str(MODELS_DIR / "_hf_cache"),
             )
             import shutil
             shutil.copy(downloaded, str(target_path))
@@ -154,8 +152,8 @@ class LoadGVHMRModels:
 
     def check_smpl_models(self) -> bool:
         """Check if SMPL body models are available, download from HuggingFace if missing."""
-        smpl_dir = self.models_dir / "body_models" / "smpl"
-        smplx_dir = self.models_dir / "body_models" / "smplx"
+        smpl_dir = MODELS_DIR / "body_models" / "smpl"
+        smplx_dir = MODELS_DIR / "body_models" / "smplx"
 
         smpl_files = ["SMPL_FEMALE.npz", "SMPL_MALE.npz", "SMPL_NEUTRAL.npz"]
         smplx_files = ["SMPLX_FEMALE.npz", "SMPLX_MALE.npz", "SMPLX_NEUTRAL.npz"]
@@ -195,7 +193,7 @@ class LoadGVHMRModels:
                 "  3. Place files in:\n"
                 f"     {smpl_dir}/\n"
                 f"     {smplx_dir}/\n\n"
-                f"See {self.models_dir}/README.md for detailed instructions.\n"
+                f"See {MODELS_DIR}/README.md for detailed instructions.\n"
                 + "="*80
             )
             raise FileNotFoundError(error_msg)
@@ -340,9 +338,9 @@ LOOP_RETR_THRESH: 0.04
         Log.info("[LoadGVHMRModels] Checking GVHMR models...")
 
         # Define model paths
-        gvhmr_path = self.models_dir / "gvhmr" / "gvhmr_siga24_release.ckpt"
-        vitpose_path = self.models_dir / "vitpose" / "vitpose-h-multi-coco.pth"
-        hmr2_path = self.models_dir / "hmr2" / "epoch=10-step=25000.ckpt"
+        gvhmr_path = MODELS_DIR / "gvhmr" / "gvhmr_siga24_release.ckpt"
+        vitpose_path = MODELS_DIR / "vitpose" / "vitpose-h-multi-coco.pth"
+        hmr2_path = MODELS_DIR / "hmr2" / "epoch=10-step=25000.ckpt"
 
         # Override GVHMR path if specified
         if model_path_override and model_path_override.strip():
@@ -368,7 +366,7 @@ LOOP_RETR_THRESH: 0.04
         # Load DPVO if requested
         dpvo_model = None
         if load_dpvo:
-            dpvo_dir = self.models_dir / "dpvo"
+            dpvo_dir = MODELS_DIR / "dpvo"
             dpvo_model = self.load_dpvo_model(dpvo_dir)
             if dpvo_model:
                 Log.info("[LoadGVHMRModels] DPVO model included in config")
@@ -377,11 +375,11 @@ LOOP_RETR_THRESH: 0.04
 
         # Return config dict (models will be loaded by GVHMRInference)
         config = {
-            "models_dir": str(self.models_dir),
+            "models_dir": str(MODELS_DIR),
             "gvhmr_path": str(gvhmr_path),
             "vitpose_path": str(vitpose_path),
             "hmr2_path": str(hmr2_path),
-            "body_models_path": str(self.models_dir / "body_models"),
+            "body_models_path": str(MODELS_DIR / "body_models"),
             "cache_model": cache_model,
             "dpvo_model": dpvo_model,
         }

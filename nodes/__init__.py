@@ -3,7 +3,7 @@
 import sys
 from pathlib import Path
 
-# Add vendor path for GVHMR, DPVO, SAM3D
+# Add vendor path for GVHMR, DPVO
 VENDOR_PATH = Path(__file__).parent / "vendor"
 sys.path.insert(0, str(VENDOR_PATH))
 
@@ -21,10 +21,6 @@ from .compare_smpl_bvh_node import CompareSMPLtoBVH
 from .bvh_loader_node import LoadBVHFromFolder
 from .mixamo_loader_node import LoadMixamoCharacter
 from .compare_skeletons_node import CompareSkeletons
-from .sam3d_loader_node import LoadSAM3DBodyModels
-from .sam3d_inference_node import SAM3DVideoInference
-from .mhr_viewer_node import MHRViewer
-from .save_mhr_node import SaveMHR
 
 # Blender nodes
 from .retarget_node import SMPLToFBX
@@ -52,10 +48,6 @@ NODE_CLASS_MAPPINGS = {
     "LoadBVHFromFolder": LoadBVHFromFolder,
     "LoadMixamoCharacter": LoadMixamoCharacter,
     "CompareSkeletons": CompareSkeletons,
-    "LoadSAM3DBodyModels": LoadSAM3DBodyModels,
-    "SAM3DVideoInference": SAM3DVideoInference,
-    "MHRViewer": MHRViewer,
-    "SaveMHR": SaveMHR,
     # Blender nodes
     "SMPLToFBX": SMPLToFBX,
     "BVHtoFBX": BVHtoFBX,
@@ -81,10 +73,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "LoadBVHFromFolder": "Load BVH (Dropdown)",
     "LoadMixamoCharacter": "Load Mixamo Character",
     "CompareSkeletons": "Compare Skeletons",
-    "LoadSAM3DBodyModels": "Load SAM 3D Body Models",
-    "SAM3DVideoInference": "SAM3D Video Inference",
-    "MHRViewer": "MHR Skeleton Viewer",
-    "SaveMHR": "Save MHR Motion",
     # Blender nodes
     "SMPLToFBX": "SMPL to FBX Retargeting",
     "BVHtoFBX": "BVH to FBX Retargeter",

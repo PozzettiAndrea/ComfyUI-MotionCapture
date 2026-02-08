@@ -4,9 +4,9 @@ from pathlib import Path
 from .configs import get_config
 from hmr4d import PROJ_ROOT
 
-# Point to ComfyUI models directory instead of inputs/checkpoints
-# PROJ_ROOT is at vendor/ level, go up 4 levels to reach ComfyUI/
-HMR2A_CKPT = PROJ_ROOT.parent.parent.parent.parent / "models" / "motion_capture" / "hmr2" / "epoch=10-step=25000.ckpt"
+# Point to ComfyUI models directory
+import folder_paths
+HMR2A_CKPT = Path(folder_paths.models_dir) / "motion_capture" / "hmr2" / "epoch=10-step=25000.ckpt"
 
 
 def load_hmr2(checkpoint_path=HMR2A_CKPT):

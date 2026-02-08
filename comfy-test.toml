@@ -4,8 +4,8 @@ publish = true
 
 [test.workflows]
 timeout = 300
-cpu = ["!GVHMR_inference", "!GVHMR_inference_movingcamera", "!GVHMR_inference_cameramotion", "!SAM3DB_inference"]
-gpu = ["GVHMR_inference", "GVHMR_inference_movingcamera", "GVHMR_inference_cameramotion", "SAM3DB_inference"]
+cpu = ["!GVHMR_inference", "!GVHMR_inference_movingcamera", "!GVHMR_inference_cameramotion"]
+gpu = ["GVHMR_inference", "GVHMR_inference_movingcamera", "GVHMR_inference_cameramotion"]
 
 [test.platforms]
 linux = true

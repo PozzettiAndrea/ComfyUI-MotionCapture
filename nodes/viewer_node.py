@@ -1,13 +1,15 @@
 """
-SMPLViewer Node - Visualizes SMPL motion capture data in an interactive 3D viewer
-Runs in main ComfyUI process (not isolated) to avoid IPC size limits.
+SMPLViewer Node - Visualizes SMPL motion capture data in an interactive 3D viewer.
+Writes mesh data to a binary file and sends the filename to the JS viewer via IPC.
 """
 
 import logging
+import time
 from pathlib import Path
 import torch
 import numpy as np
 import smplx
+import folder_paths
 
 logger = logging.getLogger("SMPLViewer")
 
@@ -15,7 +17,7 @@ logger = logging.getLogger("SMPLViewer")
 class SMPLViewer:
     """
     ComfyUI node for visualizing SMPL motion capture sequences in an interactive 3D viewer.
-    Uses Three.js for real-time playback and camera controls.
+    Writes mesh to a .bin file; the JS widget fetches it via /view?filename=...&type=output.
     """
 
     @classmethod
@@ -43,19 +45,19 @@ class SMPLViewer:
             }
         }
 
-    RETURN_TYPES = ("SMPL_VIEWER",)
-    RETURN_NAMES = ("viewer_data",)
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("mesh_file",)
     FUNCTION = "create_viewer_data"
     CATEGORY = "MotionCapture/GVHMR"
     OUTPUT_NODE = True
 
     def create_viewer_data(self, npz_path="", frame_skip=1, mesh_color="#4a9eff"):
         """
-        Generate 3D mesh data from SMPL parameters for web visualization.
+        Generate 3D mesh data from SMPL parameters, write to .bin file,
+        and return the filename for the JS viewer to fetch.
         """
         logger.info("[SMPLViewer] Generating 3D mesh data for visualization...")
 
-        # Load from npz file
         if not npz_path or not npz_path.strip():
             raise ValueError("npz_path is required")
 
@@ -70,35 +72,21 @@ class SMPLViewer:
         for key in data.files:
             params[key] = torch.from_numpy(data[key])
 
-        logger.info(f"[SMPLViewer] Loaded {len(data.files)} parameter arrays from npz")
-
         # Extract SMPL parameters
         body_pose = params['body_pose']  # (F, 63)
         betas = params['betas']  # (F, 10)
         global_orient = params['global_orient']  # (F, 3)
         transl = params.get('transl', None)  # (F, 3) or None
 
-        # Debug: log actual shapes
-        logger.info(f"[SMPLViewer] body_pose shape: {body_pose.shape}")
-        logger.info(f"[SMPLViewer] betas shape: {betas.shape}")
-        logger.info(f"[SMPLViewer] global_orient shape: {global_orient.shape}")
-        if transl is not None:
-            logger.info(f"[SMPLViewer] transl shape: {transl.shape}")
-
         num_frames = body_pose.shape[0]
         logger.info(f"[SMPLViewer] Processing {num_frames} frames (skip={frame_skip})")
 
-        # Determine device
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-        # Get paths to data files
         data_dir = Path(__file__).parent / "data"
-
-        # Path to body models (in ComfyUI models directory)
-        models_dir = Path(__file__).parent.parent.parent.parent / "models" / "motion_capture" / "body_models"
+        models_dir = Path(folder_paths.models_dir) / "motion_capture" / "body_models"
 
         # Initialize SMPL-X model
-        logger.info("[SMPLViewer] Loading SMPLX model...")
         smplx_model = smplx.create(
             model_path=str(models_dir),
             model_type='smplx',
@@ -109,59 +97,62 @@ class SMPLViewer:
         smplx_model.eval()
 
         # Load SMPL-X to SMPL vertex conversion matrix
-        smplx2smpl_path = data_dir / "smplx2smpl_sparse.pt"
-        smplx2smpl = torch.load(str(smplx2smpl_path), weights_only=True).to(device)
+        smplx2smpl = torch.load(
+            str(data_dir / "smplx2smpl_sparse.pt"), weights_only=True
+        ).to(device)
 
-        # Get SMPL faces from pre-saved file
-        smpl_faces_path = data_dir / "smpl_faces.npy"
-        faces = np.load(str(smpl_faces_path))
+        # Get SMPL faces
+        faces = np.load(str(data_dir / "smpl_faces.npy"))
 
-        # Process frames in batches
+        # Generate vertices
         vertices_list = []
         with torch.no_grad():
             for frame_idx in range(0, num_frames, frame_skip):
-                # Get parameters for this frame
-                bp = body_pose[frame_idx:frame_idx+1].to(device)  # (1, 63)
-                b = betas[frame_idx:frame_idx+1].to(device)  # (1, 10)
-                go = global_orient[frame_idx:frame_idx+1].to(device)  # (1, 3)
+                bp = body_pose[frame_idx:frame_idx+1].to(device)
+                b = betas[frame_idx:frame_idx+1].to(device)
+                go = global_orient[frame_idx:frame_idx+1].to(device)
                 t = transl[frame_idx:frame_idx+1].to(device) if transl is not None else None
 
-                # Generate SMPL-X vertices
                 smplx_out = smplx_model(
-                    body_pose=bp,
-                    betas=b,
-                    global_orient=go,
-                    transl=t,
+                    body_pose=bp, betas=b, global_orient=go, transl=t,
                 )
-
-                # Convert SMPL-X vertices to SMPL vertices
-                smpl_verts = torch.matmul(smplx2smpl, smplx_out.vertices[0])  # (V_smpl, 3)
+                smpl_verts = torch.matmul(smplx2smpl, smplx_out.vertices[0])
                 vertices_list.append(smpl_verts.cpu().numpy())
 
-        vertices_array = np.stack(vertices_list, axis=0)  # (F', V, 3)
+        vertices_array = np.stack(vertices_list, axis=0).astype(np.float32)  # (F', V, 3)
+        faces_u32 = faces.astype(np.uint32)
+        fps = 30 // frame_skip
 
         logger.info(f"[SMPLViewer] Generated mesh: {vertices_array.shape[0]} frames, "
-                 f"{vertices_array.shape[1]} vertices, {faces.shape[0]} faces")
+                     f"{vertices_array.shape[1]} vertices, {faces_u32.shape[0]} faces")
 
-        # Prepare data for JavaScript viewer
-        viewer_data = {
-            "frames": vertices_array.shape[0],
-            "num_vertices": vertices_array.shape[1],
-            "num_faces": faces.shape[0],
-            "vertices": vertices_array.tolist(),
-            "faces": faces.tolist(),
-            "mesh_color": mesh_color,
-            "fps": 30 // frame_skip,
-        }
+        # Write binary file to ComfyUI output directory
+        # Format: Magic(4) | Frames(u32) | Verts(u32) | Faces(u32) | FPS(f32) | mesh_color(64 bytes) | vertex_data | face_data
+        output_dir = Path(folder_paths.get_output_directory())
+        timestamp = int(time.time() * 1000)
+        mesh_filename = f"smpl_mesh_{timestamp}.bin"
+        mesh_filepath = output_dir / mesh_filename
 
-        logger.info("[SMPLViewer] Viewer data prepared successfully!")
+        with open(mesh_filepath, "wb") as f:
+            f.write(b"SMPL")
+            f.write(np.array([vertices_array.shape[0]], dtype=np.uint32).tobytes())
+            f.write(np.array([vertices_array.shape[1]], dtype=np.uint32).tobytes())
+            f.write(np.array([faces_u32.shape[0]], dtype=np.uint32).tobytes())
+            f.write(np.array([float(fps)], dtype=np.float32).tobytes())
+            # mesh_color as fixed 64-byte UTF-8 field (padded with nulls)
+            color_bytes = mesh_color.encode("utf-8")[:64]
+            f.write(color_bytes + b"\x00" * (64 - len(color_bytes)))
+            f.write(vertices_array.tobytes())
+            f.write(faces_u32.tobytes())
 
-        # Return in SAM3 pattern: ui dict for frontend, result tuple for outputs
+        size_mb = mesh_filepath.stat().st_size / (1024 * 1024)
+        logger.info(f"[SMPLViewer] Wrote {mesh_filename} ({size_mb:.1f} MB)")
+
         return {
             "ui": {
-                "smpl_mesh": [viewer_data]
+                "smpl_mesh_file": [mesh_filename]
             },
-            "result": (viewer_data,)
+            "result": (mesh_filename,)
         }
 
 

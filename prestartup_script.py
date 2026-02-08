@@ -15,7 +15,7 @@ COMFYUI_DIR = SCRIPT_DIR.parent.parent
 viewers = [
     "fbx", "fbx_compare",
     "bvh", "fbx_animation", "compare_smpl_bvh",
-    "smpl", "mhr",
+    "smpl",
 ]
 for viewer in viewers:
     try:
