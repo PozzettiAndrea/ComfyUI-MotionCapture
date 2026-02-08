@@ -3,7 +3,9 @@ name = "ComfyUI-MotionCapture"
 description = "Motion Capture nodes for ComfyUI: SMPL data/retargeting using GVHMR"
 version = "0.0.7"
 license = {file = "LICENSE"}
-repository = "https://github.com/PozzettiAndrea/ComfyUI-MotionCapture"
+
+[project.urls]
+Repository = "https://github.com/PozzettiAndrea/ComfyUI-MotionCapture"
 
 [tool.comfy]
 PublisherId = "pznodes"
