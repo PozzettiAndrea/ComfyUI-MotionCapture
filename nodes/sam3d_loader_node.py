@@ -34,7 +34,7 @@ class LoadSAM3DBodyModels:
 
     def __init__(self):
         # Models stored in ComfyUI/models/motion_capture/sam3dbody/
-        self.models_dir = Path(__file__).parent.parent.parent.parent / "models" / "motion_capture" / "sam3dbody"
+        self.models_dir = Path(__file__).parent.parent.parent / "models" / "motion_capture" / "sam3dbody"
 
     @classmethod
     def INPUT_TYPES(cls):

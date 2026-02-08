@@ -1,13 +1,17 @@
 [test]
 levels = ["syntax", "install", "registration", "instantiation", "static_capture", "execution"]
+publish = true
 
 [test.workflows]
 timeout = 300
-cpu = []
-gpu = "all"
+cpu = ["!GVHMR_inference", "!GVHMR_inference_movingcamera", "!GVHMR_inference_cameramotion", "!SAM3DB_inference"]
+gpu = ["GVHMR_inference", "GVHMR_inference_movingcamera", "GVHMR_inference_cameramotion", "SAM3DB_inference"]
 
 [test.platforms]
 linux = true
 macos = false
 windows = true
 windows_portable = true
+linux_gpu = true
+windows_gpu = true
+windows_portable_gpu = true

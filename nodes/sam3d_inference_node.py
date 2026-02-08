@@ -14,12 +14,12 @@ import cv2
 from typing import Dict, Tuple, Optional
 from tqdm import tqdm
 
-# Add nodes_gpu path for local utils (needed when run as subprocess)
-NODES_GPU_PATH = Path(__file__).parent
-sys.path.insert(0, str(NODES_GPU_PATH))
+# Add nodes path for local utils (needed when run as subprocess)
+NODES_PATH = Path(__file__).parent
+sys.path.insert(0, str(NODES_PATH))
 
 # Add vendor path
-VENDOR_PATH = NODES_GPU_PATH / "vendor"
+VENDOR_PATH = NODES_PATH / "vendor"
 sys.path.insert(0, str(VENDOR_PATH))
 
 # Import GVHMR utilities
