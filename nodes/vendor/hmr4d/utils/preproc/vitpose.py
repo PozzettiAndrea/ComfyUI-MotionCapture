@@ -1,6 +1,7 @@
 import torch
 import torch.nn.functional as F
 import numpy as np
+from pathlib import Path
 from .vitpose_pytorch import build_model
 from .vitfeat_extractor import get_batch
 from tqdm import tqdm
@@ -14,8 +15,8 @@ from hmr4d import PROJ_ROOT
 class VitPoseExtractor:
     def __init__(self, tqdm_leave=True):
         # Point to ComfyUI models directory
-        # PROJ_ROOT is at vendor/ level, go up 4 levels to reach ComfyUI/
-        ckpt_path = PROJ_ROOT.parent.parent.parent.parent / "models" / "motion_capture" / "vitpose" / "vitpose-h-multi-coco.pth"
+        import folder_paths
+        ckpt_path = Path(folder_paths.models_dir) / "motion_capture" / "vitpose" / "vitpose-h-multi-coco.pth"
         self.pose = build_model("ViTPose_huge_coco_256x192", str(ckpt_path))
         self.pose.cuda().eval()
 

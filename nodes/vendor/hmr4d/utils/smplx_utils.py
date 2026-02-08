@@ -10,7 +10,8 @@ from hmr4d.utils.body_model.smplx_lite import SmplxLiteCoco17, SmplxLiteV437Coco
 from hmr4d import PROJ_ROOT
 
 # Path to body models in ComfyUI models directory
-BODY_MODELS_PATH = Path(__file__).resolve().parents[6] / "models/motion_capture/body_models"
+import folder_paths
+BODY_MODELS_PATH = Path(folder_paths.models_dir) / "motion_capture" / "body_models"
 
 # fmt: off
 SMPLH_PARENTS = torch.tensor([-1,  0,  0,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  9,  9, 12, 13, 14,

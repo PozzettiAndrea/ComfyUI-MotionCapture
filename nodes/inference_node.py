@@ -6,6 +6,7 @@ import os
 import sys
 from pathlib import Path
 import torch
+import folder_paths
 import numpy as np
 import cv2
 from typing import Dict, Tuple
@@ -596,7 +597,7 @@ class GVHMRInference:
 
             # Save SMPL params to NPZ file (avoids tensor serialization issues)
             import time
-            output_dir = Path(__file__).parent.parent.parent.parent / "output"
+            output_dir = Path(folder_paths.get_output_directory())
             output_dir.mkdir(parents=True, exist_ok=True)
             npz_filename = f"smpl_params_{int(time.time())}.npz"
             npz_path = output_dir / npz_filename
