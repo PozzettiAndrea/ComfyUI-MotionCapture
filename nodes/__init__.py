@@ -1,20 +1,98 @@
 """MotionCapture Nodes."""
 
-from .nodes_gpu import NODE_CLASS_MAPPINGS as gpu_mappings
-from .nodes_gpu import NODE_DISPLAY_NAME_MAPPINGS as gpu_display
-from .nodes_blender import NODE_CLASS_MAPPINGS as blender_mappings
-from .nodes_blender import NODE_DISPLAY_NAME_MAPPINGS as blender_display
+import sys
+from pathlib import Path
+
+# Add vendor path for GVHMR, DPVO, SAM3D
+VENDOR_PATH = Path(__file__).parent / "vendor"
+sys.path.insert(0, str(VENDOR_PATH))
+
+# GPU nodes
+from .loader_node import LoadGVHMRModels
+from .inference_node import GVHMRInference
+from .save_smpl_node import SaveSMPL
+from .load_smpl_node import LoadSMPL
+from .fbx_loader_node import LoadFBXCharacter
+from .fbx_preview_node import FBXPreview
+from .fbx_animation_viewer_node import FBXAnimationViewer
+from .smpl_to_bvh_node import SMPLtoBVH
+from .bvh_viewer_node import BVHViewer
+from .compare_smpl_bvh_node import CompareSMPLtoBVH
+from .bvh_loader_node import LoadBVHFromFolder
+from .mixamo_loader_node import LoadMixamoCharacter
+from .compare_skeletons_node import CompareSkeletons
+from .sam3d_loader_node import LoadSAM3DBodyModels
+from .sam3d_inference_node import SAM3DVideoInference
+from .mhr_viewer_node import MHRViewer
+from .save_mhr_node import SaveMHR
+
+# Blender nodes
+from .retarget_node import SMPLToFBX
+from .bvh_retarget_node import BVHtoFBX
+from .smpl_retarget_node import SMPLRetargetToSMPL
+from .smpl_to_mixamo_node import SMPLToMixamo
+from .rest_pose_node import ExtractRestPose
+
+# Viewer nodes
 from .viewer_node import NODE_CLASS_MAPPINGS as viewer_mappings
 from .viewer_node import NODE_DISPLAY_NAME_MAPPINGS as viewer_display
 
 NODE_CLASS_MAPPINGS = {
-    **gpu_mappings,
-    **blender_mappings,
+    # GPU nodes
+    "LoadGVHMRModels": LoadGVHMRModels,
+    "GVHMRInference": GVHMRInference,
+    "SaveSMPL": SaveSMPL,
+    "LoadSMPL": LoadSMPL,
+    "LoadFBXCharacter": LoadFBXCharacter,
+    "FBXPreview": FBXPreview,
+    "FBXAnimationViewer": FBXAnimationViewer,
+    "SMPLtoBVH": SMPLtoBVH,
+    "BVHViewer": BVHViewer,
+    "CompareSMPLtoBVH": CompareSMPLtoBVH,
+    "LoadBVHFromFolder": LoadBVHFromFolder,
+    "LoadMixamoCharacter": LoadMixamoCharacter,
+    "CompareSkeletons": CompareSkeletons,
+    "LoadSAM3DBodyModels": LoadSAM3DBodyModels,
+    "SAM3DVideoInference": SAM3DVideoInference,
+    "MHRViewer": MHRViewer,
+    "SaveMHR": SaveMHR,
+    # Blender nodes
+    "SMPLToFBX": SMPLToFBX,
+    "BVHtoFBX": BVHtoFBX,
+    "SMPLRetargetToSMPL": SMPLRetargetToSMPL,
+    "SMPLToMixamo": SMPLToMixamo,
+    "ExtractRestPose": ExtractRestPose,
+    # Viewer nodes
     **viewer_mappings,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    **gpu_display,
-    **blender_display,
+    # GPU nodes
+    "LoadGVHMRModels": "Load GVHMR Models",
+    "GVHMRInference": "GVHMR Inference",
+    "SaveSMPL": "Save SMPL Motion",
+    "LoadSMPL": "Load SMPL Motion",
+    "LoadFBXCharacter": "Load FBX Character",
+    "FBXPreview": "FBX 3D Preview",
+    "FBXAnimationViewer": "FBX Animation Viewer",
+    "SMPLtoBVH": "SMPL to BVH Converter",
+    "BVHViewer": "BVH Animation Viewer",
+    "CompareSMPLtoBVH": "Compare SMPL vs BVH",
+    "LoadBVHFromFolder": "Load BVH (Dropdown)",
+    "LoadMixamoCharacter": "Load Mixamo Character",
+    "CompareSkeletons": "Compare Skeletons",
+    "LoadSAM3DBodyModels": "Load SAM 3D Body Models",
+    "SAM3DVideoInference": "SAM3D Video Inference",
+    "MHRViewer": "MHR Skeleton Viewer",
+    "SaveMHR": "Save MHR Motion",
+    # Blender nodes
+    "SMPLToFBX": "SMPL to FBX Retargeting",
+    "BVHtoFBX": "BVH to FBX Retargeter",
+    "SMPLRetargetToSMPL": "SMPL to SMPL Retargeting",
+    "SMPLToMixamo": "SMPL to Mixamo",
+    "ExtractRestPose": "Extract Rest Pose",
+    # Viewer nodes
     **viewer_display,
 }
+
+__all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS"]

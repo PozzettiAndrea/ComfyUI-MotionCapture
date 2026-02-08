@@ -49,8 +49,8 @@ class LoadGVHMRModels:
 
     def __init__(self):
         # Models are stored in ComfyUI/models/motion_capture/, not in the custom node repo
-        # Go up 5 levels: loader_node.py -> nodes_gpu -> nodes -> ComfyUI-MotionCapture -> custom_nodes -> ComfyUI
-        self.models_dir = Path(__file__).parent.parent.parent.parent.parent / "models" / "motion_capture"
+        # Go up 4 levels: loader_node.py -> nodes -> ComfyUI-MotionCapture -> custom_nodes -> ComfyUI
+        self.models_dir = Path(__file__).parent.parent.parent.parent / "models" / "motion_capture"
 
     @classmethod
     def INPUT_TYPES(cls):

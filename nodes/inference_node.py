@@ -11,12 +11,12 @@ import cv2
 from typing import Dict, Tuple
 from tqdm import tqdm
 
-# Add nodes_gpu path for local utils (needed when run as subprocess)
-NODES_GPU_PATH = Path(__file__).parent
-sys.path.insert(0, str(NODES_GPU_PATH))
+# Add nodes path for local utils (needed when run as subprocess)
+NODES_PATH = Path(__file__).parent
+sys.path.insert(0, str(NODES_PATH))
 
 # Add vendor path for GVHMR
-VENDOR_PATH = NODES_GPU_PATH / "vendor"
+VENDOR_PATH = NODES_PATH / "vendor"
 sys.path.insert(0, str(VENDOR_PATH))
 
 # Import GVHMR components
@@ -596,7 +596,7 @@ class GVHMRInference:
 
             # Save SMPL params to NPZ file (avoids tensor serialization issues)
             import time
-            output_dir = Path(__file__).parent.parent.parent.parent.parent / "output"
+            output_dir = Path(__file__).parent.parent.parent.parent / "output"
             output_dir.mkdir(parents=True, exist_ok=True)
             npz_filename = f"smpl_params_{int(time.time())}.npz"
             npz_path = output_dir / npz_filename
