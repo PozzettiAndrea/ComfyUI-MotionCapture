@@ -7,7 +7,6 @@ import logging
 from pathlib import Path
 import torch
 import numpy as np
-import cv2
 import smplx
 import folder_paths
 
@@ -50,19 +49,12 @@ class SMPLCameraViewer:
                     "multiline": False,
                     "tooltip": "Path to camera trajectory .npz (from GVHMR moving camera output). If empty, checks main NPZ for camera data."
                 }),
-                "frame_skip": ("INT", {
-                    "default": 1,
-                    "min": 1,
-                    "max": 10,
-                    "step": 1,
-                    "tooltip": "Skip every N frames to reduce data size (1 = no skip)"
-                }),
                 "mesh_color": ("STRING", {
                     "default": "#4a9eff",
                     "tooltip": "Hex color for the mesh (e.g. #4a9eff for blue)"
                 }),
-                "images": ("IMAGE", {
-                    "tooltip": "Reference video frames to display side-by-side with the 3D mesh"
+                "video": ("VIDEO", {
+                    "tooltip": "Reference video to display side-by-side with the 3D mesh"
                 }),
             }
         }
@@ -73,7 +65,7 @@ class SMPLCameraViewer:
     CATEGORY = "MotionCapture/GVHMR"
     OUTPUT_NODE = True
 
-    def create_viewer_data(self, npz_path="", camera_npz_path="", frame_skip=1, mesh_color="#4a9eff", images=None):
+    def create_viewer_data(self, npz_path="", camera_npz_path="", mesh_color="#4a9eff", video=None):
         logger.info("[SMPLCameraViewer] Generating 3D mesh + camera data...")
 
         if not npz_path or not npz_path.strip():
@@ -100,7 +92,7 @@ class SMPLCameraViewer:
             logger.info("[SMPLCameraViewer] Found incam params for through-camera rendering")
 
         num_frames = body_pose.shape[0]
-        logger.info(f"[SMPLCameraViewer] Processing {num_frames} frames (skip={frame_skip})")
+        logger.info(f"[SMPLCameraViewer] Processing {num_frames} frames")
 
         # Load camera data: try separate NPZ first, then check main NPZ
         has_camera = False
@@ -158,7 +150,24 @@ class SMPLCameraViewer:
                 logger.info(f"[SMPLCameraViewer] Loaded camera trajectory ({fmt} format) from main NPZ")
 
         if not has_camera:
-            logger.info("[SMPLCameraViewer] No camera trajectory found, viewer will use orbit mode")
+            logger.info("[SMPLCameraViewer] No camera trajectory found, viewer will use exterior mode")
+
+        # Validate camera frame count matches SMPL frame count
+        if has_camera and R_cam2world_np.shape[0] != num_frames:
+            raise ValueError(
+                f"Camera frame count ({R_cam2world_np.shape[0]}) does not match "
+                f"SMPL frame count ({num_frames}). Check your NPZ files."
+            )
+
+        # Validate video frame count
+        if video is not None:
+            video_frame_count = video.get_frame_count()
+            if video_frame_count < num_frames:
+                raise ValueError(
+                    f"Video has {video_frame_count} frames but SMPL data has {num_frames} frames. "
+                    f"Video must have at least as many frames as the motion data."
+                )
+            logger.info(f"[SMPLCameraViewer] Video: {video_frame_count} frames (SMPL: {num_frames})")
 
         # Run SMPL-X forward pass to get vertices
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -183,7 +192,7 @@ class SMPLCameraViewer:
         vertices_list = []
         incam_vertices_list = []
         with torch.no_grad():
-            for frame_idx in range(0, num_frames, frame_skip):
+            for frame_idx in range(num_frames):
                 bp = body_pose[frame_idx:frame_idx+1].to(device)
                 b = betas[frame_idx:frame_idx+1].to(device)
                 go = global_orient[frame_idx:frame_idx+1].to(device)
@@ -210,17 +219,10 @@ class SMPLCameraViewer:
         faces_u32 = faces.astype(np.uint32)
         num_output_frames = vertices_array.shape[0]
         num_verts = vertices_array.shape[1]
-        fps = 30 // frame_skip
+        fps = 30
 
         logger.info(f"[SMPLCameraViewer] Generated mesh: {num_output_frames} frames, "
                      f"{num_verts} vertices, {faces_u32.shape[0]} faces")
-
-        # Subsample camera data to match frame_skip
-        if has_camera and frame_skip > 1:
-            indices = list(range(0, num_frames, frame_skip))
-            R_cam2world_np = R_cam2world_np[indices]
-            t_cam2world_np = t_cam2world_np[indices]
-            K_fullimg_np = K_fullimg_np[indices]
 
         # Write SMPC binary format
         output_dir = Path(folder_paths.get_output_directory())
@@ -258,44 +260,51 @@ class SMPLCameraViewer:
                 f.write(incam_vertices_array.tobytes())
                 logger.info(f"[SMPLCameraViewer] Wrote {incam_vertices_array.shape[0]} incam vertex frames")
 
-            # Image frames (optional) — JPEG-encoded reference video frames
-            has_images = images is not None and len(images) > 0
-            f.write(np.array([1 if has_images else 0], dtype=np.uint32).tobytes())
-            if has_images:
-                # Subsample images with frame_skip
-                img_indices = list(range(0, len(images), frame_skip))
-                num_img_frames = len(img_indices)
-                f.write(np.array([num_img_frames], dtype=np.uint32).tobytes())
-                logger.info(f"[SMPLCameraViewer] Encoding {num_img_frames} reference frames as JPEG...")
-
-                # JPEG-encode all frames first to get sizes
-                jpeg_buffers = []
-                for idx in img_indices:
-                    frame = images[idx]  # (H, W, C) float32 [0,1]
-                    rgb = (frame.cpu().numpy() * 255).clip(0, 255).astype(np.uint8)
-                    bgr = cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR)
-                    ok, jpg = cv2.imencode('.jpg', bgr, [cv2.IMWRITE_JPEG_QUALITY, 85])
-                    if not ok:
-                        raise RuntimeError(f"Failed to JPEG-encode frame {idx}")
-                    jpeg_buffers.append(jpg.tobytes())
-
-                # Write sizes array
-                sizes = np.array([len(b) for b in jpeg_buffers], dtype=np.uint32)
-                f.write(sizes.tobytes())
-                # Write concatenated JPEG data
-                for buf in jpeg_buffers:
-                    f.write(buf)
-
-                total_img_mb = sum(len(b) for b in jpeg_buffers) / (1024 * 1024)
-                logger.info(f"[SMPLCameraViewer] Embedded {num_img_frames} JPEG frames ({total_img_mb:.1f} MB)")
+            # No embedded images (video is served separately via /view endpoint)
+            f.write(np.array([0], dtype=np.uint32).tobytes())
 
         size_mb = mesh_filepath.stat().st_size / (1024 * 1024)
-        logger.info(f"[SMPLCameraViewer] Wrote {mesh_filename} ({size_mb:.1f} MB), has_camera={has_camera}, has_images={has_images}")
+        logger.info(f"[SMPLCameraViewer] Wrote {mesh_filename} ({size_mb:.1f} MB), has_camera={has_camera}")
+
+        # Build UI return data
+        ui_data = {"smpl_camera_mesh_file": [mesh_filename]}
+
+        # Re-encode first num_frames of video as all-intra H.264 for frame-perfect seeking
+        if video is not None:
+            import av
+
+            source = video.get_stream_source()
+            video_fps = float(video.get_frame_rate())
+            ref_filename = mesh_filename.replace('.bin', '_ref.mp4')
+            ref_filepath = output_dir / ref_filename
+
+            logger.info(f"[SMPLCameraViewer] Encoding {num_frames} frames as all-intra H.264...")
+            with av.open(source, mode='r') as in_container:
+                in_stream = next(s for s in in_container.streams if s.type == 'video')
+                with av.open(str(ref_filepath), mode='w') as out_container:
+                    out_stream = out_container.add_stream('libx264', rate=video.get_frame_rate())
+                    out_stream.width = in_stream.width
+                    out_stream.height = in_stream.height
+                    out_stream.pix_fmt = 'yuv420p'
+                    out_stream.options = {'preset': 'fast', 'crf': '23', 'g': '1'}
+                    frame_count = 0
+                    for frame in in_container.decode(in_stream):
+                        if frame_count >= num_frames:
+                            break
+                        if frame.format.name != 'yuv420p':
+                            frame = frame.reformat(format='yuv420p')
+                        for packet in out_stream.encode(frame):
+                            out_container.mux(packet)
+                        frame_count += 1
+                    for packet in out_stream.encode():
+                        out_container.mux(packet)
+
+            ref_mb = ref_filepath.stat().st_size / (1024 * 1024)
+            logger.info(f"[SMPLCameraViewer] Wrote {ref_filename} ({ref_mb:.1f} MB, {frame_count} frames, all-intra)")
+            ui_data["video_info"] = [{"filename": ref_filename, "subfolder": "", "type": "output", "fps": video_fps}]
 
         return {
-            "ui": {
-                "smpl_camera_mesh_file": [mesh_filename]
-            },
+            "ui": ui_data,
             "result": (mesh_filename,)
         }
 

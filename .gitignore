@@ -22,6 +22,7 @@ env/
 htmlcov/
 
 # Jupyter
+.ipynb_checkpoints/*
 .ipynb_checkpoints/
 
 # OS
@@ -46,3 +47,4 @@ _env_*
 
 # Built web assets
 web/
+

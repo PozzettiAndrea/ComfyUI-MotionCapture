@@ -15,8 +15,9 @@ COMFYUI_DIR = SCRIPT_DIR.parent.parent
 viewers = [
     "fbx", "fbx_compare",
     "bvh", "fbx_animation", "compare_smpl_bvh",
-    "smpl",
+    "smpl", "smpl_camera",
 ]
+
 for viewer in viewers:
     try:
         copy_viewer(viewer, SCRIPT_DIR / "web")
