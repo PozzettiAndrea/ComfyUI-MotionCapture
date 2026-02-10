@@ -11,7 +11,8 @@ sys.path.insert(0, str(VENDOR_PATH))
 from .loader_node import LoadGVHMRModels
 from .inference_node import GVHMRInference
 from .save_smpl_node import SaveSMPL
-from .load_smpl_node import LoadSMPL
+from .load_smpl_node import LoadSMPLParams as LoadSMPL
+from .load_camera_trajectory_node import LoadCameraTrajectory
 from .fbx_loader_node import LoadFBXCharacter
 from .fbx_preview_node import FBXPreview
 from .fbx_animation_viewer_node import FBXAnimationViewer
@@ -32,6 +33,8 @@ from .rest_pose_node import ExtractRestPose
 # Viewer nodes
 from .viewer_node import NODE_CLASS_MAPPINGS as viewer_mappings
 from .viewer_node import NODE_DISPLAY_NAME_MAPPINGS as viewer_display
+from .smpl_camera_viewer_node import NODE_CLASS_MAPPINGS as camera_viewer_mappings
+from .smpl_camera_viewer_node import NODE_DISPLAY_NAME_MAPPINGS as camera_viewer_display
 
 NODE_CLASS_MAPPINGS = {
     # GPU nodes
@@ -39,6 +42,7 @@ NODE_CLASS_MAPPINGS = {
     "GVHMRInference": GVHMRInference,
     "SaveSMPL": SaveSMPL,
     "LoadSMPL": LoadSMPL,
+    "LoadCameraTrajectory": LoadCameraTrajectory,
     "LoadFBXCharacter": LoadFBXCharacter,
     "FBXPreview": FBXPreview,
     "FBXAnimationViewer": FBXAnimationViewer,
@@ -56,6 +60,7 @@ NODE_CLASS_MAPPINGS = {
     "ExtractRestPose": ExtractRestPose,
     # Viewer nodes
     **viewer_mappings,
+    **camera_viewer_mappings,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -63,7 +68,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "LoadGVHMRModels": "Load GVHMR Models",
     "GVHMRInference": "GVHMR Inference",
     "SaveSMPL": "Save SMPL Motion",
-    "LoadSMPL": "Load SMPL Motion",
+    "LoadSMPL": "Load SMPL Params",
+    "LoadCameraTrajectory": "Load Camera Trajectory",
     "LoadFBXCharacter": "Load FBX Character",
     "FBXPreview": "FBX 3D Preview",
     "FBXAnimationViewer": "FBX Animation Viewer",
@@ -81,6 +87,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "ExtractRestPose": "Extract Rest Pose",
     # Viewer nodes
     **viewer_display,
+    **camera_viewer_display,
 }
 
 __all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS"]

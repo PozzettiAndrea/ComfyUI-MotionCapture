@@ -1,16 +1,16 @@
 """
-LoadSMPLParams Node - Load SMPL params from disk.
+LoadCameraTrajectory Node - Load camera trajectory from disk.
 
-Loads smpl_params_*.npz files from ComfyUI output folder.
+Loads camera_trajectory_*.npz files from ComfyUI output folder.
 """
 
 import os
 import folder_paths
 
 
-class LoadSMPLParams:
+class LoadCameraTrajectory:
     """
-    Select an SMPL params .npz file (smpl_params_*.npz).
+    Select a camera trajectory .npz file (camera_trajectory_*.npz).
 
     Searches both input and output folders.
     Returns the resolved file path.
@@ -20,37 +20,35 @@ class LoadSMPLParams:
     def INPUT_TYPES(cls):
         npz_files = cls.get_npz_files()
         if not npz_files:
-            npz_files = ["No smpl_params files found"]
+            npz_files = ["No camera_trajectory files found"]
         return {
             "required": {
                 "file_path": (npz_files, {
-                    "tooltip": "NPZ file containing SMPL parameters (smpl_params_*.npz from GVHMR Inference)"
+                    "tooltip": "NPZ file containing camera trajectory (camera_trajectory_*.npz from GVHMR moving camera)"
                 }),
             },
         }
 
     RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("file_path",)
+    RETURN_NAMES = ("camera_npz_path",)
     FUNCTION = "load"
     CATEGORY = "MotionCapture/SMPL"
 
     @classmethod
     def get_npz_files(cls):
-        """Get list of smpl_params_*.npz files in input and output folders."""
+        """Get list of camera_trajectory_*.npz files in input and output folders."""
         npz_files = []
 
-        # Scan input folder
         input_dir = folder_paths.get_input_directory()
         if os.path.exists(input_dir):
             for file in sorted(os.listdir(input_dir)):
-                if file.startswith("smpl_params_") and file.endswith(".npz"):
+                if file.startswith("camera_trajectory_") and file.endswith(".npz"):
                     npz_files.append(file)
 
-        # Scan output folder
         output_dir = folder_paths.get_output_directory()
         if os.path.exists(output_dir):
             for file in sorted(os.listdir(output_dir)):
-                if file.startswith("smpl_params_") and file.endswith(".npz"):
+                if file.startswith("camera_trajectory_") and file.endswith(".npz"):
                     npz_files.append(f"[output] {file}")
 
         return npz_files
@@ -84,15 +82,15 @@ class LoadSMPLParams:
     def load(self, file_path):
         full_path = self._resolve_file_path(file_path)
         if full_path is None:
-            raise FileNotFoundError(f"SMPL params file not found: {file_path}")
-        print(f"[LoadSMPLParams] Selected: {full_path}")
+            raise FileNotFoundError(f"Camera trajectory file not found: {file_path}")
+        print(f"[LoadCameraTrajectory] Selected: {full_path}")
         return (full_path,)
 
 
 NODE_CLASS_MAPPINGS = {
-    "LoadSMPL": LoadSMPLParams,
+    "LoadCameraTrajectory": LoadCameraTrajectory,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "LoadSMPL": "Load SMPL Params",
+    "LoadCameraTrajectory": "Load Camera Trajectory",
 }
