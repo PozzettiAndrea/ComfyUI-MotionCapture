@@ -94,6 +94,31 @@ def _log_memory(label):
         Log.info(f"[Memory] {label}: (unable to read /proc/self/status)")
 
 
+def _release_shm_pages(tensor):
+    """Release shared memory pages from RSS via madvise(MADV_DONTNEED).
+    Call after data has been copied. Returns True on success."""
+    import ctypes
+    if sys.platform != "linux":
+        return False
+    try:
+        ptr = tensor.data_ptr()
+        size = tensor.nelement() * tensor.element_size()
+        if size == 0:
+            return False
+        libc = ctypes.CDLL("libc.so.6", use_errno=True)
+        page = os.sysconf("SC_PAGE_SIZE")
+        aligned = ptr & ~(page - 1)
+        ret = libc.madvise(ctypes.c_void_p(aligned), ctypes.c_size_t(size + ptr - aligned), 4)
+        if ret == 0:
+            Log.info(f"[Memory] madvise DONTNEED: released {size / 1024**2:.0f} MB")
+            return True
+        Log.info(f"[Memory] madvise failed: errno={ctypes.get_errno()}")
+        return False
+    except Exception as e:
+        Log.info(f"[Memory] madvise error: {e}")
+        return False
+
+
 def _save_tensor_to_disk(tensor, prefix="tensor"):
     """Save tensor to temp file and return path."""
     fd, path = tempfile_module.mkstemp(suffix=".pt", prefix=prefix)
@@ -295,8 +320,8 @@ class GVHMRInference:
             }
         }
 
-    RETURN_TYPES = ("STRING", "STRING", "IMAGE", "STRING")
-    RETURN_NAMES = ("npz_path", "camera_npz_path", "visualization", "info")
+    RETURN_TYPES = ("STRING", "STRING", "STRING")
+    RETURN_NAMES = ("npz_path", "camera_npz_path", "info")
     FUNCTION = "run_inference"
     CATEGORY = "MotionCapture/GVHMR"
 
@@ -448,24 +473,16 @@ class GVHMRInference:
         # Release shared memory pages from this process's RSS.
         # ComfyUI passes tensors via shared memory — madvise(MADV_DONTNEED) tells
         # the kernel to drop these pages from our page tables (RSS drops ~5 GB).
-        try:
-            from comfy_env import release_tensor
-            release_tensor(images)
-            _log_memory("After madvise(DONTNEED) on images")
-        except ImportError:
-            pass
+        _release_shm_pages(images)
+        _log_memory("After madvise(DONTNEED) on images")
 
         # Extract bounding boxes from masks
         Log.info("[GVHMRInference] Extracting bounding boxes from SAM3 masks...")
         bboxes_xywh = extract_bboxes_from_masks(masks)
 
         # Release masks shared memory (~1.6 GB for 200 frames)
-        try:
-            from comfy_env import release_tensor
-            release_tensor(masks)
-            _log_memory("After madvise(DONTNEED) on masks")
-        except ImportError:
-            pass
+        _release_shm_pages(masks)
+        _log_memory("After madvise(DONTNEED) on masks")
 
         # Expand bounding boxes
         bboxes_xywh = [
@@ -629,10 +646,15 @@ class GVHMRInference:
             "R_w2c": R_w2c,
             "t_w2c": t_w2c,
             "K_fullimg": K_fullimg,
+            "img_width": width,
+            "img_height": height,
         }
 
-        _log_memory("End of prepare_data_from_masks")
-        return data, camera_data, images_np
+        # Free images_np — no longer needed (visualization removed)
+        del images_np
+        gc.collect()
+        _log_memory("End of prepare_data_from_masks (images_np freed)")
+        return data, camera_data
 
     def run_inference(
         self,
@@ -675,15 +697,14 @@ class GVHMRInference:
             # Get DPVO directory from config (just a path string)
             dpvo_dir = config.get("dpvo_dir", "")
 
-            # Prepare data (returns uint8 images_np — passed directly to viz, no float32 round-trip)
-            data, camera_data, images_np = self.prepare_data_from_masks(
+            # Prepare data (images_np freed inside — no longer needed for viz)
+            data, camera_data = self.prepare_data_from_masks(
                 images, masks, model, static_camera, focal_length_mm, bbox_scale, vo_method, vo_scale, vo_step, intrinsics, dpvo_dir
             )
 
-            # images/masks storage already freed in prepare_data via storage().resize_(0).
-            # Save dimensions from images_np (same shape, still alive).
-            batch_size_saved = images_np.shape[0]
-            img_height_saved, img_width_saved = images_np.shape[1], images_np.shape[2]
+            batch_size_saved = data["length"].item()
+            img_width_saved = camera_data["img_width"]
+            img_height_saved = camera_data["img_height"]
 
             # Reload features from disk if they were offloaded
             if data.get("f_imgseq_path") is not None:
@@ -785,15 +806,6 @@ class GVHMRInference:
             np.savez(str(npz_path), **save_dict)
             Log.info(f"[GVHMRInference] Saved SMPL params to: {npz_path}")
 
-            # Pass uint8 images_np directly to render_visualization
-            # (avoids recreating a full float32 copy just for viz to convert it back)
-            Log.info("[GVHMRInference] Rendering visualization...")
-            _log_memory("Before render_visualization")
-            viz_frames = self.render_visualization(images_np, smpl_params, model)
-            del images_np
-            gc.collect()
-            _log_memory("After render_visualization")
-
             # Create info string
             num_frames = batch_size_saved
             vo_info = "N/A (static)" if static_camera else vo_method
@@ -815,7 +827,7 @@ class GVHMRInference:
                 _clear_cuda_memory()
 
             _log_memory("Final (before return)")
-            return (str(npz_path), camera_npz_path_str, viz_frames, info)
+            return (str(npz_path), camera_npz_path_str, info)
 
         except Exception as e:
             error_msg = f"GVHMR Inference failed: {str(e)}"
@@ -823,67 +835,8 @@ class GVHMRInference:
             import traceback
             traceback.print_exc()
             # Return placeholder on error
-            return ("", "", torch.zeros(1, 64, 64, 3), error_msg)
+            return ("", "", error_msg)
 
-    def render_visualization(
-        self,
-        images_np: np.ndarray,
-        smpl_params: Dict,
-        model: Dict,
-    ) -> torch.Tensor:
-        """
-        Render SMPL mesh overlay on input images.
-        Args:
-            images_np: uint8 numpy array (B, H, W, 3)
-        Returns:
-            float32 torch tensor (B, H, W, 3) in [0, 1] for ComfyUI
-        """
-        try:
-            # Check if rendering is available
-            from hmr4d.utils.vis.renderer import PYTORCH3D_AVAILABLE
-            if not PYTORCH3D_AVAILABLE:
-                Log.warn("[GVHMRInference] PyTorch3D not available - skipping visualization rendering")
-                Log.info("[GVHMRInference] Returning original images (SMPL parameters were extracted successfully)")
-                return torch.from_numpy(images_np.astype(np.float32) / 255.0)
-
-            device = model["device"]
-            batch_size, height, width, channels = images_np.shape
-
-            # Initialize SMPL model
-            smplx = make_smplx("supermotion").to(device)
-            smplx2smpl = torch.load(
-                str(Path(__file__).parent / "vendor" / "hmr4d" / "utils" / "body_model" / "smplx2smpl_sparse.pt")
-            ).to(device)
-
-            # Get SMPL vertices
-            smplx_out = smplx(**to_cuda(smpl_params["incam"]))
-            pred_verts = torch.stack([torch.matmul(smplx2smpl, v) for v in smplx_out.vertices])
-
-            # Initialize renderer
-            from hmr4d.utils.vis.renderer import Renderer
-            faces_smpl = make_smplx("smpl").faces
-            K = smpl_params["K_fullimg"][0]
-            renderer = Renderer(width, height, device=device, faces=faces_smpl, K=K)
-
-            # Render each frame (images_np is already uint8)
-            rendered_frames = []
-            for i in range(batch_size):
-                img_rendered = renderer.render_mesh(
-                    pred_verts[i].to(device),
-                    images_np[i],
-                    [0.8, 0.8, 0.8]  # Mesh color
-                )
-                rendered_frames.append(img_rendered)
-
-            # Convert back to torch tensor
-            rendered_tensor = torch.from_numpy(np.stack(rendered_frames)).float() / 255.0
-
-            return rendered_tensor
-
-        except Exception as e:
-            Log.warn(f"[GVHMRInference] Visualization rendering failed: {e}")
-            Log.info("[GVHMRInference] Returning original images (SMPL parameters were extracted successfully)")
-            return torch.from_numpy(images_np.astype(np.float32) / 255.0)
 
 
 # Node registration
