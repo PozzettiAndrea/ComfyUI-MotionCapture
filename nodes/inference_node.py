@@ -121,14 +121,14 @@ def _quaternion_to_matrix(quaternions: torch.Tensor) -> torch.Tensor:
     return R
 
 
-def _run_dpvo(images_np: np.ndarray, intrinsics: torch.Tensor, dpvo_model: Dict = None) -> Tuple[torch.Tensor, torch.Tensor]:
+def _run_dpvo(images_np: np.ndarray, intrinsics: torch.Tensor, dpvo_dir: str = "") -> Tuple[torch.Tensor, torch.Tensor]:
     """
     Run DPVO visual odometry on images.
 
     Args:
         images_np: RGB images as numpy array (N, H, W, 3)
         intrinsics: Camera intrinsics matrix (3, 3) or (N, 3, 3)
-        dpvo_model: Pre-loaded DPVO model bundle from LoadDPVOModel node
+        dpvo_dir: Path to DPVO model directory containing dpvo.pth and config.yaml
 
     Returns:
         Tuple of (R_w2c, t_w2c) - rotation matrices (N, 3, 3) and translations (N, 3)
@@ -136,14 +136,15 @@ def _run_dpvo(images_np: np.ndarray, intrinsics: torch.Tensor, dpvo_model: Dict 
     if not DPVO_AVAILABLE:
         raise RuntimeError("DPVO is not installed")
 
-    if dpvo_model is None:
-        raise RuntimeError(
-            "DPVO model not provided. Please connect a LoadDPVOModel node to the dpvo_model input."
-        )
+    if not dpvo_dir:
+        raise RuntimeError("DPVO directory not configured. Enable load_dpvo in LoadGVHMRModels.")
 
-    # Extract model bundle components
-    checkpoint_path = dpvo_model["checkpoint_path"]
-    config_path = dpvo_model.get("config_path")
+    dpvo_path = Path(dpvo_dir)
+    checkpoint_path = str(dpvo_path / "dpvo.pth")
+    config_path = dpvo_path / "config.yaml"
+
+    if not Path(checkpoint_path).exists():
+        raise RuntimeError(f"DPVO checkpoint not found: {checkpoint_path}")
 
     Log.info(f"[GVHMRInference] Running DPVO with checkpoint: {checkpoint_path}")
 
@@ -157,14 +158,12 @@ def _run_dpvo(images_np: np.ndarray, intrinsics: torch.Tensor, dpvo_model: Dict 
     fx, fy = K[0, 0].item(), K[1, 1].item()
     cx, cy = K[0, 2].item(), K[1, 2].item()
 
-    # Initialize DPVO with pre-loaded config
-    # Use the config from the model bundle if available
-    if "config" in dpvo_model:
-        cfg = dpvo_model["config"].clone()
+    # Load DPVO config
+    if config_path.exists():
+        dpvo_cfg.merge_from_file(str(config_path))
     else:
-        # Fall back to loading from file
-        dpvo_cfg.merge_from_file(config_path or Path(checkpoint_path).parent / "config.yaml")
-        cfg = dpvo_cfg
+        Log.warn(f"[GVHMRInference] DPVO config not found at {config_path}, using defaults")
+    cfg = dpvo_cfg
 
     slam = DPVO(cfg, checkpoint_path, ht=height, wd=width, viz=False)
 
@@ -221,9 +220,9 @@ class GVHMRInference:
                 "images": ("IMAGE",),  # ComfyUI IMAGE tensor (B, H, W, C)
                 "masks": ("MASK",),  # SAM3 masks (B, H, W)
                 "config": ("GVHMR_CONFIG",),  # Config from LoadGVHMRModels
-                "static_camera": ("BOOLEAN", {
-                    "default": True,
-                    "tooltip": "Set to True if camera is stationary (skips visual odometry)"
+                "moving_camera": ("BOOLEAN", {
+                    "default": False,
+                    "tooltip": "Enable if camera is moving (runs visual odometry to estimate camera motion)"
                 }),
             },
             "optional": {
@@ -378,7 +377,7 @@ class GVHMRInference:
         vo_scale: float,
         vo_step: int,
         intrinsics: torch.Tensor = None,
-        dpvo_model: Dict = None,
+        dpvo_dir: str = "",
     ) -> Dict:
         """
         Prepare data dictionary for GVHMR inference from images and masks.
@@ -389,6 +388,12 @@ class GVHMRInference:
 
         device = model_bundle["device"]
         batch_size, height, width, channels = images.shape
+        Log.info(f"[GVHMRInference] images: {images.shape} dtype={images.dtype}, masks: {masks.shape} dtype={masks.dtype}")
+        Log.info(f"[GVHMRInference] batch_size={batch_size}, resolution={width}x{height}, static_camera={static_camera}")
+
+        if masks.shape[0] != batch_size:
+            Log.warn(f"[GVHMRInference] Mask count ({masks.shape[0]}) != frame count ({batch_size})! Trimming masks to match.")
+            masks = masks[:batch_size]
 
         # Convert images to numpy for processing
         images_np = (images.cpu().numpy() * 255).astype(np.uint8)
@@ -408,6 +413,7 @@ class GVHMRInference:
 
         # Get bbx_xys format (used by GVHMR)
         bbx_xys = get_bbx_xys_from_xyxy(bboxes_xyxy, base_enlarge=1.0).float()  # Already expanded above
+        Log.info(f"[GVHMRInference] bboxes_xyxy: {bboxes_xyxy.shape}, bbx_xys: {bbx_xys.shape}")
 
         # Extract ViTPose 2D keypoints
         Log.info("[GVHMRInference] Extracting 2D pose with ViTPose...")
@@ -423,7 +429,7 @@ class GVHMRInference:
         kp2d = vitpose_extractor.extract(imgs_tensor, bbx_xys_processed, img_ds=1.0)
         kp2d = kp2d.cpu()  # Move to CPU immediately
         _clear_cuda_memory()
-        Log.info("[GVHMRInference] ViTPose complete, GPU memory cleared")
+        Log.info(f"[GVHMRInference] ViTPose complete: kp2d={kp2d.shape} dtype={kp2d.dtype}")
 
         # Extract ViT features
         Log.info("[GVHMRInference] Extracting image features...")
@@ -469,6 +475,7 @@ class GVHMRInference:
             K_fullimg = estimate_K(width, height).repeat(batch_size, 1, 1)
 
         # Handle camera motion
+        Log.info(f"[GVHMRInference] Camera mode: {'STATIC' if static_camera else 'MOVING'} (vo_method={vo_method})")
         t_w2c = None  # Camera translation
         if static_camera:
             R_w2c = torch.eye(3).repeat(batch_size, 1, 1)
@@ -479,25 +486,28 @@ class GVHMRInference:
                     if not DPVO_AVAILABLE:
                         Log.warn("[GVHMRInference] DPVO requested but not installed, falling back to SimpleVO")
                         vo_method = "simple_vo"
-                    elif dpvo_model is None:
-                        Log.warn("[GVHMRInference] DPVO requested but no dpvo_model provided. Connect a LoadDPVOModel node. Falling back to SimpleVO")
+                    elif not dpvo_dir:
+                        Log.warn("[GVHMRInference] DPVO requested but dpvo_dir not configured. Enable load_dpvo in LoadGVHMRModels. Falling back to SimpleVO")
                         vo_method = "simple_vo"
                     else:
-                        Log.info("[GVHMRInference] Running DPVO for moving camera...")
-                        R_w2c, t_w2c = _run_dpvo(images_np, K_fullimg, dpvo_model)
+                        Log.info(f"[GVHMRInference] Running DPVO for moving camera (dir={dpvo_dir})...")
+                        R_w2c, t_w2c = _run_dpvo(images_np, K_fullimg, dpvo_dir)
                         _clear_cuda_memory()
                         Log.info(f"[GVHMRInference] DPVO complete, camera translation range: {t_w2c.abs().max().item():.3f}m")
 
                 if vo_method == "simple_vo":
-                    Log.info("[GVHMRInference] Running SimpleVO for moving camera...")
+                    Log.info(f"[GVHMRInference] Running SimpleVO for moving camera (scale={vo_scale}, step={vo_step})...")
 
                     # Save frames to temp video (SimpleVO requires video path)
                     temp_video = _save_temp_video(images_np)
+                    Log.info(f"[GVHMRInference] Temp video saved: {temp_video} ({len(images_np)} frames)")
 
                     # Run SimpleVO
                     f_mm = focal_length_mm if focal_length_mm > 0 else 24
+                    Log.info(f"[GVHMRInference] SimpleVO params: f_mm={f_mm}, scale={vo_scale}, step={vo_step}, method=sift")
                     vo = SimpleVO(temp_video, scale=vo_scale, step=vo_step, method="sift", f_mm=f_mm)
                     T_w2c_list = vo.compute()
+                    Log.info(f"[GVHMRInference] SimpleVO returned {len(T_w2c_list)} poses (expected {batch_size})")
 
                     # Clean up temp file
                     os.remove(temp_video)
@@ -507,15 +517,21 @@ class GVHMRInference:
                     # Extract translation vectors (right column of each 4x4 transform)
                     t_w2c = torch.tensor(np.stack([T[:3, 3] for T in T_w2c_list]), dtype=torch.float32)
 
+                    Log.info(f"[GVHMRInference] R_w2c: {R_w2c.shape}, t_w2c: {t_w2c.shape}")
+                    Log.info(f"[GVHMRInference] Translation range: min={t_w2c.min().item():.4f}, max={t_w2c.max().item():.4f}")
                     _clear_cuda_memory()
-                    Log.info(f"[GVHMRInference] SimpleVO complete: {len(T_w2c_list)} poses, GPU memory cleared")
 
             except Exception as e:
-                Log.warn(f"[GVHMRInference] Visual odometry failed: {e}, falling back to static camera")
+                Log.error(f"[GVHMRInference] Visual odometry failed: {e}")
+                import traceback
+                traceback.print_exc()
+                Log.warn("[GVHMRInference] Falling back to static camera")
                 R_w2c = torch.eye(3).repeat(batch_size, 1, 1)
                 t_w2c = None
 
+        Log.info(f"[GVHMRInference] R_w2c: {R_w2c.shape}, t_w2c: {t_w2c.shape if t_w2c is not None else 'None'}")
         cam_angvel = compute_cam_angvel(R_w2c)
+        Log.info(f"[GVHMRInference] cam_angvel: {cam_angvel.shape}")
 
         # Prepare data dictionary
         data = {
@@ -527,6 +543,15 @@ class GVHMRInference:
             "f_imgseq": f_imgseq,
             "f_imgseq_path": f_imgseq_path,  # Path to offloaded features (None if in memory)
         }
+
+        Log.info("[GVHMRInference] === Data dict summary ===")
+        for k, v in data.items():
+            if isinstance(v, torch.Tensor):
+                Log.info(f"[GVHMRInference]   {k}: {v.shape} dtype={v.dtype}")
+            elif v is None:
+                Log.info(f"[GVHMRInference]   {k}: None")
+            else:
+                Log.info(f"[GVHMRInference]   {k}: {type(v).__name__} = {v}")
 
         # Store camera transforms for potential future use
         camera_data = {
@@ -542,7 +567,7 @@ class GVHMRInference:
         images: torch.Tensor,
         masks: torch.Tensor,
         config: Dict,
-        static_camera: bool = True,
+        moving_camera: bool = False,
         focal_length_mm: int = 0,
         bbox_scale: float = 1.2,
         vo_method: str = "simple_vo",
@@ -554,18 +579,32 @@ class GVHMRInference:
         Run GVHMR inference on images with SAM3 masks.
         """
         try:
-            Log.info("[GVHMRInference] Starting GVHMR inference...")
-            Log.info(f"[GVHMRInference] Input shape: {images.shape}, Masks shape: {masks.shape}")
+            static_camera = not moving_camera
+            Log.info("=" * 60)
+            Log.info("[GVHMRInference] Starting GVHMR inference with parameters:")
+            Log.info(f"  images:          {images.shape} dtype={images.dtype}")
+            Log.info(f"  masks:           {masks.shape} dtype={masks.dtype}")
+            Log.info(f"  moving_camera:   {moving_camera}")
+            Log.info(f"  focal_length_mm: {focal_length_mm}")
+            Log.info(f"  bbox_scale:      {bbox_scale}")
+            Log.info(f"  vo_method:       {vo_method}")
+            Log.info(f"  vo_scale:        {vo_scale}")
+            Log.info(f"  vo_step:         {vo_step}")
+            Log.info(f"  intrinsics:      {intrinsics.shape if intrinsics is not None else 'None'}")
+            Log.info(f"  config keys:     {list(config.keys())}")
+            Log.info(f"  cache_model:     {config.get('cache_model', False)}")
+            Log.info(f"  dpvo_dir:        {config.get('dpvo_dir', '')}")
+            Log.info("=" * 60)
 
             # Load models based on config
             model = self._get_or_load_model(config)
 
-            # Get DPVO model from config (loaded by LoadGVHMRModels if load_dpvo=True)
-            dpvo_model = config.get("dpvo_model")
+            # Get DPVO directory from config (just a path string)
+            dpvo_dir = config.get("dpvo_dir", "")
 
             # Prepare data
             data, camera_data = self.prepare_data_from_masks(
-                images, masks, model, static_camera, focal_length_mm, bbox_scale, vo_method, vo_scale, vo_step, intrinsics, dpvo_model
+                images, masks, model, static_camera, focal_length_mm, bbox_scale, vo_method, vo_scale, vo_step, intrinsics, dpvo_dir
             )
 
             # Reload features from disk if they were offloaded
@@ -576,9 +615,14 @@ class GVHMRInference:
                 Log.info("[GVHMRInference] Features reloaded from disk")
 
             # Run GVHMR inference
-            Log.info("[GVHMRInference] Running GVHMR model...")
+            Log.info(f"[GVHMRInference] Running GVHMR model (static_cam={static_camera})...")
             gvhmr_model = model["gvhmr"]
             device = model["device"]
+
+            Log.info("[GVHMRInference] === Pre-predict data shapes ===")
+            for k, v in data.items():
+                if isinstance(v, torch.Tensor):
+                    Log.info(f"[GVHMRInference]   data[{k}]: {v.shape} dtype={v.dtype} device={v.device}")
 
             with torch.no_grad():
                 pred = gvhmr_model.predict(data, static_cam=static_camera)
