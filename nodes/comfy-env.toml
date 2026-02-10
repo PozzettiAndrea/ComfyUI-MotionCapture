@@ -4,7 +4,7 @@ python = "3.11"
 packages = ["python3-dev"]
 
 [cuda]
-packages = ["dpvo-cuda", "torch-scatter"]
+packages = ["dpvo-cuda", "torch-scatter", "torch", "torchvision"]
 
 [pypi-dependencies]
 numpy = ">=1.23.0,<2.0.0"
