@@ -1,37 +1,29 @@
 """
-LoadGVHMRModels Node - Downloads and verifies GVHMR model files
+LoadGVHMRModels Node - Downloads and verifies GVHMR model files.
+
+Lightweight node: only validates paths and returns config strings.
+No torch, no model loading — all heavy work happens in GVHMRInference.
 """
 
 import os
 import sys
 import zipfile
 from pathlib import Path
-import torch
 import folder_paths
 
-# Add vendor path for GVHMR
+# Add vendor path for logger only
 VENDOR_PATH = Path(__file__).parent / "vendor"
 sys.path.insert(0, str(VENDOR_PATH))
 
 MODELS_DIR = Path(folder_paths.models_dir) / "motion_capture"
 
-# Import logger
 from hmr4d.utils.pylogger import Log
-
-# Check DPVO availability
-DPVO_AVAILABLE = False
-try:
-    from dpvo.dpvo import DPVO
-    from dpvo.config import cfg as dpvo_cfg
-    DPVO_AVAILABLE = True
-except ImportError:
-    pass
 
 
 class LoadGVHMRModels:
     """
-    ComfyUI node for loading GVHMR models and preprocessing components.
-    Downloads models automatically if missing (except SMPL body models).
+    ComfyUI node for checking/downloading GVHMR model files.
+    Returns a config dict of paths (strings only) for GVHMRInference.
     """
 
     # Model download configuration (HuggingFace)
@@ -66,7 +58,7 @@ class LoadGVHMRModels:
                 }),
                 "load_dpvo": ("BOOLEAN", {
                     "default": False,
-                    "tooltip": "Load DPVO model for moving camera scenarios (downloads ~100MB if missing)"
+                    "tooltip": "Download DPVO model for moving camera scenarios (~100MB)"
                 }),
             }
         }
@@ -103,7 +95,6 @@ class LoadGVHMRModels:
                 filename=config["filename"],
                 cache_dir=str(MODELS_DIR / "_hf_cache"),
             )
-            # Copy to target location
             import shutil
             shutil.copy(downloaded_path, str(target_path))
             Log.info(f"[LoadGVHMRModels] Downloaded {model_name} to {target_path}")
@@ -121,7 +112,6 @@ class LoadGVHMRModels:
             return False
 
         hf_files = {
-            # Use NPZ versions of SMPL models (no chumpy dependency)
             "SMPL_FEMALE.npz": "4_SMPLhub/SMPL/X_model_npz/SMPL_F_model.npz",
             "SMPL_MALE.npz": "4_SMPLhub/SMPL/X_model_npz/SMPL_M_model.npz",
             "SMPL_NEUTRAL.npz": "4_SMPLhub/SMPL/X_model_npz/SMPL_N_model.npz",
@@ -158,7 +148,6 @@ class LoadGVHMRModels:
         smpl_files = ["SMPL_FEMALE.npz", "SMPL_MALE.npz", "SMPL_NEUTRAL.npz"]
         smplx_files = ["SMPLX_FEMALE.npz", "SMPLX_MALE.npz", "SMPLX_NEUTRAL.npz"]
 
-        # Check and download SMPL models if missing
         for filename in smpl_files:
             file_path = smpl_dir / filename
             if not file_path.exists():
@@ -166,7 +155,6 @@ class LoadGVHMRModels:
                 if not self.download_smpl_from_hf(filename, file_path):
                     Log.warn(f"[LoadGVHMRModels] Could not auto-download {filename}")
 
-        # Check and download SMPL-X models if missing
         for filename in smplx_files:
             file_path = smplx_dir / filename
             if not file_path.exists():
@@ -174,7 +162,6 @@ class LoadGVHMRModels:
                 if not self.download_smpl_from_hf(filename, file_path):
                     Log.warn(f"[LoadGVHMRModels] Could not auto-download {filename}")
 
-        # Final check
         smpl_exists = all((smpl_dir / f).exists() for f in smpl_files)
         smplx_exists = all((smplx_dir / f).exists() for f in smplx_files)
 
@@ -198,41 +185,15 @@ class LoadGVHMRModels:
             )
             raise FileNotFoundError(error_msg)
 
-        Log.info(f"[LoadGVHMRModels] SMPL body models found")
+        Log.info("[LoadGVHMRModels] SMPL body models found")
         return True
 
-    def _create_dpvo_config(self, config_path: Path) -> None:
-        """Create default config.yaml with DPVO defaults."""
-        Log.info(f"[LoadGVHMRModels] Creating default DPVO config at {config_path}")
-        default_config = """# DPVO default configuration
-BUFFER_SIZE: 4096
-CENTROID_SEL_STRAT: 'RANDOM'
-PATCHES_PER_FRAME: 80
-REMOVAL_WINDOW: 20
-OPTIMIZATION_WINDOW: 12
-PATCH_LIFETIME: 12
-KEYFRAME_INDEX: 4
-KEYFRAME_THRESH: 12.5
-MOTION_MODEL: 'DAMPED_LINEAR'
-MOTION_DAMPING: 0.5
-MIXED_PRECISION: true
-LOOP_CLOSURE: false
-BACKEND_THRESH: 64.0
-MAX_EDGE_AGE: 1000
-GLOBAL_OPT_FREQ: 15
-CLASSIC_LOOP_CLOSURE: false
-LOOP_CLOSE_WINDOW_SIZE: 3
-LOOP_RETR_THRESH: 0.04
-"""
-        config_path.write_text(default_config)
-
-    def download_dpvo_model(self, target_dir: Path) -> bool:
-        """Download DPVO model from Dropbox if missing."""
+    def download_dpvo_checkpoint(self, target_dir: Path) -> bool:
+        """Download DPVO checkpoint from Dropbox if missing."""
         checkpoint_path = target_dir / "dpvo.pth"
-        config_path = target_dir / "config.yaml"
 
-        if checkpoint_path.exists() and config_path.exists():
-            Log.info(f"[LoadGVHMRModels] DPVO model found at {target_dir}")
+        if checkpoint_path.exists():
+            Log.info(f"[LoadGVHMRModels] DPVO checkpoint found at {checkpoint_path}")
             return True
 
         Log.info("[LoadGVHMRModels] Downloading DPVO model from Dropbox...")
@@ -245,7 +206,6 @@ LOOP_RETR_THRESH: 0.04
             url = "https://www.dropbox.com/s/nap0u8zslspdwm4/models.zip?dl=1"
             zip_path = target_dir / "models.zip"
 
-            # Download with progress bar
             response = requests.get(url, stream=True, allow_redirects=True)
             response.raise_for_status()
 
@@ -259,11 +219,9 @@ LOOP_RETR_THRESH: 0.04
 
             Log.info("[LoadGVHMRModels] Extracting DPVO model files...")
 
-            # Extract zip
             with zipfile.ZipFile(zip_path, 'r') as zip_ref:
                 zip_ref.extractall(target_dir)
 
-            # The zip contains a 'models' subdirectory - move contents up
             models_subdir = target_dir / "models"
             if models_subdir.exists():
                 for item in models_subdir.iterdir():
@@ -275,16 +233,13 @@ LOOP_RETR_THRESH: 0.04
                 except OSError:
                     pass
 
-            # Clean up zip file
             zip_path.unlink()
 
             if checkpoint_path.exists():
                 Log.info(f"[LoadGVHMRModels] DPVO downloaded to {target_dir}")
-                if not config_path.exists():
-                    self._create_dpvo_config(config_path)
                 return True
             else:
-                Log.error(f"[LoadGVHMRModels] dpvo.pth not found after extraction")
+                Log.error("[LoadGVHMRModels] dpvo.pth not found after extraction")
                 return False
 
         except ImportError:
@@ -294,67 +249,24 @@ LOOP_RETR_THRESH: 0.04
             Log.error(f"[LoadGVHMRModels] DPVO download failed: {e}")
             return False
 
-    def load_dpvo_model(self, dpvo_dir: Path) -> dict:
-        """Load DPVO model and return model bundle."""
-        if not DPVO_AVAILABLE:
-            Log.warn("[LoadGVHMRModels] DPVO package not installed, skipping DPVO loading")
-            return None
-
-        checkpoint_path = dpvo_dir / "dpvo.pth"
-        config_path = dpvo_dir / "config.yaml"
-
-        if not checkpoint_path.exists():
-            if not self.download_dpvo_model(dpvo_dir):
-                Log.warn("[LoadGVHMRModels] Could not download DPVO model")
-                return None
-
-        if not config_path.exists():
-            self._create_dpvo_config(config_path)
-
-        try:
-            Log.info(f"[LoadGVHMRModels] Loading DPVO config from {config_path}...")
-            dpvo_cfg.merge_from_file(str(config_path))
-
-            device = "cuda" if torch.cuda.is_available() else "cpu"
-
-            model_bundle = {
-                "config": dpvo_cfg.clone(),
-                "checkpoint_path": str(checkpoint_path),
-                "config_path": str(config_path),
-                "device": device,
-                "model_dir": str(dpvo_dir),
-            }
-
-            Log.info("[LoadGVHMRModels] DPVO model loaded successfully!")
-            return model_bundle
-
-        except Exception as e:
-            Log.error(f"[LoadGVHMRModels] Failed to load DPVO model: {e}")
-            return None
-
     def load_models(self, model_path_override="", cache_model=False, load_dpvo=False):
-        """Download models if needed and return config for GVHMRInference."""
+        """Validate model paths and return config dict (strings only)."""
 
         Log.info("[LoadGVHMRModels] Checking GVHMR models...")
 
-        # Define model paths
         gvhmr_path = MODELS_DIR / "gvhmr" / "gvhmr_siga24_release.ckpt"
         vitpose_path = MODELS_DIR / "vitpose" / "vitpose-h-multi-coco.pth"
         hmr2_path = MODELS_DIR / "hmr2" / "epoch=10-step=25000.ckpt"
 
-        # Override GVHMR path if specified
         if model_path_override and model_path_override.strip():
             gvhmr_path = Path(model_path_override)
 
-        # Check and download models
         self.check_and_download_model("gvhmr", gvhmr_path)
         self.check_and_download_model("vitpose", vitpose_path)
         self.check_and_download_model("hmr2", hmr2_path)
 
-        # Check SMPL models
         self.check_smpl_models()
 
-        # Verify all models exist
         if not all([gvhmr_path.exists(), vitpose_path.exists(), hmr2_path.exists()]):
             raise FileNotFoundError(
                 "Not all required models are available. "
@@ -363,17 +275,17 @@ LOOP_RETR_THRESH: 0.04
 
         Log.info("[LoadGVHMRModels] All models verified!")
 
-        # Load DPVO if requested
-        dpvo_model = None
+        # Download DPVO checkpoint if requested (but don't load it)
+        dpvo_dir = ""
         if load_dpvo:
-            dpvo_dir = MODELS_DIR / "dpvo"
-            dpvo_model = self.load_dpvo_model(dpvo_dir)
-            if dpvo_model:
-                Log.info("[LoadGVHMRModels] DPVO model included in config")
+            dpvo_path = MODELS_DIR / "dpvo"
+            if self.download_dpvo_checkpoint(dpvo_path):
+                dpvo_dir = str(dpvo_path)
+                Log.info(f"[LoadGVHMRModels] DPVO dir: {dpvo_dir}")
             else:
-                Log.warn("[LoadGVHMRModels] DPVO requested but could not be loaded")
+                Log.warn("[LoadGVHMRModels] DPVO requested but checkpoint not available")
 
-        # Return config dict (models will be loaded by GVHMRInference)
+        # Return config — strings and bools only, no tensors or complex objects
         config = {
             "models_dir": str(MODELS_DIR),
             "gvhmr_path": str(gvhmr_path),
@@ -381,7 +293,7 @@ LOOP_RETR_THRESH: 0.04
             "hmr2_path": str(hmr2_path),
             "body_models_path": str(MODELS_DIR / "body_models"),
             "cache_model": cache_model,
-            "dpvo_model": dpvo_model,
+            "dpvo_dir": dpvo_dir,
         }
 
         return (config,)
