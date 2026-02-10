@@ -4,7 +4,6 @@ Writes mesh data to a binary file and sends the filename to the JS viewer via IP
 """
 
 import logging
-import time
 from pathlib import Path
 import torch
 import numpy as np
@@ -12,6 +11,20 @@ import smplx
 import folder_paths
 
 logger = logging.getLogger("SMPLViewer")
+
+
+def _next_sequential_filename(directory, prefix, ext):
+    """Find the next sequential filename like prefix_0001.ext, prefix_0002.ext, etc."""
+    existing = sorted(directory.glob(f"{prefix}_*{ext}"))
+    max_num = 0
+    for f in existing:
+        stem = f.stem
+        suffix = stem[len(prefix) + 1:]
+        try:
+            max_num = max(max_num, int(suffix))
+        except ValueError:
+            pass
+    return f"{prefix}_{max_num + 1:04d}{ext}"
 
 
 class SMPLViewer:
@@ -129,8 +142,7 @@ class SMPLViewer:
         # Write binary file to ComfyUI output directory
         # Format: Magic(4) | Frames(u32) | Verts(u32) | Faces(u32) | FPS(f32) | mesh_color(64 bytes) | vertex_data | face_data
         output_dir = Path(folder_paths.get_output_directory())
-        timestamp = int(time.time() * 1000)
-        mesh_filename = f"smpl_mesh_{timestamp}.bin"
+        mesh_filename = _next_sequential_filename(output_dir, "smpl_mesh", ".bin")
         mesh_filepath = output_dir / mesh_filename
 
         with open(mesh_filepath, "wb") as f:
