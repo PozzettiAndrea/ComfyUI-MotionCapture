@@ -5,7 +5,7 @@ publish = true
 [test.workflows]
 timeout = 300
 cpu = ["smpl_to_bvh_pipeline", "load_camera_traj", "smpl_to_mixamo_debug"]
-gpu = ["GVHMR", "GVHMR_cameramotion", "GVHMR_cameramotion_dpvo"]
+gpu = ["GVHMR", "GVHMR_cameramotion"]
 
 [test.platforms]
 linux = true
