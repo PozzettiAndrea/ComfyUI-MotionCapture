@@ -8,11 +8,25 @@ and camera controls for easy comparison.
 import sys
 from pathlib import Path
 from typing import Dict, Tuple
-import time
 import torch
 import numpy as np
+import folder_paths
 
 from hmr4d.utils.pylogger import Log
+
+
+def _next_sequential_filename(directory, prefix, ext):
+    """Find the next sequential filename like prefix_0001.ext, prefix_0002.ext, etc."""
+    existing = sorted(directory.glob(f"{prefix}_*{ext}"))
+    max_num = 0
+    for f in existing:
+        stem = f.stem
+        suffix = stem[len(prefix) + 1:]
+        try:
+            max_num = max(max_num, int(suffix))
+        except ValueError:
+            pass
+    return f"{prefix}_{max_num + 1:04d}{ext}"
 
 
 class CompareSMPLtoBVH:
@@ -101,10 +115,9 @@ class CompareSMPLtoBVH:
             faces = smpl_model.faces.astype(np.int32)  # (Nf, 3)
 
             # Save mesh to custom binary format (.bin) for easier JS loading
-            output_dir = Path("output")
+            output_dir = Path(folder_paths.get_output_directory())
             output_dir.mkdir(parents=True, exist_ok=True)
-            timestamp = int(time.time() * 1000)
-            mesh_filename = f"smpl_mesh_{timestamp}.bin"
+            mesh_filename = _next_sequential_filename(output_dir, "smpl_mesh", ".bin")
             mesh_filepath = output_dir / mesh_filename
 
             # Create binary header and data

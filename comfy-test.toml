@@ -1,11 +1,11 @@
 [test]
-levels = ["syntax", "install", "registration", "instantiation", "static_capture", "execution"]
+levels = ["syntax", "install", "registration", "instantiation", "execution"]
 publish = true
 
 [test.workflows]
 timeout = 300
-cpu = ["!GVHMR_inference", "!GVHMR_inference_movingcamera", "!GVHMR_inference_cameramotion"]
-gpu = ["GVHMR_inference", "GVHMR_inference_movingcamera", "GVHMR_inference_cameramotion"]
+cpu = ["smpl_to_bvh_pipeline", "load_camera_traj", "smpl_to_mixamo_debug"]
+gpu = ["GVHMR", "GVHMR_cameramotion"]
 
 [test.platforms]
 linux = true

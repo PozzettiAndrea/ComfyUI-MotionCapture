@@ -8,7 +8,7 @@ Blender operations run in an isolated environment with the bpy package.
 import os
 import numpy as np
 from pathlib import Path
-from typing import Dict, Tuple, Optional
+from typing import Tuple
 
 try:
     import folder_paths
@@ -56,9 +56,9 @@ SMPL_REST_POSITIONS = np.array([
 ], dtype=np.float32)
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
+# ===============================================================================
 # ISOLATED BLENDER WORKERS
-# ═══════════════════════════════════════════════════════════════════════════════
+# ===============================================================================
 
 class RestPoseFromFBXWorker:
     """
@@ -246,9 +246,9 @@ class SMPLSkeletonWorker:
         return len(joint_names)
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
+# ===============================================================================
 # COMFYUI NODE
-# ═══════════════════════════════════════════════════════════════════════════════
+# ===============================================================================
 
 class ExtractRestPose:
     """
@@ -279,8 +279,9 @@ class ExtractRestPose:
                     "default": "",
                     "tooltip": "Path to input FBX file (when source_type=fbx)"
                 }),
-                "smpl_params": ("SMPL_PARAMS", {
-                    "tooltip": "SMPL parameters dict (when source_type=smpl)"
+                "npz_path": ("STRING", {
+                    "default": "",
+                    "tooltip": "Path to SMPL params .npz file (when source_type=smpl)"
                 }),
             }
         }
@@ -295,7 +296,7 @@ class ExtractRestPose:
         source_type: str,
         output_name: str,
         fbx_path: str = "",
-        smpl_params: Optional[Dict] = None,
+        npz_path: str = "",
     ) -> Tuple[str, str]:
         """Extract rest pose skeleton and save as FBX."""
         print(f"[ExtractRestPose] Source type: {source_type}")

@@ -4,9 +4,9 @@ import os
 import sys
 from pathlib import Path
 
-print("[geompack] loading...", file=sys.stderr, flush=True)
+print("[motioncapture] loading...", file=sys.stderr, flush=True)
 from comfy_env import register_nodes
-print("[geompack] calling register_nodes", file=sys.stderr, flush=True)
+print("[motioncapture] calling register_nodes", file=sys.stderr, flush=True)
 NODE_CLASS_MAPPINGS, NODE_DISPLAY_NAME_MAPPINGS = register_nodes()
 
 WEB_DIRECTORY = "./web"

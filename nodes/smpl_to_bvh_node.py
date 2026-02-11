@@ -2,11 +2,13 @@
 SMPLtoBVH Node - Convert SMPL motion data to BVH format
 """
 
+import os
 from pathlib import Path
 from typing import Dict, Tuple
 import torch
 import numpy as np
 from scipy.spatial.transform import Rotation as R
+import folder_paths
 
 from hmr4d.utils.pylogger import Log
 
@@ -165,9 +167,10 @@ class SMPLtoBVH:
                     "multiline": False,
                     "tooltip": "Path to .npz file with SMPL parameters (from GVHMR Inference)"
                 }),
-                "output_path": ("STRING", {
-                    "default": "output/motion.bvh",
+                "filename": ("STRING", {
+                    "default": "motion.bvh",
                     "multiline": False,
+                    "tooltip": "Output filename (saved to ComfyUI output folder)"
                 }),
                 "fps": ("INT", {
                     "default": 30,
@@ -194,7 +197,7 @@ class SMPLtoBVH:
     def convert_to_bvh(
         self,
         npz_path: str,
-        output_path: str,
+        filename: str,
         fps: int = 30,
         scale: float = 1.0,
     ) -> Tuple[Dict, str, str]:
@@ -203,7 +206,7 @@ class SMPLtoBVH:
 
         Args:
             npz_path: Path to .npz file with SMPL parameters (from GVHMR Inference)
-            output_path: Path to save BVH file
+            filename: Output filename (saved to ComfyUI output folder)
             fps: Frames per second for the animation
             scale: Scale factor for the skeleton (1.0 = meters, 100.0 = centimeters)
 
@@ -224,13 +227,12 @@ class SMPLtoBVH:
             Log.info(f"[SMPLtoBVH] Loading SMPL parameters from: {npz_path}")
             data = np.load(str(npz_file))
 
-            # Prepare output directory
-            output_path = Path(output_path)
+            # Prepare output path in ComfyUI output folder
+            output_dir = folder_paths.get_output_directory()
+            if not filename.endswith('.bvh'):
+                filename = filename + '.bvh'
+            output_path = Path(os.path.join(output_dir, filename))
             output_path.parent.mkdir(parents=True, exist_ok=True)
-
-            # Ensure .bvh extension
-            if not output_path.suffix == '.bvh':
-                output_path = output_path.with_suffix('.bvh')
 
             # Get motion data from NPZ
             body_pose = data.get('body_pose')  # [F, 63] or [F, 69]
