@@ -174,6 +174,37 @@ class SMPLCameraViewer:
         data_dir = Path(__file__).parent / "data"
         models_dir = Path(folder_paths.models_dir) / "motion_capture" / "body_models"
 
+        # Ensure SMPLX model files exist, auto-download if missing
+        smplx_dir = models_dir / "smplx"
+        smplx_neutral = smplx_dir / "SMPLX_NEUTRAL.npz"
+        if not smplx_neutral.exists():
+            logger.info("[SMPLCameraViewer] SMPLX models not found, downloading from HuggingFace...")
+            smplx_dir.mkdir(parents=True, exist_ok=True)
+            try:
+                from huggingface_hub import hf_hub_download
+                import shutil
+                hf_cache = str(Path(folder_paths.models_dir) / "motion_capture" / "_hf_cache")
+                hf_files = {
+                    "SMPLX_FEMALE.npz": "4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz",
+                    "SMPLX_MALE.npz": "4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz",
+                    "SMPLX_NEUTRAL.npz": "4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz",
+                }
+                for filename, hf_path in hf_files.items():
+                    target = smplx_dir / filename
+                    if not target.exists():
+                        downloaded = hf_hub_download(
+                            repo_id="lithiumice/models_hub",
+                            filename=hf_path,
+                            cache_dir=hf_cache,
+                        )
+                        shutil.copy(downloaded, str(target))
+                        logger.info(f"[SMPLCameraViewer] Downloaded {filename}")
+            except Exception as e:
+                raise FileNotFoundError(
+                    f"SMPLX body models not found at {smplx_dir} and auto-download failed: {e}\n"
+                    f"Please run the LoadGVHMRModels node first, or manually place SMPLX_NEUTRAL.npz in {smplx_dir}/"
+                ) from e
+
         smplx_model = smplx.create(
             model_path=str(models_dir),
             model_type='smplx',
