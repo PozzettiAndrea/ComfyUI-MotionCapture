@@ -1,7 +1,7 @@
 [project]
 name = "ComfyUI-MotionCapture"
 description = "Motion Capture nodes for ComfyUI: SMPL data/retargeting using GVHMR"
-version = "0.0.7"
+version = "0.1.0"
 license = {file = "LICENSE"}
 
 [project.urls]
