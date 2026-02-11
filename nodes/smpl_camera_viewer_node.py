@@ -115,12 +115,12 @@ class SMPLCameraViewer:
             if 'R_cam2world' in src and 't_cam2world' in src and 'K_fullimg' in src:
                 return _get('R_cam2world'), _get('t_cam2world'), _get('K_fullimg'), 'new'
             elif 'R_w2c' in src and 't_w2c' in src and 'K_fullimg' in src:
-                # Old format: convert world-to-cam → cam-to-world by inversion
+                # Old format: convert world-to-cam -> cam-to-world by inversion
                 R_w2c = _get('R_w2c')
                 t_w2c = _get('t_w2c')
                 R_c2w = R_w2c.transpose(0, 2, 1)  # (F, 3, 3)
                 t_c2w = -np.einsum('fij,fj->fi', R_c2w, t_w2c)  # (F, 3)
-                logger.warning("[SMPLCameraViewer] Using old R_w2c/t_w2c format — re-run GVHMR inference for best results")
+                logger.warning("[SMPLCameraViewer] Using old R_w2c/t_w2c format -- re-run GVHMR inference for best results")
                 return R_c2w, t_c2w, _get('K_fullimg'), 'old'
             return None, None, None, None
 
@@ -247,7 +247,7 @@ class SMPLCameraViewer:
             f.write(vertices_array.tobytes())
             # face data
             f.write(faces_u32.tobytes())
-            # camera data (if available) — R_cam2world/t_cam2world are in GV Y-up frame
+            # camera data (if available) -- R_cam2world/t_cam2world are in GV Y-up frame
             if has_camera:
                 f.write(R_cam2world_np.astype(np.float32).tobytes())
                 f.write(t_cam2world_np.astype(np.float32).tobytes())
