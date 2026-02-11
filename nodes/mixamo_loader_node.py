@@ -1,39 +1,32 @@
 """
-LoadMixamoCharacter Node - Load Mixamo-rigged FBX characters from input/3d folder
+LoadMixamoCharacter Node - Load Mixamo-rigged FBX characters.
+
+Searches both input and output folders for .fbx files.
 """
 
 import os
-from pathlib import Path
-from typing import Tuple, List
 import folder_paths
-
-# Use print for logging to avoid dependency on hmr4d in isolated contexts
 
 
 class LoadMixamoCharacter:
     """
-    Load a Mixamo-rigged FBX character from input/3d folder.
+    Load a Mixamo-rigged FBX character.
 
-    This node provides a dropdown of FBX files in ComfyUI's input/3d directory,
-    which is where Mixamo characters should be placed.
+    Searches both input and output folders for .fbx files.
+    Returns the resolved file path.
     """
 
     @classmethod
     def INPUT_TYPES(cls):
-        # Get files for server-side validation
-        fbx_files = cls.get_mixamo_files()
+        fbx_files = cls.get_fbx_files()
         if not fbx_files:
-            fbx_files = [""]  # Provide fallback to avoid empty list error
-
+            fbx_files = ["No .fbx files found"]
         return {
             "required": {
                 "fbx_file": (fbx_files, {
-                    "remote": {
-                        "route": "/motioncapture/mixamo_files",
-                        "refresh_button": True,
-                    },
+                    "tooltip": "FBX file containing Mixamo-rigged character"
                 }),
-            }
+            },
         }
 
     RETURN_TYPES = ("STRING", "STRING")
@@ -41,71 +34,82 @@ class LoadMixamoCharacter:
     FUNCTION = "load_mixamo"
     CATEGORY = "MotionCapture/Mixamo"
 
-    @staticmethod
-    def get_mixamo_files() -> List[str]:
-        """Get all FBX files from input/3d directory."""
-        try:
-            input_dir = folder_paths.get_input_directory()
-            input_3d_dir = os.path.join(input_dir, "3d")
-
-            if not os.path.exists(input_3d_dir):
-                print(f"[LoadMixamoCharacter] input/3d directory not found: {input_3d_dir}")
-                return []
-
-            fbx_files = []
-            for root, dirs, files in os.walk(input_3d_dir):
-                for file in files:
-                    if file.lower().endswith('.fbx'):
-                        full_path = os.path.join(root, file)
-                        # Return path relative to input/3d
-                        rel_path = os.path.relpath(full_path, input_3d_dir)
+    @classmethod
+    def _scan_fbx(cls, base_dir, prefix=""):
+        """Recursively scan directory for .fbx files."""
+        fbx_files = []
+        if not os.path.exists(base_dir):
+            return fbx_files
+        for root, _dirs, files in os.walk(base_dir):
+            for file in sorted(files):
+                if file.lower().endswith('.fbx'):
+                    full_path = os.path.join(root, file)
+                    rel_path = os.path.relpath(full_path, base_dir)
+                    if prefix:
+                        fbx_files.append(f"{prefix}{rel_path}")
+                    else:
                         fbx_files.append(rel_path)
+        return fbx_files
 
-            return sorted(fbx_files)
-        except Exception as e:
-            print(f"[LoadMixamoCharacter] Error scanning 3d directory: {e}")
-            return []
+    @classmethod
+    def get_fbx_files(cls):
+        """Get list of .fbx files in input and output folders."""
+        fbx_files = []
 
-    def load_mixamo(self, fbx_file: str) -> Tuple[str, str]:
-        """
-        Load Mixamo FBX character and return path.
+        # Scan input folder
+        input_dir = folder_paths.get_input_directory()
+        fbx_files.extend(cls._scan_fbx(input_dir))
 
-        Args:
-            fbx_file: Relative path to FBX file within input/3d
+        # Scan output folder
+        output_dir = folder_paths.get_output_directory()
+        fbx_files.extend(cls._scan_fbx(output_dir, prefix="[output] "))
 
-        Returns:
-            Tuple of (absolute_fbx_path, info_string)
-        """
-        try:
-            print(f"[LoadMixamoCharacter] Loading Mixamo FBX: {fbx_file}")
+        return fbx_files
 
+    @classmethod
+    def IS_CHANGED(cls, fbx_file):
+        full_path = cls._resolve_file_path(fbx_file)
+        if full_path and os.path.exists(full_path):
+            return os.path.getmtime(full_path)
+        return fbx_file
+
+    @classmethod
+    def _resolve_file_path(cls, fbx_file):
+        if fbx_file.startswith("[output] "):
+            clean_path = fbx_file.replace("[output] ", "")
+            output_dir = folder_paths.get_output_directory()
+            output_path = os.path.join(output_dir, clean_path)
+            if os.path.exists(output_path):
+                return output_path
+        else:
             input_dir = folder_paths.get_input_directory()
-            input_3d_dir = os.path.join(input_dir, "3d")
-            fbx_path = os.path.join(input_3d_dir, fbx_file)
-            fbx_path = os.path.abspath(fbx_path)
+            input_path = os.path.join(input_dir, fbx_file)
+            if os.path.exists(input_path):
+                return input_path
 
-            if not os.path.exists(fbx_path):
-                raise FileNotFoundError(f"Mixamo FBX file not found: {fbx_path}")
+        if os.path.exists(fbx_file):
+            return fbx_file
 
-            file_size = os.path.getsize(fbx_path) / (1024 * 1024)  # MB
+        return None
 
-            info = (
-                f"Mixamo Character Loaded\n"
-                f"File: {fbx_file}\n"
-                f"Source: input/3d\n"
-                f"Full path: {fbx_path}\n"
-                f"Size: {file_size:.2f} MB\n"
-            )
+    def load_mixamo(self, fbx_file):
+        full_path = self._resolve_file_path(fbx_file)
+        if full_path is None:
+            raise FileNotFoundError(f"Mixamo FBX file not found: {fbx_file}")
 
-            print(f"[LoadMixamoCharacter] FBX loaded: {fbx_path}")
-            return (fbx_path, info)
+        file_size = os.path.getsize(full_path) / (1024 * 1024)  # MB
+        source = "output" if fbx_file.startswith("[output] ") else "input"
 
-        except Exception as e:
-            error_msg = f"LoadMixamoCharacter failed: {str(e)}"
-            print(error_msg)
-            import traceback
-            traceback.print_exc()
-            return ("", error_msg)
+        info = (
+            f"Mixamo Character Loaded\n"
+            f"File: {fbx_file}\n"
+            f"Source: {source}\n"
+            f"Full path: {full_path}\n"
+            f"Size: {file_size:.2f} MB\n"
+        )
+
+        print(f"[LoadMixamoCharacter] Selected: {full_path}")
+        return (full_path, info)
 
 
 NODE_CLASS_MAPPINGS = {
