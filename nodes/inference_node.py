@@ -82,7 +82,7 @@ def _log_memory(label):
         with open("/proc/self/status") as f:
             for line in f:
                 if line.startswith("VmRSS:"):
-                    rss_mb = int(line.split()[1]) / 1024  # kB → MB
+                    rss_mb = int(line.split()[1]) / 1024  # kB -> MB
                     break
             else:
                 rss_mb = -1
@@ -471,7 +471,7 @@ class GVHMRInference:
         _log_memory("After creating images_np (uint8, chunked)")
 
         # Release shared memory pages from this process's RSS.
-        # ComfyUI passes tensors via shared memory — madvise(MADV_DONTNEED) tells
+        # ComfyUI passes tensors via shared memory -- madvise(MADV_DONTNEED) tells
         # the kernel to drop these pages from our page tables (RSS drops ~5 GB).
         _release_shm_pages(images)
         _log_memory("After madvise(DONTNEED) on images")
@@ -518,7 +518,7 @@ class GVHMRInference:
         feature_extractor = model_bundle["feature_extractor"]
         f_imgseq = feature_extractor.extract_video_features(imgs_tensor, bbx_xys_processed, img_ds=1.0)
 
-        # Free cropped image tensors — no longer needed after feature extraction
+        # Free cropped image tensors -- no longer needed after feature extraction
         del imgs_tensor, bbx_xys_processed
         gc.collect()
         _clear_cuda_memory()
@@ -650,7 +650,7 @@ class GVHMRInference:
             "img_height": height,
         }
 
-        # Free images_np — no longer needed (visualization removed)
+        # Free images_np -- no longer needed (visualization removed)
         del images_np
         gc.collect()
         _log_memory("End of prepare_data_from_masks (images_np freed)")
@@ -697,7 +697,7 @@ class GVHMRInference:
             # Get DPVO directory from config (just a path string)
             dpvo_dir = config.get("dpvo_dir", "")
 
-            # Prepare data (images_np freed inside — no longer needed for viz)
+            # Prepare data (images_np freed inside -- no longer needed for viz)
             data, camera_data = self.prepare_data_from_masks(
                 images, masks, model, static_camera, focal_length_mm, bbox_scale, vo_method, vo_scale, vo_step, intrinsics, dpvo_dir
             )
@@ -765,7 +765,7 @@ class GVHMRInference:
 
             if not static_camera and t_w2c is not None:
                 # Compute camera-to-world transform in gravity-aligned (GV) frame
-                # This avoids OpenCV/OpenGL convention issues — the result is in the
+                # This avoids OpenCV/OpenGL convention issues -- the result is in the
                 # same Y-up coordinate system as the SMPL mesh.
                 incam_params = pred["smpl_params_incam"]
                 R_body_world = axis_angle_to_matrix(global_params['global_orient'])  # (F, 3, 3)

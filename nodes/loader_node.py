@@ -2,7 +2,7 @@
 LoadGVHMRModels Node - Downloads and verifies GVHMR model files.
 
 Lightweight node: only validates paths and returns config strings.
-No torch, no model loading — all heavy work happens in GVHMRInference.
+No torch, no model loading -- all heavy work happens in GVHMRInference.
 """
 
 import os
@@ -285,7 +285,7 @@ class LoadGVHMRModels:
             else:
                 Log.warn("[LoadGVHMRModels] DPVO requested but checkpoint not available")
 
-        # Return config — strings and bools only, no tensors or complex objects
+        # Return config -- strings and bools only, no tensors or complex objects
         config = {
             "models_dir": str(MODELS_DIR),
             "gvhmr_path": str(gvhmr_path),
