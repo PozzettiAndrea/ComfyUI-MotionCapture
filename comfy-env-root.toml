@@ -4,4 +4,4 @@ packages = ["python3-dev"]
 [node_reqs]
 ComfyUI-VideoHelperSuite = "Kosinkadink/ComfyUI-VideoHelperSuite"
 ComfyUI-CameraPack = "PozzettiAndrea/ComfyUI-CameraPack"
-ComfyUI-HyMotion = "Aero-Ex/ComfyUI-HyMotion"
+ComfyUI-HyMotion = "PozzettiAndrea/ComfyUI-HyMotion"
