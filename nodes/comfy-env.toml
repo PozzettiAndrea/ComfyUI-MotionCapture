@@ -8,7 +8,7 @@ packages = ["dpvo-cuda", "torch-scatter", "torch", "torchvision"]
 
 [dependencies]
 av = "*"
-numpy = ">=1.23.0,<2.0.0"
+opencv = "*"
 
 [pypi-dependencies]
 pillow = ">=9.0.0"
