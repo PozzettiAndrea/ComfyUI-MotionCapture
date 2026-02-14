@@ -3,9 +3,6 @@ python = "3.11"
 [apt]
 packages = ["python3-dev", "ffmpeg"]
 
-[brew]
-packages = ["ffmpeg"]
-
 [cuda]
 packages = ["dpvo-cuda", "torch-scatter", "torch", "torchvision"]
 
