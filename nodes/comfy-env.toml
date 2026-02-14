@@ -6,9 +6,9 @@ packages = ["python3-dev"]
 [cuda]
 packages = ["dpvo-cuda", "torch-scatter", "torch", "torchvision"]
 
-# [dependencies]
-# ffmpeg = "*"
-# av
+[dependencies]
+ffmpeg = "*"
+av = "*"
 
 [pypi-dependencies]
 numpy = ">=1.23.0,<2.0.0"
@@ -26,7 +26,6 @@ termcolor = "*"
 joblib = ">=1.2.0"
 scikit-image = ">=0.19.0"
 imageio = ">=2.34.0"
-av = "*"
 ffmpeg-python = ">=0.2.0"
 trimesh = ">=3.20.0"
 chumpy-fork = "*"
