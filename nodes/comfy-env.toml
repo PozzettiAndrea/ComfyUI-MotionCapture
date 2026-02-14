@@ -1,18 +1,19 @@
 python = "3.11"
 
 [apt]
-packages = ["python3-dev"]
+packages = ["python3-dev", "ffmpeg"]
+
+[brew]
+packages = ["ffmpeg"]
 
 [cuda]
 packages = ["dpvo-cuda", "torch-scatter", "torch", "torchvision"]
 
-[dependencies]
-av = "*"
-opencv = "*"
-
 [pypi-dependencies]
+numpy = ">=1.23.0,<2.0.0"
 pillow = ">=9.0.0"
 opencv-python-headless = ">=4.8.0"
+av = ">=13.0.0"
 scipy = "*"
 lightning = ">=2.0.0"
 hydra-core = ">=1.3.0"
