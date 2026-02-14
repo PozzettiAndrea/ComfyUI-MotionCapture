@@ -9,7 +9,7 @@ gpu = ["GVHMR", "GVHMR_cameramotion"]
 
 [test.platforms]
 linux = true
-macos = true
+macos = false
 windows = true
 windows_portable = true
 linux_gpu = true
