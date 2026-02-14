@@ -12,6 +12,27 @@ import cv2
 from typing import Dict, Tuple
 from tqdm import tqdm
 
+# ---------------------------------------------------------------------------
+# Patch torch.nn.init to skip random weight initialization.
+# All models (ViTPose ~400M, HMR2 ~480M, GVHMR) are constructed with random
+# weights then immediately overwritten by load_state_dict(). Skipping the
+# random init saves significant time during model construction.
+# ---------------------------------------------------------------------------
+import torch.nn.init as _init
+
+def _noop(tensor, *args, **kwargs):
+    return tensor
+
+for _fn in (
+    "kaiming_uniform_", "kaiming_normal_",
+    "xavier_uniform_", "xavier_normal_",
+    "uniform_", "normal_", "trunc_normal_",
+    "ones_", "zeros_", "constant_",
+    "orthogonal_",
+):
+    if hasattr(_init, _fn):
+        setattr(_init, _fn, _noop)
+
 # Add nodes path for local utils (needed when run as subprocess)
 NODES_PATH = Path(__file__).parent
 sys.path.insert(0, str(NODES_PATH))
