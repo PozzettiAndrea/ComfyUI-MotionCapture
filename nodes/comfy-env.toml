@@ -6,6 +6,9 @@ packages = ["python3-dev"]
 [cuda]
 packages = ["dpvo-cuda", "torch-scatter", "torch", "torchvision"]
 
+[dependencies]
+ffmpeg = "*"
+
 [pypi-dependencies]
 numpy = ">=1.23.0,<2.0.0"
 pillow = ">=9.0.0"
