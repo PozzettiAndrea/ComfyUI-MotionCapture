@@ -1,0 +1,83 @@
+{
+  "timestamp": "2026-02-14T23:43:48.997695+00:00",
+  "platform": "windows_portable",
+  "hardware": {
+    "os": "Windows-2025Server-10.0.26100-SP0",
+    "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
+  },
+  "summary": {
+    "total": 5,
+    "passed": 3,
+    "failed": 0
+  },
+  "workflows": [
+    {
+      "name": "apply_motion_on_character",
+      "status": "pass",
+      "duration_seconds": 56.36,
+      "error": null,
+      "hardware": {
+        "os": "Windows-2025Server-10.0.26100-SP0",
+        "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
+      },
+      "resources": {
+        "ram": {
+          "peak": 6.04,
+          "avg": 5.22
+        },
+        "total_ram_gb": 16.0,
+        "samples": 57
+      }
+    },
+    {
+      "name": "GVHMR",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for CPU runner",
+      "hardware": null
+    },
+    {
+      "name": "GVHMR_cameramotion",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for CPU runner",
+      "hardware": null
+    },
+    {
+      "name": "load_camera_traj",
+      "status": "pass",
+      "duration_seconds": 85.74,
+      "error": null,
+      "hardware": {
+        "os": "Windows-2025Server-10.0.26100-SP0",
+        "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
+      },
+      "resources": {
+        "ram": {
+          "peak": 5.89,
+          "avg": 5.48
+        },
+        "total_ram_gb": 16.0,
+        "samples": 86
+      }
+    },
+    {
+      "name": "smpl_to_bvh_pipeline",
+      "status": "pass",
+      "duration_seconds": 59.85,
+      "error": null,
+      "hardware": {
+        "os": "Windows-2025Server-10.0.26100-SP0",
+        "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
+      },
+      "resources": {
+        "ram": {
+          "peak": 5.45,
+          "avg": 5.06
+        },
+        "total_ram_gb": 16.0,
+        "samples": 60
+      }
+    }
+  ]
+}

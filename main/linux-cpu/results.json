@@ -1,0 +1,83 @@
+{
+  "timestamp": "2026-02-14T23:42:47.464334+00:00",
+  "platform": "linux",
+  "hardware": {
+    "os": "Linux-6.14.0-1017-azure-x86_64-with-glibc2.39",
+    "cpu": "AMD EPYC 7763 64-Core Processor"
+  },
+  "summary": {
+    "total": 5,
+    "passed": 3,
+    "failed": 0
+  },
+  "workflows": [
+    {
+      "name": "GVHMR",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for CPU runner",
+      "hardware": null
+    },
+    {
+      "name": "GVHMR_cameramotion",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for CPU runner",
+      "hardware": null
+    },
+    {
+      "name": "apply_motion_on_character",
+      "status": "pass",
+      "duration_seconds": 44.66,
+      "error": null,
+      "hardware": {
+        "os": "Linux-6.14.0-1017-azure-x86_64-with-glibc2.39",
+        "cpu": "AMD EPYC 7763 64-Core Processor"
+      },
+      "resources": {
+        "ram": {
+          "peak": 2.68,
+          "avg": 2.08
+        },
+        "total_ram_gb": 15.6,
+        "samples": 45
+      }
+    },
+    {
+      "name": "load_camera_traj",
+      "status": "pass",
+      "duration_seconds": 75.97,
+      "error": null,
+      "hardware": {
+        "os": "Linux-6.14.0-1017-azure-x86_64-with-glibc2.39",
+        "cpu": "AMD EPYC 7763 64-Core Processor"
+      },
+      "resources": {
+        "ram": {
+          "peak": 2.74,
+          "avg": 2.44
+        },
+        "total_ram_gb": 15.6,
+        "samples": 76
+      }
+    },
+    {
+      "name": "smpl_to_bvh_pipeline",
+      "status": "pass",
+      "duration_seconds": 45.16,
+      "error": null,
+      "hardware": {
+        "os": "Linux-6.14.0-1017-azure-x86_64-with-glibc2.39",
+        "cpu": "AMD EPYC 7763 64-Core Processor"
+      },
+      "resources": {
+        "ram": {
+          "peak": 2.48,
+          "avg": 2.23
+        },
+        "total_ram_gb": 15.6,
+        "samples": 46
+      }
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "timestamp": "2026-02-15T00:01:36.344157+00:00",
+  "platform": "windows_portable",
+  "hardware": {
+    "os": "Windows-11-10.0.26100-SP0",
+    "cpu": "Intel64 Family 6 Model 58 Stepping 9, GenuineIntel",
+    "gpu": "NVIDIA RTX A4000"
+  },
+  "summary": {
+    "total": 5,
+    "passed": 2,
+    "failed": 0
+  },
+  "workflows": [
+    {
+      "name": "apply_motion_on_character",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for GPU runner",
+      "hardware": null
+    },
+    {
+      "name": "GVHMR",
+      "status": "pass",
+      "duration_seconds": 507.46,
+      "error": null,
+      "hardware": {
+        "os": "Windows-11-10.0.26100-SP0",
+        "cpu": "Intel64 Family 6 Model 58 Stepping 9, GenuineIntel",
+        "gpu": "NVIDIA RTX A4000"
+      },
+      "resources": {
+        "ram": {
+          "peak": 27.11,
+          "avg": 19.1
+        },
+        "total_ram_gb": 30.0,
+        "samples": 411,
+        "vram": {
+          "peak": 5.97,
+          "avg": 1.53
+        }
+      }
+    },
+    {
+      "name": "GVHMR_cameramotion",
+      "status": "pass",
+      "duration_seconds": 573.43,
+      "error": null,
+      "hardware": {
+        "os": "Windows-11-10.0.26100-SP0",
+        "cpu": "Intel64 Family 6 Model 58 Stepping 9, GenuineIntel",
+        "gpu": "NVIDIA RTX A4000"
+      },
+      "resources": {
+        "ram": {
+          "peak": 25.55,
+          "avg": 19.09
+        },
+        "total_ram_gb": 30.0,
+        "samples": 469,
+        "vram": {
+          "peak": 6.04,
+          "avg": 2.03
+        }
+      }
+    },
+    {
+      "name": "load_camera_traj",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for GPU runner",
+      "hardware": null
+    },
+    {
+      "name": "smpl_to_bvh_pipeline",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for GPU runner",
+      "hardware": null
+    }
+  ]
+}

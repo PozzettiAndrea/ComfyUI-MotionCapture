@@ -1,0 +1,83 @@
+{
+  "timestamp": "2026-02-15T01:10:01.345130+00:00",
+  "platform": "linux",
+  "hardware": {
+    "os": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "cpu": "Intel Xeon E3-12xx v2 (Ivy Bridge, IBRS)",
+    "gpu": "NVIDIA RTX A4000"
+  },
+  "summary": {
+    "total": 5,
+    "passed": 2,
+    "failed": 0
+  },
+  "workflows": [
+    {
+      "name": "GVHMR",
+      "status": "pass",
+      "duration_seconds": 1092.51,
+      "error": null,
+      "hardware": {
+        "os": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+        "cpu": "Intel Xeon E3-12xx v2 (Ivy Bridge, IBRS)",
+        "gpu": "NVIDIA RTX A4000"
+      },
+      "resources": {
+        "ram": {
+          "peak": 10.28,
+          "avg": 5.27
+        },
+        "total_ram_gb": 14.6,
+        "samples": 570,
+        "vram": {
+          "peak": 5.67,
+          "avg": 1.84
+        }
+      }
+    },
+    {
+      "name": "GVHMR_cameramotion",
+      "status": "pass",
+      "duration_seconds": 1260.92,
+      "error": null,
+      "hardware": {
+        "os": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+        "cpu": "Intel Xeon E3-12xx v2 (Ivy Bridge, IBRS)",
+        "gpu": "NVIDIA RTX A4000"
+      },
+      "resources": {
+        "ram": {
+          "peak": 11.25,
+          "avg": 5.79
+        },
+        "total_ram_gb": 14.6,
+        "samples": 716,
+        "vram": {
+          "peak": 5.83,
+          "avg": 1.98
+        }
+      }
+    },
+    {
+      "name": "apply_motion_on_character",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for GPU runner",
+      "hardware": null
+    },
+    {
+      "name": "load_camera_traj",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for GPU runner",
+      "hardware": null
+    },
+    {
+      "name": "smpl_to_bvh_pipeline",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for GPU runner",
+      "hardware": null
+    }
+  ]
+}

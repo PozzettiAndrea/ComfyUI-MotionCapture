@@ -1,0 +1,53 @@
+[Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[Console-log] [BVHViewer] Loading BVH Viewer extension
+[Console-log] [BVHViewer] Loading BVH viewer extension...
+[Console-log] [BVHViewer] Extension registered: comfy3d.bvhviewer
+[Console-log] [HY-Motion] app imported successfully: true
+[Console-log] [FBX Preview] Auto-registering for all known FBX preview node types...
+[Console-log] [UniRig] Loading FBX mesh preview extension...
+[Console-log] [UniRig] Detected extension folder: ComfyUI-MotionCapture
+[Console-log] [UniRig] FBX mesh preview extension registered
+[Console-log] [SAM3DBody] Loading FBX mesh preview extension...
+[Console-log] [SAM3DBody] Detected extension folder: ComfyUI-MotionCapture
+[Console-log] [SAM3DBody] FBX mesh preview extension registered
+[Console-log] [MotionCapture] Loading FBX mesh preview extension...
+[Console-log] [MotionCapture] Detected extension folder: ComfyUI-MotionCapture
+[Console-log] [MotionCapture] FBX mesh preview extension registered
+[Console-log] [MotionCapture] Loading FBX mesh preview extension...
+[Console-log] [MotionCapture] Detected extension folder: ComfyUI-MotionCapture
+[Console-log] [MotionCapture] FBX mesh preview extension registered
+[Console-log] [UniRig Compare] Loading compare skeleton widget...
+[Console-log] [UniRig Compare] Detected extension folder: ComfyUI-MotionCapture
+[Console-log] [UniRig Compare] Compare skeleton widget registered
+[Console-log] [CompareSMPLBVH] Loading Compare SMPL BVH extension
+[Console-log] [CompareSMPLBVH] Loading Compare SMPL BVH extension...
+[Console-log] [CompareSMPLBVH] Extension registered: comfy3d.comparesmplbvh
+[Console-log] [FBXAnimationViewer] Loading FBX Animation Viewer extension
+[Console-log] [FBXAnimationViewer] Loading FBX Animation Viewer extension...
+[Console-log] [FBXAnimationViewer] Extension registered: comfy3d.fbxanimationviewer
+[Console-warning] WARNING: Multiple instances of Three.js being imported.
+[Console-log] [SMPLCameraViewer] Loading SMPL Camera Viewer extension
+[Console-log] [SMPLCameraViewer] Loading extension...
+[Console-log] [SMPLCameraViewer] Extension registered: comfy3d.smplcameraviewer
+[Console-log] [SMPL] Loading SMPL Viewer extension
+[Console-log] [SMPLViewer] Extension registered: comfy3d.smplviewer
+[Console-warning] WARNING: Multiple instances of Three.js being imported.
+[Console-warning] [ComfyUI Notice] "extensions/core/widgetInputs.js" is an internal module, not part of the public API. Future updates may break this import.
+[Console-warning] [ComfyUI Notice] "scripts/utils.js" is an internal module, not part of the public API. Future updates may break this import.
+[Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+[Console-log] [HY-Motion] 3D Viewer Extension Loaded (v3.5 - Alt+Z Undo)
+[Console-log] [MotionCapture] Registering Preview Rigged Mesh node
+[Console-log] [FBXAnimationViewer] Registering FBXAnimationViewer node
+[Console-log] [BVHViewer] Registering BVHViewer node
+[Console-log] [CompareSMPLBVH] Registering CompareSMPLtoBVH node
+[Console-log] [UniRig Compare] Registering Compare Skeletons node
+[Console-log] [SMPLViewer] Registering SMPLViewer node
+[Console-log] [SMPLCameraViewer] Registering SMPLCameraViewer node
+[Console-log] [comfy-test] graphToPrompt: 6 nodes, missing class_type: [], sample: {"inputs":{"npz_path":["34",0],"frame_skip":1,"mesh_color":"#4a9eff","smpl_viewer":""},"class_type":"SMPLViewer","_meta":{"title":"SMPL 3D Viewer"}}
+[Console-log] [SMPLViewer] Fetching mesh file: smpl_mesh_0002.bin
+[Console-log] [SMPLViewer] Loaded 551 frames, 6890 verts

@@ -1,0 +1,34 @@
+{
+  "models_dir": "D:\\a\\ComfyUI-MotionCapture\\ComfyUI-MotionCapture\\ComfyUI\\models",
+  "summary": {
+    "total_files": 3,
+    "total_size_bytes": 326299649,
+    "total_size_human": "311.2 MB"
+  },
+  "folders": {
+    "motion_capture": {
+      "total_size_bytes": 326299649,
+      "total_size_human": "311.2 MB",
+      "source": {
+        "type": "unknown"
+      },
+      "files": [
+        {
+          "path": "body_models\\smplx\\SMPLX_FEMALE.npz",
+          "size_bytes": 108794146,
+          "size_human": "103.8 MB"
+        },
+        {
+          "path": "body_models\\smplx\\SMPLX_MALE.npz",
+          "size_bytes": 108753445,
+          "size_human": "103.7 MB"
+        },
+        {
+          "path": "body_models\\smplx\\SMPLX_NEUTRAL.npz",
+          "size_bytes": 108752058,
+          "size_human": "103.7 MB"
+        }
+      ]
+    }
+  }
+}
