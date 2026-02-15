@@ -4,7 +4,7 @@ publish = true
 
 [test.workflows]
 timeout = 300
-cpu = ["smpl_to_bvh_pipeline", "load_camera_traj", "smpl_to_mixamo_debug"]
+cpu = ["smpl_to_bvh_pipeline", "load_camera_traj", "apply_motion_on_character"]
 gpu = ["GVHMR", "GVHMR_cameramotion"]
 
 [test.platforms]

@@ -12,6 +12,27 @@ import cv2
 from typing import Dict, Tuple
 from tqdm import tqdm
 
+# ---------------------------------------------------------------------------
+# Patch torch.nn.init to skip random weight initialization.
+# All models (ViTPose ~400M, HMR2 ~480M, GVHMR) are constructed with random
+# weights then immediately overwritten by load_state_dict(). Skipping the
+# random init saves significant time during model construction.
+# ---------------------------------------------------------------------------
+import torch.nn.init as _init
+
+def _noop(tensor, *args, **kwargs):
+    return tensor
+
+for _fn in (
+    "kaiming_uniform_", "kaiming_normal_",
+    "xavier_uniform_", "xavier_normal_",
+    "uniform_", "normal_", "trunc_normal_",
+    "ones_", "zeros_", "constant_",
+    "orthogonal_",
+):
+    if hasattr(_init, _fn):
+        setattr(_init, _fn, _noop)
+
 # Add nodes path for local utils (needed when run as subprocess)
 NODES_PATH = Path(__file__).parent
 sys.path.insert(0, str(NODES_PATH))
@@ -42,12 +63,9 @@ except ImportError:
 
 # Import local utilities (renamed to avoid conflict with ComfyUI's utils package)
 from gvhmr_utils import (
-    extract_bboxes_from_masks,
+    extract_bbox_from_numpy_mask,
     bbox_to_xyxy,
     expand_bbox,
-    normalize_image_tensor,
-    validate_masks,
-    validate_images,
 )
 
 import gc
@@ -145,6 +163,19 @@ def _save_temp_video(images_np: np.ndarray, fps: int = 30) -> str:
         writer.write(cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
     writer.release()
     return temp_path
+
+
+def _read_video_np(video_path: str) -> np.ndarray:
+    """Read video file into numpy array (N, H, W, 3) RGB uint8."""
+    cap = cv2.VideoCapture(video_path)
+    frames = []
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+        frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+    cap.release()
+    return np.stack(frames)
 
 
 def _quaternion_to_matrix(quaternions: torch.Tensor) -> torch.Tensor:
@@ -275,8 +306,12 @@ class GVHMRInference:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "images": ("IMAGE",),  # ComfyUI IMAGE tensor (B, H, W, C)
-                "masks": ("MASK",),  # SAM3 masks (B, H, W)
+                "video": ("VIDEO", {
+                    "tooltip": "Input video (e.g. from Load Video node). Frames are read directly from the video file — no large float32 tensors in RAM."
+                }),
+                "video_mask": ("VIDEO", {
+                    "tooltip": "Mask video where the person is white on black background (e.g. SAM3 mask rendered to video). Must have the same or similar frame count as video."
+                }),
                 "config": ("GVHMR_CONFIG",),  # Config from LoadGVHMRModels
                 "moving_camera": ("BOOLEAN", {
                     "default": False,
@@ -316,6 +351,13 @@ class GVHMRInference:
                 }),
                 "intrinsics": ("INTRINSICS", {
                     "tooltip": "Camera intrinsics matrix (3x3). Connect from DepthAnything V3 or other source. Overrides focal_length_mm if provided."
+                }),
+                "chunk_size": ("INT", {
+                    "default": 32,
+                    "min": 1,
+                    "max": 200,
+                    "step": 1,
+                    "tooltip": "Frames per chunk during preprocessing. Higher = faster but uses more RAM. Lower = slower but saves RAM. 32 is a good default, use 10-16 if low on RAM."
                 }),
             }
         }
@@ -429,10 +471,10 @@ class GVHMRInference:
 
         return model_bundle
 
-    def prepare_data_from_masks(
+    def prepare_data_from_videos(
         self,
-        images: torch.Tensor,
-        masks: torch.Tensor,
+        video,
+        video_mask,
         model_bundle: Dict,
         static_camera: bool,
         focal_length_mm: int,
@@ -442,47 +484,58 @@ class GVHMRInference:
         vo_step: int,
         intrinsics: torch.Tensor = None,
         dpvo_dir: str = "",
+        chunk_size: int = 32,
     ) -> Dict:
         """
-        Prepare data dictionary for GVHMR inference from images and masks.
+        Prepare data dictionary for GVHMR inference from VIDEO inputs.
+        Reads frames chunk-by-chunk from video files to minimize RAM usage.
         """
-        # Validate inputs
-        validate_images(images)
-        validate_masks(masks)
+        import av
 
         device = model_bundle["device"]
-        batch_size, height, width, channels = images.shape
-        Log.info(f"[GVHMRInference] images: {images.shape} dtype={images.dtype}, masks: {masks.shape} dtype={masks.dtype}")
-        Log.info(f"[GVHMRInference] batch_size={batch_size}, resolution={width}x{height}, static_camera={static_camera}")
 
-        if masks.shape[0] != batch_size:
-            Log.warn(f"[GVHMRInference] Mask count ({masks.shape[0]}) != frame count ({batch_size})! Trimming masks to match.")
-            masks = masks[:batch_size]
+        # Get frame counts and dimensions from video objects
+        video_frame_count = video.get_frame_count()
+        mask_frame_count = video_mask.get_frame_count()
+        width, height = video.get_dimensions()
+        mask_width, mask_height = video_mask.get_dimensions()
 
-        # Convert images to numpy uint8 for processing (CV libs expect uint8)
-        # Process in chunks to avoid a full-size float32 intermediate array
-        # (the naive `images.numpy() * 255` creates a hidden 5+ GB float32 copy)
-        _log_memory("Before creating images_np")
-        _chunk = 50
-        images_np = np.empty((batch_size, height, width, channels), dtype=np.uint8)
-        for _i in range(0, batch_size, _chunk):
-            _end = min(_i + _chunk, batch_size)
-            images_np[_i:_end] = (images[_i:_end].cpu().numpy() * 255).astype(np.uint8)
-        _log_memory("After creating images_np (uint8, chunked)")
+        if video_frame_count != mask_frame_count:
+            Log.warn(f"[GVHMRInference] Video frames ({video_frame_count}) != mask frames ({mask_frame_count}). Using minimum.")
+        batch_size = min(video_frame_count, mask_frame_count)
 
-        # Release shared memory pages from this process's RSS.
-        # ComfyUI passes tensors via shared memory -- madvise(MADV_DONTNEED) tells
-        # the kernel to drop these pages from our page tables (RSS drops ~5 GB).
-        _release_shm_pages(images)
-        _log_memory("After madvise(DONTNEED) on images")
+        Log.info(f"[GVHMRInference] Video: {video_frame_count} frames @ {width}x{height}")
+        Log.info(f"[GVHMRInference] Mask: {mask_frame_count} frames @ {mask_width}x{mask_height}")
+        Log.info(f"[GVHMRInference] Processing {batch_size} frames, static_camera={static_camera}")
+        _log_memory("Start of prepare_data_from_videos")
 
-        # Extract bounding boxes from masks
-        Log.info("[GVHMRInference] Extracting bounding boxes from SAM3 masks...")
-        bboxes_xywh = extract_bboxes_from_masks(masks)
+        # --- Phase 1: Extract bounding boxes from mask video ---
+        Log.info("[GVHMRInference] Phase 1: Extracting bounding boxes from mask video...")
+        mask_source = video_mask.get_stream_source()
+        bboxes_xywh = []
+        with av.open(mask_source, mode='r') as container:
+            stream = next(s for s in container.streams if s.type == 'video')
+            frame_idx = 0
+            for frame in container.decode(stream):
+                if frame_idx >= batch_size:
+                    break
+                mask_np = frame.to_ndarray(format='gray')  # (H, W) uint8
+                bbox = extract_bbox_from_numpy_mask(mask_np)
+                bboxes_xywh.append(bbox)
+                frame_idx += 1
 
-        # Release masks shared memory (~1.6 GB for 200 frames)
-        _release_shm_pages(masks)
-        _log_memory("After madvise(DONTNEED) on masks")
+        Log.info(f"[GVHMRInference] Extracted {len(bboxes_xywh)} bounding boxes")
+        _log_memory("After bbox extraction from mask video")
+
+        # Scale bboxes if mask and video have different resolutions
+        if (mask_width, mask_height) != (width, height):
+            Log.warn(f"[GVHMRInference] Mask resolution ({mask_width}x{mask_height}) != video resolution ({width}x{height}). Scaling bboxes.")
+            scale_x = width / mask_width
+            scale_y = height / mask_height
+            bboxes_xywh = [
+                [int(b[0] * scale_x), int(b[1] * scale_y), int(b[2] * scale_x), int(b[3] * scale_y)]
+                for b in bboxes_xywh
+            ]
 
         # Expand bounding boxes
         bboxes_xywh = [
@@ -494,35 +547,127 @@ class GVHMRInference:
         bboxes_xyxy = torch.tensor([bbox_to_xyxy(bbox) for bbox in bboxes_xywh], dtype=torch.float32)
 
         # Get bbx_xys format (used by GVHMR)
-        bbx_xys = get_bbx_xys_from_xyxy(bboxes_xyxy, base_enlarge=1.0).float()  # Already expanded above
+        bbx_xys = get_bbx_xys_from_xyxy(bboxes_xyxy, base_enlarge=1.0).float()
         Log.info(f"[GVHMRInference] bboxes_xyxy: {bboxes_xyxy.shape}, bbx_xys: {bbx_xys.shape}")
 
-        # Extract ViTPose 2D keypoints
-        Log.info("[GVHMRInference] Extracting 2D pose with ViTPose...")
-        vitpose_extractor = model_bundle["vitpose_extractor"]
-
-        # Use get_batch to preprocess images for extractors
+        # --- Phase 2: Two-pass frame processing (GPU memory optimization) ---
+        # Only one large model on GPU at a time (~2.7 GB peak vs ~5.2 GB).
+        # Cropped 256×256 tensors saved between passes (~0.75 MB/frame).
         from hmr4d.utils.preproc.vitfeat_extractor import get_batch
 
-        # Prepare images in the right format for get_batch (expects (F, H, W, 3) RGB numpy array)
-        imgs_tensor, bbx_xys_processed = get_batch(images_np, bbx_xys, img_ds=1.0, path_type="np")
-
-        # Extract 2D keypoints with ViTPose
-        kp2d = vitpose_extractor.extract(imgs_tensor, bbx_xys_processed, img_ds=1.0)
-        kp2d = kp2d.cpu()  # Move to CPU immediately
-        _clear_cuda_memory()
-        Log.info(f"[GVHMRInference] ViTPose complete: kp2d={kp2d.shape} dtype={kp2d.dtype}")
-
-        # Extract ViT features
-        Log.info("[GVHMRInference] Extracting image features...")
+        vitpose_extractor = model_bundle["vitpose_extractor"]
         feature_extractor = model_bundle["feature_extractor"]
-        f_imgseq = feature_extractor.extract_video_features(imgs_tensor, bbx_xys_processed, img_ds=1.0)
 
-        # Free cropped image tensors -- no longer needed after feature extraction
-        del imgs_tensor, bbx_xys_processed
-        gc.collect()
+        CHUNK_SIZE = max(1, chunk_size)
+
+        # Move both extractors off GPU — only GVHMR stays (~173 MB)
+        vitpose_extractor.pose.cpu()
+        feature_extractor.extractor.cpu()
         _clear_cuda_memory()
-        _log_memory("After freeing imgs_tensor + bbx_xys_processed")
+        _log_memory("After moving extractors to CPU")
+
+        # --- Pass 1: ViTPose (decode video + crop + extract keypoints) ---
+        vitpose_extractor.pose.cuda()
+        _log_memory("ViTPose on GPU")
+
+        all_kp2d = []
+        saved_crops = []  # (chunk_tensor, chunk_bbx_processed) for Pass 2
+
+        # For moving camera: write temp video incrementally
+        temp_video_path = None
+        _video_writer = None
+        if not static_camera:
+            import tempfile
+            temp_video_path = tempfile.mktemp(suffix=".mp4")
+            fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+            _video_writer = cv2.VideoWriter(temp_video_path, fourcc, 30, (width, height))
+
+        Log.info(f"[GVHMRInference] Pass 1/2 (ViTPose): {batch_size} frames in chunks of {CHUNK_SIZE}...")
+
+        video_source = video.get_stream_source()
+        with av.open(video_source, mode='r') as container:
+            stream = next(s for s in container.streams if s.type == 'video')
+            chunk_frames = []
+            frame_idx = 0
+            chunk_start = 0
+
+            for frame in container.decode(stream):
+                if frame_idx >= batch_size:
+                    break
+                frame_np = frame.to_ndarray(format='rgb24')  # (H, W, 3) uint8
+                chunk_frames.append(frame_np)
+                frame_idx += 1
+
+                # Process chunk when full or at end of video
+                if len(chunk_frames) >= CHUNK_SIZE or frame_idx >= batch_size:
+                    chunk_end = chunk_start + len(chunk_frames)
+                    Log.info(f"[GVHMRInference] ViTPose chunk [{chunk_start}:{chunk_end}] ({len(chunk_frames)} frames)")
+
+                    chunk_np = np.stack(chunk_frames)  # (N, H, W, 3) uint8
+
+                    # Write to temp video for VO (if moving camera)
+                    if _video_writer is not None:
+                        for _frame in chunk_np:
+                            _video_writer.write(cv2.cvtColor(_frame, cv2.COLOR_RGB2BGR))
+
+                    # Crop/resize chunk via get_batch
+                    chunk_bbx_xys = bbx_xys[chunk_start:chunk_end]
+                    chunk_tensor, chunk_bbx_processed = get_batch(chunk_np, chunk_bbx_xys, img_ds=1.0, path_type="np")
+
+                    # ViTPose on chunk
+                    chunk_kp2d = vitpose_extractor.extract(chunk_tensor, chunk_bbx_processed, img_ds=1.0)
+                    all_kp2d.append(chunk_kp2d.cpu())
+
+                    # Save crops for HMR2 pass (256×256 tensors — tiny)
+                    saved_crops.append((chunk_tensor.cpu(), chunk_bbx_processed.clone()))
+
+                    del chunk_np, chunk_kp2d
+                    chunk_frames = []
+                    gc.collect()
+                    _clear_cuda_memory()
+                    _log_memory(f"After ViTPose chunk [{chunk_start}:{chunk_end}]")
+                    chunk_start = chunk_end
+
+        if _video_writer is not None:
+            _video_writer.release()
+            _video_writer = None
+
+        # Swap models: ViTPose off, HMR2 on
+        vitpose_extractor.pose.cpu()
+        _clear_cuda_memory()
+        _log_memory("ViTPose off GPU")
+
+        # --- Pass 2: HMR2 (iterate saved crops — no video decoding) ---
+        feature_extractor.extractor.cuda()
+        _log_memory("HMR2 on GPU")
+
+        all_f_imgseq = []
+        Log.info(f"[GVHMRInference] Pass 2/2 (HMR2): {len(saved_crops)} chunks...")
+
+        for i, (chunk_tensor, chunk_bbx_processed) in enumerate(saved_crops):
+            Log.info(f"[GVHMRInference] HMR2 chunk {i+1}/{len(saved_crops)}")
+            chunk_features = feature_extractor.extract_video_features(chunk_tensor, chunk_bbx_processed, img_ds=1.0)
+            all_f_imgseq.append(chunk_features.cpu())
+            del chunk_features
+            _clear_cuda_memory()
+
+        del saved_crops
+        gc.collect()
+
+        feature_extractor.extractor.cpu()
+        _clear_cuda_memory()
+        _log_memory("HMR2 off GPU")
+
+        # Concatenate results from all chunks
+        kp2d = torch.cat(all_kp2d, dim=0)
+        del all_kp2d
+        f_imgseq = torch.cat(all_f_imgseq, dim=0)
+        del all_f_imgseq
+        gc.collect()
+
+        Log.info(f"[GVHMRInference] ViTPose complete: kp2d={kp2d.shape} dtype={kp2d.dtype}")
+        Log.info(f"[GVHMRInference] HMR2 complete: f_imgseq={f_imgseq.shape} dtype={f_imgseq.dtype}")
+        _log_memory("After all chunks processed")
 
         # Offload features to disk for long videos to save GPU memory
         f_imgseq_path = None
@@ -579,26 +724,23 @@ class GVHMRInference:
                         vo_method = "simple_vo"
                     else:
                         Log.info(f"[GVHMRInference] Running DPVO for moving camera (dir={dpvo_dir})...")
-                        R_w2c, t_w2c = _run_dpvo(images_np, K_fullimg, dpvo_dir)
+                        # Read frames from temp video written during chunked processing
+                        dpvo_frames = _read_video_np(temp_video_path)
+                        R_w2c, t_w2c = _run_dpvo(dpvo_frames, K_fullimg, dpvo_dir)
+                        del dpvo_frames
                         _clear_cuda_memory()
                         Log.info(f"[GVHMRInference] DPVO complete, camera translation range: {t_w2c.abs().max().item():.3f}m")
 
                 if vo_method == "simple_vo":
                     Log.info(f"[GVHMRInference] Running SimpleVO for moving camera (scale={vo_scale}, step={vo_step})...")
+                    Log.info(f"[GVHMRInference] Using temp video: {temp_video_path} ({batch_size} frames)")
 
-                    # Save frames to temp video (SimpleVO requires video path)
-                    temp_video = _save_temp_video(images_np)
-                    Log.info(f"[GVHMRInference] Temp video saved: {temp_video} ({len(images_np)} frames)")
-
-                    # Run SimpleVO
+                    # Run SimpleVO using temp video written during chunked processing
                     f_mm = focal_length_mm if focal_length_mm > 0 else 24
                     Log.info(f"[GVHMRInference] SimpleVO params: f_mm={f_mm}, scale={vo_scale}, step={vo_step}, method=sift")
-                    vo = SimpleVO(temp_video, scale=vo_scale, step=vo_step, method="sift", f_mm=f_mm)
+                    vo = SimpleVO(temp_video_path, scale=vo_scale, step=vo_step, method="sift", f_mm=f_mm)
                     T_w2c_list = vo.compute()
                     Log.info(f"[GVHMRInference] SimpleVO returned {len(T_w2c_list)} poses (expected {batch_size})")
-
-                    # Clean up temp file
-                    os.remove(temp_video)
 
                     # Extract rotation matrices (upper-left 3x3 of each 4x4 transform)
                     R_w2c = torch.tensor(np.stack([T[:3, :3] for T in T_w2c_list]), dtype=torch.float32)
@@ -609,6 +751,11 @@ class GVHMRInference:
                     Log.info(f"[GVHMRInference] Translation range: min={t_w2c.min().item():.4f}, max={t_w2c.max().item():.4f}")
                     _clear_cuda_memory()
 
+                # Clean up temp video file
+                if temp_video_path is not None and os.path.exists(temp_video_path):
+                    os.remove(temp_video_path)
+                    Log.info("[GVHMRInference] Temp video cleaned up")
+
             except Exception as e:
                 Log.error(f"[GVHMRInference] Visual odometry failed: {e}")
                 import traceback
@@ -616,6 +763,9 @@ class GVHMRInference:
                 Log.warn("[GVHMRInference] Falling back to static camera")
                 R_w2c = torch.eye(3).repeat(batch_size, 1, 1)
                 t_w2c = None
+                # Clean up temp video on error
+                if temp_video_path is not None and os.path.exists(temp_video_path):
+                    os.remove(temp_video_path)
 
         Log.info(f"[GVHMRInference] R_w2c: {R_w2c.shape}, t_w2c: {t_w2c.shape if t_w2c is not None else 'None'}")
         cam_angvel = compute_cam_angvel(R_w2c)
@@ -650,16 +800,13 @@ class GVHMRInference:
             "img_height": height,
         }
 
-        # Free images_np -- no longer needed (visualization removed)
-        del images_np
-        gc.collect()
-        _log_memory("End of prepare_data_from_masks (images_np freed)")
+        _log_memory("End of prepare_data_from_videos")
         return data, camera_data
 
     def run_inference(
         self,
-        images: torch.Tensor,
-        masks: torch.Tensor,
+        video,
+        video_mask,
         config: Dict,
         moving_camera: bool = False,
         focal_length_mm: int = 0,
@@ -668,16 +815,18 @@ class GVHMRInference:
         vo_scale: float = 0.5,
         vo_step: int = 8,
         intrinsics: torch.Tensor = None,
+        chunk_size: int = 32,
     ):
         """
-        Run GVHMR inference on images with SAM3 masks.
+        Run GVHMR inference on video with mask video.
+        Reads frames directly from video files — no large float32 tensors in RAM.
         """
         try:
             static_camera = not moving_camera
             Log.info("=" * 60)
             Log.info("[GVHMRInference] Starting GVHMR inference with parameters:")
-            Log.info(f"  images:          {images.shape} dtype={images.dtype}")
-            Log.info(f"  masks:           {masks.shape} dtype={masks.dtype}")
+            Log.info(f"  video:           {video.get_frame_count()} frames @ {video.get_dimensions()}")
+            Log.info(f"  video_mask:      {video_mask.get_frame_count()} frames @ {video_mask.get_dimensions()}")
             Log.info(f"  moving_camera:   {moving_camera}")
             Log.info(f"  focal_length_mm: {focal_length_mm}")
             Log.info(f"  bbox_scale:      {bbox_scale}")
@@ -685,6 +834,7 @@ class GVHMRInference:
             Log.info(f"  vo_scale:        {vo_scale}")
             Log.info(f"  vo_step:         {vo_step}")
             Log.info(f"  intrinsics:      {intrinsics.shape if intrinsics is not None else 'None'}")
+            Log.info(f"  chunk_size:      {chunk_size}")
             Log.info(f"  config keys:     {list(config.keys())}")
             Log.info(f"  cache_model:     {config.get('cache_model', False)}")
             Log.info(f"  dpvo_dir:        {config.get('dpvo_dir', '')}")
@@ -697,9 +847,9 @@ class GVHMRInference:
             # Get DPVO directory from config (just a path string)
             dpvo_dir = config.get("dpvo_dir", "")
 
-            # Prepare data (images_np freed inside -- no longer needed for viz)
-            data, camera_data = self.prepare_data_from_masks(
-                images, masks, model, static_camera, focal_length_mm, bbox_scale, vo_method, vo_scale, vo_step, intrinsics, dpvo_dir
+            # Prepare data (reads frames from video files chunk-by-chunk)
+            data, camera_data = self.prepare_data_from_videos(
+                video, video_mask, model, static_camera, focal_length_mm, bbox_scale, vo_method, vo_scale, vo_step, intrinsics, dpvo_dir, chunk_size
             )
 
             batch_size_saved = data["length"].item()

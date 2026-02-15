@@ -90,13 +90,12 @@ class LoadGVHMRModels:
         target_path.parent.mkdir(parents=True, exist_ok=True)
 
         try:
-            downloaded_path = hf_hub_download(
+            hf_hub_download(
                 repo_id=config["repo_id"],
                 filename=config["filename"],
-                cache_dir=str(MODELS_DIR / "_hf_cache"),
+                local_dir=str(MODELS_DIR),
+                local_dir_use_symlinks=False,
             )
-            import shutil
-            shutil.copy(downloaded_path, str(target_path))
             Log.info(f"[LoadGVHMRModels] Downloaded {model_name} to {target_path}")
             return True
         except Exception as e:
@@ -127,13 +126,16 @@ class LoadGVHMRModels:
         target_path.parent.mkdir(parents=True, exist_ok=True)
 
         try:
-            downloaded = hf_hub_download(
-                repo_id="lithiumice/models_hub",
-                filename=hf_files[model_name],
-                cache_dir=str(MODELS_DIR / "_hf_cache"),
-            )
-            import shutil
-            shutil.copy(downloaded, str(target_path))
+            import tempfile
+            with tempfile.TemporaryDirectory(dir=str(MODELS_DIR)) as tmp_dir:
+                hf_hub_download(
+                    repo_id="lithiumice/models_hub",
+                    filename=hf_files[model_name],
+                    local_dir=tmp_dir,
+                    local_dir_use_symlinks=False,
+                )
+                downloaded = Path(tmp_dir) / hf_files[model_name]
+                downloaded.rename(target_path)
             Log.info(f"[LoadGVHMRModels] Downloaded {model_name}")
             return True
         except Exception as e:

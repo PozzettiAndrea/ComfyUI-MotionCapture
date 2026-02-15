@@ -182,8 +182,7 @@ class SMPLCameraViewer:
             smplx_dir.mkdir(parents=True, exist_ok=True)
             try:
                 from huggingface_hub import hf_hub_download
-                import shutil
-                hf_cache = str(Path(folder_paths.models_dir) / "motion_capture" / "_hf_cache")
+                import tempfile
                 hf_files = {
                     "SMPLX_FEMALE.npz": "4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz",
                     "SMPLX_MALE.npz": "4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz",
@@ -192,12 +191,15 @@ class SMPLCameraViewer:
                 for filename, hf_path in hf_files.items():
                     target = smplx_dir / filename
                     if not target.exists():
-                        downloaded = hf_hub_download(
-                            repo_id="lithiumice/models_hub",
-                            filename=hf_path,
-                            cache_dir=hf_cache,
-                        )
-                        shutil.copy(downloaded, str(target))
+                        with tempfile.TemporaryDirectory(dir=str(smplx_dir)) as tmp_dir:
+                            hf_hub_download(
+                                repo_id="lithiumice/models_hub",
+                                filename=hf_path,
+                                local_dir=tmp_dir,
+                                local_dir_use_symlinks=False,
+                            )
+                            downloaded = Path(tmp_dir) / hf_path
+                            downloaded.rename(target)
                         logger.info(f"[SMPLCameraViewer] Downloaded {filename}")
             except Exception as e:
                 raise FileNotFoundError(

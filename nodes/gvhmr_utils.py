@@ -8,6 +8,29 @@ import cv2
 from typing import List, Tuple, Dict, Optional
 
 
+def extract_bbox_from_numpy_mask(mask_uint8: np.ndarray) -> List[int]:
+    """
+    Extract bounding box from a single grayscale uint8 mask.
+
+    Args:
+        mask_uint8: Grayscale mask array (H, W) with values 0-255
+
+    Returns:
+        Bounding box in [x, y, w, h] format
+    """
+    if len(mask_uint8.shape) == 3:
+        mask_uint8 = mask_uint8[:, :, 0]
+    _, mask_binary = cv2.threshold(mask_uint8, 127, 255, cv2.THRESH_BINARY)
+    contours, _ = cv2.findContours(mask_binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    if contours:
+        largest_contour = max(contours, key=cv2.contourArea)
+        x, y, w, h = cv2.boundingRect(largest_contour)
+        return [x, y, w, h]
+    else:
+        h, w = mask_uint8.shape[:2]
+        return [0, 0, w, h]
+
+
 def extract_bboxes_from_masks(masks: torch.Tensor) -> List[List[int]]:
     """
     Extract bounding boxes from SAM3 segmentation masks.
