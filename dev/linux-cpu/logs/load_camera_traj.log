@@ -1,0 +1,27 @@
+Capturing execution frames: load_camera_traj.json
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-warning] [ComfyUI Notice] "extensions/core/widgetInputs.js" is an internal module, not part of the public API. Future updates may break this import.
+  [Console-warning] [ComfyUI Notice] "scripts/utils.js" is an internal module, not part of the public API. Future updates may break this import.
+  [Console-warning] WARNING: Multiple instances of Three.js being imported.
+  [Console-warning] WARNING: Multiple instances of Three.js being imported.
+  [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Error loading model: HttpError: fetch for "http://127.0.0.1:8188/api/view?type=output&subfolder=hymotion_retarget&filename=retarget_20260213_150512819_067dc21f_000.fbx" responded with 404: Not Found
+    at http://127.0.0.1:8188/assets/vendor-three-BDtRe4OM.js:3824:95202
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Error loading model: HttpError: fetch for "http://127.0.0.1:8188/api/view?type=output&subfolder=hymotion_retarget&filename=retarget_20260213_150512819_067dc21f_000.fbx" responded with 404: Not Found
+    at http://127.0.0.1:8188/assets/vendor-three-BDtRe4OM.js:3824:95202
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-warning] WebGL: INVALID_OPERATION: loseContext: context already lost
+  Validating workflow...
+  Queuing workflow for execution...
+  Captured 3 frames over 53.83s
+  3 unique frames saved
+  Waiting 10000ms for previews to render...
+  Saved high-quality screenshot: load_camera_traj_executed.png
+    Captured 4 video frames

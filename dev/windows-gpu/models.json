@@ -1,0 +1,84 @@
+{
+  "models_dir": "F:\\ComfyUI\\models",
+  "summary": {
+    "total_files": 13,
+    "total_size_bytes": 6013239555,
+    "total_size_human": "5.6 GB"
+  },
+  "folders": {
+    "motion_capture": {
+      "total_size_bytes": 6013239555,
+      "total_size_human": "5.6 GB",
+      "source": {
+        "type": "unknown"
+      },
+      "files": [
+        {
+          "path": "hmr2\\epoch=10-step=25000.ckpt",
+          "size_bytes": 2709494041,
+          "size_human": "2.5 GB"
+        },
+        {
+          "path": "vitpose\\vitpose-h-multi-coco.pth",
+          "size_bytes": 2549075546,
+          "size_human": "2.4 GB"
+        },
+        {
+          "path": "gvhmr\\gvhmr_siga24_release.ckpt",
+          "size_bytes": 163508011,
+          "size_human": "155.9 MB"
+        },
+        {
+          "path": "body_models\\smplx\\SMPLX_FEMALE.npz",
+          "size_bytes": 108794146,
+          "size_human": "103.8 MB"
+        },
+        {
+          "path": "body_models\\smplx\\SMPLX_MALE.npz",
+          "size_bytes": 108753445,
+          "size_human": "103.7 MB"
+        },
+        {
+          "path": "body_models\\smplx\\SMPLX_NEUTRAL.npz",
+          "size_bytes": 108752058,
+          "size_human": "103.7 MB"
+        },
+        {
+          "path": "body_models\\smpl\\SMPL_MALE.npz",
+          "size_bytes": 88305815,
+          "size_human": "84.2 MB"
+        },
+        {
+          "path": "body_models\\smpl\\SMPL_FEMALE.npz",
+          "size_bytes": 88305743,
+          "size_human": "84.2 MB"
+        },
+        {
+          "path": "body_models\\smpl\\SMPL_NEUTRAL.npz",
+          "size_bytes": 88250365,
+          "size_human": "84.2 MB"
+        },
+        {
+          "path": ".cache\\huggingface\\download\\gvhmr\\gvhmr_siga24_release.ckpt.metadata",
+          "size_bytes": 128,
+          "size_human": "128.0 B"
+        },
+        {
+          "path": ".cache\\huggingface\\download\\hmr2\\epoch=10-step=25000.ckpt.metadata",
+          "size_bytes": 128,
+          "size_human": "128.0 B"
+        },
+        {
+          "path": ".cache\\huggingface\\download\\vitpose\\vitpose-h-multi-coco.pth.metadata",
+          "size_bytes": 128,
+          "size_human": "128.0 B"
+        },
+        {
+          "path": ".cache\\huggingface\\.gitignore",
+          "size_bytes": 1,
+          "size_human": "1.0 B"
+        }
+      ]
+    }
+  }
+}

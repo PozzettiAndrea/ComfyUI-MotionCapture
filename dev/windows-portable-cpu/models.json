@@ -1,0 +1,83 @@
+{
+  "models_dir": "D:\\a\\ComfyUI-MotionCapture\\ComfyUI-MotionCapture\\ComfyUI_windows_portable\\ComfyUI\\models",
+  "summary": {
+    "total_files": 11,
+    "total_size_bytes": 345959641,
+    "total_size_human": "329.9 MB"
+  },
+  "folders": {
+    "motion_capture": {
+      "total_size_bytes": 326299649,
+      "total_size_human": "311.2 MB",
+      "source": {
+        "type": "unknown"
+      },
+      "files": [
+        {
+          "path": "body_models\\smplx\\SMPLX_FEMALE.npz",
+          "size_bytes": 108794146,
+          "size_human": "103.8 MB"
+        },
+        {
+          "path": "body_models\\smplx\\SMPLX_MALE.npz",
+          "size_bytes": 108753445,
+          "size_human": "103.7 MB"
+        },
+        {
+          "path": "body_models\\smplx\\SMPLX_NEUTRAL.npz",
+          "size_bytes": 108752058,
+          "size_human": "103.7 MB"
+        }
+      ]
+    },
+    "vae_approx": {
+      "total_size_bytes": 19659992,
+      "total_size_human": "18.7 MB",
+      "source": {
+        "type": "unknown"
+      },
+      "files": [
+        {
+          "path": "taef1_encoder.safetensors",
+          "size_bytes": 2464424,
+          "size_human": "2.4 MB"
+        },
+        {
+          "path": "taesd3_encoder.safetensors",
+          "size_bytes": 2464424,
+          "size_human": "2.4 MB"
+        },
+        {
+          "path": "taef1_decoder.safetensors",
+          "size_bytes": 2464414,
+          "size_human": "2.4 MB"
+        },
+        {
+          "path": "taesd3_decoder.safetensors",
+          "size_bytes": 2464414,
+          "size_human": "2.4 MB"
+        },
+        {
+          "path": "taesdxl_decoder.safetensors",
+          "size_bytes": 2450590,
+          "size_human": "2.3 MB"
+        },
+        {
+          "path": "taesd_decoder.safetensors",
+          "size_bytes": 2450590,
+          "size_human": "2.3 MB"
+        },
+        {
+          "path": "taesdxl_encoder.safetensors",
+          "size_bytes": 2450568,
+          "size_human": "2.3 MB"
+        },
+        {
+          "path": "taesd_encoder.safetensors",
+          "size_bytes": 2450568,
+          "size_human": "2.3 MB"
+        }
+      ]
+    }
+  }
+}

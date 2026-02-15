@@ -1,0 +1,33 @@
+Capturing execution frames: apply_motion_on_character.json
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-warning] WARNING: Multiple instances of Three.js being imported.
+  [Console-warning] WARNING: Multiple instances of Three.js being imported.
+  [Console-warning] [ComfyUI Notice] "extensions/core/widgetInputs.js" is an internal module, not part of the public API. Future updates may break this import.
+  [Console-warning] [ComfyUI Notice] "scripts/utils.js" is an internal module, not part of the public API. Future updates may break this import.
+  [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+  [Console-error] THREE.WebGLRenderer: A WebGL context could not be created. Reason:  Could not create a WebGL context, VENDOR = 0x1414, DEVICE = 0x008c, GL_VENDOR = Google Inc. (Microsoft), GL_RENDERER = ANGLE (Microsoft, Microsoft Basic Render Driver (0x0000008C) Direct3D11 vs_5_0 ps_5_0, D3D11-10.0.26100.32230), GL_VERSION = 10.0.26100.32230, Sandboxed = no, Optimus = no, AMD switchable = no, Reset notification strategy = 0x8252, ErrorMessage = BindToCurrentSequence failed: .
+  [Console-error] THREE.WebGLRenderer: A WebGL context could not be created. Reason:  Could not create a WebGL context, VENDOR = 0x1414, DEVICE = 0x008c, GL_VENDOR = Google Inc. (Microsoft), GL_RENDERER = ANGLE (Microsoft, Microsoft Basic Render Driver (0x0000008C) Direct3D11 vs_5_0 ps_5_0, D3D11-10.0.26100.32230), GL_VERSION = 10.0.26100.32230, Sandboxed = no, Optimus = no, AMD switchable = no, Reset notification strategy = 0x8252, ErrorMessage = BindToCurrentSequence failed: .
+  [Console-error] THREE.WebGLRenderer: Error creating WebGL context.
+  [Console-error] Error initializing Load3d: Error: Error creating WebGL context.
+    at new WebGLRenderer (http://127.0.0.1:8188/assets/vendor-three-BDtRe4OM.js:3824:10777)
+    at new Load3d (http://127.0.0.1:8188/assets/dialogService-Cr3DyAja.js:18:6948)
+    at Proxy.initializeLoad3d (http://127.0.0.1:8188/assets/dialogService-Cr3DyAja.js:18:20777)
+    at http://127.0.0.1:8188/assets/Load3D-er4iDy_w.js:1:1426
+    at http://127.0.0.1:8188/assets/vendor-primevue-D50rA9nL.js:3:56394
+    at callWithErrorHandling (http://127.0.0.1:8188/assets/vendor-primevue-D50rA9nL.js:2:152464)
+    at callWithAsyncErrorHandling (http://127.0.0.1:8188/assets/vendor-primevue-D50rA9nL.js:2:152574)
+    at t.__weh (http://127.0.0.1:8188/assets/vendor-primevue-D50rA9nL.js:3:5140)
+    at flushPostFlushCbs (http://127.0.0.1:8188/assets/vendor-primevue-D50rA9nL.js:2:154217)
+    at flushJobs (http://127.0.0.1:8188/assets/vendor-primevue-D50rA9nL.js:2:154503)
+  Validating workflow...
+  Queuing workflow for execution...
+  Captured 3 frames over 31.77s
+  3 unique frames saved
+  Waiting 10000ms for previews to render...
+  Saved high-quality screenshot: apply_motion_on_character_executed.png
+    Captured 4 video frames

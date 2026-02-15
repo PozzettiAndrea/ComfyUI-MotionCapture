@@ -1,0 +1,9 @@
+[00:00] Crash dump logging enabled: D:\a\ComfyUI-MotionCapture\ComfyUI-MotionCapture\.comfy-test\crash_dump.log
+[00:00] 
+[00:00] [1/5] SYNTAX
+[00:00] ----------------------------------------
+[00:00] Found pyproject.toml (modern format)
+[00:00] Found requirements.txt (legacy format)
+[00:00] 
+windows-portable: FAILED
+[00:00] Error: Non-ASCII characters found that can't encode on Windows (cp1252)
