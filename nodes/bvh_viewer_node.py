@@ -5,7 +5,7 @@ BVHViewer Node - Interactive 3D viewer for BVH skeletal animations
 from pathlib import Path
 from typing import Dict, Tuple
 
-from hmr4d.utils.pylogger import Log
+from .vendor.hmr4d.utils.pylogger import Log
 
 
 class BVHViewer:
@@ -97,9 +97,7 @@ class BVHViewer:
 
         except Exception as e:
             error_msg = f"BVHViewer failed: {str(e)}"
-            Log.error(error_msg)
-            import traceback
-            traceback.print_exc()
+            Log.error(error_msg, exc_info=True)
             return {
                 "ui": {
                     "bvh_content": [""],

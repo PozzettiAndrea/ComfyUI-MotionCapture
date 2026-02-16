@@ -1,22 +1,22 @@
 import torch
-from torch.cuda.amp import autocast
-from hmr4d.utils.pytorch3d_shim import (
+from torch.amp import autocast
+from ....utils.pytorch3d_shim import (
     matrix_to_rotation_6d,
     rotation_6d_to_matrix,
     axis_angle_to_matrix,
     matrix_to_axis_angle,
 )
 
-import hmr4d.utils.matrix as matrix
-from hmr4d.utils.ik.ccd_ik import CCD_IK
-from hmr4d.utils.geo_transform import get_sequence_cammat, transform_mat, apply_T_on_points
-from hmr4d.utils.net_utils import gaussian_smooth
-from hmr4d.model.gvhmr.utils.endecoder import EnDecoder
+from ....utils import matrix as matrix
+from ....utils.ik.ccd_ik import CCD_IK
+from ....utils.geo_transform import get_sequence_cammat, transform_mat, apply_T_on_points
+from ....utils.net_utils import gaussian_smooth
+from ....model.gvhmr.utils.endecoder import EnDecoder
 
-from hmr4d.utils.wis3d_utils import make_wis3d, add_motion_as_lines
+from ....utils.wis3d_utils import make_wis3d, add_motion_as_lines
 
 
-@autocast(enabled=False)
+@autocast("cuda", enabled=False)
 def pp_static_joint(outputs, endecoder: EnDecoder):
     # Global FK
     pred_w_j3d = endecoder.fk_v2(**outputs["pred_smpl_params_global"])
@@ -58,7 +58,7 @@ def pp_static_joint(outputs, endecoder: EnDecoder):
     return post_w_transl
 
 
-@autocast(enabled=False)
+@autocast("cuda", enabled=False)
 def pp_static_joint_cam(outputs, endecoder: EnDecoder):
     """Use static joint and static camera assumption to postprocess the global transl"""
     # input
@@ -118,7 +118,7 @@ def pp_static_joint_cam(outputs, endecoder: EnDecoder):
     return post_w_transl
 
 
-@autocast(enabled=False)
+@autocast("cuda", enabled=False)
 def process_ik(outputs, endecoder):
     static_conf = outputs["static_conf_logits"].sigmoid()  # (B, L, J)
     post_w_j3d, local_mat, post_w_mat = endecoder.fk_v2(**outputs["pred_smpl_params_global"], get_intermediate=True)

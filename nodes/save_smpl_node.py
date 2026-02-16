@@ -7,7 +7,7 @@ from typing import Dict, Tuple
 import torch
 import numpy as np
 
-from hmr4d.utils.pylogger import Log
+from .vendor.hmr4d.utils.pylogger import Log
 
 
 class SaveSMPL:
@@ -90,9 +90,7 @@ class SaveSMPL:
 
         except Exception as e:
             error_msg = f"SaveSMPL failed: {str(e)}"
-            Log.error(error_msg)
-            import traceback
-            traceback.print_exc()
+            Log.error(error_msg, exc_info=True)
             return ("", error_msg)
 
 

@@ -1,22 +1,26 @@
+import logging
+
 from pathlib import Path
 import numpy as np
 import torch
-from hmr4d.utils.pylogger import Log
-from hmr4d.utils.pytorch3d_shim import axis_angle_to_matrix, matrix_to_axis_angle
+from ...utils.pylogger import Log
+
+log = logging.getLogger("motioncapture")
+from ...utils.pytorch3d_shim import axis_angle_to_matrix, matrix_to_axis_angle
 from time import time
 
-from hmr4d.configs import MainStore, builds
-from hmr4d.utils.smplx_utils import make_smplx
-from hmr4d.utils.wis3d_utils import make_wis3d, add_motion_as_lines
-from hmr4d.utils.vis.renderer_utils import simple_render_mesh_background
-from hmr4d.utils.video_io_utils import read_video_np, save_video
+from ...configs import MainStore, builds
+from ...utils.smplx_utils import make_smplx
+from ...utils.wis3d_utils import make_wis3d, add_motion_as_lines
+from ...utils.vis.renderer_utils import simple_render_mesh_background
+from ...utils.video_io_utils import read_video_np, save_video
 
-import hmr4d.utils.matrix as matrix
-from hmr4d.utils.net_utils import get_valid_mask, repeat_to_max_len, repeat_to_max_len_dict
-from hmr4d.dataset.imgfeat_motion.base_dataset import ImgfeatMotionDatasetBase
-from hmr4d.dataset.bedlam.utils import mid2featname, mid2vname
-from hmr4d.utils.geo_transform import compute_cam_angvel, apply_T_on_points
-from hmr4d.utils.geo.hmr_global import get_T_w2c_from_wcparams, get_c_rootparam, get_R_c2gv
+from ...utils import matrix as matrix
+from ...utils.net_utils import get_valid_mask, repeat_to_max_len, repeat_to_max_len_dict
+from ...dataset.imgfeat_motion.base_dataset import ImgfeatMotionDatasetBase
+from ...dataset.bedlam.utils import mid2featname, mid2vname
+from ...utils.geo_transform import compute_cam_angvel, apply_T_on_points
+from ...utils.geo.hmr_global import get_T_w2c_from_wcparams, get_c_rootparam, get_R_c2gv
 
 
 class BedlamDatasetV2(ImgfeatMotionDatasetBase):
@@ -191,18 +195,18 @@ class BedlamDatasetV2(ImgfeatMotionDatasetBase):
             add_motion_as_lines(c_gt_joints, wis3d, name="c-gt_joints")
 
             # Check transformation works correctly
-            print("T_w2c", (apply_T_on_points(w_gt_joints, T_w2c) - c_gt_joints).abs().max())
+            log.debug("T_w2c %s", (apply_T_on_points(w_gt_joints, T_w2c) - c_gt_joints).abs().max())
             R_c, t_c = get_c_rootparam(
                 smpl_params_w["global_orient"], smpl_params_w["transl"], T_w2c, data["skeleton"][0]
             )
-            print("transl_c", (t_c - smpl_params_c["transl"]).abs().max())
+            log.debug("transl_c %s", (t_c - smpl_params_c["transl"]).abs().max())
             R_diff = matrix_to_axis_angle(
                 (axis_angle_to_matrix(R_c) @ axis_angle_to_matrix(smpl_params_c["global_orient"]).transpose(-1, -2))
             ).norm(dim=-1)
-            print("global_orient_c", R_diff.abs().max())  # < 1e-6
+            log.debug("global_orient_c %s", R_diff.abs().max())  # < 1e-6
 
             skeleton_beta = smplx.get_skeleton(smpl_params_c["betas"])
-            print("Skeleton", (skeleton_beta[0] - data["skeleton"]).abs().max())  # (1.2e-7)
+            log.debug("Skeleton %s", (skeleton_beta[0] - data["skeleton"]).abs().max())  # (1.2e-7)
 
         if False:  # cam-overlay
             smplx = make_smplx("supermotion")

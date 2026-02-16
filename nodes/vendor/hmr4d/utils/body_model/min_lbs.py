@@ -2,9 +2,9 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from hmr4d.utils.pytorch3d_shim import axis_angle_to_matrix
+from ...utils.pytorch3d_shim import axis_angle_to_matrix
 from smplx.utils import Struct, to_np, to_tensor
-from hmr4d.utils.smplx_utils import forward_kinematics_motion
+from ...utils.smplx_utils import forward_kinematics_motion
 
 
 class MinimalLBS(nn.Module):

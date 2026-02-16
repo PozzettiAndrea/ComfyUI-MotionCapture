@@ -1,19 +1,23 @@
+import logging
+
 import torch
 import pytorch_lightning as pl
 import numpy as np
 from pathlib import Path
 from einops import einsum, rearrange
 
-from hmr4d.configs import MainStore, builds
-from hmr4d.utils.pylogger import Log
-from hmr4d.utils.comm.gather import all_gather
-from hmr4d.utils.eval.eval_utils import compute_camcoord_metrics, as_np_array
-from hmr4d.utils.smplx_utils import make_smplx
-from hmr4d.utils.vis.cv2_utils import cv2, draw_bbx_xys_on_image_batch, draw_coco17_skeleton_batch
-from hmr4d.utils.vis.renderer_utils import simple_render_mesh_background
-from hmr4d.utils.video_io_utils import read_video_np, get_video_lwh, save_video
-from hmr4d.utils.geo_transform import apply_T_on_points
-from hmr4d.utils.seq_utils import rearrange_by_mask
+log = logging.getLogger("motioncapture")
+
+from ....configs import MainStore, builds
+from ....utils.pylogger import Log
+from ....utils.comm.gather import all_gather
+from ....utils.eval.eval_utils import compute_camcoord_metrics, as_np_array
+from ....utils.smplx_utils import make_smplx
+from ....utils.vis.cv2_utils import cv2, draw_bbx_xys_on_image_batch, draw_coco17_skeleton_batch
+from ....utils.vis.renderer_utils import simple_render_mesh_background
+from ....utils.video_io_utils import read_video_np, get_video_lwh, save_video
+from ....utils.geo_transform import apply_T_on_points
+from ....utils.seq_utils import rearrange_by_mask
 
 
 class MetricMocap(pl.Callback):
@@ -147,7 +151,7 @@ class MetricMocap(pl.Callback):
                 self.metric_aggregator[metric_key].update(d[metric_key])
 
         if False:  # debug to make sure the all_gather is correct
-            print(f"[RANK {local_rank}/{world_size}]: {self.metric_aggregator[monitor_metric].keys()}")
+            log.debug("RANK %s/%s: %s", local_rank, world_size, self.metric_aggregator[monitor_metric].keys())
 
         total = len(self.metric_aggregator[monitor_metric])
         Log.info(f"{total} sequences evaluated in {self.__class__.__name__}")

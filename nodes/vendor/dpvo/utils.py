@@ -1,7 +1,10 @@
 from contextlib import ContextDecorator
+import logging
+
 import torch
 import torch.nn.functional as F
 
+log = logging.getLogger("motioncapture")
 
 all_times = []
 
@@ -26,7 +29,7 @@ class Timer(ContextDecorator):
 
             elapsed = self.start.elapsed_time(self.end)
             all_times.append(elapsed)
-            print(f"{self.name} {elapsed:.03f}")
+            log.debug("%s %.03f", self.name, elapsed)
 
 
 def coords_grid(b, n, h, w, **kwargs):

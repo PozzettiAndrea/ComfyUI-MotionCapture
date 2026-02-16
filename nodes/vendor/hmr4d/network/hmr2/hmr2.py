@@ -4,8 +4,8 @@ from yacs.config import CfgNode
 from .vit import ViT
 from .smpl_head import SMPLTransformerDecoderHead
 
-from hmr4d.utils.pytorch3d_shim import matrix_to_axis_angle
-from hmr4d.utils.geo.hmr_cam import compute_transl_full_cam
+from ...utils.pytorch3d_shim import matrix_to_axis_angle
+from ...utils.geo.hmr_cam import compute_transl_full_cam
 
 
 class HMR2(pl.LightningModule):

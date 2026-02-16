@@ -1,23 +1,23 @@
 import torch
 import numpy as np
 from pathlib import Path
-from hmr4d.configs import MainStore, builds
+from ...configs import MainStore, builds
 
-from hmr4d.utils.pylogger import Log
-from hmr4d.dataset.imgfeat_motion.base_dataset import ImgfeatMotionDatasetBase
-from hmr4d.utils.pytorch3d_shim import axis_angle_to_matrix, matrix_to_axis_angle
-from hmr4d.utils import matrix
-from hmr4d.utils.smplx_utils import make_smplx
+from ...utils.pylogger import Log
+from ...dataset.imgfeat_motion.base_dataset import ImgfeatMotionDatasetBase
+from ...utils.pytorch3d_shim import axis_angle_to_matrix, matrix_to_axis_angle
+from ...utils import matrix
+from ...utils.smplx_utils import make_smplx
 from tqdm import tqdm
 
-from hmr4d.utils.geo_transform import compute_cam_angvel, apply_T_on_points
-from hmr4d.utils.geo.hmr_global import get_tgtcoord_rootparam, get_T_w2c_from_wcparams, get_c_rootparam, get_R_c2gv
+from ...utils.geo_transform import compute_cam_angvel, apply_T_on_points
+from ...utils.geo.hmr_global import get_tgtcoord_rootparam, get_T_w2c_from_wcparams, get_c_rootparam, get_R_c2gv
 
-from hmr4d.utils.wis3d_utils import make_wis3d, add_motion_as_lines
-from hmr4d.utils.vis.renderer import Renderer
+from ...utils.wis3d_utils import make_wis3d, add_motion_as_lines
+from ...utils.vis.renderer import Renderer
 import imageio
-from hmr4d.utils.video_io_utils import read_video_np
-from hmr4d.utils.net_utils import get_valid_mask, repeat_to_max_len, repeat_to_max_len_dict
+from ...utils.video_io_utils import read_video_np
+from ...utils.net_utils import get_valid_mask, repeat_to_max_len, repeat_to_max_len_dict
 
 
 class H36mSmplDataset(ImgfeatMotionDatasetBase):

@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from pathlib import Path
-from hmr4d.utils.pylogger import Log
+from ..utils.pylogger import Log
 from pytorch_lightning.utilities.memory import recursive_detach
 from einops import repeat, rearrange
 from scipy.ndimage._filters import _gaussian_kernel1d
@@ -18,7 +18,7 @@ def load_pretrained_model(model, ckpt_path):
         model.load_pretrained_model(ckpt_path)
     else:
         Log.info(f"Loading ckpt: {ckpt_path}")
-        ckpt = torch.load(ckpt_path, "cpu")
+        ckpt = torch.load(ckpt_path, map_location="cpu", weights_only=True)
         model.load_state_dict(ckpt, strict=True)
 
 

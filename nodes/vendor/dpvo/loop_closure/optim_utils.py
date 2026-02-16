@@ -1,3 +1,5 @@
+import logging
+
 import cuda_ba
 import numba as nb
 import numpy as np
@@ -5,6 +7,8 @@ import pypose as pp
 import torch
 from einops import parse_shape, rearrange
 from scipy.spatial.transform import Rotation as R
+
+log = logging.getLogger("motioncapture")
 
 
 def make_pypose_Sim3(rot, t, s):

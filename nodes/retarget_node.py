@@ -4,191 +4,23 @@ SMPLToFBX Node - Retargets SMPL motion to rigged FBX characters using bpy
 Blender operations run in an isolated environment with the bpy package.
 """
 
-from pathlib import Path
-from typing import Dict, Tuple
-import torch
-import numpy as np
+import logging
 import tempfile
 import os
+from pathlib import Path
+from typing import Dict, Tuple
+
+import torch
+import numpy as np
+
+log = logging.getLogger("motioncapture")
+
+from .smpl_bvh_utils import smpl_to_bvh
 
 
 # ===============================================================================
 # ISOLATED BLENDER WORKER
 # ===============================================================================
-
-# Module-level cache for Rokoko addon status (persists across calls in worker)
-_ROKOKO_INSTALLED = False
-
-
-def _ensure_rokoko_addon():
-    """Install and enable Rokoko addon in bpy if not present."""
-    global _ROKOKO_INSTALLED
-
-    if _ROKOKO_INSTALLED:
-        return True
-
-    import bpy
-
-    # Check if already enabled
-    if "rokoko_studio_live_blender" in bpy.context.preferences.addons:
-        _ROKOKO_INSTALLED = True
-        return True
-
-    # Try to enable if installed but not enabled
-    try:
-        bpy.ops.preferences.addon_enable(module="rokoko_studio_live_blender")
-        _ROKOKO_INSTALLED = True
-        print("[SMPLToFBX] Rokoko addon enabled")
-        return True
-    except Exception:
-        pass
-
-    # Download and install Rokoko addon
-    print("[SMPLToFBX] Downloading Rokoko addon...")
-    addon_url = "https://github.com/Rokoko/rokoko-studio-live-blender/releases/download/v2.6.0/rokoko_studio_live_blender_v2.6.0.zip"
-
-    try:
-        import urllib.request
-        addon_path = os.path.join(tempfile.gettempdir(), "rokoko_addon.zip")
-        urllib.request.urlretrieve(addon_url, addon_path)
-
-        # Install addon
-        bpy.ops.preferences.addon_install(filepath=addon_path)
-        bpy.ops.preferences.addon_enable(module="rokoko_studio_live_blender")
-
-        # Cleanup
-        os.remove(addon_path)
-
-        _ROKOKO_INSTALLED = True
-        print("[SMPLToFBX] Rokoko addon installed and enabled")
-        return True
-    except Exception as e:
-        print(f"[SMPLToFBX] Warning: Could not install Rokoko addon: {e}")
-        return False
-
-
-# SMPL skeleton configuration for BVH conversion
-SMPL_BONE_NAMES = [
-    "Pelvis", "L_Hip", "R_Hip", "Spine1", "L_Knee", "R_Knee",
-    "Spine2", "L_Ankle", "R_Ankle", "Spine3", "L_Foot", "R_Foot",
-    "Neck", "L_Collar", "R_Collar", "Head", "L_Shoulder", "R_Shoulder",
-    "L_Elbow", "R_Elbow", "L_Wrist", "R_Wrist"
-]
-
-SMPL_PARENTS = [-1, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9, 12, 13, 14, 16, 17, 18, 19]
-
-SMPL_OFFSETS = [
-    [0, 0, 0], [1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, -1, 0],
-    [0, 1, 0], [0, -1, 0], [0, -1, 0], [0, 1, 0], [0, -0.5, 0.5], [0, -0.5, 0.5],
-    [0, 1, 0], [1, 0, 0], [-1, 0, 0], [0, 1, 0], [1, 0, 0], [-1, 0, 0],
-    [1, 0, 0], [-1, 0, 0], [1, 0, 0], [-1, 0, 0]
-]
-
-
-def _axis_angle_to_euler_zxy(axis_angle):
-    """Convert axis-angle to ZXY Euler angles (BVH standard)."""
-    angle = np.linalg.norm(axis_angle)
-    if angle < 1e-8:
-        return [0.0, 0.0, 0.0]
-    axis = axis_angle / angle
-    c, s = np.cos(angle), np.sin(angle)
-    t = 1 - c
-    x, y, z = axis
-
-    # Rotation matrix
-    R = np.array([
-        [t*x*x + c,    t*x*y - s*z,  t*x*z + s*y],
-        [t*x*y + s*z,  t*y*y + c,    t*y*z - s*x],
-        [t*x*z - s*y,  t*y*z + s*x,  t*z*z + c]
-    ])
-
-    # Extract ZXY Euler
-    if abs(R[2, 1]) < 0.99999:
-        x_rot = np.arcsin(-R[2, 1])
-        y_rot = np.arctan2(R[2, 0], R[2, 2])
-        z_rot = np.arctan2(R[0, 1], R[1, 1])
-    else:
-        x_rot = np.pi / 2 if R[2, 1] < 0 else -np.pi / 2
-        y_rot = np.arctan2(-R[0, 2], R[0, 0])
-        z_rot = 0
-
-    return [np.degrees(z_rot), np.degrees(x_rot), np.degrees(y_rot)]
-
-
-def _smpl_to_bvh(smpl_params: dict, output_path: str, fps: int = 30) -> str:
-    """Convert SMPL parameters to BVH file."""
-    body_pose = smpl_params.get('body_pose')
-    global_orient = smpl_params.get('global_orient')
-    transl = smpl_params.get('transl')
-
-    if body_pose is None:
-        raise ValueError("No body_pose in SMPL params")
-
-    num_frames = body_pose.shape[0]
-    body_pose = body_pose.reshape(num_frames, 21, 3)
-
-    # Build BVH header
-    lines = ["HIERARCHY", "ROOT Pelvis", "{", "\tOFFSET 0.0 0.0 0.0",
-             "\tCHANNELS 6 Xposition Yposition Zposition Zrotation Xrotation Yrotation"]
-
-    def add_joint(idx, depth):
-        indent = "\t" * depth
-        children = [i for i, p in enumerate(SMPL_PARENTS) if p == idx]
-
-        if children:
-            for child_idx in children:
-                child_name = SMPL_BONE_NAMES[child_idx]
-                child_offset = SMPL_OFFSETS[child_idx]
-                lines.append(f"{indent}JOINT {child_name}")
-                lines.append(f"{indent}{{")
-                lines.append(f"{indent}\tOFFSET {child_offset[0]*10:.4f} {child_offset[1]*10:.4f} {child_offset[2]*10:.4f}")
-                lines.append(f"{indent}\tCHANNELS 3 Zrotation Xrotation Yrotation")
-                add_joint(child_idx, depth + 1)
-                lines.append(f"{indent}}}")
-        else:
-            offset = SMPL_OFFSETS[idx]
-            lines.append(f"{indent}End Site")
-            lines.append(f"{indent}{{")
-            lines.append(f"{indent}\tOFFSET {offset[0]*5:.4f} {offset[1]*5:.4f} {offset[2]*5:.4f}")
-            lines.append(f"{indent}}}")
-
-    add_joint(0, 1)
-    lines.append("}")
-
-    # Motion section
-    lines.append("MOTION")
-    lines.append(f"Frames: {num_frames}")
-    lines.append(f"Frame Time: {1.0/fps:.6f}")
-
-    for frame in range(num_frames):
-        values = []
-
-        # Root position (convert SMPL Y-up to BVH Z-up)
-        if transl is not None:
-            t = transl[frame]
-            values.extend([t[0]*100, t[2]*100, t[1]*100])  # Scale and swap Y/Z
-        else:
-            values.extend([0, 0, 0])
-
-        # Root rotation
-        if global_orient is not None:
-            euler = _axis_angle_to_euler_zxy(global_orient[frame])
-            values.extend(euler)
-        else:
-            values.extend([0, 0, 0])
-
-        # Body pose rotations
-        for joint_idx in range(21):
-            euler = _axis_angle_to_euler_zxy(body_pose[frame, joint_idx])
-            values.extend(euler)
-
-        lines.append(" ".join(f"{v:.4f}" for v in values))
-
-    with open(output_path, 'w', encoding='utf-8') as f:
-        f.write("\n".join(lines))
-
-    print(f"[SMPLToFBX] Created BVH: {output_path} ({num_frames} frames)")
-    return output_path
 
 
 class SMPLToFBXWorker:
@@ -223,12 +55,9 @@ class SMPLToFBXWorker:
         import bpy
         import mathutils
 
-        print("=" * 60)
-        print("SMPL to FBX Retargeting (bpy + Rokoko)")
-        print("=" * 60)
-
-        # Try to setup Rokoko addon
-        rokoko_available = _ensure_rokoko_addon()
+        log.info("=" * 60)
+        log.info("SMPL to FBX Retargeting")
+        log.info("=" * 60)
 
         # Clear scene
         bpy.ops.wm.read_homefile(use_empty=True)
@@ -236,23 +65,23 @@ class SMPLToFBXWorker:
         bpy.ops.object.delete()
 
         # Load SMPL data
-        print(f"\nLoading SMPL data from: {smpl_data_path}")
+        log.info("Loading SMPL data from: %s", smpl_data_path)
         smpl_data = np.load(smpl_data_path)
         smpl_params = {key: smpl_data[key] for key in smpl_data.files}
-        print(f"Loaded: {list(smpl_params.keys())}")
+        log.info("Loaded: %s", list(smpl_params.keys()))
 
         # Convert SMPL to BVH
         bvh_path = os.path.join(tempfile.gettempdir(), "smpl_temp.bvh")
-        print(f"\nConverting SMPL to BVH: {bvh_path}")
-        _smpl_to_bvh(smpl_params, bvh_path, fps=fps)
+        log.info("Converting SMPL to BVH: %s", bvh_path)
+        smpl_to_bvh(smpl_params, bvh_path, fps=fps)
 
         # Import BVH
-        print("\nImporting BVH...")
+        log.info("Importing BVH...")
         bpy.ops.import_anim.bvh(filepath=bvh_path)
         bvh_armature = [obj for obj in bpy.context.scene.objects if obj.type == 'ARMATURE'][0]
 
         # Store horizontal root motion from BVH (X, Y only)
-        print("\nStoring BVH horizontal root motion...")
+        log.info("Storing BVH horizontal root motion...")
         bpy.context.view_layer.objects.active = bvh_armature
         bpy.ops.object.mode_set(mode='POSE')
         pelvis = bvh_armature.pose.bones.get("Pelvis")
@@ -267,40 +96,16 @@ class SMPLToFBXWorker:
         bpy.ops.object.mode_set(mode='OBJECT')
 
         # Import target FBX
-        print(f"\nImporting target FBX: {fbx_input}")
+        log.info("Importing target FBX: %s", fbx_input)
         bpy.ops.import_scene.fbx(filepath=fbx_input, automatic_bone_orientation=True)
         armatures = [obj for obj in bpy.context.scene.objects if obj.type == 'ARMATURE']
         target_armature = [a for a in armatures if a != bvh_armature][0]
-
-        # Retarget with Rokoko (auto_scaling OFF for better rotations)
-        if rokoko_available:
-            print("\nRetargeting with Rokoko...")
-            bpy.context.scene.rsl_retargeting_auto_scaling = False
-            bpy.context.scene.rsl_retargeting_armature_source = bvh_armature
-            bpy.context.scene.rsl_retargeting_armature_target = target_armature
-            bpy.ops.rsl.build_bone_list()
-
-            # Fix duplicate target bones
-            bone_list = bpy.context.scene.rsl_retargeting_bone_list
-            seen_targets = {}
-            to_clear = []
-            for i, item in enumerate(bone_list):
-                if item.bone_name_target and item.bone_name_target in seen_targets:
-                    to_clear.append(i)
-                elif item.bone_name_target:
-                    seen_targets[item.bone_name_target] = i
-            for i in to_clear:
-                bone_list[i].bone_name_target = ""
-
-            bpy.ops.rsl.retarget_animation()
-        else:
-            print("\nWARNING: Rokoko addon not available, using basic retargeting")
 
         # Delete BVH armature
         bpy.data.objects.remove(bvh_armature, do_unlink=True)
 
         # Apply horizontal root motion only (X, Y - no vertical adjustment)
-        print("\nApplying horizontal root motion...")
+        log.info("Applying horizontal root motion...")
         bpy.context.view_layer.objects.active = target_armature
         bpy.ops.object.mode_set(mode='POSE')
 
@@ -336,7 +141,7 @@ class SMPLToFBXWorker:
         bpy.ops.object.mode_set(mode='OBJECT')
 
         # Export FBX
-        print(f"\nExporting to: {fbx_output}")
+        log.info("Exporting to: %s", fbx_output)
         bpy.ops.object.select_all(action='DESELECT')
         target_armature.select_set(True)
         for obj in bpy.data.objects:
@@ -361,15 +166,14 @@ class SMPLToFBXWorker:
         info = (
             f"Retargeting Complete\n"
             f"Output: {fbx_output}\n"
-            f"Frames: {num_frames}\n"
-            f"Rokoko: {'Yes' if rokoko_available else 'No (basic retargeting)'}"
+            f"Frames: {num_frames}"
         )
 
-        print("\n" + "=" * 60)
-        print("RETARGETING COMPLETE!")
-        print(f"Output: {fbx_output}")
-        print(f"Frames: {num_frames}")
-        print("=" * 60)
+        log.info("=" * 60)
+        log.info("RETARGETING COMPLETE!")
+        log.info("Output: %s", fbx_output)
+        log.info("Frames: %d", num_frames)
+        log.info("=" * 60)
 
         return (fbx_output, info)
 
@@ -436,7 +240,7 @@ class SMPLToFBX:
             Tuple of (output_fbx_path, info_string)
         """
         try:
-            print("[SMPLToFBX] Starting FBX retargeting...")
+            log.info("Starting FBX retargeting...")
 
             # Validate inputs
             fbx_path = Path(fbx_path)
@@ -453,7 +257,7 @@ class SMPLToFBX:
             smpl_data_path = temp_dir / "smpl_params.npz"
             self._save_smpl_params(smpl_params, smpl_data_path)
 
-            print(f"[SMPLToFBX] Saved SMPL data to: {smpl_data_path}")
+            log.info("Saved SMPL data to: %s", smpl_data_path)
 
             # Create worker and run retargeting in isolated environment
             worker = SMPLToFBXWorker()
@@ -479,14 +283,12 @@ class SMPLToFBX:
                 f"Rig type: {rig_type}\n"
             )
 
-            print("[SMPLToFBX] Retargeting complete!")
+            log.info("Retargeting complete!")
             return (str(output_path.absolute()), full_info)
 
         except Exception as e:
             error_msg = f"SMPLToFBX failed: {str(e)}"
-            print(f"[SMPLToFBX] Error: {error_msg}")
-            import traceback
-            traceback.print_exc()
+            log.error(error_msg, exc_info=True)
             return ("", error_msg)
 
     def _save_smpl_params(self, smpl_params: Dict, output_path: Path):
@@ -501,7 +303,7 @@ class SMPLToFBX:
                 np_params[key] = np.array(value)
 
         np.savez(output_path, **np_params)
-        print(f"[SMPLToFBX] Saved SMPL params: {list(np_params.keys())}")
+        log.info("Saved SMPL params: %s", list(np_params.keys()))
 
 
 NODE_CLASS_MAPPINGS = {

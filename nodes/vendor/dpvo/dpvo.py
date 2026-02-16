@@ -1,7 +1,11 @@
+import logging
+
 import numpy as np
 import torch
 import torch.multiprocessing as mp
 import torch.nn.functional as F
+
+log = logging.getLogger("motioncapture")
 
 from . import altcorr, fastba, lietorch
 from . import projective_ops as pops
@@ -85,7 +89,7 @@ class DPVO:
             self.long_term_lc = LongTermLoopClosure(self.cfg, self.pg)
         except ModuleNotFoundError as e:
             self.cfg.CLASSIC_LOOP_CLOSURE = False
-            print(f"WARNING: {e}")
+            log.warning("%s", e)
 
     def load_weights(self, network):
         # load network from checkpoint file
@@ -353,7 +357,7 @@ class DPVO:
                     fastba.BA(self.poses, self.patches, self.intrinsics, 
                         target, weight, lmbda, self.pg.ii, self.pg.jj, self.pg.kk, t0, self.n, M=self.M, iterations=2, eff_impl=False)
             except:
-                print("Warning BA failed...")
+                log.warning("BA failed...")
 
             points = pops.point_cloud(SE3(self.poses), self.patches[:, :self.m], self.intrinsics, self.ix[:self.m])
             points = (points[...,1,1,:3] / points[...,1,1,3:]).reshape(-1, 3)

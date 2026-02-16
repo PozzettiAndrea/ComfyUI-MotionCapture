@@ -1,6 +1,8 @@
+import logging
+
 import torch
 import torch.nn as nn
-from hmr4d.utils.pytorch3d_shim import (
+from ....utils.pytorch3d_shim import (
     rotation_6d_to_matrix,
     matrix_to_axis_angle,
     axis_angle_to_matrix,
@@ -8,12 +10,14 @@ from hmr4d.utils.pytorch3d_shim import (
     matrix_to_quaternion,
     quaternion_to_matrix,
 )
-from hmr4d.configs import MainStore, builds
-from hmr4d.utils.geo.augment_noisy_pose import gaussian_augment
-import hmr4d.utils.matrix as matrix
-from hmr4d.utils.pylogger import Log
-from hmr4d.utils.geo.hmr_global import get_local_transl_vel, rollout_local_transl_vel
-from hmr4d.utils.smplx_utils import make_smplx
+from ....configs import MainStore, builds
+from ....utils.geo.augment_noisy_pose import gaussian_augment
+from ....utils import matrix as matrix
+from ....utils.pylogger import Log
+from ....utils.geo.hmr_global import get_local_transl_vel, rollout_local_transl_vel
+
+log = logging.getLogger("motioncapture")
+from ....utils.smplx_utils import make_smplx
 from . import stats_compose
 
 
@@ -129,7 +133,7 @@ class EnDecoder(nn.Module):
             transl_recover = rollout_local_transl_vel(
                 local_transl_vel, smpl_params_w["global_orient"], smpl_params_w["transl"][:, [0]]
             )
-            print((transl_recover - smpl_params_w["transl"]).abs().max())
+            log.debug("%s", (transl_recover - smpl_params_w["transl"]).abs().max())
 
         # returns
         x = torch.cat([body_pose_r6d, betas, global_orient_r6d, global_orient_gv_r6d, local_transl_vel], dim=-1)

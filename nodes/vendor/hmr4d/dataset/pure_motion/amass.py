@@ -4,12 +4,12 @@ import numpy as np
 
 from tqdm import tqdm
 from pathlib import Path
-from hmr4d.utils.pylogger import Log
-from hmr4d.configs import MainStore, builds
+from ...utils.pylogger import Log
+from ...configs import MainStore, builds
 
 from .base_dataset import BaseDataset
 from .utils import *
-from hmr4d.utils.geo.hmr_global import get_tgtcoord_rootparam
+from ...utils.geo.hmr_global import get_tgtcoord_rootparam
 
 
 class AmassDataset(BaseDataset):

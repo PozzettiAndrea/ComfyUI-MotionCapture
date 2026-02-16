@@ -1,3 +1,4 @@
+import logging
 
 import numpy as np
 import torch
@@ -8,6 +9,8 @@ import os.path as osp
 
 from ..lietorch import SE3
 from .base import RGBDDataset
+
+log = logging.getLogger("motioncapture")
 
 # cur_path = osp.dirname(osp.abspath(__file__))
 # test_split = osp.join(cur_path, 'tartan_test.txt')
@@ -67,7 +70,7 @@ class TartanAir(RGBDDataset):
 
     def _build_dataset(self):
         from tqdm import tqdm
-        print("Building TartanAir dataset")
+        log.info("Building TartanAir dataset")
 
         scene_info = {}
         scenes = glob.glob(osp.join(self.root, '*/*/*/*'))

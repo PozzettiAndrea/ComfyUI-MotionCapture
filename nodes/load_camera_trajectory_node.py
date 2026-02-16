@@ -5,7 +5,13 @@ Loads camera_trajectory_*.npz files from ComfyUI output folder.
 """
 
 import os
+import logging
+
 import folder_paths
+
+from .shared_utils import resolve_file_path
+
+log = logging.getLogger("motioncapture")
 
 
 class LoadCameraTrajectory:
@@ -55,35 +61,16 @@ class LoadCameraTrajectory:
 
     @classmethod
     def IS_CHANGED(cls, file_path):
-        full_path = cls._resolve_file_path(file_path)
+        full_path = resolve_file_path(file_path)
         if full_path and os.path.exists(full_path):
             return os.path.getmtime(full_path)
         return file_path
 
-    @classmethod
-    def _resolve_file_path(cls, file_path):
-        if file_path.startswith("[output] "):
-            clean_path = file_path.replace("[output] ", "")
-            output_dir = folder_paths.get_output_directory()
-            output_path = os.path.join(output_dir, clean_path)
-            if os.path.exists(output_path):
-                return output_path
-        else:
-            input_dir = folder_paths.get_input_directory()
-            input_path = os.path.join(input_dir, file_path)
-            if os.path.exists(input_path):
-                return input_path
-
-        if os.path.exists(file_path):
-            return file_path
-
-        return None
-
     def load(self, file_path):
-        full_path = self._resolve_file_path(file_path)
+        full_path = resolve_file_path(file_path)
         if full_path is None:
             raise FileNotFoundError(f"Camera trajectory file not found: {file_path}")
-        print(f"[LoadCameraTrajectory] Selected: {full_path}")
+        log.info("Selected: %s", full_path)
         return (full_path,)
 
 

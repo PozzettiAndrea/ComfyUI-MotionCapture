@@ -1,7 +1,7 @@
 from omegaconf import OmegaConf
 from hmr4d import PROJ_ROOT
 from hydra.utils import instantiate
-from hmr4d.model.gvhmr.gvhmr_pl_demo import DemoPL
+from .model.gvhmr.gvhmr_pl_demo import DemoPL
 
 
 def build_gvhmr_demo():

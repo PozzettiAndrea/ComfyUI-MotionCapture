@@ -1,9 +1,13 @@
+import logging
+
 import numpy as np
 from PIL import Image
 from os.path import *
 import re
 import cv2
 cv2.setNumThreads(0)
+
+log = logging.getLogger("motioncapture")
 
 
 TAG_CHAR = np.array([202021.25], np.float32)
@@ -25,7 +29,7 @@ def readFlow(fn):
     with open(fn, 'rb') as f:
         magic = np.fromfile(f, np.float32, count=1)
         if 202021.25 != magic:
-            print('Magic number incorrect. Invalid .flo file')
+            log.error('Magic number incorrect. Invalid .flo file')
             return None
         else:
             w = np.fromfile(f, np.int32, count=1)

@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from einops import repeat, rearrange
-from torch.cuda.amp import autocast
+from torch.amp import autocast
 
 
 def rotate_half(x):
@@ -11,7 +11,7 @@ def rotate_half(x):
     return rearrange(x, "... d r -> ... (d r)")
 
 
-@autocast(enabled=False)
+@autocast("cuda", enabled=False)
 def apply_rotary_emb(freqs, t, start_index=0, scale=1.0, seq_dim=-2):
     if t.ndim == 3:
         seq_len = t.shape[seq_dim]

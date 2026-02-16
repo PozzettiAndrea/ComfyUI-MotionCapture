@@ -1,7 +1,10 @@
 
+import logging
 import os
 from pathlib import Path
 from typing import Tuple, Dict, List
+
+log = logging.getLogger("motioncapture")
 
 class LoadBVHFromFolder:
     """
@@ -61,11 +64,13 @@ class LoadBVHFromFolder:
             if line.startswith("Frames:"):
                 try:
                     num_frames = int(line.split(":")[1].strip())
-                except: pass
+                except Exception as e:
+                    log.debug("Failed to parse BVH frame count: %s", e)
             elif line.startswith("Frame Time:"):
                 try:
                     frame_time = float(line.split(":")[1].strip())
-                except: pass
+                except Exception as e:
+                    log.debug("Failed to parse BVH frame time: %s", e)
                 
         fps = int(round(1.0 / frame_time)) if frame_time > 0 else 30
         

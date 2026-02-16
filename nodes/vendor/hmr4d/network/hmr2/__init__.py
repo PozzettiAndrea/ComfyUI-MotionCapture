@@ -22,13 +22,14 @@ def load_hmr2(checkpoint_path=HMR2A_CKPT):
         model_cfg.MODEL.BBOX_SHAPE = [192, 256]  # (W, H)
         model_cfg.freeze()
 
-    # Setup model and Load weights.
-    # model = HMR2.load_from_checkpoint(checkpoint_path, strict=False, cfg=model_cfg)
-    model = HMR2(model_cfg)
+    # Build model on meta device (zero memory, no random init)
+    with torch.device("meta"):
+        model = HMR2(model_cfg)
 
-    state_dict = torch.load(checkpoint_path, map_location="cpu")["state_dict"]
+    import comfy.utils
+    state_dict = comfy.utils.load_torch_file(str(checkpoint_path))
     keys = [k for k in state_dict.keys() if k.split(".")[0] in ["backbone", "smpl_head"]]
     state_dict = {k: v for k, v in state_dict.items() if k in keys}
-    model.load_state_dict(state_dict, strict=True)
+    model.load_state_dict(state_dict, strict=False, assign=True)
 
     return model

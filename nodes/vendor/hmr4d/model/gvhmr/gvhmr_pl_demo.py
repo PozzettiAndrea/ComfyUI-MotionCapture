@@ -1,10 +1,10 @@
 import torch
 import pytorch_lightning as pl
 from hydra.utils import instantiate
-from hmr4d.utils.pylogger import Log
-from hmr4d.configs import MainStore, builds
+from ...utils.pylogger import Log
+from ...configs import MainStore, builds
 
-from hmr4d.utils.geo.hmr_cam import normalize_kp2d
+from ...utils.geo.hmr_cam import normalize_kp2d
 
 
 class DemoPL(pl.LightningModule):
@@ -34,7 +34,8 @@ class DemoPL(pl.LightningModule):
             "cam_angvel": data["cam_angvel"][None],
             "f_imgseq": data["f_imgseq"][None],
         }
-        batch = {k: v.cuda() for k, v in batch.items()}
+        device = next(self.parameters()).device
+        batch = {k: v.to(device) for k, v in batch.items()}
         outputs = self.pipeline.forward(batch, train=False, postproc=True, static_cam=static_cam)
 
         pred = {
@@ -49,8 +50,9 @@ class DemoPL(pl.LightningModule):
         """Load pretrained checkpoint, and assign each weight to the corresponding part."""
         Log.info(f"[PL-Trainer] Loading ckpt type: {ckpt_path}")
 
-        state_dict = torch.load(ckpt_path, "cpu")["state_dict"]
-        missing, unexpected = self.load_state_dict(state_dict, strict=False)
+        import comfy.utils
+        state_dict = comfy.utils.load_torch_file(str(ckpt_path))
+        missing, unexpected = self.load_state_dict(state_dict, strict=False, assign=True)
         if len(missing) > 0:
             Log.warn(f"Missing keys: {missing}")
         if len(unexpected) > 0:

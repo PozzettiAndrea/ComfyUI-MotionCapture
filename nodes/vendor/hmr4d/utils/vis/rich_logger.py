@@ -3,7 +3,7 @@ from omegaconf import DictConfig, OmegaConf
 import rich
 import rich.tree
 import rich.syntax
-from hmr4d.utils.pylogger import Log
+from ...utils.pylogger import Log
 
 
 @rank_zero_only

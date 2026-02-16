@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from pathlib import Path
-from hmr4d.utils.pytorch3d_shim import axis_angle_to_matrix
+from ...utils.pytorch3d_shim import axis_angle_to_matrix
 from smplx.utils import Struct, to_np, to_tensor
 from einops import einsum, rearrange
 from time import time

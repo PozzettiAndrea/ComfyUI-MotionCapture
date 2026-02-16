@@ -1,5 +1,5 @@
 import torch
-from hmr4d.utils.pytorch3d_shim import axis_angle_to_matrix, matrix_to_axis_angle
+from ...utils.pytorch3d_shim import axis_angle_to_matrix, matrix_to_axis_angle
 
 
 def flip_heatmap_coco17(output_flipped):

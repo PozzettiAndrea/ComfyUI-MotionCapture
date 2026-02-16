@@ -3,52 +3,23 @@ GVHMRInference Node - Performs motion capture inference on video with SAM3 masks
 """
 
 import os
-import sys
 from pathlib import Path
 import torch
 import folder_paths
 import numpy as np
+import comfy.model_management
 import cv2
 from typing import Dict, Tuple
 from tqdm import tqdm
 
-# ---------------------------------------------------------------------------
-# Patch torch.nn.init to skip random weight initialization.
-# All models (ViTPose ~400M, HMR2 ~480M, GVHMR) are constructed with random
-# weights then immediately overwritten by load_state_dict(). Skipping the
-# random init saves significant time during model construction.
-# ---------------------------------------------------------------------------
-import torch.nn.init as _init
-
-def _noop(tensor, *args, **kwargs):
-    return tensor
-
-for _fn in (
-    "kaiming_uniform_", "kaiming_normal_",
-    "xavier_uniform_", "xavier_normal_",
-    "uniform_", "normal_", "trunc_normal_",
-    "ones_", "zeros_", "constant_",
-    "orthogonal_",
-):
-    if hasattr(_init, _fn):
-        setattr(_init, _fn, _noop)
-
-# Add nodes path for local utils (needed when run as subprocess)
-NODES_PATH = Path(__file__).parent
-sys.path.insert(0, str(NODES_PATH))
-
-# Add vendor path for GVHMR
-VENDOR_PATH = NODES_PATH / "vendor"
-sys.path.insert(0, str(VENDOR_PATH))
-
 # Import GVHMR components
-from hmr4d.utils.pylogger import Log
-from hmr4d.utils.geo.hmr_cam import get_bbx_xys_from_xyxy, estimate_K, create_camera_sensor
-from hmr4d.utils.geo_transform import compute_cam_angvel
-from hmr4d.utils.pytorch3d_shim import axis_angle_to_matrix
-from hmr4d.utils.smplx_utils import make_smplx
-from hmr4d.utils.net_utils import to_cuda
-from hmr4d.utils.preproc.relpose.simple_vo import SimpleVO
+from .vendor.hmr4d.utils.pylogger import Log
+from .vendor.hmr4d.utils.geo.hmr_cam import get_bbx_xys_from_xyxy, estimate_K, create_camera_sensor
+from .vendor.hmr4d.utils.geo_transform import compute_cam_angvel
+from .vendor.hmr4d.utils.pytorch3d_shim import axis_angle_to_matrix
+from .vendor.hmr4d.utils.smplx_utils import make_smplx
+from .vendor.hmr4d.utils.net_utils import to_cuda
+from .vendor.hmr4d.utils.preproc.relpose.simple_vo import SimpleVO
 
 # Check DPVO availability
 DPVO_AVAILABLE = False
@@ -72,26 +43,13 @@ import gc
 import tempfile as tempfile_module
 
 
-def _next_sequential_filename(directory, prefix, ext):
-    """Find the next sequential filename like prefix_0001.ext, prefix_0002.ext, etc."""
-    existing = sorted(directory.glob(f"{prefix}_*{ext}"))
-    max_num = 0
-    for f in existing:
-        stem = f.stem  # e.g. "smpl_params_0003"
-        suffix = stem[len(prefix) + 1:]  # e.g. "0003"
-        try:
-            max_num = max(max_num, int(suffix))
-        except ValueError:
-            pass
-    return f"{prefix}_{max_num + 1:04d}{ext}"
+from .shared_utils import next_sequential_filename as _next_sequential_filename
 
 
 def _clear_cuda_memory():
-    """Clear CUDA memory cache between pipeline stages."""
+    """Clear GPU memory cache between pipeline stages."""
     gc.collect()
-    if torch.cuda.is_available():
-        torch.cuda.empty_cache()
-        torch.cuda.synchronize()
+    comfy.model_management.soft_empty_cache()
 
 
 def _log_memory(label):
@@ -105,7 +63,7 @@ def _log_memory(label):
             else:
                 rss_mb = -1
         gpu_mb = ""
-        if torch.cuda.is_available():
+        if comfy.model_management.get_torch_device().type == "cuda":
             gpu_mb = f", GPU={torch.cuda.memory_allocated() / 1024**2:.0f} MB"
         Log.info(f"[Memory] {label}: RSS={rss_mb:.0f} MB{gpu_mb}")
     except Exception:
@@ -378,9 +336,9 @@ class GVHMRInference:
     def _load_models(cls, config: Dict) -> Dict:
         """Load GVHMR models based on config."""
         from pathlib import Path
-        from hmr4d.configs import register_store_gvhmr
-        from hmr4d.model.gvhmr.gvhmr_pl_demo import DemoPL
-        from hmr4d.utils.preproc import VitPoseExtractor, Extractor
+        from .vendor.hmr4d.configs import register_store_gvhmr
+        from .vendor.hmr4d.model.gvhmr.gvhmr_pl_demo import DemoPL
+        from .vendor.hmr4d.utils.preproc import VitPoseExtractor, Extractor
         from hydra import initialize_config_module, compose
         from hydra.core.global_hydra import GlobalHydra
         from hydra.utils import instantiate
@@ -400,7 +358,7 @@ class GVHMRInference:
 
         # Check if rendering is available
         try:
-            from hmr4d.utils.vis.renderer import PYTORCH3D_AVAILABLE
+            from .vendor.hmr4d.utils.vis.renderer import PYTORCH3D_AVAILABLE
             if not PYTORCH3D_AVAILABLE:
                 Log.warn("[GVHMRInference] PyTorch3D not installed - visualization rendering will be disabled")
         except Exception:
@@ -408,13 +366,15 @@ class GVHMRInference:
 
         # Load GVHMR model
         Log.info(f"[GVHMRInference] Loading GVHMR from {gvhmr_path}...")
-        device = "cuda" if torch.cuda.is_available() else "cpu"
+        device = str(comfy.model_management.get_torch_device())
 
         # Instantiate DemoPL with pipeline from config
         model_cfg_dict = OmegaConf.to_container(cfg.model, resolve=True)
         model_cfg = OmegaConf.create(model_cfg_dict)
 
-        model_gvhmr = instantiate(model_cfg, _recursive_=False)
+        # Build on meta device (zero memory, no random init)
+        with torch.device("meta"):
+            model_gvhmr = instantiate(model_cfg, _recursive_=False)
         model_gvhmr.load_pretrained_model(str(gvhmr_path))
         model_gvhmr.eval()
         model_gvhmr.to(device)
@@ -553,7 +513,7 @@ class GVHMRInference:
         # --- Phase 2: Two-pass frame processing (GPU memory optimization) ---
         # Only one large model on GPU at a time (~2.7 GB peak vs ~5.2 GB).
         # Cropped 256×256 tensors saved between passes (~0.75 MB/frame).
-        from hmr4d.utils.preproc.vitfeat_extractor import get_batch
+        from .vendor.hmr4d.utils.preproc.vitfeat_extractor import get_batch
 
         vitpose_extractor = model_bundle["vitpose_extractor"]
         feature_extractor = model_bundle["feature_extractor"]
@@ -567,7 +527,7 @@ class GVHMRInference:
         _log_memory("After moving extractors to CPU")
 
         # --- Pass 1: ViTPose (decode video + crop + extract keypoints) ---
-        vitpose_extractor.pose.cuda()
+        vitpose_extractor.pose.to(device)
         _log_memory("ViTPose on GPU")
 
         all_kp2d = []
@@ -638,7 +598,7 @@ class GVHMRInference:
         _log_memory("ViTPose off GPU")
 
         # --- Pass 2: HMR2 (iterate saved crops — no video decoding) ---
-        feature_extractor.extractor.cuda()
+        feature_extractor.extractor.to(device)
         _log_memory("HMR2 on GPU")
 
         all_f_imgseq = []
@@ -757,9 +717,7 @@ class GVHMRInference:
                     Log.info("[GVHMRInference] Temp video cleaned up")
 
             except Exception as e:
-                Log.error(f"[GVHMRInference] Visual odometry failed: {e}")
-                import traceback
-                traceback.print_exc()
+                Log.error(f"[GVHMRInference] Visual odometry failed: {e}", exc_info=True)
                 Log.warn("[GVHMRInference] Falling back to static camera")
                 R_w2c = torch.eye(3).repeat(batch_size, 1, 1)
                 t_w2c = None
@@ -981,9 +939,7 @@ class GVHMRInference:
 
         except Exception as e:
             error_msg = f"GVHMR Inference failed: {str(e)}"
-            Log.error(error_msg)
-            import traceback
-            traceback.print_exc()
+            Log.error(error_msg, exc_info=True)
             # Return placeholder on error
             return ("", "", error_msg)
 

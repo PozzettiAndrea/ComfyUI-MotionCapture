@@ -3,18 +3,18 @@ from torch.utils import data
 from pathlib import Path
 import numpy as np
 
-from hmr4d.utils.pylogger import Log
-from hmr4d.utils.wis3d_utils import make_wis3d, add_motion_as_lines
-from hmr4d.utils.geo_transform import compute_cam_angvel
-from hmr4d.utils.geo.hmr_cam import estimate_K, resize_K
-from hmr4d.utils.geo.flip_utils import flip_kp2d_coco17
-from hmr4d.dataset.imgfeat_motion.base_dataset import ImgfeatMotionDatasetBase
-from hmr4d.utils.net_utils import get_valid_mask, repeat_to_max_len, repeat_to_max_len_dict
-from hmr4d.utils.smplx_utils import make_smplx
-from hmr4d.utils.video_io_utils import get_video_lwh, read_video_np, save_video
-from hmr4d.utils.vis.renderer_utils import simple_render_mesh_background
+from ...utils.pylogger import Log
+from ...utils.wis3d_utils import make_wis3d, add_motion_as_lines
+from ...utils.geo_transform import compute_cam_angvel
+from ...utils.geo.hmr_cam import estimate_K, resize_K
+from ...utils.geo.flip_utils import flip_kp2d_coco17
+from ...dataset.imgfeat_motion.base_dataset import ImgfeatMotionDatasetBase
+from ...utils.net_utils import get_valid_mask, repeat_to_max_len, repeat_to_max_len_dict
+from ...utils.smplx_utils import make_smplx
+from ...utils.video_io_utils import get_video_lwh, read_video_np, save_video
+from ...utils.vis.renderer_utils import simple_render_mesh_background
 
-from hmr4d.configs import MainStore, builds
+from ...configs import MainStore, builds
 
 
 class ThreedpwSmplDataset(ImgfeatMotionDatasetBase):

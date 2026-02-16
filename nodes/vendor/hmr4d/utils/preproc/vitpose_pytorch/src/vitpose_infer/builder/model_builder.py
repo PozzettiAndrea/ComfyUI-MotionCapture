@@ -1,3 +1,4 @@
+import logging
 import torch
 
 # from configs.coco.ViTPose_base_coco_256x192 import model
@@ -13,6 +14,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from importlib import import_module
 
+log = logging.getLogger("motioncapture")
+
 
 def build_model(model_name, checkpoint=None):
     try:
@@ -21,46 +24,48 @@ def build_model(model_name, checkpoint=None):
 
         model = getattr(mod, "model")
         # from path import model
-    except:
+    except Exception as e:
+        log.warning("Failed to load VitPose config %r: %s", model_name, e)
         raise ValueError("not a correct config")
 
-    head = TopdownHeatmapSimpleHead(
-        in_channels=model["keypoint_head"]["in_channels"],
-        out_channels=model["keypoint_head"]["out_channels"],
-        num_deconv_filters=model["keypoint_head"]["num_deconv_filters"],
-        num_deconv_kernels=model["keypoint_head"]["num_deconv_kernels"],
-        num_deconv_layers=model["keypoint_head"]["num_deconv_layers"],
-        extra=model["keypoint_head"]["extra"],
-    )
-    # print(head)
-    backbone = ViT(
-        img_size=model["backbone"]["img_size"],
-        patch_size=model["backbone"]["patch_size"],
-        embed_dim=model["backbone"]["embed_dim"],
-        depth=model["backbone"]["depth"],
-        num_heads=model["backbone"]["num_heads"],
-        ratio=model["backbone"]["ratio"],
-        mlp_ratio=model["backbone"]["mlp_ratio"],
-        qkv_bias=model["backbone"]["qkv_bias"],
-        drop_path_rate=model["backbone"]["drop_path_rate"],
-    )
+    # Build model on meta device (zero memory, no random init)
+    with torch.device("meta"):
+        head = TopdownHeatmapSimpleHead(
+            in_channels=model["keypoint_head"]["in_channels"],
+            out_channels=model["keypoint_head"]["out_channels"],
+            num_deconv_filters=model["keypoint_head"]["num_deconv_filters"],
+            num_deconv_kernels=model["keypoint_head"]["num_deconv_kernels"],
+            num_deconv_layers=model["keypoint_head"]["num_deconv_layers"],
+            extra=model["keypoint_head"]["extra"],
+        )
+        backbone = ViT(
+            img_size=model["backbone"]["img_size"],
+            patch_size=model["backbone"]["patch_size"],
+            embed_dim=model["backbone"]["embed_dim"],
+            depth=model["backbone"]["depth"],
+            num_heads=model["backbone"]["num_heads"],
+            ratio=model["backbone"]["ratio"],
+            mlp_ratio=model["backbone"]["mlp_ratio"],
+            qkv_bias=model["backbone"]["qkv_bias"],
+            drop_path_rate=model["backbone"]["drop_path_rate"],
+        )
 
-    class VitPoseModel(nn.Module):
-        def __init__(self, backbone, keypoint_head):
-            super(VitPoseModel, self).__init__()
-            self.backbone = backbone
-            self.keypoint_head = keypoint_head
+        class VitPoseModel(nn.Module):
+            def __init__(self, backbone, keypoint_head):
+                super(VitPoseModel, self).__init__()
+                self.backbone = backbone
+                self.keypoint_head = keypoint_head
 
-        def forward(self, x):
-            x = self.backbone(x)
-            x = self.keypoint_head(x)
-            return x
+            def forward(self, x):
+                x = self.backbone(x)
+                x = self.keypoint_head(x)
+                return x
 
-    pose = VitPoseModel(backbone, head)
+        pose = VitPoseModel(backbone, head)
     if checkpoint is not None:
-        check = torch.load(checkpoint)
-
-        pose.load_state_dict(check["state_dict"])
+        import comfy.utils
+        state_dict = comfy.utils.load_torch_file(str(checkpoint))
+        pose.load_state_dict(state_dict, assign=True)
     return pose
 
 

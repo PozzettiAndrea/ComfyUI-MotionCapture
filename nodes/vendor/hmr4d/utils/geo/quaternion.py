@@ -5,14 +5,18 @@
 # LICENSE file in the root directory of this source tree.
 #
 
+import logging
 import torch
 import numpy as np
+
+log = logging.getLogger("motioncapture")
 
 _EPS4 = np.finfo(float).eps * 4.0
 
 try:
     _FLOAT_EPS = np.finfo(np.float).eps
-except:
+except Exception as e:
+    log.debug("np.float deprecated, falling back to float: %s", e)
     _FLOAT_EPS = np.finfo(float).eps
 
 

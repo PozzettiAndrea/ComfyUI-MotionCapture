@@ -1,5 +1,5 @@
 from torch.optim import AdamW, Adam
-from hmr4d.configs import MainStore, builds
+from ...configs import MainStore, builds
 
 
 optimizer_cfgs = {

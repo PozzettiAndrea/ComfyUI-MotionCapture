@@ -2,13 +2,13 @@ import torch
 from torch.utils import data
 from pathlib import Path
 
-from hmr4d.utils.pylogger import Log
-from hmr4d.utils.wis3d_utils import make_wis3d, add_motion_as_lines
-from hmr4d.utils.geo_transform import compute_cam_angvel
-from hmr4d.utils.geo.hmr_cam import estimate_K, resize_K
-from hmr4d.utils.geo.flip_utils import flip_kp2d_coco17
+from ...utils.pylogger import Log
+from ...utils.wis3d_utils import make_wis3d, add_motion_as_lines
+from ...utils.geo_transform import compute_cam_angvel
+from ...utils.geo.hmr_cam import estimate_K, resize_K
+from ...utils.geo.flip_utils import flip_kp2d_coco17
 
-from hmr4d.configs import MainStore, builds
+from ...configs import MainStore, builds
 
 VID_HARD = []
 # VID_HARD = ["downtown_bar_00_1"]

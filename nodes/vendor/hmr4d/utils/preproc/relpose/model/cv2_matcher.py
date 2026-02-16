@@ -1,6 +1,10 @@
+import logging
+
 import cv2
 import numpy as np
 from .base_matcher import BaseMatcher
+
+log = logging.getLogger("motioncapture")
 
 
 class CV2SIFTMather(BaseMatcher):
@@ -32,8 +36,9 @@ class CV2SIFTMather(BaseMatcher):
                 good_matches.append(m)
 
         if len(good_matches) < 8:
-            print(
-                f"Warning: Only {len(good_matches)} matches found, which might not be enough for reliable pose estimation"
+            log.warning(
+                "Only %d matches found, which might not be enough for reliable pose estimation",
+                len(good_matches),
             )
 
         # Extract matched point coordinates
@@ -64,8 +69,9 @@ class CV2ORBMather(BaseMatcher):
 
         # Ensure we have enough matches
         if len(good_matches) < 8:
-            print(
-                f"Warning: Only {len(good_matches)} matches found, which might not be enough for reliable pose estimation"
+            log.warning(
+                "Only %d matches found, which might not be enough for reliable pose estimation",
+                len(good_matches),
             )
             # Pad with more matches if available
             if len(matches) > len(good_matches):

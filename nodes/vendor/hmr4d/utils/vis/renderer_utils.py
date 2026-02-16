@@ -4,7 +4,7 @@ import numpy as np
 # Try to import Renderer, but allow module to load without it
 RENDERER_AVAILABLE = False
 try:
-    from hmr4d.utils.vis.renderer import Renderer, PYTORCH3D_AVAILABLE
+    from ...utils.vis.renderer import Renderer, PYTORCH3D_AVAILABLE
     RENDERER_AVAILABLE = PYTORCH3D_AVAILABLE
 except ImportError:
     # Renderer not available - rendering functions will be disabled

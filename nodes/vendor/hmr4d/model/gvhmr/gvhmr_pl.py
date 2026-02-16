@@ -4,26 +4,26 @@ from pathlib import Path
 import torch
 import pytorch_lightning as pl
 from hydra.utils import instantiate
-from hmr4d.utils.pylogger import Log
+from ...utils.pylogger import Log
 from einops import rearrange, einsum
-from hmr4d.configs import MainStore, builds
+from ...configs import MainStore, builds
 
-from hmr4d.utils.geo_transform import compute_T_ayfz2ay, apply_T_on_points
-from hmr4d.utils.wis3d_utils import make_wis3d, add_motion_as_lines
-from hmr4d.utils.smplx_utils import make_smplx
-from hmr4d.utils.geo.augment_noisy_pose import (
+from ...utils.geo_transform import compute_T_ayfz2ay, apply_T_on_points
+from ...utils.wis3d_utils import make_wis3d, add_motion_as_lines
+from ...utils.smplx_utils import make_smplx
+from ...utils.geo.augment_noisy_pose import (
     get_wham_aug_kp3d,
     get_visible_mask,
     get_invisible_legs_mask,
     randomly_occlude_lower_half,
     randomly_modify_hands_legs,
 )
-from hmr4d.utils.geo.hmr_cam import perspective_projection, normalize_kp2d, safely_render_x3d_K, get_bbx_xys
+from ...utils.geo.hmr_cam import perspective_projection, normalize_kp2d, safely_render_x3d_K, get_bbx_xys
 
-from hmr4d.utils.video_io_utils import save_video
-from hmr4d.utils.vis.cv2_utils import draw_bbx_xys_on_image_batch
-from hmr4d.utils.geo.flip_utils import flip_smplx_params, avg_smplx_aa
-from hmr4d.model.gvhmr.utils.postprocess import pp_static_joint, pp_static_joint_cam, process_ik
+from ...utils.video_io_utils import save_video
+from ...utils.vis.cv2_utils import draw_bbx_xys_on_image_batch
+from ...utils.geo.flip_utils import flip_smplx_params, avg_smplx_aa
+from ...model.gvhmr.utils.postprocess import pp_static_joint, pp_static_joint_cam, process_ik
 
 
 class GvhmrPL(pl.LightningModule):
@@ -300,7 +300,7 @@ class GvhmrPL(pl.LightningModule):
         """Load pretrained checkpoint, and assign each weight to the corresponding part."""
         Log.info(f"[PL-Trainer] Loading ckpt: {ckpt_path}")
 
-        state_dict = torch.load(ckpt_path, "cpu")["state_dict"]
+        state_dict = torch.load(ckpt_path, map_location="cpu", weights_only=True)["state_dict"]
         missing, unexpected = self.load_state_dict(state_dict, strict=False)
         real_missing = []
         for k in missing:

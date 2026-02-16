@@ -6,14 +6,14 @@ import numpy as np
 from tqdm import tqdm
 from collections import defaultdict
 
-from hmr4d.utils.seq_utils import (
+from ...utils.seq_utils import (
     get_frame_id_list_from_mask,
     linear_interpolate_frame_ids,
     frame_id_to_mask,
     rearrange_by_mask,
 )
-from hmr4d.utils.video_io_utils import get_video_lwh
-from hmr4d.utils.net_utils import moving_average_smooth
+from ...utils.video_io_utils import get_video_lwh
+from ...utils.net_utils import moving_average_smooth
 
 
 class Tracker:

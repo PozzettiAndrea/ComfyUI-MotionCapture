@@ -1,14 +1,7 @@
 """MotionCapture Nodes."""
 
-import sys
-from pathlib import Path
-
-# Add vendor path for GVHMR, DPVO
-VENDOR_PATH = Path(__file__).parent / "vendor"
-sys.path.insert(0, str(VENDOR_PATH))
-
 # GPU nodes
-from .loader_node import LoadGVHMRModels
+from .load_model import LoadGVHMRModels
 from .inference_node import GVHMRInference
 from .save_smpl_node import SaveSMPL
 from .load_smpl_node import LoadSMPLParams as LoadSMPL

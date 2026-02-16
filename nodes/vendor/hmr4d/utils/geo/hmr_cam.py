@@ -1,6 +1,6 @@
 import torch
 import numpy as np
-from hmr4d.utils.geo_transform import project_p2d, convert_bbx_xys_to_lurb, cvt_to_bi01_p2d
+from ...utils.geo_transform import project_p2d, convert_bbx_xys_to_lurb, cvt_to_bi01_p2d
 
 
 def estimate_focal_length(img_w, img_h):
@@ -266,7 +266,7 @@ def safely_render_x3d_K(x3d, K_fullimg, thr):
     if (x3d_unsafe_mask).sum() > 0:
         x3d[..., 2][x3d_unsafe_mask] = thr
         if False:
-            from hmr4d.utils.wis3d_utils import make_wis3d
+            from ...utils.wis3d_utils import make_wis3d
 
             wis3d = make_wis3d(name="debug-update-z")
             bs, ls, vs = torch.where(x3d_unsafe_mask)

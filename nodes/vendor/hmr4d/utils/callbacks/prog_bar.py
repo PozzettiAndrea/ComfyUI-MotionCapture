@@ -1,3 +1,4 @@
+import logging
 from collections import OrderedDict
 from numbers import Number
 from datetime import datetime, timedelta
@@ -9,11 +10,13 @@ from pytorch_lightning.callbacks.progress import ProgressBar
 from pytorch_lightning.utilities import rank_zero_only
 import pytorch_lightning as pl
 
-from hmr4d.utils.pylogger import Log
+from ...utils.pylogger import Log
 from time import time
 from collections import deque
 import sys
-from hmr4d.configs import MainStore, builds
+from ...configs import MainStore, builds
+
+log = logging.getLogger("motioncapture")
 
 # ========== Helper functions ========== #
 
@@ -134,7 +137,7 @@ class ProgressReporter(ProgressBar, pl.Callback):
                 self.data_name = "Unknown Data"
 
     def print(self, *args: Any, **kwargs: Any) -> None:
-        print(*args)
+        log.info(" ".join(str(a) for a in args))
 
     def get_metrics(self, trainer: pl.Trainer, pl_module: pl.LightningModule) -> Dict[str, Union[str, float]]:
         """Get metrics from trainer for progress bar."""
@@ -310,7 +313,7 @@ class EmojiProgressReporter(ProgressBar, pl.Callback):
             Log.warn("Experiment name not found, please set it to `pl_module.exp_name`!")
 
     def print(self, *args: Any, **kwargs: Any):
-        print(*args)
+        log.info(" ".join(str(a) for a in args))
 
     def get_metrics(self, trainer: pl.Trainer, pl_module: pl.LightningModule) -> Dict[str, Union[str, float]]:
         """Get metrics from trainer for progress bar."""

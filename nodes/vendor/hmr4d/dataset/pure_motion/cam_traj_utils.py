@@ -2,17 +2,17 @@ import torch
 import torch.nn.functional as F
 import numpy as np
 from numpy.random import rand, randn
-from hmr4d.utils.pytorch3d_shim import (
+from ...utils.pytorch3d_shim import (
     axis_angle_to_matrix,
     matrix_to_axis_angle,
     matrix_to_rotation_6d,
     rotation_6d_to_matrix,
 )
 from einops import rearrange
-from hmr4d.utils.geo.hmr_cam import create_camera_sensor
-from hmr4d.utils.geo_transform import transform_mat, apply_T_on_points
-from hmr4d.utils.geo.transforms import axis_rotate_to_matrix
-import hmr4d.utils.matrix as matrix
+from ...utils.geo.hmr_cam import create_camera_sensor
+from ...utils.geo_transform import transform_mat, apply_T_on_points
+from ...utils.geo.transforms import axis_rotate_to_matrix
+from ...utils import matrix as matrix
 
 halfpi = np.pi / 2
 R_y_upsidedown = torch.tensor([[-1, 0, 0], [0, -1, 0], [0, 0, 1]]).float()

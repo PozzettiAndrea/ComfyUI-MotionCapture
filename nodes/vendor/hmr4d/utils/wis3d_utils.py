@@ -1,15 +1,18 @@
+import logging
 from pathlib import Path
 from datetime import datetime
 import torch
 import numpy as np
 from einops import einsum
-from hmr4d.utils.pytorch3d_shim import axis_angle_to_matrix
+from ..utils.pytorch3d_shim import axis_angle_to_matrix
+
+log = logging.getLogger("motioncapture")
 
 
 def make_wis3d(output_dir="outputs/wis3d", name="debug", time_postfix=False):
     """
     Make a Wis3D instance. e.g.:
-        from hmr4d.utils.wis3d_utils import make_wis3d
+        from ..utils.wis3d_utils import make_wis3d
         wis3d = make_wis3d(time_postfix=True)
     """
     from wis3d import Wis3D
@@ -18,7 +21,7 @@ def make_wis3d(output_dir="outputs/wis3d", name="debug", time_postfix=False):
     if time_postfix:
         time_str = datetime.now().strftime("%m%d-%H%M-%S")
         name = f"{name}_{time_str}"
-        print(f"Creating Wis3D {name}")
+        log.info("Creating Wis3D %s", name)
     wis3d = Wis3D(output_dir.absolute(), name)
     return wis3d
 

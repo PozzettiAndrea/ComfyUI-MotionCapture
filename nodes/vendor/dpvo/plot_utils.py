@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -6,6 +7,8 @@ from evo.core import sync
 from evo.core.trajectory import PoseTrajectory3D
 from evo.tools import plot
 from plyfile import PlyData, PlyElement
+
+log = logging.getLogger("motioncapture")
 
 
 def plot_trajectory(pred_traj, gt_traj=None, title="", filename="", align=True, correct_scale=True):
@@ -29,7 +32,7 @@ def plot_trajectory(pred_traj, gt_traj=None, title="", filename="", align=True, 
     plot_collection.add_figure("traj (error)", fig)
     plot_collection.export(filename, confirm_overwrite=False)
     plt.close(fig=fig)
-    print(f"Saved {filename}")
+    log.info("Saved %s", filename)
 
 def save_output_for_COLMAP(name: str, traj: PoseTrajectory3D, points: np.ndarray, colors: np.ndarray, fx, fy, cx, cy, H=480, W=640):
     """ Saves the sparse point cloud and camera poses such that it can be opened in COLMAP """
@@ -54,11 +57,11 @@ def save_output_for_COLMAP(name: str, traj: PoseTrajectory3D, points: np.ndarray
 
     # camera
     (colmap_dir / "cameras.txt").write_text(f"1 PINHOLE {W} {H} {fx} {fy} {cx} {cy}")
-    print(f"Saved COLMAP-compatible reconstruction in {colmap_dir.resolve()}")
+    log.info("Saved COLMAP-compatible reconstruction in %s", colmap_dir.resolve())
 
 def save_ply(name: str, points: np.ndarray, colors: np.ndarray):
     points_ply = np.array([(x,y,z,r,g,b) for (x,y,z),(r,g,b) in zip(points, colors)],
                         dtype=[('x', '<f4'), ('y', '<f4'), ('z', '<f4'),('red', 'u1'), ('green', 'u1'),('blue', 'u1')])
     el = PlyElement.describe(points_ply, 'vertex',{'some_property': 'f8'},{'some_property': 'u4'})
     PlyData([el], text=True).write(f"{name}.ply")
-    print(f"Saved {name}.ply")
+    log.info("Saved %s.ply", name)

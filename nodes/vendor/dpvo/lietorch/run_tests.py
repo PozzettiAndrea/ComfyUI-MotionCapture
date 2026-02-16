@@ -1,8 +1,12 @@
+import logging
+
 import torch
 import lietorch
 
 from lietorch import SO3, RxSO3, SE3, Sim3
 from gradcheck import gradcheck, get_analytical_jacobian
+
+log = logging.getLogger("motioncapture")
 
 
 ### forward tests ###
@@ -18,14 +22,14 @@ def test_exp_log(Group, device='cuda'):
     a = .2*torch.randn(2,3,4,5,6,7,Group.manifold_dim, device=device).double()
     b = Group.exp(a).log()
     assert torch.allclose(a,b,atol=1e-8), "should be identity"
-    print("\t-", Group, "Passed exp-log test")
+    log.info("\t- %s Passed exp-log test", Group)
     
 def test_inv(Group, device='cuda'):
     """ check X * X^{-1} == 0 """
     X = Group.exp(.1*torch.randn(2,3,4,5,Group.manifold_dim, device=device).double())
     a = (X * X.inv()).log()
     assert torch.allclose(a, torch.zeros_like(a), atol=1e-8), "should be 0"
-    print("\t-", Group, "Passed inv test")
+    log.info("\t- %s Passed inv test", Group)
 
 def test_adj(Group, device='cuda'):
     """ check X * Exp(a) == Exp(Adj(X,a)) * X 0 """
@@ -38,7 +42,7 @@ def test_adj(Group, device='cuda'):
 
     c = (Y1 * Y2.inv()).log()
     assert torch.allclose(c, torch.zeros_like(c), atol=1e-8), "should be 0"
-    print("\t-", Group, "Passed adj test")
+    log.info("\t- %s Passed adj test", Group)
     
 
 def test_act(Group, device='cuda'):
@@ -49,7 +53,7 @@ def test_act(Group, device='cuda'):
     p2 = matv(X.matrix(), make_homogeneous(p))
 
     assert torch.allclose(p1, p2[...,:3], atol=1e-8), "should be 0"
-    print("\t-", Group, "Passed act test")
+    log.info("\t- %s Passed act test", Group)
 
 
 ### backward tests ###
@@ -72,7 +76,7 @@ def test_exp_log_grad(Group, device='cuda', tol=1e-8):
 
     assert torch.allclose(analytical[0], torch.eye(D, device=device).double(), atol=tol)
 
-    print("\t-", Group, "Passed eye-grad test")
+    log.info("\t- %s Passed eye-grad test", Group)
 
 
 def test_inv_log_grad(Group, device='cuda', tol=1e-8):
@@ -88,10 +92,10 @@ def test_inv_log_grad(Group, device='cuda', tol=1e-8):
 
     # assert torch.allclose(analytical[0], numerical[0], atol=tol)
     if not torch.allclose(analytical[0], numerical[0], atol=tol):
-        print(analytical[0])
-        print(numerical[0])
+        log.debug("%s", analytical[0])
+        log.debug("%s", numerical[0])
 
-    print("\t-", Group, "Passed inv-grad test")
+    log.info("\t- %s Passed inv-grad test", Group)
 
 
 def test_adj_grad(Group, device='cuda'):
@@ -108,7 +112,7 @@ def test_adj_grad(Group, device='cuda'):
     assert torch.allclose(analytical[0], numerical[0], atol=1e-8)
     assert torch.allclose(analytical[1], numerical[1], atol=1e-8)
 
-    print("\t-", Group, "Passed adj-grad test")
+    log.info("\t- %s Passed adj-grad test", Group)
 
 
 def test_adjT_grad(Group, device='cuda'):
@@ -126,7 +130,7 @@ def test_adjT_grad(Group, device='cuda'):
     assert torch.allclose(analytical[0], numerical[0], atol=1e-8)
     assert torch.allclose(analytical[1], numerical[1], atol=1e-8)
 
-    print("\t-", Group, "Passed adjT-grad test")
+    log.info("\t- %s Passed adjT-grad test", Group)
 
 
 def test_act_grad(Group, device='cuda'):
@@ -144,7 +148,7 @@ def test_act_grad(Group, device='cuda'):
     assert torch.allclose(analytical[0], numerical[0], atol=1e-8)
     assert torch.allclose(analytical[1], numerical[1], atol=1e-8)
 
-    print("\t-", Group, "Passed act-grad test")
+    log.info("\t- %s Passed act-grad test", Group)
 
 
 def test_matrix_grad(Group, device='cuda'):
@@ -158,7 +162,7 @@ def test_matrix_grad(Group, device='cuda'):
     analytical, numerical = gradcheck(fn, [a], eps=1e-4)
     assert torch.allclose(analytical[0], numerical[0], atol=1e-6)
 
-    print("\t-", Group, "Passed matrix-grad test")
+    log.info("\t- %s Passed matrix-grad test", Group)
 
 
 def extract_translation_grad(Group, device='cuda'):
@@ -175,7 +179,7 @@ def extract_translation_grad(Group, device='cuda'):
     analytical, numerical = gradcheck(fn, [a], eps=1e-4)
 
     assert torch.allclose(analytical[0], numerical[0], atol=1e-8)
-    print("\t-", Group, "Passed translation grad test")
+    log.info("\t- %s Passed translation grad test", Group)
 
 
 def test_vec_grad(Group, device='cuda', tol=1e-6):
@@ -191,7 +195,7 @@ def test_vec_grad(Group, device='cuda', tol=1e-6):
     analytical, numerical = gradcheck(fn, [a], eps=1e-4)
 
     assert torch.allclose(analytical[0], numerical[0], atol=tol)
-    print("\t-", Group, "Passed tovec grad test")
+    log.info("\t- %s Passed tovec grad test", Group)
 
 
 def test_fromvec_grad(Group, device='cuda', tol=1e-6):
@@ -223,7 +227,7 @@ def test_fromvec_grad(Group, device='cuda', tol=1e-6):
     analytical, numerical = gradcheck(fn, [a], eps=1e-4)
 
     assert torch.allclose(analytical[0], numerical[0], atol=tol)
-    print("\t-", Group, "Passed fromvec grad test")
+    log.info("\t- %s Passed fromvec grad test", Group)
 
 
 
@@ -238,27 +242,27 @@ def scale(device='cuda'):
     a = torch.randn(1, 6, requires_grad=True, device=device).double()
     
     analytical, numerical = gradcheck(fn, [a, s], eps=1e-3)
-    print(analytical[1])
-    print(numerical[1])
+    log.debug("%s", analytical[1])
+    log.debug("%s", numerical[1])
 
 
     assert torch.allclose(analytical[0], numerical[0], atol=1e-8)
     assert torch.allclose(analytical[1], numerical[1], atol=1e-8)
 
-    print("\t-", "Passed se3-to-sim3 test")
+    log.info("\t- Passed se3-to-sim3 test")
 
-    
+
 if __name__ == '__main__':
 
 
-    print("Testing lietorch forward pass (CPU) ...")
+    log.info("Testing lietorch forward pass (CPU) ...")
     for Group in [SO3, RxSO3, SE3, Sim3]:
         test_exp_log(Group, device='cpu')
         test_inv(Group, device='cpu')
         test_adj(Group, device='cpu')
         test_act(Group, device='cpu')
 
-    print("Testing lietorch backward pass (CPU)...")
+    log.info("Testing lietorch backward pass (CPU)...")
     for Group in [SO3, RxSO3, SE3, Sim3]:
         if Group == Sim3:
             tol = 1e-3
@@ -275,14 +279,14 @@ if __name__ == '__main__':
         test_vec_grad(Group, device='cpu')
         test_fromvec_grad(Group, device='cpu')
 
-    print("Testing lietorch forward pass (GPU) ...")
+    log.info("Testing lietorch forward pass (GPU) ...")
     for Group in [SO3, RxSO3, SE3, Sim3]:
         test_exp_log(Group, device='cuda')
         test_inv(Group, device='cuda')
         test_adj(Group, device='cuda')
         test_act(Group, device='cuda')
 
-    print("Testing lietorch backward pass (GPU)...")
+    log.info("Testing lietorch backward pass (GPU)...")
     for Group in [SO3, RxSO3, SE3, Sim3]:
         if Group == Sim3:
             tol = 1e-3

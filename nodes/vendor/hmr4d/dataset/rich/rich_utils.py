@@ -1,7 +1,7 @@
 import torch
 import cv2
 import numpy as np
-from hmr4d.utils.geo_transform import apply_T_on_points, project_p2d
+from ...utils.geo_transform import apply_T_on_points, project_p2d
 from pathlib import Path
 import json
 import time
@@ -58,7 +58,7 @@ def compute_bbx(dataset, data):
         data: dict
 
     # This function need extra scripts to run
-    from hmr4d.utils.smplx_utils import make_smplx
+    from ...utils.smplx_utils import make_smplx
     self.smplh_male = make_smplx("rich-smplh", gender="male")
     self.smplh_female = make_smplx("rich-smplh", gender="female")
     self.smplh = {

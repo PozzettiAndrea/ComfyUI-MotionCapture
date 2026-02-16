@@ -1,8 +1,12 @@
+import logging
+
 import cv2
 import numpy as np
 from dataclasses import dataclass
 import pycolmap
 from .transformation_np import *
+
+log = logging.getLogger("motioncapture")
 
 
 @dataclass
@@ -85,7 +89,7 @@ class PycolmapRansacTwoViewGeometrySolver:
             max_H_inlier_ratio=0.9,
             compute_relative_pose=True,
         )
-        print(self.options.summary())
+        log.debug("%s", self.options.summary())
 
     def get_K(self):
         return self.camera_matrix

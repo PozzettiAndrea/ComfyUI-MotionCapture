@@ -1,8 +1,12 @@
+import logging
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
 import torch_scatter
+
+log = logging.getLogger("motioncapture")
 
 class LayerNorm1D(nn.Module):
     def __init__(self, dim):
@@ -114,5 +118,5 @@ class GradMag(torch.autograd.Function):
 
     @staticmethod
     def backward(ctx, grad_x):
-        print(grad_x.abs().mean())
+        log.debug("%s", grad_x.abs().mean())
         return grad_x

@@ -2,7 +2,7 @@ import torch
 from torch.utils import data
 import numpy as np
 from pathlib import Path
-from hmr4d.utils.pylogger import Log
+from ...utils.pylogger import Log
 
 
 class ImgfeatMotionDatasetBase(data.Dataset):

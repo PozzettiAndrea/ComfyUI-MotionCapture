@@ -10,7 +10,7 @@ import numpy as np
 from scipy.spatial.transform import Rotation as R
 import folder_paths
 
-from hmr4d.utils.pylogger import Log
+from .vendor.hmr4d.utils.pylogger import Log
 
 
 # SMPL skeleton hierarchy - 21-joint variant (GVHMR, no hands) (22 total with root)
@@ -339,9 +339,7 @@ class SMPLtoBVH:
 
         except Exception as e:
             error_msg = f"SMPLtoBVH failed: {str(e)}"
-            Log.error(error_msg)
-            import traceback
-            traceback.print_exc()
+            Log.error(error_msg, exc_info=True)
             return ({}, "", error_msg)
 
     def _get_bvh_joint_order(self, parent_indices: list) -> list:

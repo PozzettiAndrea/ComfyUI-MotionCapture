@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Tuple, List
 import folder_paths
 
-from hmr4d.utils.pylogger import Log
+from .vendor.hmr4d.utils.pylogger import Log
 
 
 class LoadFBXCharacter:
@@ -121,9 +121,7 @@ class LoadFBXCharacter:
 
         except Exception as e:
             error_msg = f"LoadFBXCharacter failed: {str(e)}"
-            Log.error(error_msg)
-            import traceback
-            traceback.print_exc()
+            Log.error(error_msg, exc_info=True)
             return ("", error_msg)
 
 

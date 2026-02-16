@@ -5,7 +5,13 @@ Searches both input and output folders for .fbx files.
 """
 
 import os
+import logging
+
 import folder_paths
+
+from .shared_utils import resolve_file_path
+
+log = logging.getLogger("motioncapture")
 
 
 class LoadMixamoCharacter:
@@ -68,32 +74,13 @@ class LoadMixamoCharacter:
 
     @classmethod
     def IS_CHANGED(cls, fbx_file):
-        full_path = cls._resolve_file_path(fbx_file)
+        full_path = resolve_file_path(fbx_file)
         if full_path and os.path.exists(full_path):
             return os.path.getmtime(full_path)
         return fbx_file
 
-    @classmethod
-    def _resolve_file_path(cls, fbx_file):
-        if fbx_file.startswith("[output] "):
-            clean_path = fbx_file.replace("[output] ", "")
-            output_dir = folder_paths.get_output_directory()
-            output_path = os.path.join(output_dir, clean_path)
-            if os.path.exists(output_path):
-                return output_path
-        else:
-            input_dir = folder_paths.get_input_directory()
-            input_path = os.path.join(input_dir, fbx_file)
-            if os.path.exists(input_path):
-                return input_path
-
-        if os.path.exists(fbx_file):
-            return fbx_file
-
-        return None
-
     def load_mixamo(self, fbx_file):
-        full_path = self._resolve_file_path(fbx_file)
+        full_path = resolve_file_path(fbx_file)
         if full_path is None:
             raise FileNotFoundError(f"Mixamo FBX file not found: {fbx_file}")
 
@@ -108,7 +95,7 @@ class LoadMixamoCharacter:
             f"Size: {file_size:.2f} MB\n"
         )
 
-        print(f"[LoadMixamoCharacter] Selected: {full_path}")
+        log.info("Selected: %s", full_path)
         return (full_path, info)
 
 

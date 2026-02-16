@@ -1,10 +1,14 @@
+import logging
+
 import numpy as np
 from .utils import focal_length_from_mm
 from .matcher_wrapper import Matcher
 from .solver_two_view import TwoPairSolver, CameraParams, interpolate_missing_frames
 from tqdm import tqdm
 
-from hmr4d.utils.video_io_utils import get_video_lwh, read_video_np
+from ....utils.video_io_utils import get_video_lwh, read_video_np
+
+log = logging.getLogger("motioncapture")
 
 
 class SimpleVO:
@@ -26,7 +30,7 @@ class SimpleVO:
             sample_idxs = np.concatenate([sample_idxs, [F_all - 1]])
         frames = frames[sample_idxs]
         F, H, W, C = frames.shape
-        print(f"[SimpleVO] Choosen frames shape: {frames.shape}")
+        log.info("Choosen frames shape: %s", frames.shape)
 
         matcher: Matcher = Matcher(self.method)
         camera_params = CameraParams(W, H, focal_length=focal_length_from_mm(W, H, self.f_mm))

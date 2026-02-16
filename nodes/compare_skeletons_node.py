@@ -4,12 +4,15 @@ Compare two skeletons side-by-side with synced rotation.
 """
 
 import os
+import logging
 from typing import Tuple
 
 try:
     import folder_paths
 except ImportError:
     folder_paths = None
+
+log = logging.getLogger("motioncapture")
 
 
 class CompareSkeletons:
@@ -42,7 +45,7 @@ class CompareSkeletons:
 
     def compare_skeletons(self, fbx_path_left: str, fbx_path_right: str):
         """Open both FBX files in the comparison skeleton viewer."""
-        print(f"[CompareSkeletons] Preparing skeleton comparison view...")
+        log.info("Preparing skeleton comparison view...")
 
         if folder_paths:
             output_dir = folder_paths.get_output_directory()
@@ -80,8 +83,8 @@ class CompareSkeletons:
         if not os.path.exists(full_path_right):
             raise RuntimeError(f"Right FBX file not found: {fbx_path_right}")
 
-        print(f"[CompareSkeletons] Left FBX: {full_path_left}")
-        print(f"[CompareSkeletons] Right FBX: {full_path_right}")
+        log.info("Left FBX: %s", full_path_left)
+        log.info("Right FBX: %s", full_path_right)
 
         # For the viewer, use relative path if in output, otherwise basename
         if os.path.isabs(fbx_path_left):

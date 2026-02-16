@@ -3,7 +3,7 @@ from pytorch_lightning.utilities.combined_loader import CombinedLoader
 from hydra.utils import instantiate
 from torch.utils.data import DataLoader, ConcatDataset, Subset
 from omegaconf import ListConfig, DictConfig
-from hmr4d.utils.pylogger import Log
+from ..utils.pylogger import Log
 from numpy.random import choice
 from torch.utils.data import default_collate
 

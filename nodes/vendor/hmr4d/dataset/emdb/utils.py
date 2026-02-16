@@ -1,10 +1,14 @@
+import logging
+
 import torch
 import pickle
 import numpy as np
 from pathlib import Path
 from tqdm import tqdm
-from hmr4d.utils.geo_transform import convert_lurb_to_bbx_xys
-from hmr4d.utils.video_io_utils import get_video_lwh
+from ...utils.geo_transform import convert_lurb_to_bbx_xys
+from ...utils.video_io_utils import get_video_lwh
+
+log = logging.getLogger("motioncapture")
 
 
 def name_to_subfolder(name):
@@ -104,7 +108,7 @@ def _check_annot(emdb_raw_dir=Path("inputs/EMDB/EMDB")):
     for pkl_local_path in set(EMDB1_LIST + EMDB2_LIST):
         annot = load_raw_pkl(emdb_raw_dir / pkl_local_path)
         if any((annot["bboxes"]["invalid_idxs"] != np.where(~annot["good_frames_mask"])[0])):
-            print(annot["name"])
+            log.debug("%s", annot["name"])
 
 
 def _check_length(emdb_raw_dir=Path("inputs/EMDB/EMDB"), emdb_hmr4d_support_dir=Path("inputs/EMDB/hmr4d_support")):
@@ -114,7 +118,7 @@ def _check_length(emdb_raw_dir=Path("inputs/EMDB/EMDB"), emdb_hmr4d_support_dir=
         video_path = emdb_hmr4d_support_dir / "videos" / f"{data['name']}.mp4"
         length, width, height = get_video_lwh(video_path)
         lengths.append(length)
-    print(sorted(lengths))
+    log.debug("%s", sorted(lengths))
 
     video_ram = length[-1] * (width / 4) * (height / 4) * 3 / 1e6
-    print(f"Video RAM for {lengths[-1]} x {width} x {height}: {video_ram:.2f} MB")
+    log.debug("Video RAM for %s x %s x %s: %.2f MB", lengths[-1], width, height, video_ram)

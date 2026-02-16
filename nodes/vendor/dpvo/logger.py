@@ -1,7 +1,9 @@
+import logging
 
 import torch
 from torch.utils.tensorboard import SummaryWriter
 
+log = logging.getLogger("motioncapture")
 
 SUM_FREQ = 100
 
@@ -16,15 +18,15 @@ class Logger:
     def _print_training_status(self):
         if self.writer is None:
             self.writer = SummaryWriter("runs/{}".format(self.name))
-            print([k for k in self.running_loss])
+            log.info("%s", [k for k in self.running_loss])
 
         lr = self.scheduler.get_lr().pop()
         metrics_data = [self.running_loss[k]/SUM_FREQ for k in self.running_loss.keys()]
         training_str = "[{:6d}, {:10.7f}] ".format(self.total_steps+1, lr)
         metrics_str = ("{:10.4f}, "*len(metrics_data)).format(*metrics_data)
-        
-        # print the training status
-        print(training_str + metrics_str)
+
+        # log the training status
+        log.info("%s", training_str + metrics_str)
 
         for key in self.running_loss:
             val = self.running_loss[key] / SUM_FREQ
@@ -48,8 +50,8 @@ class Logger:
     def write_dict(self, results):
         if self.writer is None:
             self.writer = SummaryWriter("runs/{}".format(self.name))
-            print([k for k in self.running_loss])
-            
+            log.info("%s", [k for k in self.running_loss])
+
         for key in results:
             self.writer.add_scalar(key, results[key], self.total_steps)
 

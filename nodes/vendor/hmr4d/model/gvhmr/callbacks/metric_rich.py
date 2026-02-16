@@ -1,27 +1,31 @@
+import logging
+
 import torch
 import torch.nn.functional as F
 import pytorch_lightning as pl
 from pytorch_lightning.utilities import rank_zero_only
-from hmr4d.configs import MainStore, builds
+from ....configs import MainStore, builds
 
-from hmr4d.utils.comm.gather import all_gather
-from hmr4d.utils.pylogger import Log
+log = logging.getLogger("motioncapture")
 
-from hmr4d.utils.eval.eval_utils import (
+from ....utils.comm.gather import all_gather
+from ....utils.pylogger import Log
+
+from ....utils.eval.eval_utils import (
     compute_camcoord_metrics,
     compute_global_metrics,
     compute_camcoord_perjoint_metrics,
     as_np_array,
 )
-from hmr4d.utils.geo_transform import apply_T_on_points, compute_T_ayfz2ay
-from hmr4d.utils.smplx_utils import make_smplx
+from ....utils.geo_transform import apply_T_on_points, compute_T_ayfz2ay
+from ....utils.smplx_utils import make_smplx
 from einops import einsum, rearrange
 
-from hmr4d.utils.pytorch3d_shim import axis_angle_to_matrix, matrix_to_axis_angle
-from hmr4d.utils.wis3d_utils import make_wis3d, add_motion_as_lines, get_colors_by_conf
-from hmr4d.utils.vis.renderer import Renderer, get_global_cameras_static, get_ground_params_from_points
-from hmr4d.utils.geo.hmr_cam import estimate_focal_length
-from hmr4d.utils.video_io_utils import read_video_np, save_video, get_writer
+from ....utils.pytorch3d_shim import axis_angle_to_matrix, matrix_to_axis_angle
+from ....utils.wis3d_utils import make_wis3d, add_motion_as_lines, get_colors_by_conf
+from ....utils.vis.renderer import Renderer, get_global_cameras_static, get_ground_params_from_points
+from ....utils.geo.hmr_cam import estimate_focal_length
+from ....utils.video_io_utils import read_video_np, save_video, get_writer
 import imageio
 from tqdm import tqdm
 from pathlib import Path
@@ -29,8 +33,8 @@ import numpy as np
 import cv2
 
 from smplx.joint_names import JOINT_NAMES
-from hmr4d.utils.net_utils import repeat_to_max_len, gaussian_smooth
-from hmr4d.utils.geo.hmr_global import rollout_vel, get_static_joint_mask
+from ....utils.net_utils import repeat_to_max_len, gaussian_smooth
+from ....utils.geo.hmr_global import rollout_vel, get_static_joint_mask
 
 
 class MetricMocap(pl.Callback):
@@ -350,7 +354,7 @@ class MetricMocap(pl.Callback):
                 self.metric_aggregator[metric_key].update(d[metric_key])
 
         if False:  # debug to make sure the all_gather is correct
-            print(f"[RANK {local_rank}/{world_size}]: {self.metric_aggregator[monitor_metric].keys()}")
+            log.debug("RANK %s/%s: %s", local_rank, world_size, self.metric_aggregator[monitor_metric].keys())
 
         total = len(self.metric_aggregator[monitor_metric])
         Log.info(f"{total} sequences evaluated in {self.__class__.__name__}")

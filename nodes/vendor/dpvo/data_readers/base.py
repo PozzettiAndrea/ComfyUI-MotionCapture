@@ -1,4 +1,5 @@
 import numpy as np
+import logging
 import torch
 import torch.utils.data as data
 import torch.nn.functional as F
@@ -11,6 +12,8 @@ import random
 import json
 import pickle
 import os.path as osp
+
+log = logging.getLogger("motioncapture")
 
 from .augmentation import RGBDAugmentor
 from .rgbd_utils import *
@@ -51,7 +54,7 @@ class RGBDDataset(data.Dataset):
                     if i < len(graph) - 65:
                         self.dataset_index.append((scene, i))
             else:
-                print("Reserving {} for validation".format(scene))
+                log.info("Reserving %s for validation", scene)
 
     @staticmethod
     def image_read(image_file):

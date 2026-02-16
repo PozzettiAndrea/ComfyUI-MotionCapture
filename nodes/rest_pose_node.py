@@ -6,6 +6,7 @@ Blender operations run in an isolated environment with the bpy package.
 """
 
 import os
+import logging
 import numpy as np
 from pathlib import Path
 from typing import Tuple
@@ -14,6 +15,8 @@ try:
     import folder_paths
 except ImportError:
     folder_paths = None
+
+log = logging.getLogger("motioncapture")
 
 # SMPL canonical skeleton (24 joints)
 SMPL_JOINT_NAMES = [
@@ -73,7 +76,7 @@ class RestPoseFromFBXWorker:
         import bpy
         from mathutils import Quaternion
 
-        print(f"[RestPoseWorker] Extracting rest pose from: {input_fbx}")
+        log.info("Extracting rest pose from: %s", input_fbx)
 
         # Clean scene
         bpy.ops.wm.read_homefile(use_empty=True)
@@ -94,7 +97,7 @@ class RestPoseFromFBXWorker:
             raise RuntimeError("No armature found in FBX file")
 
         bone_count = len(armature.data.bones)
-        print(f"[RestPoseWorker] Found armature with {bone_count} bones")
+        log.info("Found armature with %d bones", bone_count)
 
         # Clear animation data
         if armature.animation_data:
@@ -148,7 +151,7 @@ class SMPLSkeletonWorker:
 
         joint_positions = np.array(joint_positions_list, dtype=np.float32)
 
-        print(f"[SMPLSkeletonWorker] Creating SMPL skeleton with {len(joint_names)} joints")
+        log.info("Creating SMPL skeleton with %d joints", len(joint_names))
 
         # Clean scene
         bpy.ops.wm.read_homefile(use_empty=True)
@@ -299,7 +302,7 @@ class ExtractRestPose:
         npz_path: str = "",
     ) -> Tuple[str, str]:
         """Extract rest pose skeleton and save as FBX."""
-        print(f"[ExtractRestPose] Source type: {source_type}")
+        log.info("Source type: %s", source_type)
 
         # Setup output path
         if folder_paths:
@@ -331,7 +334,7 @@ class ExtractRestPose:
             if not os.path.exists(fbx_path):
                 raise FileNotFoundError(f"FBX file not found: {fbx_path}")
 
-            print(f"[ExtractRestPose] Input FBX: {fbx_path}")
+            log.info("Input FBX: %s", fbx_path)
 
             # Extract rest pose from FBX using isolated worker
             worker = RestPoseFromFBXWorker()
@@ -339,7 +342,7 @@ class ExtractRestPose:
             source_info = f"FBX: {os.path.basename(fbx_path)}"
 
         else:  # smpl
-            print(f"[ExtractRestPose] Creating SMPL rest pose skeleton")
+            log.info("Creating SMPL rest pose skeleton")
 
             # Use canonical SMPL positions - convert to list for serialization
             joint_positions_list = SMPL_REST_POSITIONS.tolist()
@@ -354,8 +357,8 @@ class ExtractRestPose:
             )
             source_info = "SMPL canonical T-pose"
 
-        print(f"[ExtractRestPose] Output: {output_path}")
-        print(f"[ExtractRestPose] Bones: {bone_count}")
+        log.info("Output: %s", output_path)
+        log.info("Bones: %d", bone_count)
 
         info = (
             f"Source: {source_info}\n"

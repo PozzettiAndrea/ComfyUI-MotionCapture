@@ -8,8 +8,7 @@ import logging
 from pathlib import Path
 from typing import Dict, Tuple
 
-# Simple logger (replaces hmr4d.utils.pylogger.Log)
-Log = logging.getLogger("MotionCapture.blender")
+log = logging.getLogger("motioncapture")
 
 
 # ===============================================================================
@@ -109,33 +108,33 @@ class BVHtoFBXWorker:
         from mathutils import Matrix, Quaternion, Vector
         from math import radians, degrees
 
-        print("=" * 60)
-        print("BVH to FBX Retargeting")
-        print("=" * 60)
-        print(f"BVH: {bvh_file}")
-        print(f"Character: {character_path}")
-        print(f"Output: {output_path}")
+        log.info("=" * 60)
+        log.info("BVH to FBX Retargeting")
+        log.info("=" * 60)
+        log.info("BVH: %s", bvh_file)
+        log.info("Character: %s", character_path)
+        log.info("Output: %s", output_path)
 
         # Clear scene
         bpy.ops.wm.read_homefile(use_empty=True)
-        print("[BVHtoFBX] Cleared scene")
+        log.info("Cleared scene")
 
         # Import character
         if character_type == "vrm":
-            print("[BVHtoFBX] Importing VRM character...")
+            log.info("Importing VRM character...")
             try:
                 bpy.ops.import_scene.vrm(filepath=character_path)
-                print("[BVHtoFBX] VRM import successful")
+                log.info("VRM import successful")
             except AttributeError:
                 try:
                     bpy.ops.import_model.vrm(filepath=character_path)
-                    print("[BVHtoFBX] VRM import successful (legacy command)")
+                    log.info("VRM import successful (legacy command)")
                 except Exception:
                     raise RuntimeError("VRM addon not found. Please install VRM Addon for Blender.")
         else:
-            print("[BVHtoFBX] Importing FBX character...")
+            log.info("Importing FBX character...")
             bpy.ops.import_scene.fbx(filepath=character_path)
-            print("[BVHtoFBX] FBX import successful")
+            log.info("FBX import successful")
 
         # Find character armature
         char_armature = None
@@ -147,15 +146,15 @@ class BVHtoFBXWorker:
         if not char_armature:
             raise RuntimeError("No armature found in character file")
 
-        print(f"[BVHtoFBX] Found character armature: {char_armature.name}")
-        print(f"[BVHtoFBX] Character Armature Bones: {[b.name for b in char_armature.data.bones]}")
+        log.info("Found character armature: %s", char_armature.name)
+        log.debug("Character Armature Bones: %s", [b.name for b in char_armature.data.bones])
 
         # Ensure we are in Object Mode
         if bpy.context.object:
             bpy.ops.object.mode_set(mode='OBJECT')
 
         # Load BVH
-        print(f"[BVHtoFBX] Loading BVH animation: {bvh_file}")
+        log.info("Loading BVH animation: %s", bvh_file)
         bpy.ops.import_anim.bvh(filepath=bvh_file, global_scale=1.0)
 
         # Find BVH armature
@@ -168,8 +167,8 @@ class BVHtoFBXWorker:
         if not bvh_armature:
             raise RuntimeError("BVH armature not found after import")
 
-        print(f"[BVHtoFBX] Found BVH armature: {bvh_armature.name}")
-        print(f"[BVHtoFBX] BVH Armature Bones: {[b.name for b in bvh_armature.data.bones]}")
+        log.info("Found BVH armature: %s", bvh_armature.name)
+        log.debug("BVH Armature Bones: %s", [b.name for b in bvh_armature.data.bones])
 
         # Auto-detect bone naming convention
         bone_names = char_armature.pose.bones.keys()
@@ -177,7 +176,7 @@ class BVHtoFBXWorker:
 
         bone_map = BONE_MAP.copy()
         if is_vroid:
-            print("[BVHtoFBX] Detected VRoid bone naming convention")
+            log.info("Detected VRoid bone naming convention")
             new_map = {}
             for smpl, vrm in bone_map.items():
                 if vrm in VROID_BONE_MAP:
@@ -187,22 +186,22 @@ class BVHtoFBXWorker:
             bone_map = new_map
 
         # Set up bone mapping
-        print("[BVHtoFBX] Setting up bone mapping...")
+        log.info("Setting up bone mapping...")
         bpy.context.view_layer.objects.active = char_armature
         bpy.ops.object.mode_set(mode='POSE')
 
         valid_mappings = []
         for smpl_bone, vrm_bone in bone_map.items():
             if vrm_bone not in char_armature.pose.bones:
-                print(f"[BVHtoFBX] WARNING: Target bone '{vrm_bone}' not found")
+                log.warning("Target bone '%s' not found", vrm_bone)
                 continue
             if smpl_bone not in bvh_armature.pose.bones:
-                print(f"[BVHtoFBX] WARNING: Source bone '{smpl_bone}' not found")
+                log.warning("Source bone '%s' not found", smpl_bone)
                 continue
             valid_mappings.append((smpl_bone, vrm_bone))
-            print(f"[BVHtoFBX] Mapping: '{smpl_bone}' -> '{vrm_bone}'")
+            log.debug("Mapping: '%s' -> '%s'", smpl_bone, vrm_bone)
 
-        print(f"[BVHtoFBX] Total valid bone mappings: {len(valid_mappings)}")
+        log.info("Total valid bone mappings: %d", len(valid_mappings))
 
         if len(valid_mappings) == 0:
             raise RuntimeError("No valid bone mappings found")
@@ -222,14 +221,14 @@ class BVHtoFBXWorker:
             target_height = get_skeleton_height(char_armature, 'Hips', 'Head')
 
         scale_ratio = target_height / bvh_height if bvh_height > 0.01 else 1.0
-        print(f"[BVHtoFBX] Scale ratio: {scale_ratio:.3f}")
+        log.info("Scale ratio: %.3f", scale_ratio)
 
         # Scale BVH armature
         bvh_armature.scale = (scale_ratio, scale_ratio, scale_ratio)
         bpy.context.view_layer.update()
 
         # Apply constraints
-        print("[BVHtoFBX] Applying animation via constraints...")
+        log.info("Applying animation via constraints...")
         constraints_applied = 0
 
         for smpl_bone, vrm_bone in valid_mappings:
@@ -252,14 +251,14 @@ class BVHtoFBXWorker:
                 loc_const.owner_space = 'WORLD'
                 loc_const.target_space = 'WORLD'
 
-        print(f"[BVHtoFBX] Applied {constraints_applied} constraints")
+        log.info("Applied %d constraints", constraints_applied)
 
         # Bake animation
-        print("[BVHtoFBX] Baking animation...")
+        log.info("Baking animation...")
         action = bvh_armature.animation_data.action
         frame_start = int(action.frame_range[0])
         frame_end = int(action.frame_range[1])
-        print(f"[BVHtoFBX] Animation frames: {frame_start} to {frame_end}")
+        log.info("Animation frames: %d to %d", frame_start, frame_end)
 
         bpy.ops.pose.select_all(action='SELECT')
         bpy.ops.nla.bake(
@@ -271,7 +270,7 @@ class BVHtoFBXWorker:
             use_current_action=False,
             bake_types={'POSE'}
         )
-        print("[BVHtoFBX] Baking complete")
+        log.info("Baking complete")
 
         # Calculate foot height compensation
         bvh_l_foot = 'L_Ankle'
@@ -306,7 +305,7 @@ class BVHtoFBXWorker:
 
         foot_height_offset = target_min_foot_z - bvh_min_foot_z
         if abs(foot_height_offset) > 0.05:
-            print(f"[BVHtoFBX] Applying height compensation: {foot_height_offset:.3f}m")
+            log.info("Applying height compensation: %.3fm", foot_height_offset)
             char_armature.location.z -= foot_height_offset
             bpy.context.view_layer.update()
 
@@ -333,17 +332,17 @@ class BVHtoFBXWorker:
                             mesh_count += 1
                             break
 
-        print(f"[BVHtoFBX] Selected {mesh_count} meshes for export")
+        log.info("Selected %d meshes for export", mesh_count)
 
         if output_format == "vrm":
-            print("[BVHtoFBX] Exporting as VRM...")
+            log.info("Exporting as VRM...")
             try:
                 bpy.ops.export_scene.vrm(filepath=output_path, export_fbx_hdr_emb=False)
             except AttributeError:
                 output_path = output_path.replace(".vrm", ".fbx")
                 bpy.ops.export_scene.fbx(filepath=output_path, use_selection=True, bake_anim=True, add_leaf_bones=False)
         else:
-            print("[BVHtoFBX] Exporting as FBX...")
+            log.info("Exporting as FBX...")
             bpy.ops.export_scene.fbx(
                 filepath=output_path,
                 use_selection=True,
@@ -361,8 +360,8 @@ class BVHtoFBXWorker:
             f"Scale ratio: {scale_ratio:.3f}"
         )
 
-        print(f"[BVHtoFBX] Output saved to: {output_path}")
-        print("[BVHtoFBX] Retargeting complete!")
+        log.info("Output saved to: %s", output_path)
+        log.info("Retargeting complete!")
 
         return (output_path, info)
 
@@ -412,7 +411,7 @@ class BVHtoFBX:
         output_format: str = "fbx",
     ) -> Tuple[str, str]:
         try:
-            Log.info("[BVHtoFBX] Starting BVH retargeting...")
+            log.info("Starting BVH retargeting...")
 
             # Validate inputs
             if not character_path:
@@ -470,12 +469,12 @@ class BVHtoFBX:
                 f"Format: {output_format.upper()}\n"
             )
 
-            Log.info("[BVHtoFBX] Retargeting complete!")
+            log.info("Retargeting complete!")
             return (str(output_path.absolute()), full_info)
 
         except Exception as e:
             error_msg = f"BVHtoFBX Failed:\n{str(e)}"
-            Log.error(error_msg)
+            log.error(error_msg)
             return ("", error_msg)
 
 

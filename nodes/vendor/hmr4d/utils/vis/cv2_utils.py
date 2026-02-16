@@ -1,7 +1,7 @@
 import torch
 import cv2
 import numpy as np
-from hmr4d.utils.wis3d_utils import get_colors_by_conf
+from ...utils.wis3d_utils import get_colors_by_conf
 
 
 def to_numpy(x):

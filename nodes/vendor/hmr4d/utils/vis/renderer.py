@@ -23,7 +23,7 @@ except ImportError:
     # PyTorch3D not available - rendering will be disabled
     pass
 
-from hmr4d.utils.pytorch3d_shim import axis_angle_to_matrix
+from ...utils.pytorch3d_shim import axis_angle_to_matrix
 
 from .renderer_tools import get_colors, checkerboard_geometry
 

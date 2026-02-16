@@ -3,7 +3,7 @@ FBX Animation Viewer Node - Interactive animation playback for animated FBX file
 """
 
 from typing import Tuple
-from hmr4d.utils.pylogger import Log
+from .vendor.hmr4d.utils.pylogger import Log
 
 
 class FBXAnimationViewer:
@@ -52,9 +52,7 @@ class FBXAnimationViewer:
 
         except Exception as e:
             error_msg = f"FBXAnimationViewer failed: {str(e)}"
-            Log.error(error_msg)
-            import traceback
-            traceback.print_exc()
+            Log.error(error_msg, exc_info=True)
             return {
                 "ui": {
                     "fbx_path": [""]

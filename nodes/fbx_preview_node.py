@@ -5,12 +5,15 @@ Displays rigged FBX files with Three.js viewer and skeleton visualization.
 """
 
 import os
+import logging
 from pathlib import Path
 
 try:
     import folder_paths
 except ImportError:
     folder_paths = None
+
+log = logging.getLogger("motioncapture")
 
 
 class MocapPreviewRiggedMesh:
@@ -38,7 +41,7 @@ class MocapPreviewRiggedMesh:
 
     def preview(self, fbx_output_path):
         """Preview the rigged mesh in an interactive FBX viewer."""
-        print(f"[MocapPreviewRiggedMesh] Preparing preview...")
+        log.info("Preparing preview...")
 
         # Get output directory
         if folder_paths:
@@ -49,7 +52,7 @@ class MocapPreviewRiggedMesh:
         fbx_path = os.path.join(output_dir, fbx_output_path)
 
         if not os.path.exists(fbx_path):
-            print(f"[MocapPreviewRiggedMesh] Warning: FBX file not found: {fbx_output_path}")
+            log.warning("FBX file not found: %s", fbx_output_path)
             return {
                 "ui": {
                     "fbx_file": [fbx_output_path],
@@ -59,14 +62,14 @@ class MocapPreviewRiggedMesh:
                 }
             }
 
-        print(f"[MocapPreviewRiggedMesh] FBX path: {fbx_path}")
+        log.info("FBX path: %s", fbx_path)
 
         # Assume FBX files have skinning and skeleton (retargeted animations)
         has_skinning = True
         has_skeleton = True
 
-        print(f"[MocapPreviewRiggedMesh] Has skinning: {has_skinning}")
-        print(f"[MocapPreviewRiggedMesh] Has skeleton: {has_skeleton}")
+        log.debug("Has skinning: %s", has_skinning)
+        log.debug("Has skeleton: %s", has_skeleton)
 
         return {
             "ui": {

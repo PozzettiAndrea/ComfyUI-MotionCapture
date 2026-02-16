@@ -1,14 +1,18 @@
+import logging
+
 import numpy as np
 import cv2
 import torch
 import torch.nn.functional as F
-from hmr4d.utils.pytorch3d_shim import so3_exp_map, so3_log_map
-from hmr4d.utils.pytorch3d_shim import matrix_to_quaternion, quaternion_to_axis_angle, matrix_to_rotation_6d
-from hmr4d.utils.pylogger import Log
-from hmr4d.utils.pytorch3d_shim import euler_angles_to_matrix
-import hmr4d.utils.matrix as matrix
+from ..utils.pytorch3d_shim import so3_exp_map, so3_log_map
+from ..utils.pytorch3d_shim import matrix_to_quaternion, quaternion_to_axis_angle, matrix_to_rotation_6d
+from ..utils.pylogger import Log
+from ..utils.pytorch3d_shim import euler_angles_to_matrix
+from ..utils import matrix as matrix
 from einops import einsum, rearrange, repeat
-from hmr4d.utils.geo.quaternion import qbetween
+
+log = logging.getLogger("motioncapture")
+from ..utils.geo.quaternion import qbetween
 
 
 def homo_points(points):
@@ -203,7 +207,7 @@ def axis_angle_to_matrix_exp_map(aa):
     Returns:
         R: (*, 3, 3)
     """
-    print("Use pytorch3d.transforms.axis_angle_to_matrix instead!!!")
+    log.warning("Use pytorch3d.transforms.axis_angle_to_matrix instead!!!")
     ori_shape = aa.shape[:-1]
     return so3_exp_map(aa.reshape(-1, 3)).reshape(*ori_shape, 3, 3)
 
@@ -215,7 +219,7 @@ def matrix_to_axis_angle_log_map(R):
     Returns:
         R: (*, 3)
     """
-    print("WARINING! I met singularity problem with this function, use matrix_to_axis_angle instead!")
+    log.warning("Singularity problem with this function, use matrix_to_axis_angle instead!")
     ori_shape = R.shape[:-2]
     return so3_log_map(R.reshape(-1, 3, 3)).reshape(*ori_shape, 3)
 
@@ -252,7 +256,7 @@ def ransac_PnP(K, pts_2d, pts_3d, err_thr=10):
 
         return pose, pose_homo, inliers
     except cv2.error:
-        print("CV ERROR")
+        log.error("CV ERROR")
         return np.eye(4)[:3], np.eye(4), []
 
 
@@ -268,16 +272,16 @@ def ransac_PnP_batch(K_raw, pts_2d, pts_3d, err_thr=10):
 
 
 def triangulate_point(Ts_w2c, c_p2d, **kwargs):
-    from hmr4d.utils.geo.triangulation import triangulate_persp
+    from ..utils.geo.triangulation import triangulate_persp
 
-    print("Deprecated, please import from hmr4d.utils.geo.triangulation")
+    log.warning("Deprecated, please import from hmr4d.utils.geo.triangulation")
     return triangulate_persp(Ts_w2c, c_p2d, **kwargs)
 
 
 def triangulate_point_ortho(Ts_w2c, c_p2d, **kwargs):
-    from hmr4d.utils.geo.triangulation import triangulate_ortho
+    from ..utils.geo.triangulation import triangulate_ortho
 
-    print("Deprecated, please import from hmr4d.utils.geo.triangulation")
+    log.warning("Deprecated, please import from hmr4d.utils.geo.triangulation")
     return triangulate_ortho(Ts_w2c, c_p2d, **kwargs)
 
 
@@ -602,7 +606,7 @@ def ransac_gravity_vec(xyz, num_iterations=100, threshold=0.05, verbose=False):
         if len(max_inliers) == N:
             break
     if verbose:
-        print(f"Inliers: {len(max_inliers)} / {N}")
+        log.info("Inliers: %d / %d", len(max_inliers), N)
     result = max_inliers.mean(dim=0)
 
     return result, max_inliers
@@ -667,6 +671,6 @@ def ransac_vec(vel, min_multiply=20, verbose=False):
     ind = inner_num.argmax()
     result = vel[inner_mask[ind]].mean(dim=0)  # (3,)
     if verbose:
-        print(inner_mask[ind].sum().item())
+        log.debug("%s", inner_mask[ind].sum().item())
 
     return result, inner_mask[ind]

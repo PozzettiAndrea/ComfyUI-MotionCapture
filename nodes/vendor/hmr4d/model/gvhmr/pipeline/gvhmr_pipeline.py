@@ -1,35 +1,35 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.cuda.amp import autocast
+from torch.amp import autocast
 import numpy as np
 from einops import einsum, rearrange, repeat
 from hydra.utils import instantiate
-from hmr4d.utils.pylogger import Log
-from hmr4d.utils.net_utils import gaussian_smooth
+from ....utils.pylogger import Log
+from ....utils.net_utils import gaussian_smooth
 
-from hmr4d.model.gvhmr.utils.endecoder import EnDecoder
-from hmr4d.model.gvhmr.utils.postprocess import (
+from ....model.gvhmr.utils.endecoder import EnDecoder
+from ....model.gvhmr.utils.postprocess import (
     pp_static_joint,
     process_ik,
     pp_static_joint_cam,
 )
-from hmr4d.model.gvhmr.utils import stats_compose
+from ....model.gvhmr.utils import stats_compose
 
-from hmr4d.utils.pytorch3d_shim import (
+from ....utils.pytorch3d_shim import (
     matrix_to_rotation_6d,
     rotation_6d_to_matrix,
     axis_angle_to_matrix,
     matrix_to_axis_angle,
 )
-from hmr4d.utils.geo.hmr_cam import compute_bbox_info_bedlam, compute_transl_full_cam, get_a_pred_cam, project_to_bi01
-from hmr4d.utils.geo.hmr_global import (
+from ....utils.geo.hmr_cam import compute_bbox_info_bedlam, compute_transl_full_cam, get_a_pred_cam, project_to_bi01
+from ....utils.geo.hmr_global import (
     rollout_local_transl_vel,
     get_static_joint_mask,
     get_tgtcoord_rootparam,
 )
-from hmr4d.utils.wis3d_utils import make_wis3d, add_motion_as_lines
-from hmr4d.utils.smplx_utils import make_smplx
+from ....utils.wis3d_utils import make_wis3d, add_motion_as_lines
+from ....utils.smplx_utils import make_smplx
 
 
 class Pipeline(nn.Module):
@@ -318,7 +318,7 @@ def compute_extra_global_loss(inputs, outputs, ppl):
     return extra_loss, extra_loss_dict
 
 
-@autocast(enabled=False)
+@autocast("cuda", enabled=False)
 def get_smpl_params_w_Rt_v2(
     global_orient_gv,
     local_transl_vel,

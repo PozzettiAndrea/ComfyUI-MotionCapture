@@ -15,20 +15,9 @@ import logging
 import numpy as np
 import torch
 
-# Simple logger (replaces hmr4d.utils.pylogger.Log)
-Log = logging.getLogger("MotionCapture.blender")
+log = logging.getLogger("motioncapture")
 
-
-# ===============================================================================
-# SMPL SKELETON CONFIGURATION
-# ===============================================================================
-
-SMPL_JOINT_NAMES = [
-    'Pelvis', 'L_Hip', 'R_Hip', 'Spine1', 'L_Knee', 'R_Knee',
-    'Spine2', 'L_Ankle', 'R_Ankle', 'Spine3', 'L_Foot', 'R_Foot',
-    'Neck', 'L_Collar', 'R_Collar', 'Head', 'L_Shoulder', 'R_Shoulder',
-    'L_Elbow', 'R_Elbow', 'L_Wrist', 'R_Wrist'
-]
+from .smpl_bvh_utils import SMPL_BONE_NAMES as SMPL_JOINT_NAMES
 
 
 # ===============================================================================
@@ -64,12 +53,12 @@ class SMPLRetargetWorker:
         import numpy as np
         from mathutils import Matrix, Vector
 
-        print("=" * 60)
-        print("SMPL Animation Application")
-        print("=" * 60)
-        print(f"Input FBX: {input_fbx}")
-        print(f"Motion NPZ: {motion_npz}")
-        print(f"Output FBX: {output_fbx}")
+        log.info("=" * 60)
+        log.info("SMPL Animation Application")
+        log.info("=" * 60)
+        log.info("Input FBX: %s", input_fbx)
+        log.info("Motion NPZ: %s", motion_npz)
+        log.info("Output FBX: %s", output_fbx)
 
         def rodrigues_to_matrix(rotvec):
             """Convert axis-angle (Rodrigues) to rotation matrix."""
@@ -82,7 +71,7 @@ class SMPLRetargetWorker:
         # Load motion data
         motion = np.load(motion_npz)
         num_frames = motion['body_pose'].shape[0]
-        print(f"Number of frames: {num_frames}")
+        log.info("Number of frames: %d", num_frames)
 
         body_pose = motion['body_pose'][:num_frames]
         global_orient = motion['global_orient'][:num_frames]
@@ -107,8 +96,8 @@ class SMPLRetargetWorker:
         if mesh_obj is None:
             raise RuntimeError("No mesh found in FBX")
 
-        print(f"Armature: {armature.name}")
-        print(f"Mesh: {mesh_obj.name}")
+        log.info("Armature: %s", armature.name)
+        log.info("Mesh: %s", mesh_obj.name)
 
         # Get bone rest matrices in edit mode
         bpy.context.view_layer.objects.active = armature
@@ -157,7 +146,7 @@ class SMPLRetargetWorker:
         bpy.context.scene.frame_start = 1
         bpy.context.scene.frame_end = num_frames
 
-        print(f"Applying {num_frames} frames...")
+        log.info("Applying %d frames...", num_frames)
 
         # Apply animation frame by frame
         for frame in range(num_frames):
@@ -200,9 +189,9 @@ class SMPLRetargetWorker:
                     bone.keyframe_insert(data_path='rotation_quaternion', frame=frame + 1)
 
             if frame % 100 == 0:
-                print(f"  Frame {frame + 1}/{num_frames}")
+                log.info("  Frame %d/%d", frame + 1, num_frames)
 
-        print("Animation applied!")
+        log.info("Animation applied!")
 
         # Export animated FBX
         bpy.ops.object.mode_set(mode='OBJECT')
@@ -221,7 +210,7 @@ class SMPLRetargetWorker:
             bake_anim_use_nla_strips=False,
         )
 
-        print(f"Exported: {output_fbx}")
+        log.info("Exported: %s", output_fbx)
         return (output_fbx, num_frames)
 
 
@@ -234,7 +223,7 @@ class SMPLRetargetToSMPL:
     Apply SMPL motion data to a rigged FBX with SMPL skeleton.
     Runs in an isolated environment with the bpy package.
 
-    This is different from SMPLToFBX which uses BVH+Rokoko for arbitrary rigs.
+    This is different from SMPLToFBX which uses BVH for arbitrary rigs.
     This node directly applies SMPL rotations to an SMPL-skeleton FBX,
     preserving the exact motion without intermediate conversion.
     """
@@ -279,7 +268,7 @@ class SMPLRetargetToSMPL:
             Tuple of (output_fbx_path, frame_count)
         """
         try:
-            Log.info("[SMPLRetargetToSMPL] Starting SMPL-to-SMPL retargeting...")
+            log.info("Starting SMPL-to-SMPL retargeting...")
 
             # Validate input FBX
             rigged_fbx_path = Path(rigged_fbx_path)
@@ -299,7 +288,7 @@ class SMPLRetargetToSMPL:
             motion_npz_path = temp_dir / "smpl_motion_temp.npz"
             frame_count = self._save_smpl_params(smpl_params, motion_npz_path)
 
-            Log.info(f"[SMPLRetargetToSMPL] Saved motion data: {motion_npz_path} ({frame_count} frames)")
+            log.info("Saved motion data: %s (%d frames)", motion_npz_path, frame_count)
 
             # Run retargeting in isolated environment
             worker = SMPLRetargetWorker()
@@ -312,14 +301,12 @@ class SMPLRetargetToSMPL:
             if not Path(result_path).exists():
                 raise RuntimeError(f"Output FBX not created: {result_path}")
 
-            Log.info(f"[SMPLRetargetToSMPL] Animation complete! Output: {output_path}")
+            log.info("Animation complete! Output: %s", output_path)
             return (str(output_path.absolute()), result_frames)
 
         except Exception as e:
             error_msg = f"SMPLRetargetToSMPL failed: {str(e)}"
-            Log.error(error_msg)
-            import traceback
-            traceback.print_exc()
+            log.error(error_msg, exc_info=True)
             return ("", 0)
 
     def _save_smpl_params(self, smpl_params: Dict, output_path: Path) -> int:
@@ -350,7 +337,7 @@ class SMPLRetargetToSMPL:
             frame_count = np_params['global_orient'].shape[0]
 
         np.savez(output_path, **np_params)
-        Log.info(f"[SMPLRetargetToSMPL] Saved SMPL params: {list(np_params.keys())}")
+        log.info("Saved SMPL params: %s", list(np_params.keys()))
 
         return frame_count
 

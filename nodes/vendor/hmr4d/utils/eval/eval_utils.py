@@ -1,5 +1,9 @@
+import logging
+
 import torch
 import numpy as np
+
+log = logging.getLogger("motioncapture")
 
 
 @torch.no_grad()
@@ -103,7 +107,7 @@ def compute_global_metrics(batch, mask=None):
         wa_j3d = global_align_joints(target_j3d, pred_j3d)
 
         if False:
-            from hmr4d.utils.wis3d_utils import make_wis3d, add_motion_as_lines
+            from ...utils.wis3d_utils import make_wis3d, add_motion_as_lines
 
             wis3d = make_wis3d(name="debug-metric_utils")
             add_motion_as_lines(target_j3d, wis3d, name="target_j3d")
@@ -286,7 +290,7 @@ def compute_error_accel(joints_gt, joints_pred, valid_mask=None, fps=None):
         new_invis = np.logical_or(invis, np.logical_or(invis1, invis2))[:-2]
         new_vis = np.logical_not(new_invis)
         if new_vis.sum() == 0:
-            print("Warning!!! no valid acceleration error to compute.")
+            log.warning("No valid acceleration error to compute.")
 
     return normed[new_vis]
 

@@ -6,18 +6,13 @@ No torch, no model loading -- all heavy work happens in GVHMRInference.
 """
 
 import os
-import sys
 import zipfile
 from pathlib import Path
 import folder_paths
 
-# Add vendor path for logger only
-VENDOR_PATH = Path(__file__).parent / "vendor"
-sys.path.insert(0, str(VENDOR_PATH))
-
 MODELS_DIR = Path(folder_paths.models_dir) / "motion_capture"
 
-from hmr4d.utils.pylogger import Log
+from .vendor.hmr4d.utils.pylogger import Log
 
 
 class LoadGVHMRModels:
@@ -51,6 +46,10 @@ class LoadGVHMRModels:
                     "default": "",
                     "multiline": False,
                     "tooltip": "Optional: Override default model checkpoint path"
+                }),
+                "precision": (["auto", "bf16", "fp16", "fp32"], {
+                    "default": "auto",
+                    "tooltip": "Model precision. auto: best for your GPU (bf16 on Ampere+, fp16 on Volta/Turing, fp32 on older)."
                 }),
                 "cache_model": ("BOOLEAN", {
                     "default": False,
@@ -251,7 +250,7 @@ class LoadGVHMRModels:
             Log.error(f"[LoadGVHMRModels] DPVO download failed: {e}")
             return False
 
-    def load_models(self, model_path_override="", cache_model=False, load_dpvo=False):
+    def load_models(self, model_path_override="", precision="auto", cache_model=False, load_dpvo=False):
         """Validate model paths and return config dict (strings only)."""
 
         Log.info("[LoadGVHMRModels] Checking GVHMR models...")
@@ -294,6 +293,7 @@ class LoadGVHMRModels:
             "vitpose_path": str(vitpose_path),
             "hmr2_path": str(hmr2_path),
             "body_models_path": str(MODELS_DIR / "body_models"),
+            "precision": precision,
             "cache_model": cache_model,
             "dpvo_dir": dpvo_dir,
         }

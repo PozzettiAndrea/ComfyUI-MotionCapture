@@ -1,3 +1,4 @@
+import logging
 import torch
 
 # from configs.coco.ViTPose_base_coco_256x192 import model
@@ -12,6 +13,8 @@ from functools import partial
 import torch.nn as nn
 import torch.nn.functional as F
 from importlib import import_module
+
+log = logging.getLogger("motioncapture")
 
 models = {
     "ViTPose_huge_coco_256x192": dict(
@@ -121,7 +124,8 @@ models = {
 def build_model(model_name, checkpoint=None):
     try:
         model = models[model_name]
-    except:
+    except Exception as e:
+        log.warning("Unknown VitPose model name %r: %s", model_name, e)
         raise ValueError("not a correct config")
 
     head = TopdownHeatmapSimpleHead(
@@ -158,7 +162,7 @@ def build_model(model_name, checkpoint=None):
 
     pose = VitPoseModel(backbone, head)
     if checkpoint is not None:
-        check = torch.load(checkpoint)
+        check = torch.load(checkpoint, map_location="cpu", weights_only=True)
 
         pose.load_state_dict(check["state_dict"])
     return pose

@@ -1,12 +1,13 @@
 import torch
-from hmr4d.network.hmr2 import load_hmr2, HMR2
+from ...network.hmr2 import load_hmr2, HMR2
+import comfy.model_management
 
 
-from hmr4d.utils.video_io_utils import read_video_np
+from ...utils.video_io_utils import read_video_np
 import cv2
 import numpy as np
 
-from hmr4d.network.hmr2.utils.preproc import crop_and_resize, IMAGE_MEAN, IMAGE_STD
+from ...network.hmr2.utils.preproc import crop_and_resize, IMAGE_MEAN, IMAGE_STD
 from tqdm import tqdm
 
 
@@ -59,7 +60,8 @@ def get_batch(input_path, bbx_xys, img_ds=0.5, img_dst_size=256, path_type="vide
 
 class Extractor:
     def __init__(self, tqdm_leave=True):
-        self.extractor: HMR2 = load_hmr2().cuda().eval()
+        self.device = comfy.model_management.get_torch_device()
+        self.extractor: HMR2 = load_hmr2().to(self.device).eval()
         self.tqdm_leave = tqdm_leave
 
     def extract_video_features(self, video_path, bbx_xys, img_ds=0.5):
@@ -79,7 +81,7 @@ class Extractor:
         batch_size = 8  # Reduced from 16 for lower memory usage (~2.5GB GPU)
         features = []
         for j in tqdm(range(0, F, batch_size), desc="HMR2 Feature", leave=self.tqdm_leave):
-            imgs_batch = imgs[j : j + batch_size].cuda()  # Move only batch to GPU
+            imgs_batch = imgs[j : j + batch_size].to(self.device)  # Move only batch to device
 
             with torch.no_grad():
                 feature = self.extractor({"img": imgs_batch})
@@ -87,7 +89,7 @@ class Extractor:
 
             # Periodic memory cleanup to prevent fragmentation
             if j > 0 and j % (batch_size * 4) == 0:
-                torch.cuda.empty_cache()
+                comfy.model_management.soft_empty_cache()
 
         features = torch.cat(features, dim=0).clone()  # (F, 1024)
         return features

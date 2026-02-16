@@ -1,14 +1,19 @@
+import logging
+
 import torch
 import torch.nn.functional as F
 import numpy as np
 from pathlib import Path
+import comfy.model_management
+
+log = logging.getLogger("motioncapture")
 from .vitpose_pytorch import build_model
 from .vitfeat_extractor import get_batch
 from tqdm import tqdm
 
-from hmr4d.utils.kpts.kp2d_utils import keypoints_from_heatmaps
-from hmr4d.utils.geo_transform import cvt_p2d_from_pm1_to_i
-from hmr4d.utils.geo.flip_utils import flip_heatmap_coco17
+from ...utils.kpts.kp2d_utils import keypoints_from_heatmaps
+from ...utils.geo_transform import cvt_p2d_from_pm1_to_i
+from ...utils.geo.flip_utils import flip_heatmap_coco17
 from hmr4d import PROJ_ROOT
 
 
@@ -16,9 +21,10 @@ class VitPoseExtractor:
     def __init__(self, tqdm_leave=True):
         # Point to ComfyUI models directory
         import folder_paths
+        self.device = comfy.model_management.get_torch_device()
         ckpt_path = Path(folder_paths.models_dir) / "motion_capture" / "vitpose" / "vitpose-h-multi-coco.pth"
         self.pose = build_model("ViTPose_huge_coco_256x192", str(ckpt_path))
-        self.pose.cuda().eval()
+        self.pose.to(self.device).eval()
 
         self.flip_test = True
         self.tqdm_leave = tqdm_leave
@@ -38,7 +44,7 @@ class VitPoseExtractor:
         vitpose = []
         for j in tqdm(range(0, L, batch_size), desc="ViTPose", leave=self.tqdm_leave):
             # Heat map
-            imgs_batch = imgs[j : j + batch_size, :, :, 32:224].cuda()
+            imgs_batch = imgs[j : j + batch_size, :, :, 32:224].to(self.device)
             if self.flip_test:
                 heatmap, heatmap_flipped = self.pose(torch.cat([imgs_batch, imgs_batch.flip(3)], dim=0)).chunk(2)
                 heatmap_flipped = flip_heatmap_coco17(heatmap_flipped)
@@ -74,7 +80,7 @@ class VitPoseExtractor:
 
             # Periodic memory cleanup to prevent fragmentation
             if j > 0 and j % (batch_size * 4) == 0:
-                torch.cuda.empty_cache()
+                comfy.model_management.soft_empty_cache()
 
         vitpose = torch.cat(vitpose, dim=0).clone()  # (F, 17, 3)
         return vitpose
@@ -146,7 +152,7 @@ def soft_patch_dx_dy(p):
 
     if False:
         b, j = 0, 0
-        print(torch.stack([dx[b, j], dy[b, j]]))
-        print(p[b, j])
+        log.debug("%s", torch.stack([dx[b, j], dy[b, j]]))
+        log.debug("%s", p[b, j])
 
     return dx, dy

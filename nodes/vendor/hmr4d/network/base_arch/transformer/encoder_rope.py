@@ -5,7 +5,7 @@ import math
 from timm.models.vision_transformer import Mlp
 from typing import Optional, Tuple
 from einops import einsum, rearrange, repeat
-from hmr4d.network.base_arch.embeddings.rotary_embedding import ROPE
+from ....network.base_arch.embeddings.rotary_embedding import ROPE
 
 
 class RoPEAttention(nn.Module):

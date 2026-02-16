@@ -9,22 +9,11 @@ import torch
 import numpy as np
 import smplx
 import folder_paths
+import comfy.model_management
 
 logger = logging.getLogger("SMPLViewer")
 
-
-def _next_sequential_filename(directory, prefix, ext):
-    """Find the next sequential filename like prefix_0001.ext, prefix_0002.ext, etc."""
-    existing = sorted(directory.glob(f"{prefix}_*{ext}"))
-    max_num = 0
-    for f in existing:
-        stem = f.stem
-        suffix = stem[len(prefix) + 1:]
-        try:
-            max_num = max(max_num, int(suffix))
-        except ValueError:
-            pass
-    return f"{prefix}_{max_num + 1:04d}{ext}"
+from .shared_utils import next_sequential_filename as _next_sequential_filename
 
 
 class SMPLViewer:
@@ -94,7 +83,7 @@ class SMPLViewer:
         num_frames = body_pose.shape[0]
         logger.info(f"[SMPLViewer] Processing {num_frames} frames (skip={frame_skip})")
 
-        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        device = comfy.model_management.get_torch_device()
 
         data_dir = Path(__file__).parent / "data"
         models_dir = Path(folder_paths.models_dir) / "motion_capture" / "body_models"
@@ -110,8 +99,12 @@ class SMPLViewer:
         smplx_model.eval()
 
         # Load SMPL-X to SMPL vertex conversion matrix
+        # weights_only=False: sparse tensors cannot be loaded with weights_only=True
+        # in PyTorch < 2.4. This file is a trusted local asset (sparse SMPLX-to-SMPL mapping).
         smplx2smpl = torch.load(
-            str(data_dir / "smplx2smpl_sparse.pt"), weights_only=True
+            str(data_dir / "smplx2smpl_sparse.pt"),
+            map_location="cpu",
+            weights_only=False,
         ).to(device)
 
         # Get SMPL faces

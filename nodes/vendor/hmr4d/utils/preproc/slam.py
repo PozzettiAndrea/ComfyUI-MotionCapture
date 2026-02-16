@@ -1,4 +1,5 @@
 import cv2
+import logging
 import time
 import torch
 from multiprocessing import Process, Queue
@@ -7,12 +8,15 @@ try:
     from dpvo.utils import Timer
     from dpvo.dpvo import DPVO
     from dpvo.config import cfg
-except:
+except Exception as e:
+    log.debug("DPVO not available: %s", e)
     pass
 
 
 from hmr4d import PROJ_ROOT
-from hmr4d.utils.geo.hmr_cam import estimate_focal_length
+from ...utils.geo.hmr_cam import estimate_focal_length
+
+log = logging.getLogger("motioncapture")
 
 
 class SLAMModel(object):
@@ -22,7 +26,7 @@ class SLAMModel(object):
             intrinsics: [fx, fy, cx, cy]
         """
         if intrinsics is None:
-            print("Estimating focal length")
+            log.info("Estimating focal length")
             focal_length = estimate_focal_length(width, height)
             intrinsics = torch.tensor([focal_length, focal_length, width / 2.0, height / 2.0])
         else:

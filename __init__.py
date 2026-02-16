@@ -2,11 +2,14 @@
 
 import os
 import sys
+import logging
 from pathlib import Path
 
-print("[motioncapture] loading...", file=sys.stderr, flush=True)
+log = logging.getLogger("motioncapture")
+
+log.info("loading...")
 from comfy_env import register_nodes
-print("[motioncapture] calling register_nodes", file=sys.stderr, flush=True)
+log.info("calling register_nodes")
 NODE_CLASS_MAPPINGS, NODE_DISPLAY_NAME_MAPPINGS = register_nodes()
 
 WEB_DIRECTORY = "./web"

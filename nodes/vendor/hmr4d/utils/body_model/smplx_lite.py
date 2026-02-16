@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from pathlib import Path
-from hmr4d.utils.pytorch3d_shim import axis_angle_to_matrix, rotation_6d_to_matrix
+from ...utils.pytorch3d_shim import axis_angle_to_matrix, rotation_6d_to_matrix
 from smplx.utils import Struct, to_np, to_tensor
 from einops import einsum, rearrange
 from time import time
@@ -177,8 +177,18 @@ class SmplxLiteCoco17(SmplxLite):
         super().__init__(**kwargs)
 
         # Compute mapping
-        smplx2smpl = torch.load(PROJ_ROOT / "hmr4d/utils/body_model/smplx2smpl_sparse.pt")
-        COCO17_regressor = torch.load(PROJ_ROOT / "hmr4d/utils/body_model/smpl_coco17_J_regressor.pt")
+        # weights_only=False: sparse tensors cannot be loaded with weights_only=True
+        # in PyTorch < 2.4. This file is a trusted local asset (sparse SMPLX-to-SMPL mapping).
+        smplx2smpl = torch.load(
+            PROJ_ROOT / "hmr4d/utils/body_model/smplx2smpl_sparse.pt",
+            map_location="cpu",
+            weights_only=False,
+        )
+        COCO17_regressor = torch.load(
+            PROJ_ROOT / "hmr4d/utils/body_model/smpl_coco17_J_regressor.pt",
+            map_location="cpu",
+            weights_only=True,
+        )
         smplx2coco17 = torch.matmul(COCO17_regressor, smplx2smpl.to_dense())
 
         jids, smplx_vids = torch.where(smplx2coco17 != 0)
@@ -206,8 +216,18 @@ class SmplxLiteV437Coco17(SmplxLite):
         super().__init__(**kwargs)
 
         # Compute mapping (COCO17)
-        smplx2smpl = torch.load(PROJ_ROOT / "hmr4d/utils/body_model/smplx2smpl_sparse.pt")
-        COCO17_regressor = torch.load(PROJ_ROOT / "hmr4d/utils/body_model/smpl_coco17_J_regressor.pt")
+        # weights_only=False: sparse tensors cannot be loaded with weights_only=True
+        # in PyTorch < 2.4. This file is a trusted local asset (sparse SMPLX-to-SMPL mapping).
+        smplx2smpl = torch.load(
+            PROJ_ROOT / "hmr4d/utils/body_model/smplx2smpl_sparse.pt",
+            map_location="cpu",
+            weights_only=False,
+        )
+        COCO17_regressor = torch.load(
+            PROJ_ROOT / "hmr4d/utils/body_model/smpl_coco17_J_regressor.pt",
+            map_location="cpu",
+            weights_only=True,
+        )
         smplx2coco17 = torch.matmul(COCO17_regressor, smplx2smpl.to_dense())
 
         jids, smplx_vids = torch.where(smplx2coco17 != 0)
@@ -218,7 +238,11 @@ class SmplxLiteV437Coco17(SmplxLite):
         assert len(smplx_vids) == 132
 
         # Verts437
-        smplx_vids2 = torch.load(PROJ_ROOT / "hmr4d/utils/body_model/smplx_verts437.pt")
+        smplx_vids2 = torch.load(
+            PROJ_ROOT / "hmr4d/utils/body_model/smplx_verts437.pt",
+            map_location="cpu",
+            weights_only=True,
+        )
         smplx_vids = torch.cat([smplx_vids, smplx_vids2])
 
         # Update to vertices of interest
@@ -248,8 +272,18 @@ class SmplxLiteSmplN24(SmplxLite):
         super().__init__(**kwargs)
 
         # Compute mapping
-        smplx2smpl = torch.load(PROJ_ROOT / "hmr4d/utils/body_model/smplx2smpl_sparse.pt")
-        smpl2joints = torch.load(PROJ_ROOT / "hmr4d/utils/body_model/smpl_neutral_J_regressor.pt")
+        # weights_only=False: sparse tensors cannot be loaded with weights_only=True
+        # in PyTorch < 2.4. This file is a trusted local asset (sparse SMPLX-to-SMPL mapping).
+        smplx2smpl = torch.load(
+            PROJ_ROOT / "hmr4d/utils/body_model/smplx2smpl_sparse.pt",
+            map_location="cpu",
+            weights_only=False,
+        )
+        smpl2joints = torch.load(
+            PROJ_ROOT / "hmr4d/utils/body_model/smpl_neutral_J_regressor.pt",
+            map_location="cpu",
+            weights_only=True,
+        )
         smplx2joints = torch.matmul(smpl2joints, smplx2smpl.to_dense())
 
         jids, smplx_vids = torch.where(smplx2joints != 0)

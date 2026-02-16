@@ -1,3 +1,5 @@
+import logging
+
 import torch
 from torch_scatter import scatter_sum
 
@@ -8,6 +10,8 @@ from .lietorch import SE3
 from .utils import Timer
 
 from . import projective_ops as pops
+
+log = logging.getLogger("motioncapture")
 
 class CholeskySolver(torch.autograd.Function):
     @staticmethod
@@ -106,7 +110,7 @@ def BA(poses, patches, intrinsics, targets, weights, lmbda, ii, jj, kk, bounds, 
     v *= in_bounds.float()
 
     if PRINT:
-        print((r * v[...,None]).norm(dim=-1).mean().item())
+        log.debug("%s", (r * v[...,None]).norm(dim=-1).mean().item())
 
     r = (v[...,None] * r).unsqueeze(dim=-1)    
     weights = (v[...,None] * weights).unsqueeze(dim=-1)

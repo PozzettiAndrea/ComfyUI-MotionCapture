@@ -2,26 +2,26 @@ import torch
 import torch.nn.functional as F
 import pytorch_lightning as pl
 from pytorch_lightning.utilities import rank_zero_only
-from hmr4d.configs import MainStore, builds
+from ....configs import MainStore, builds
 
-from hmr4d.utils.comm.gather import all_gather
-from hmr4d.utils.pylogger import Log
+from ....utils.comm.gather import all_gather
+from ....utils.pylogger import Log
 
-from hmr4d.utils.eval.eval_utils import (
+from ....utils.eval.eval_utils import (
     compute_camcoord_metrics,
     compute_global_metrics,
     compute_camcoord_perjoint_metrics,
     rearrange_by_mask,
     as_np_array,
 )
-from hmr4d.utils.geo_transform import apply_T_on_points, compute_T_ayfz2ay
-from hmr4d.utils.smplx_utils import make_smplx
+from ....utils.geo_transform import apply_T_on_points, compute_T_ayfz2ay
+from ....utils.smplx_utils import make_smplx
 from einops import einsum, rearrange
 
-from hmr4d.utils.wis3d_utils import make_wis3d, add_motion_as_lines
-from hmr4d.utils.vis.renderer import Renderer, get_global_cameras_static
-from hmr4d.utils.geo.hmr_cam import estimate_focal_length
-from hmr4d.utils.video_io_utils import read_video_np, save_video
+from ....utils.wis3d_utils import make_wis3d, add_motion_as_lines
+from ....utils.vis.renderer import Renderer, get_global_cameras_static
+from ....utils.geo.hmr_cam import estimate_focal_length
+from ....utils.video_io_utils import read_video_np, save_video
 import imageio
 from tqdm import tqdm
 from pathlib import Path

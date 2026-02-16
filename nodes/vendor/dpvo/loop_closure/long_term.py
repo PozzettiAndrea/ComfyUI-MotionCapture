@@ -1,6 +1,9 @@
 import os
+import logging
 
 import kornia as K
+
+log = logging.getLogger("motioncapture")
 import kornia.feature as KF
 import numpy as np
 import pypose as pp
@@ -169,7 +172,7 @@ class LongTermLoopClosure:
         self.imcache.close()
         self.lc_pool.close()
         self.retrieval.close()
-        print(f"LC COUNT: {self.lc_count}")
+        log.info("LC COUNT: %d", self.lc_count)
 
 
     def _rescale_deltas(self, s):

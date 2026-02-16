@@ -2,7 +2,7 @@ from pathlib import Path
 import numpy as np
 import torch
 from torch.utils import data
-from hmr4d.utils.pylogger import Log
+from ...utils.pylogger import Log
 
 from .rich_utils import (
     get_cam2params,
@@ -10,14 +10,14 @@ from .rich_utils import (
     parse_seqname_info,
     get_cam_key_wham_vid,
 )
-from hmr4d.utils.geo_transform import apply_T_on_points, transform_mat, compute_cam_angvel
-from hmr4d.utils.wis3d_utils import make_wis3d, add_motion_as_lines
-from hmr4d.utils.smplx_utils import make_smplx
-from hmr4d.utils.pytorch3d_shim import axis_angle_to_matrix, matrix_to_axis_angle
-from hmr4d.utils.geo.hmr_cam import resize_K
+from ...utils.geo_transform import apply_T_on_points, transform_mat, compute_cam_angvel
+from ...utils.wis3d_utils import make_wis3d, add_motion_as_lines
+from ...utils.smplx_utils import make_smplx
+from ...utils.pytorch3d_shim import axis_angle_to_matrix, matrix_to_axis_angle
+from ...utils.geo.hmr_cam import resize_K
 
 
-from hmr4d.configs import MainStore, builds
+from ...configs import MainStore, builds
 
 
 VID_PRESETS = {
