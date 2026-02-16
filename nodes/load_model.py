@@ -51,6 +51,10 @@ class LoadGVHMRModels:
                     "default": "auto",
                     "tooltip": "Model precision. auto: best for your GPU (bf16 on Ampere+, fp16 on Volta/Turing, fp32 on older)."
                 }),
+                "attention": (["auto", "sdpa", "flash_attn", "sage"], {
+                    "default": "auto",
+                    "tooltip": "Attention backend. auto: best available (sage > flash_attn > sdpa). sdpa: PyTorch native. flash_attn: Tri Dao's FlashAttention (FA2/FA3, requires flash-attn package). sage: SageAttention (auto-detects v3 for Blackwell or v2, requires sageattention/sageattn3 package)."
+                }),
                 "cache_model": ("BOOLEAN", {
                     "default": False,
                     "tooltip": "Keep model in GPU memory between inference runs"
@@ -250,7 +254,7 @@ class LoadGVHMRModels:
             Log.error(f"[LoadGVHMRModels] DPVO download failed: {e}")
             return False
 
-    def load_models(self, model_path_override="", precision="auto", cache_model=False, load_dpvo=False):
+    def load_models(self, model_path_override="", precision="auto", attention="auto", cache_model=False, load_dpvo=False):
         """Validate model paths and return config dict (strings only)."""
 
         Log.info("[LoadGVHMRModels] Checking GVHMR models...")
@@ -294,6 +298,7 @@ class LoadGVHMRModels:
             "hmr2_path": str(hmr2_path),
             "body_models_path": str(MODELS_DIR / "body_models"),
             "precision": precision,
+            "attention": attention,
             "cache_model": cache_model,
             "dpvo_dir": dpvo_dir,
         }

@@ -364,6 +364,23 @@ class GVHMRInference:
         except Exception:
             pass
 
+        # Resolve precision
+        from .attention_dispatch import auto_detect_precision, set_backend as set_attention_backend
+
+        precision = config.get("precision", "auto")
+        if precision == "auto":
+            dtype = auto_detect_precision()
+        elif precision == "bf16":
+            dtype = torch.bfloat16
+        elif precision == "fp16":
+            dtype = torch.float16
+        else:
+            dtype = torch.float32
+        Log.info(f"[GVHMRInference] Precision: {dtype}")
+
+        # Set attention backend
+        set_attention_backend(config.get("attention", "auto"))
+
         # Load GVHMR model
         Log.info(f"[GVHMRInference] Loading GVHMR from {gvhmr_path}...")
         device = str(comfy.model_management.get_torch_device())
@@ -377,18 +394,18 @@ class GVHMRInference:
             model_gvhmr = instantiate(model_cfg, _recursive_=False)
         model_gvhmr.load_pretrained_model(str(gvhmr_path))
         model_gvhmr.eval()
-        model_gvhmr.to(device)
+        model_gvhmr.to(dtype=dtype, device=device)
         gc.collect()  # free CPU state_dict copies before loading next model
         _log_memory("After GVHMR model loaded")
 
         # Initialize preprocessing components
         Log.info("[GVHMRInference] Initializing ViTPose extractor...")
-        vitpose_extractor = VitPoseExtractor()
+        vitpose_extractor = VitPoseExtractor(dtype=dtype)
         gc.collect()
         _log_memory("After ViTPose loaded")
 
         Log.info("[GVHMRInference] Initializing feature extractor...")
-        feature_extractor = Extractor()
+        feature_extractor = Extractor(dtype=dtype)
         gc.collect()
         _log_memory("After feature extractor loaded")
 

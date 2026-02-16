@@ -18,13 +18,16 @@ from hmr4d import PROJ_ROOT
 
 
 class VitPoseExtractor:
-    def __init__(self, tqdm_leave=True):
+    def __init__(self, tqdm_leave=True, dtype=None):
         # Point to ComfyUI models directory
         import folder_paths
         self.device = comfy.model_management.get_torch_device()
         ckpt_path = Path(folder_paths.models_dir) / "motion_capture" / "vitpose" / "vitpose-h-multi-coco.pth"
         self.pose = build_model("ViTPose_huge_coco_256x192", str(ckpt_path))
-        self.pose.to(self.device).eval()
+        if dtype is not None:
+            self.pose.to(dtype=dtype, device=self.device).eval()
+        else:
+            self.pose.to(self.device).eval()
 
         self.flip_test = True
         self.tqdm_leave = tqdm_leave

@@ -59,9 +59,13 @@ def get_batch(input_path, bbx_xys, img_ds=0.5, img_dst_size=256, path_type="vide
 
 
 class Extractor:
-    def __init__(self, tqdm_leave=True):
+    def __init__(self, tqdm_leave=True, dtype=None):
         self.device = comfy.model_management.get_torch_device()
-        self.extractor: HMR2 = load_hmr2().to(self.device).eval()
+        model = load_hmr2()
+        if dtype is not None:
+            self.extractor: HMR2 = model.to(dtype=dtype, device=self.device).eval()
+        else:
+            self.extractor: HMR2 = model.to(self.device).eval()
         self.tqdm_leave = tqdm_leave
 
     def extract_video_features(self, video_path, bbx_xys, img_ds=0.5):

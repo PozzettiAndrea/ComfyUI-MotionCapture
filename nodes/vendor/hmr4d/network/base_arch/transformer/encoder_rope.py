@@ -4,8 +4,9 @@ import torch.nn.functional as F
 import math
 from timm.models.vision_transformer import Mlp
 from typing import Optional, Tuple
-from einops import einsum, rearrange, repeat
+from einops import rearrange, repeat
 from ....network.base_arch.embeddings.rotary_embedding import ROPE
+from ......attention_dispatch import dispatch_attention
 
 
 class RoPEAttention(nn.Module):
@@ -25,31 +26,38 @@ class RoPEAttention(nn.Module):
 
     def forward(self, x, attn_mask=None, key_padding_mask=None):
         # x: (B, L, C)
-        # attn_mask: (L, L)
-        # key_padding_mask: (B, L)
+        # attn_mask: (L, L) boolean — True = masked
+        # key_padding_mask: (B, L) boolean — True = padded
         B, L, _ = x.shape
         xq, xk, xv = self.query(x), self.key(x), self.value(x)
 
-        xq = xq.reshape(B, L, self.num_heads, -1).transpose(1, 2)
+        xq = xq.reshape(B, L, self.num_heads, -1).transpose(1, 2)  # (B, H, L, D)
         xk = xk.reshape(B, L, self.num_heads, -1).transpose(1, 2)
         xv = xv.reshape(B, L, self.num_heads, -1).transpose(1, 2)
 
-        xq = self.rope.rotate_queries_or_keys(xq)  # B, N, L, C
-        xk = self.rope.rotate_queries_or_keys(xk)  # B, N, L, C
+        xq = self.rope.rotate_queries_or_keys(xq)
+        xk = self.rope.rotate_queries_or_keys(xk)
 
-        attn_score = einsum(xq, xk, "b n i c, b n j c -> b n i j") / math.sqrt(self.head_dim)
-        if attn_mask is not None:
-            attn_mask = attn_mask.reshape(1, 1, L, L).expand(B, self.num_heads, -1, -1)
-            attn_score = attn_score.masked_fill(attn_mask, float("-inf"))
-        if key_padding_mask is not None:
-            key_padding_mask = key_padding_mask.reshape(B, 1, 1, L).expand(-1, self.num_heads, L, -1)
-            attn_score = attn_score.masked_fill(key_padding_mask, float("-inf"))
+        # Build combined float additive mask for SDPA (0 = attend, -inf = mask)
+        combined_mask = None
+        if attn_mask is not None or key_padding_mask is not None:
+            combined_mask = torch.zeros(B, 1, L, L, device=x.device, dtype=xq.dtype)
+            if attn_mask is not None:
+                combined_mask = combined_mask.masked_fill(
+                    attn_mask.reshape(1, 1, L, L), float("-inf")
+                )
+            if key_padding_mask is not None:
+                combined_mask = combined_mask.masked_fill(
+                    key_padding_mask.reshape(B, 1, 1, L), float("-inf")
+                )
 
-        attn_score = torch.softmax(attn_score, dim=-1)
-        attn_score = self.dropout(attn_score)
-        output = einsum(attn_score, xv, "b n i j, b n j c -> b n i c")  # B, N, L, C
-        output = output.transpose(1, 2).reshape(B, L, -1)  # B, L, C
-        output = self.proj(output)  # B, L, C
+        output = dispatch_attention(
+            xq, xk, xv,
+            attn_mask=combined_mask,
+            dropout_p=self.dropout.p if self.training else 0.0,
+        )
+        output = output.transpose(1, 2).reshape(B, L, -1)
+        output = self.proj(output)
         return output
 
 
