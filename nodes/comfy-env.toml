@@ -49,6 +49,7 @@ tabulate = "*"
 portalocker = "*"
 psutil = ">=5.9.0"
 bpy = "==4.2"
+comfy_aimdo = "*"
 
 [target.linux-64.pypi-dependencies]
 pyrender = ">=0.1.45"
