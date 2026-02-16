@@ -14,7 +14,7 @@ from tqdm import tqdm
 from ...utils.kpts.kp2d_utils import keypoints_from_heatmaps
 from ...utils.geo_transform import cvt_p2d_from_pm1_to_i
 from ...utils.geo.flip_utils import flip_heatmap_coco17
-from hmr4d import PROJ_ROOT
+from ... import PROJ_ROOT
 
 
 class VitPoseExtractor:
@@ -24,6 +24,7 @@ class VitPoseExtractor:
         self.device = comfy.model_management.get_torch_device()
         ckpt_path = Path(folder_paths.models_dir) / "motion_capture" / "vitpose" / "vitpose-h-multi-coco.pth"
         self.pose = build_model("ViTPose_huge_coco_256x192", str(ckpt_path))
+        self.dtype = dtype
         if dtype is not None:
             self.pose.to(dtype=dtype, device=self.device).eval()
         else:
@@ -47,7 +48,7 @@ class VitPoseExtractor:
         vitpose = []
         for j in tqdm(range(0, L, batch_size), desc="ViTPose", leave=self.tqdm_leave):
             # Heat map
-            imgs_batch = imgs[j : j + batch_size, :, :, 32:224].to(self.device)
+            imgs_batch = imgs[j : j + batch_size, :, :, 32:224].to(device=self.device, dtype=self.dtype)
             if self.flip_test:
                 heatmap, heatmap_flipped = self.pose(torch.cat([imgs_batch, imgs_batch.flip(3)], dim=0)).chunk(2)
                 heatmap_flipped = flip_heatmap_coco17(heatmap_flipped)
@@ -72,7 +73,7 @@ class VitPoseExtractor:
 
             else:  # postprocess from mmpose
                 bbx_xys_batch = bbx_xys[j : j + batch_size]
-                heatmap = heatmap.clone().cpu().numpy()
+                heatmap = heatmap.clone().cpu().float().numpy()
                 center = bbx_xys_batch[:, :2].numpy()
                 scale = (torch.cat((bbx_xys_batch[:, [2]] * 24 / 32, bbx_xys_batch[:, [2]]), dim=1) / 200).numpy()
                 preds, maxvals = keypoints_from_heatmaps(heatmaps=heatmap, center=center, scale=scale, use_udp=True)

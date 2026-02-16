@@ -1,5 +1,5 @@
 from omegaconf import OmegaConf
-from hmr4d import PROJ_ROOT
+from . import PROJ_ROOT
 from hydra.utils import instantiate
 from .model.gvhmr.gvhmr_pl_demo import DemoPL
 

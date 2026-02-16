@@ -725,7 +725,7 @@ def get_TRS(rot_mat, pos):
         mat (tensor): [N, 4, 4]
     """
     if isinstance(rot_mat, torch.Tensor):
-        mat = torch.eye(4, device=pos.device).repeat(pos.shape[:-1] + (1, 1))
+        mat = torch.eye(4, device=pos.device, dtype=pos.dtype).repeat(pos.shape[:-1] + (1, 1))
     elif isinstance(rot_mat, np.ndarray):
         mat = np.eye(4, dtype=np.float32)
         for _ in range(len(pos.shape) - 1):
@@ -1648,7 +1648,7 @@ def forward_kinematics(mat, parent):
         parent (): _description_
     """
     if isinstance(mat, torch.Tensor):
-        rotations = torch.eye(mat.shape[-1], device=mat.device)
+        rotations = torch.eye(mat.shape[-1], device=mat.device, dtype=mat.dtype)
         rotations = rotations.repeat(mat.shape[:-2] + (1, 1))
     else:
         rotations = np.eye(mat.shape[-1], dtype=np.float32)

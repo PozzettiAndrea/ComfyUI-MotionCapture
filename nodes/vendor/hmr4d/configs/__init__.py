@@ -3,7 +3,8 @@ from hydra.core.config_store import ConfigStore
 from hydra_zen import builds
 
 import argparse
-from hydra import compose, initialize_config_module
+from hydra import compose, initialize_config_dir
+from pathlib import Path
 import os
 
 os.environ["HYDRA_FULL_ERROR"] = "1"
@@ -31,7 +32,7 @@ def parse_args_to_cfg():
     args = parser.parse_args()
 
     # Cfg
-    with initialize_config_module(version_base="1.3", config_module=f"hmr4d.configs"):
+    with initialize_config_dir(version_base="1.3", config_dir=str(Path(__file__).parent)):
         cfg = compose(config_name=args.config_name, overrides=args.overrides)
 
     return cfg

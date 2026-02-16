@@ -4,7 +4,6 @@ import torch.nn.functional as F
 from torch.amp import autocast
 import numpy as np
 from einops import einsum, rearrange, repeat
-from hydra.utils import instantiate
 from ....utils.pylogger import Log
 from ....utils.net_utils import gaussian_smooth
 
@@ -33,21 +32,26 @@ from ....utils.smplx_utils import make_smplx
 
 
 class Pipeline(nn.Module):
-    def __init__(self, args, args_denoiser3d, **kwargs):
+    def __init__(self, denoiser3d, endecoder, normalize_cam_angvel=True, weights=None, static_conf=None, **kwargs):
         super().__init__()
-        self.args = args
-        self.weights = args.weights  # loss weights
+        # Store args as namespace for backward compat with loss functions
+        from types import SimpleNamespace
+        self.args = SimpleNamespace(
+            weights=weights,
+            normalize_cam_angvel=normalize_cam_angvel,
+            static_conf=static_conf,
+        )
+        self.weights = weights
 
-        # Networks
-        self.denoiser3d = instantiate(args_denoiser3d, _recursive_=False)
-        # Log.info(self.denoiser3d)
+        # Networks (passed in directly, no Hydra)
+        self.denoiser3d = denoiser3d
+        self.endecoder = endecoder
 
-        # Normalizer
-        self.endecoder: EnDecoder = instantiate(args.endecoder_opt, _recursive_=False)
-        if self.args.normalize_cam_angvel:
+        if normalize_cam_angvel:
             cam_angvel_stats = stats_compose.cam_angvel["manual"]
-            self.register_buffer("cam_angvel_mean", torch.tensor(cam_angvel_stats["mean"]), persistent=False)
-            self.register_buffer("cam_angvel_std", torch.tensor(cam_angvel_stats["std"]), persistent=False)
+            with torch.device("cpu"):
+                self.register_buffer("cam_angvel_mean", torch.tensor(cam_angvel_stats["mean"]), persistent=False)
+                self.register_buffer("cam_angvel_std", torch.tensor(cam_angvel_stats["std"]), persistent=False)
 
     # ========== Training ========== #
 
@@ -73,6 +77,15 @@ class Pipeline(nn.Module):
         model_output = self.denoiser3d(length=length, **f_condition)  # pred_x, pred_cam, static_conf_logits
         decode_dict = self.endecoder.decode(model_output["pred_x"])  # (B, L, C) -> dict
         outputs.update({"model_output": model_output, "decode_dict": decode_dict})
+
+        # Cast to float32 for all post-processing. The neural network already ran in
+        # bf16; utility libraries (IK, quaternion, matrix, SMPL FK) assume float32 tensors.
+        # The endecoder is kept in float32 (see inference_node.py), so decode_dict is
+        # already float32. Cast model_output and inputs to match.
+        def _to_f32(v):
+            return v.float() if isinstance(v, torch.Tensor) and v.is_floating_point() and v.dtype != torch.float32 else v
+        model_output = {k: _to_f32(v) for k, v in model_output.items()}
+        inputs = {k: _to_f32(v) for k, v in inputs.items()}
 
         # Post-processing
         outputs["pred_smpl_params_incam"] = {

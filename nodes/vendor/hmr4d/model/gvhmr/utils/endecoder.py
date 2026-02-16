@@ -24,20 +24,23 @@ from . import stats_compose
 class EnDecoder(nn.Module):
     def __init__(self, stats_name="DEFAULT_01", noise_pose_k=10):
         super().__init__()
-        # Load mean, std
-        stats = getattr(stats_compose, stats_name)
-        Log.info(f"[EnDecoder] Use {stats_name} for statistics!")
-        self.register_buffer("mean", torch.tensor(stats["mean"]).float(), False)
-        self.register_buffer("std", torch.tensor(stats["std"]).float(), False)
 
-        # option
-        self.noise_pose_k = noise_pose_k
+        # Fixed topology data loaded from disk — must escape meta device context
+        with torch.device("cpu"):
+            # Load mean, std
+            stats = getattr(stats_compose, stats_name)
+            Log.info(f"[EnDecoder] Use {stats_name} for statistics!")
+            self.register_buffer("mean", torch.tensor(stats["mean"]).float(), False)
+            self.register_buffer("std", torch.tensor(stats["std"]).float(), False)
 
-        # smpl
-        self.smplx_model = make_smplx("supermotion_v437coco17")
-        parents = self.smplx_model.parents[:22]
-        self.register_buffer("parents_tensor", parents, False)
-        self.parents = parents.tolist()
+            # option
+            self.noise_pose_k = noise_pose_k
+
+            # smpl
+            self.smplx_model = make_smplx("supermotion_v437coco17")
+            parents = self.smplx_model.parents[:22]
+            self.register_buffer("parents_tensor", parents, False)
+            self.parents = parents.tolist()
 
     def get_noisyobs(self, data, return_type="r6d"):
         """
@@ -78,7 +81,7 @@ class EnDecoder(nn.Module):
         """
         B, L = body_pose.shape[:2]
         if global_orient is None:
-            global_orient = torch.zeros((B, L, 3), device=body_pose.device)
+            global_orient = torch.zeros((B, L, 3), device=body_pose.device, dtype=body_pose.dtype)
         aa = torch.cat([global_orient, body_pose], dim=-1).reshape(B, L, -1, 3)
         rotmat = axis_angle_to_matrix(aa)  # (B, L, 22, 3, 3)
 

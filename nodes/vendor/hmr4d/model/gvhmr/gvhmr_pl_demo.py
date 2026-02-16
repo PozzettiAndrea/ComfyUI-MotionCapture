@@ -1,8 +1,6 @@
 import torch
 import pytorch_lightning as pl
-from hydra.utils import instantiate
 from ...utils.pylogger import Log
-from ...configs import MainStore, builds
 
 from ...utils.geo.hmr_cam import normalize_kp2d
 
@@ -10,7 +8,7 @@ from ...utils.geo.hmr_cam import normalize_kp2d
 class DemoPL(pl.LightningModule):
     def __init__(self, pipeline):
         super().__init__()
-        self.pipeline = instantiate(pipeline, _recursive_=False)
+        self.pipeline = pipeline
 
     @torch.no_grad()
     def predict(self, data, static_cam=False):
@@ -35,7 +33,8 @@ class DemoPL(pl.LightningModule):
             "f_imgseq": data["f_imgseq"][None],
         }
         device = next(self.parameters()).device
-        batch = {k: v.to(device) for k, v in batch.items()}
+        dtype = next(self.parameters()).dtype
+        batch = {k: v.to(device=device, dtype=dtype) if v.is_floating_point() else v.to(device=device) for k, v in batch.items()}
         outputs = self.pipeline.forward(batch, train=False, postproc=True, static_cam=static_cam)
 
         pred = {
@@ -57,6 +56,3 @@ class DemoPL(pl.LightningModule):
             Log.warn(f"Missing keys: {missing}")
         if len(unexpected) > 0:
             Log.warn(f"Unexpected keys: {unexpected}")
-
-
-MainStore.store(name="gvhmr_pl_demo", node=builds(DemoPL, pipeline="${pipeline}"), group="model/gvhmr")

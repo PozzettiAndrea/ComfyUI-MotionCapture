@@ -75,8 +75,9 @@ class NetworkEncoderRoPE(nn.Module):
         self.pred_cam_head = pred_cam_dim > 0  # keep extra_output for easy-loading old ckpt
         if self.pred_cam_head:
             self.pred_cam_head = Mlp(self.latent_dim, out_features=pred_cam_dim)
-            self.register_buffer("pred_cam_mean", torch.tensor([1.0606, -0.0027, 0.2702]), False)
-            self.register_buffer("pred_cam_std", torch.tensor([0.1784, 0.0956, 0.0764]), False)
+            with torch.device("cpu"):
+                self.register_buffer("pred_cam_mean", torch.tensor([1.0606, -0.0027, 0.2702]), False)
+                self.register_buffer("pred_cam_std", torch.tensor([0.1784, 0.0956, 0.0764]), False)
 
         self.static_conf_head = static_conf_dim > 0
         if self.static_conf_head:

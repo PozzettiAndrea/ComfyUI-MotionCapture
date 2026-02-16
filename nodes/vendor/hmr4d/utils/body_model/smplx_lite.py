@@ -8,7 +8,7 @@ from smplx.utils import Struct, to_np, to_tensor
 from einops import einsum, rearrange
 from time import time
 
-from hmr4d import PROJ_ROOT
+from ... import PROJ_ROOT
 
 
 def get_body_model_path(model_type="smplx"):
@@ -26,34 +26,36 @@ class SmplxLite(nn.Module):
     ):
         super().__init__()
 
-        # Load the model
-        if model_path is None:
-            model_path = get_body_model_path("smplx")
-        model_path = Path(model_path)
-        if model_path.is_dir():
-            smplx_path = Path(model_path) / f"SMPLX_{gender.upper()}.npz"
-        else:
-            smplx_path = model_path
-        assert smplx_path.exists(), f"SMPLX model not found at {smplx_path}"
-        model_data = np.load(smplx_path, allow_pickle=True)
+        # Fixed topology data loaded from disk — must escape meta device context
+        with torch.device("cpu"):
+            # Load the model
+            if model_path is None:
+                model_path = get_body_model_path("smplx")
+            model_path = Path(model_path)
+            if model_path.is_dir():
+                smplx_path = Path(model_path) / f"SMPLX_{gender.upper()}.npz"
+            else:
+                smplx_path = model_path
+            assert smplx_path.exists(), f"SMPLX model not found at {smplx_path}"
+            model_data = np.load(smplx_path, allow_pickle=True)
 
-        data_struct = Struct(**model_data)
-        self.faces = data_struct.f  # (F, 3)
+            data_struct = Struct(**model_data)
+            self.faces = data_struct.f  # (F, 3)
 
-        self.register_smpl_buffers(data_struct, num_betas)
-        # self.register_smplh_buffers(data_struct, num_pca_comps, flat_hand_mean)
-        # self.register_smplx_buffers(data_struct)
-        self.register_fast_skeleton_computing_buffers()
+            self.register_smpl_buffers(data_struct, num_betas)
+            # self.register_smplh_buffers(data_struct, num_pca_comps, flat_hand_mean)
+            # self.register_smplx_buffers(data_struct)
+            self.register_fast_skeleton_computing_buffers()
 
-        # default_pose (99,) for torch.cat([global_orient, body_pose, default_pose])
-        other_default_pose = torch.cat(
-            [
-                torch.zeros(9),
-                to_tensor(data_struct.hands_meanl).float(),
-                to_tensor(data_struct.hands_meanr).float(),
-            ]
-        )
-        self.register_buffer("other_default_pose", other_default_pose, False)
+            # default_pose (99,) for torch.cat([global_orient, body_pose, default_pose])
+            other_default_pose = torch.cat(
+                [
+                    torch.zeros(9),
+                    to_tensor(data_struct.hands_meanl).float(),
+                    to_tensor(data_struct.hands_meanr).float(),
+                ]
+            )
+            self.register_buffer("other_default_pose", other_default_pose, False)
 
     def register_smpl_buffers(self, data_struct, num_betas):
         # shapedirs, (V, 3, N_betas), V=10475 for SMPLX
@@ -176,32 +178,34 @@ class SmplxLiteCoco17(SmplxLite):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        # Compute mapping
-        # weights_only=False: sparse tensors cannot be loaded with weights_only=True
-        # in PyTorch < 2.4. This file is a trusted local asset (sparse SMPLX-to-SMPL mapping).
-        smplx2smpl = torch.load(
-            PROJ_ROOT / "hmr4d/utils/body_model/smplx2smpl_sparse.pt",
-            map_location="cpu",
-            weights_only=False,
-        )
-        COCO17_regressor = torch.load(
-            PROJ_ROOT / "hmr4d/utils/body_model/smpl_coco17_J_regressor.pt",
-            map_location="cpu",
-            weights_only=True,
-        )
-        smplx2coco17 = torch.matmul(COCO17_regressor, smplx2smpl.to_dense())
+        # Fixed topology data loaded from disk — must escape meta device context
+        with torch.device("cpu"):
+            # Compute mapping
+            # weights_only=False: sparse tensors cannot be loaded with weights_only=True
+            # in PyTorch < 2.4. This file is a trusted local asset (sparse SMPLX-to-SMPL mapping).
+            smplx2smpl = torch.load(
+                PROJ_ROOT / "hmr4d/utils/body_model/smplx2smpl_sparse.pt",
+                map_location="cpu",
+                weights_only=False,
+            )
+            COCO17_regressor = torch.load(
+                PROJ_ROOT / "hmr4d/utils/body_model/smpl_coco17_J_regressor.pt",
+                map_location="cpu",
+                weights_only=True,
+            )
+            smplx2coco17 = torch.matmul(COCO17_regressor, smplx2smpl.to_dense())
 
-        jids, smplx_vids = torch.where(smplx2coco17 != 0)
-        smplx2coco17_interestd = torch.zeros([len(smplx_vids), 17])
-        for idx, (jid, smplx_vid) in enumerate(zip(jids, smplx_vids)):
-            smplx2coco17_interestd[idx, jid] = smplx2coco17[jid, smplx_vid]
-        self.register_buffer("smplx2coco17_interestd", smplx2coco17_interestd, False)  # (132, 17)
+            jids, smplx_vids = torch.where(smplx2coco17 != 0)
+            smplx2coco17_interestd = torch.zeros([len(smplx_vids), 17])
+            for idx, (jid, smplx_vid) in enumerate(zip(jids, smplx_vids)):
+                smplx2coco17_interestd[idx, jid] = smplx2coco17[jid, smplx_vid]
+            self.register_buffer("smplx2coco17_interestd", smplx2coco17_interestd, False)  # (132, 17)
 
-        # Update to vertices of interest
-        self.v_template = self.v_template[smplx_vids].clone()  # (V', 3)
-        self.shapedirs = self.shapedirs[smplx_vids].clone()  # (V', 3, K)
-        self.posedirs = self.posedirs[:, smplx_vids].clone()  # (K, V', 3)
-        self.lbs_weights = self.lbs_weights[smplx_vids].clone()  # (V', J)
+            # Update to vertices of interest
+            self.v_template = self.v_template[smplx_vids].clone()  # (V', 3)
+            self.shapedirs = self.shapedirs[smplx_vids].clone()  # (V', 3, K)
+            self.posedirs = self.posedirs[:, smplx_vids].clone()  # (K, V', 3)
+            self.lbs_weights = self.lbs_weights[smplx_vids].clone()  # (V', J)
 
     def forward(self, body_pose, betas, global_orient, transl):
         """Returns: joints (*, 17, 3). (B, L) or  (B,) are both supported."""
@@ -215,41 +219,43 @@ class SmplxLiteV437Coco17(SmplxLite):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        # Compute mapping (COCO17)
-        # weights_only=False: sparse tensors cannot be loaded with weights_only=True
-        # in PyTorch < 2.4. This file is a trusted local asset (sparse SMPLX-to-SMPL mapping).
-        smplx2smpl = torch.load(
-            PROJ_ROOT / "hmr4d/utils/body_model/smplx2smpl_sparse.pt",
-            map_location="cpu",
-            weights_only=False,
-        )
-        COCO17_regressor = torch.load(
-            PROJ_ROOT / "hmr4d/utils/body_model/smpl_coco17_J_regressor.pt",
-            map_location="cpu",
-            weights_only=True,
-        )
-        smplx2coco17 = torch.matmul(COCO17_regressor, smplx2smpl.to_dense())
+        # Fixed topology data loaded from disk — must escape meta device context
+        with torch.device("cpu"):
+            # Compute mapping (COCO17)
+            # weights_only=False: sparse tensors cannot be loaded with weights_only=True
+            # in PyTorch < 2.4. This file is a trusted local asset (sparse SMPLX-to-SMPL mapping).
+            smplx2smpl = torch.load(
+                PROJ_ROOT / "hmr4d/utils/body_model/smplx2smpl_sparse.pt",
+                map_location="cpu",
+                weights_only=False,
+            )
+            COCO17_regressor = torch.load(
+                PROJ_ROOT / "hmr4d/utils/body_model/smpl_coco17_J_regressor.pt",
+                map_location="cpu",
+                weights_only=True,
+            )
+            smplx2coco17 = torch.matmul(COCO17_regressor, smplx2smpl.to_dense())
 
-        jids, smplx_vids = torch.where(smplx2coco17 != 0)
-        smplx2coco17_interestd = torch.zeros([len(smplx_vids), 17])
-        for idx, (jid, smplx_vid) in enumerate(zip(jids, smplx_vids)):
-            smplx2coco17_interestd[idx, jid] = smplx2coco17[jid, smplx_vid]
-        self.register_buffer("smplx2coco17_interestd", smplx2coco17_interestd, False)  # (132, 17)
-        assert len(smplx_vids) == 132
+            jids, smplx_vids = torch.where(smplx2coco17 != 0)
+            smplx2coco17_interestd = torch.zeros([len(smplx_vids), 17])
+            for idx, (jid, smplx_vid) in enumerate(zip(jids, smplx_vids)):
+                smplx2coco17_interestd[idx, jid] = smplx2coco17[jid, smplx_vid]
+            self.register_buffer("smplx2coco17_interestd", smplx2coco17_interestd, False)  # (132, 17)
+            assert len(smplx_vids) == 132
 
-        # Verts437
-        smplx_vids2 = torch.load(
-            PROJ_ROOT / "hmr4d/utils/body_model/smplx_verts437.pt",
-            map_location="cpu",
-            weights_only=True,
-        )
-        smplx_vids = torch.cat([smplx_vids, smplx_vids2])
+            # Verts437
+            smplx_vids2 = torch.load(
+                PROJ_ROOT / "hmr4d/utils/body_model/smplx_verts437.pt",
+                map_location="cpu",
+                weights_only=True,
+            )
+            smplx_vids = torch.cat([smplx_vids, smplx_vids2])
 
-        # Update to vertices of interest
-        self.v_template = self.v_template[smplx_vids].clone()  # (V', 3)
-        self.shapedirs = self.shapedirs[smplx_vids].clone()  # (V', 3, K)
-        self.posedirs = self.posedirs[:, smplx_vids].clone()  # (K, V', 3)
-        self.lbs_weights = self.lbs_weights[smplx_vids].clone()  # (V', J)
+            # Update to vertices of interest
+            self.v_template = self.v_template[smplx_vids].clone()  # (V', 3)
+            self.shapedirs = self.shapedirs[smplx_vids].clone()  # (V', 3, K)
+            self.posedirs = self.posedirs[:, smplx_vids].clone()  # (K, V', 3)
+            self.lbs_weights = self.lbs_weights[smplx_vids].clone()  # (V', J)
 
     def forward(self, body_pose, betas, global_orient, transl):
         """
@@ -271,32 +277,34 @@ class SmplxLiteSmplN24(SmplxLite):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        # Compute mapping
-        # weights_only=False: sparse tensors cannot be loaded with weights_only=True
-        # in PyTorch < 2.4. This file is a trusted local asset (sparse SMPLX-to-SMPL mapping).
-        smplx2smpl = torch.load(
-            PROJ_ROOT / "hmr4d/utils/body_model/smplx2smpl_sparse.pt",
-            map_location="cpu",
-            weights_only=False,
-        )
-        smpl2joints = torch.load(
-            PROJ_ROOT / "hmr4d/utils/body_model/smpl_neutral_J_regressor.pt",
-            map_location="cpu",
-            weights_only=True,
-        )
-        smplx2joints = torch.matmul(smpl2joints, smplx2smpl.to_dense())
+        # Fixed topology data loaded from disk — must escape meta device context
+        with torch.device("cpu"):
+            # Compute mapping
+            # weights_only=False: sparse tensors cannot be loaded with weights_only=True
+            # in PyTorch < 2.4. This file is a trusted local asset (sparse SMPLX-to-SMPL mapping).
+            smplx2smpl = torch.load(
+                PROJ_ROOT / "hmr4d/utils/body_model/smplx2smpl_sparse.pt",
+                map_location="cpu",
+                weights_only=False,
+            )
+            smpl2joints = torch.load(
+                PROJ_ROOT / "hmr4d/utils/body_model/smpl_neutral_J_regressor.pt",
+                map_location="cpu",
+                weights_only=True,
+            )
+            smplx2joints = torch.matmul(smpl2joints, smplx2smpl.to_dense())
 
-        jids, smplx_vids = torch.where(smplx2joints != 0)
-        smplx2joints_interested = torch.zeros([len(smplx_vids), smplx2joints.size(0)])
-        for idx, (jid, smplx_vid) in enumerate(zip(jids, smplx_vids)):
-            smplx2joints_interested[idx, jid] = smplx2joints[jid, smplx_vid]
-        self.register_buffer("smplx2joints_interested", smplx2joints_interested, False)  # (V', J)
+            jids, smplx_vids = torch.where(smplx2joints != 0)
+            smplx2joints_interested = torch.zeros([len(smplx_vids), smplx2joints.size(0)])
+            for idx, (jid, smplx_vid) in enumerate(zip(jids, smplx_vids)):
+                smplx2joints_interested[idx, jid] = smplx2joints[jid, smplx_vid]
+            self.register_buffer("smplx2joints_interested", smplx2joints_interested, False)  # (V', J)
 
-        # Update to vertices of interest
-        self.v_template = self.v_template[smplx_vids].clone()  # (V', 3)
-        self.shapedirs = self.shapedirs[smplx_vids].clone()  # (V', 3, K)
-        self.posedirs = self.posedirs[:, smplx_vids].clone()  # (K, V', 3)
-        self.lbs_weights = self.lbs_weights[smplx_vids].clone()  # (V', J)
+            # Update to vertices of interest
+            self.v_template = self.v_template[smplx_vids].clone()  # (V', 3)
+            self.shapedirs = self.shapedirs[smplx_vids].clone()  # (V', 3, K)
+            self.posedirs = self.posedirs[:, smplx_vids].clone()  # (K, V', 3)
+            self.lbs_weights = self.lbs_weights[smplx_vids].clone()  # (V', J)
 
     def forward(self, body_pose, betas, global_orient, transl):
         """Returns: joints (*, J, 3). (B, L) or  (B,) are both supported."""

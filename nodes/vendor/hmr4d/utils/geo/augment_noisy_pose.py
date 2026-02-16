@@ -1,7 +1,7 @@
 import torch
 from ...utils.pytorch3d_shim import axis_angle_to_matrix, matrix_to_axis_angle, matrix_to_rotation_6d
 from ...utils import matrix as matrix
-from hmr4d import PROJ_ROOT
+from ... import PROJ_ROOT
 
 # Try to load augmentation parameters, create defaults if not available
 # These are only used for training data augmentation, not for inference

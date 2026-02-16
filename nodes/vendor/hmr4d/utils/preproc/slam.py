@@ -4,19 +4,18 @@ import time
 import torch
 from multiprocessing import Process, Queue
 
+log = logging.getLogger("motioncapture")
+
 try:
     from dpvo.utils import Timer
     from dpvo.dpvo import DPVO
     from dpvo.config import cfg
 except Exception as e:
     log.debug("DPVO not available: %s", e)
-    pass
 
 
-from hmr4d import PROJ_ROOT
+from ... import PROJ_ROOT
 from ...utils.geo.hmr_cam import estimate_focal_length
-
-log = logging.getLogger("motioncapture")
 
 
 class SLAMModel(object):

@@ -52,7 +52,7 @@ def get_tgtcoord_rootparam(global_orient, transl, gravity_vec=None, tgt_gravity_
     # get rotation matrix
     device = global_orient.device
     if gravity_vec is None and tgt_gravity_vec is None:
-        aa = torch.tensor(tsf_axisangle[tsf]).to(device)
+        aa = torch.tensor(tsf_axisangle[tsf], device=device, dtype=global_orient.dtype)
         R_g2tg = axis_angle_to_matrix(aa)  # (3, 3)
     else:
         raise NotImplementedError

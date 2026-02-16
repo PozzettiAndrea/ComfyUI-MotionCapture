@@ -61,6 +61,7 @@ def get_batch(input_path, bbx_xys, img_ds=0.5, img_dst_size=256, path_type="vide
 class Extractor:
     def __init__(self, tqdm_leave=True, dtype=None):
         self.device = comfy.model_management.get_torch_device()
+        self.dtype = dtype
         model = load_hmr2()
         if dtype is not None:
             self.extractor: HMR2 = model.to(dtype=dtype, device=self.device).eval()
@@ -85,7 +86,7 @@ class Extractor:
         batch_size = 8  # Reduced from 16 for lower memory usage (~2.5GB GPU)
         features = []
         for j in tqdm(range(0, F, batch_size), desc="HMR2 Feature", leave=self.tqdm_leave):
-            imgs_batch = imgs[j : j + batch_size].to(self.device)  # Move only batch to device
+            imgs_batch = imgs[j : j + batch_size].to(device=self.device, dtype=self.dtype)  # Move only batch to device
 
             with torch.no_grad():
                 feature = self.extractor({"img": imgs_batch})

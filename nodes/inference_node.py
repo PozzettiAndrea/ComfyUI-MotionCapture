@@ -33,7 +33,7 @@ except ImportError:
     Log.info("[GVHMRInference] DPVO not installed - only SimpleVO will be available")
 
 # Import local utilities (renamed to avoid conflict with ComfyUI's utils package)
-from gvhmr_utils import (
+from .gvhmr_utils import (
     extract_bbox_from_numpy_mask,
     bbox_to_xyxy,
     expand_bbox,
@@ -256,10 +256,6 @@ class GVHMRInference:
     Takes video frames and SAM3 masks, outputs SMPL parameters and 3D mesh.
     """
 
-    # Class-level model cache
-    _cached_model = None
-    _cached_config_hash = None
-
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -326,43 +322,18 @@ class GVHMRInference:
     CATEGORY = "MotionCapture/GVHMR"
 
     @classmethod
-    def _get_config_hash(cls, config: Dict) -> str:
-        """Generate hash of config for cache invalidation."""
-        import hashlib
-        config_str = str(sorted(config.items()))
-        return hashlib.md5(config_str.encode()).hexdigest()
-
-    @classmethod
     def _load_models(cls, config: Dict) -> Dict:
         """Load GVHMR models based on config."""
         from pathlib import Path
-        from .vendor.hmr4d.configs import register_store_gvhmr
         from .vendor.hmr4d.model.gvhmr.gvhmr_pl_demo import DemoPL
+        from .vendor.hmr4d.model.gvhmr.pipeline.gvhmr_pipeline import Pipeline
+        from .vendor.hmr4d.network.gvhmr.relative_transformer import NetworkEncoderRoPE
+        from .vendor.hmr4d.model.gvhmr.utils.endecoder import EnDecoder
         from .vendor.hmr4d.utils.preproc import VitPoseExtractor, Extractor
-        from hydra import initialize_config_module, compose
-        from hydra.core.global_hydra import GlobalHydra
-        from hydra.utils import instantiate
-        from omegaconf import OmegaConf
 
         Log.info("[GVHMRInference] Loading GVHMR models...")
 
         gvhmr_path = Path(config["gvhmr_path"])
-
-        # Initialize Hydra config for GVHMR
-        Log.info("[GVHMRInference] Initializing GVHMR configuration...")
-        if GlobalHydra.instance().is_initialized():
-            GlobalHydra.instance().clear()
-        with initialize_config_module(version_base="1.3", config_module="hmr4d.configs"):
-            register_store_gvhmr()
-            cfg = compose(config_name="demo", overrides=["static_cam=True", "verbose=False"])
-
-        # Check if rendering is available
-        try:
-            from .vendor.hmr4d.utils.vis.renderer import PYTORCH3D_AVAILABLE
-            if not PYTORCH3D_AVAILABLE:
-                Log.warn("[GVHMRInference] PyTorch3D not installed - visualization rendering will be disabled")
-        except Exception:
-            pass
 
         # Resolve precision
         from .attention_dispatch import auto_detect_precision, set_backend as set_attention_backend
@@ -381,21 +352,56 @@ class GVHMRInference:
         # Set attention backend
         set_attention_backend(config.get("attention", "auto"))
 
-        # Load GVHMR model
+        # Build GVHMR model directly (no Hydra)
         Log.info(f"[GVHMRInference] Loading GVHMR from {gvhmr_path}...")
         device = str(comfy.model_management.get_torch_device())
 
-        # Instantiate DemoPL with pipeline from config
-        model_cfg_dict = OmegaConf.to_container(cfg.model, resolve=True)
-        model_cfg = OmegaConf.create(model_cfg_dict)
-
-        # Build on meta device (zero memory, no random init)
         with torch.device("meta"):
-            model_gvhmr = instantiate(model_cfg, _recursive_=False)
+            denoiser3d = NetworkEncoderRoPE(
+                output_dim=151,
+                max_len=120,
+                cliffcam_dim=3,
+                cam_angvel_dim=6,
+                imgseq_dim=1024,
+                latent_dim=512,
+                num_layers=12,
+                num_heads=8,
+                mlp_ratio=4.0,
+                pred_cam_dim=3,
+                static_conf_dim=6,
+                dropout=0.1,
+                avgbeta=True,
+            )
+            endecoder = EnDecoder(
+                stats_name="MM_V1_AMASS_LOCAL_BEDLAM_CAM",
+                noise_pose_k=10,
+            )
+            pipeline = Pipeline(
+                denoiser3d=denoiser3d,
+                endecoder=endecoder,
+                normalize_cam_angvel=True,
+                weights=None,
+                static_conf=None,
+            )
+            model_gvhmr = DemoPL(pipeline=pipeline)
+
         model_gvhmr.load_pretrained_model(str(gvhmr_path))
         model_gvhmr.eval()
+
+        # Safety net: reinitialize any stray meta-device buffers before .to()
+        # (persistent=False buffers aren't in checkpoint and may still be on meta)
+        for module in model_gvhmr.modules():
+            for name, buf in list(module._buffers.items()):
+                if buf is not None and buf.device.type == "meta":
+                    Log.warn(f"[GVHMRInference] Reinitializing meta buffer: {type(module).__name__}.{name}")
+                    module._buffers[name] = torch.zeros_like(buf, device="cpu")
+
         model_gvhmr.to(dtype=dtype, device=device)
-        gc.collect()  # free CPU state_dict copies before loading next model
+        # Keep the endecoder (SMPL body model + affine decoder) in float32.
+        # It's not part of the neural network — just topology data and mean/std stats.
+        # Postprocessing utility libraries (IK, quaternion, matrix) assume float32.
+        model_gvhmr.pipeline.endecoder.float()
+        gc.collect()
         _log_memory("After GVHMR model loaded")
 
         # Initialize preprocessing components
@@ -409,12 +415,10 @@ class GVHMRInference:
         gc.collect()
         _log_memory("After feature extractor loaded")
 
-        # Create model bundle
         model_bundle = {
             "gvhmr": model_gvhmr,
             "vitpose_extractor": vitpose_extractor,
             "feature_extractor": feature_extractor,
-            "config": cfg,
             "device": device,
             "paths": config,
         }
@@ -425,28 +429,8 @@ class GVHMRInference:
     @classmethod
     def _get_or_load_model(cls, config: Dict) -> Dict:
         """Get cached model or load new one based on config."""
-        config_hash = cls._get_config_hash(config)
-        cache_model = config.get("cache_model", False)
-
-        # Check if we have a valid cached model
-        if cache_model and cls._cached_model is not None and cls._cached_config_hash == config_hash:
-            Log.info("[GVHMRInference] Using cached model")
-            return cls._cached_model
-
-        # Load fresh model
-        model_bundle = cls._load_models(config)
-
-        # Cache if requested
-        if cache_model:
-            cls._cached_model = model_bundle
-            cls._cached_config_hash = config_hash
-            Log.info("[GVHMRInference] Model cached for future runs")
-        else:
-            # Clear any existing cache
-            cls._cached_model = None
-            cls._cached_config_hash = None
-
-        return model_bundle
+        # Load fresh model each time — comfy-env handles GPU memory management
+        return cls._load_models(config)
 
     def prepare_data_from_videos(
         self,
@@ -811,7 +795,6 @@ class GVHMRInference:
             Log.info(f"  intrinsics:      {intrinsics.shape if intrinsics is not None else 'None'}")
             Log.info(f"  chunk_size:      {chunk_size}")
             Log.info(f"  config keys:     {list(config.keys())}")
-            Log.info(f"  cache_model:     {config.get('cache_model', False)}")
             Log.info(f"  dpvo_dir:        {config.get('dpvo_dir', '')}")
             Log.info("=" * 60)
             _log_memory("Start of run_inference")
@@ -945,11 +928,8 @@ class GVHMRInference:
 
             Log.info("[GVHMRInference] Inference complete!")
 
-            # Clear model from memory if not caching
-            if not config.get("cache_model", False):
-                Log.info("[GVHMRInference] Clearing model from memory (cache_model=False)")
-                del model
-                _clear_cuda_memory()
+            del model
+            _clear_cuda_memory()
 
             _log_memory("Final (before return)")
             return (str(npz_path), camera_npz_path_str, info)

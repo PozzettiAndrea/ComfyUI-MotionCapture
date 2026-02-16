@@ -238,7 +238,7 @@ class ViT(nn.Module):
         # since the pretraining model has class token
         self.pos_embed = nn.Parameter(torch.zeros(1, num_patches + 1, embed_dim))
 
-        dpr = [x.item() for x in torch.linspace(0, drop_path_rate, depth)]  # stochastic depth decay rule
+        dpr = [drop_path_rate * i / max(depth - 1, 1) for i in range(depth)]  # stochastic depth decay rule
 
         self.blocks = nn.ModuleList([
             Block(
@@ -249,7 +249,7 @@ class ViT(nn.Module):
 
         self.last_norm = norm_layer(embed_dim) if last_norm else nn.Identity()
 
-        if self.pos_embed is not None:
+        if self.pos_embed is not None and self.pos_embed.device.type != "meta":
             trunc_normal_(self.pos_embed, std=.02)
 
         self._freeze_stages()

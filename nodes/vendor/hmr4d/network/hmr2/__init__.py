@@ -2,7 +2,7 @@ import torch
 from .hmr2 import HMR2
 from pathlib import Path
 from .configs import get_config
-from hmr4d import PROJ_ROOT
+from ... import PROJ_ROOT
 
 # Point to ComfyUI models directory
 import folder_paths

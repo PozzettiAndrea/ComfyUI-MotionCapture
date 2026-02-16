@@ -7,7 +7,7 @@ from pathlib import Path
 from smplx import SMPL, SMPLX, SMPLXLayer
 from ..utils.body_model import BodyModelSMPLH, BodyModelSMPLX
 from ..utils.body_model.smplx_lite import SmplxLiteCoco17, SmplxLiteV437Coco17, SmplxLiteSmplN24
-from hmr4d import PROJ_ROOT
+from .. import PROJ_ROOT
 
 # Path to body models in ComfyUI models directory
 import folder_paths

@@ -1,5 +1,5 @@
 from ultralytics import YOLO
-from hmr4d import PROJ_ROOT
+from ... import PROJ_ROOT
 
 import torch
 import numpy as np

@@ -71,7 +71,7 @@ class SMPLTransformerDecoderHead(nn.Module):
             if self.input_is_mean_shape:
                 token = torch.cat([pred_body_pose, pred_betas, pred_cam], dim=1)[:, None, :]
             else:
-                token = torch.zeros(batch_size, 1, 1).to(x.device)
+                token = torch.zeros(batch_size, 1, 1, device=x.device, dtype=x.dtype)
 
             # Pass through transformer
             token_out = self.transformer(token, context=x)
