@@ -18,17 +18,17 @@ from ... import PROJ_ROOT
 
 
 class VitPoseExtractor:
-    def __init__(self, tqdm_leave=True, dtype=None):
-        # Point to ComfyUI models directory
-        import folder_paths
+    def __init__(self, tqdm_leave=True, dtype=None, ckpt_path=None):
         self.device = comfy.model_management.get_torch_device()
-        ckpt_path = Path(folder_paths.models_dir) / "motion_capture" / "vitpose" / "vitpose-h-multi-coco.pth"
+        if ckpt_path is None:
+            import folder_paths
+            ckpt_path = Path(folder_paths.models_dir) / "motion_capture" / "vitpose.safetensors"
         self.pose = build_model("ViTPose_huge_coco_256x192", str(ckpt_path))
         self.dtype = dtype
+        # Keep on CPU — ModelPatcher handles device placement via load_models_gpu()
         if dtype is not None:
-            self.pose.to(dtype=dtype, device=self.device).eval()
-        else:
-            self.pose.to(self.device).eval()
+            self.pose.to(dtype=dtype)
+        self.pose.eval()
 
         self.flip_test = True
         self.tqdm_leave = tqdm_leave

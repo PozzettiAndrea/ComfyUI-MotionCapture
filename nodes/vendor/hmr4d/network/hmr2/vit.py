@@ -8,7 +8,7 @@ import torch.nn.functional as F
 import torch.utils.checkpoint as checkpoint
 
 from timm.models.layers import drop_path, to_2tuple, trunc_normal_
-from .....attention_dispatch import dispatch_attention
+from comfy_attn import dispatch_attention
 
 def vit(cfg):
     return ViT(

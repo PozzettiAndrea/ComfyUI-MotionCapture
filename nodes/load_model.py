@@ -21,19 +21,19 @@ class LoadGVHMRModels:
     Returns a config dict of paths (strings only) for GVHMRInference.
     """
 
-    # Model download configuration (HuggingFace)
+    # Model download configuration (HuggingFace) — safetensors from apozz repo
     MODEL_CONFIGS = {
         "gvhmr": {
-            "repo_id": "camenduru/GVHMR",
-            "filename": "gvhmr/gvhmr_siga24_release.ckpt",
+            "repo_id": "apozz/motion-capture-safetensors",
+            "filename": "gvhmr.safetensors",
         },
         "vitpose": {
-            "repo_id": "camenduru/GVHMR",
-            "filename": "vitpose/vitpose-h-multi-coco.pth",
+            "repo_id": "apozz/motion-capture-safetensors",
+            "filename": "vitpose.safetensors",
         },
         "hmr2": {
-            "repo_id": "camenduru/GVHMR",
-            "filename": "hmr2/epoch=10-step=25000.ckpt",
+            "repo_id": "apozz/motion-capture-safetensors",
+            "filename": "hmr2.safetensors",
         },
     }
 
@@ -255,9 +255,9 @@ class LoadGVHMRModels:
 
         Log.info("[LoadGVHMRModels] Checking GVHMR models...")
 
-        gvhmr_path = MODELS_DIR / "gvhmr" / "gvhmr_siga24_release.ckpt"
-        vitpose_path = MODELS_DIR / "vitpose" / "vitpose-h-multi-coco.pth"
-        hmr2_path = MODELS_DIR / "hmr2" / "epoch=10-step=25000.ckpt"
+        gvhmr_path = MODELS_DIR / "gvhmr.safetensors"
+        vitpose_path = MODELS_DIR / "vitpose.safetensors"
+        hmr2_path = MODELS_DIR / "hmr2.safetensors"
 
         if model_path_override and model_path_override.strip():
             gvhmr_path = Path(model_path_override)

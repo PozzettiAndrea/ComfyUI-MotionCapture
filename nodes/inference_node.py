@@ -335,12 +335,16 @@ class GVHMRInference:
 
         gvhmr_path = Path(config["gvhmr_path"])
 
-        # Resolve precision
-        from .attention_dispatch import auto_detect_precision, set_backend as set_attention_backend
-
+        # Resolve precision using ComfyUI native detection
         precision = config.get("precision", "auto")
         if precision == "auto":
-            dtype = auto_detect_precision()
+            device = comfy.model_management.get_torch_device()
+            if comfy.model_management.should_use_bf16(device):
+                dtype = torch.bfloat16
+            elif comfy.model_management.should_use_fp16(device):
+                dtype = torch.float16
+            else:
+                dtype = torch.float32
         elif precision == "bf16":
             dtype = torch.bfloat16
         elif precision == "fp16":
@@ -349,7 +353,8 @@ class GVHMRInference:
             dtype = torch.float32
         Log.info(f"[GVHMRInference] Precision: {dtype}")
 
-        # Set attention backend
+        # Set attention backend via comfy-attn
+        from comfy_attn import set_backend as set_attention_backend
         set_attention_backend(config.get("attention", "auto"))
 
         # Build GVHMR model directly (no Hydra)
@@ -396,29 +401,51 @@ class GVHMRInference:
                     Log.warn(f"[GVHMRInference] Reinitializing meta buffer: {type(module).__name__}.{name}")
                     module._buffers[name] = torch.zeros_like(buf, device="cpu")
 
-        model_gvhmr.to(dtype=dtype, device=device)
+        model_gvhmr.to(dtype=dtype)
         # Keep the endecoder (SMPL body model + affine decoder) in float32.
         # It's not part of the neural network — just topology data and mean/std stats.
         # Postprocessing utility libraries (IK, quaternion, matrix) assume float32.
         model_gvhmr.pipeline.endecoder.float()
-        gc.collect()
-        _log_memory("After GVHMR model loaded")
 
-        # Initialize preprocessing components
+        # Initialize preprocessing components (paths from config, stay on CPU)
         Log.info("[GVHMRInference] Initializing ViTPose extractor...")
-        vitpose_extractor = VitPoseExtractor(dtype=dtype)
-        gc.collect()
-        _log_memory("After ViTPose loaded")
+        vitpose_extractor = VitPoseExtractor(dtype=dtype, ckpt_path=config.get("vitpose_path"))
 
         Log.info("[GVHMRInference] Initializing feature extractor...")
-        feature_extractor = Extractor(dtype=dtype)
+        feature_extractor = Extractor(dtype=dtype, ckpt_path=config.get("hmr2_path"))
+
+        # Wrap all models in ModelPatcher for ComfyUI VRAM management
+        import comfy.model_patcher
+        from .lowvram import _enable_lowvram_cast
+
+        load_device = comfy.model_management.get_torch_device()
+        offload_device = comfy.model_management.unet_offload_device()
+
+        _enable_lowvram_cast(model_gvhmr)
+        gvhmr_patcher = comfy.model_patcher.ModelPatcher(
+            model_gvhmr, load_device=load_device, offload_device=offload_device,
+        )
+
+        _enable_lowvram_cast(vitpose_extractor.pose)
+        vitpose_patcher = comfy.model_patcher.ModelPatcher(
+            vitpose_extractor.pose, load_device=load_device, offload_device=offload_device,
+        )
+
+        _enable_lowvram_cast(feature_extractor.extractor)
+        hmr2_patcher = comfy.model_patcher.ModelPatcher(
+            feature_extractor.extractor, load_device=load_device, offload_device=offload_device,
+        )
+
         gc.collect()
-        _log_memory("After feature extractor loaded")
+        _log_memory("After all models loaded")
 
         model_bundle = {
             "gvhmr": model_gvhmr,
             "vitpose_extractor": vitpose_extractor,
             "feature_extractor": feature_extractor,
+            "gvhmr_patcher": gvhmr_patcher,
+            "vitpose_patcher": vitpose_patcher,
+            "hmr2_patcher": hmr2_patcher,
             "device": device,
             "paths": config,
         }
@@ -521,14 +548,9 @@ class GVHMRInference:
 
         CHUNK_SIZE = max(1, chunk_size)
 
-        # Move both extractors off GPU — only GVHMR stays (~173 MB)
-        vitpose_extractor.pose.cpu()
-        feature_extractor.extractor.cpu()
-        _clear_cuda_memory()
-        _log_memory("After moving extractors to CPU")
-
         # --- Pass 1: ViTPose (decode video + crop + extract keypoints) ---
-        vitpose_extractor.pose.to(device)
+        # Load ViTPose onto GPU (ModelPatcher automatically offloads other models)
+        comfy.model_management.load_models_gpu([model_bundle["vitpose_patcher"]])
         _log_memory("ViTPose on GPU")
 
         all_kp2d = []
@@ -593,13 +615,9 @@ class GVHMRInference:
             _video_writer.release()
             _video_writer = None
 
-        # Swap models: ViTPose off, HMR2 on
-        vitpose_extractor.pose.cpu()
-        _clear_cuda_memory()
-        _log_memory("ViTPose off GPU")
-
         # --- Pass 2: HMR2 (iterate saved crops — no video decoding) ---
-        feature_extractor.extractor.to(device)
+        # Load HMR2 onto GPU (ModelPatcher automatically offloads ViTPose)
+        comfy.model_management.load_models_gpu([model_bundle["hmr2_patcher"]])
         _log_memory("HMR2 on GPU")
 
         all_f_imgseq = []
@@ -614,10 +632,8 @@ class GVHMRInference:
 
         del saved_crops
         gc.collect()
-
-        feature_extractor.extractor.cpu()
         _clear_cuda_memory()
-        _log_memory("HMR2 off GPU")
+        _log_memory("After HMR2 pass")
 
         # Concatenate results from all chunks
         kp2d = torch.cat(all_kp2d, dim=0)
@@ -821,7 +837,8 @@ class GVHMRInference:
                 data["f_imgseq_path"] = None
                 Log.info("[GVHMRInference] Features reloaded from disk")
 
-            # Run GVHMR inference
+            # Run GVHMR inference — load onto GPU (ModelPatcher offloads HMR2 automatically)
+            comfy.model_management.load_models_gpu([model["gvhmr_patcher"]])
             _log_memory("Before GVHMR predict")
             Log.info(f"[GVHMRInference] Running GVHMR model (static_cam={static_camera})...")
             gvhmr_model = model["gvhmr"]

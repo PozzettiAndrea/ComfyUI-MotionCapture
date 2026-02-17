@@ -59,14 +59,15 @@ def get_batch(input_path, bbx_xys, img_ds=0.5, img_dst_size=256, path_type="vide
 
 
 class Extractor:
-    def __init__(self, tqdm_leave=True, dtype=None):
+    def __init__(self, tqdm_leave=True, dtype=None, ckpt_path=None):
         self.device = comfy.model_management.get_torch_device()
         self.dtype = dtype
-        model = load_hmr2()
+        model = load_hmr2(checkpoint_path=ckpt_path) if ckpt_path else load_hmr2()
+        # Keep on CPU — ModelPatcher handles device placement via load_models_gpu()
         if dtype is not None:
-            self.extractor: HMR2 = model.to(dtype=dtype, device=self.device).eval()
+            self.extractor: HMR2 = model.to(dtype=dtype).eval()
         else:
-            self.extractor: HMR2 = model.to(self.device).eval()
+            self.extractor: HMR2 = model.eval()
         self.tqdm_leave = tqdm_leave
 
     def extract_video_features(self, video_path, bbx_xys, img_ds=0.5):

@@ -6,7 +6,7 @@ from ... import PROJ_ROOT
 
 # Point to ComfyUI models directory
 import folder_paths
-HMR2A_CKPT = Path(folder_paths.models_dir) / "motion_capture" / "hmr2" / "epoch=10-step=25000.ckpt"
+HMR2A_CKPT = Path(folder_paths.models_dir) / "motion_capture" / "hmr2.safetensors"
 
 
 def load_hmr2(checkpoint_path=HMR2A_CKPT):

@@ -6,7 +6,7 @@ from timm.models.vision_transformer import Mlp
 from typing import Optional, Tuple
 from einops import rearrange, repeat
 from ....network.base_arch.embeddings.rotary_embedding import ROPE
-from ......attention_dispatch import dispatch_attention
+from comfy_attn import dispatch_attention
 
 
 class RoPEAttention(nn.Module):
