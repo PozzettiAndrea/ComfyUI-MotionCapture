@@ -12,7 +12,7 @@ import folder_paths
 
 MODELS_DIR = Path(folder_paths.models_dir) / "motion_capture"
 
-from .vendor.hmr4d.utils.pylogger import Log
+from .motion_utils.pylogger import Log
 
 
 class LoadGVHMRModels:

@@ -8,18 +8,19 @@ import torch
 import folder_paths
 import numpy as np
 import comfy.model_management
+import comfy.model_patcher
 import cv2
 from typing import Dict, Tuple
 from tqdm import tqdm
 
 # Import GVHMR components
-from .vendor.hmr4d.utils.pylogger import Log
-from .vendor.hmr4d.utils.geo.hmr_cam import get_bbx_xys_from_xyxy, estimate_K, create_camera_sensor
-from .vendor.hmr4d.utils.geo_transform import compute_cam_angvel
-from .vendor.hmr4d.utils.pytorch3d_shim import axis_angle_to_matrix
-from .vendor.hmr4d.utils.smplx_utils import make_smplx
-from .vendor.hmr4d.utils.net_utils import to_cuda
-from .vendor.hmr4d.utils.preproc.relpose.simple_vo import SimpleVO
+from .motion_utils.pylogger import Log
+from .motion_utils.hmr_cam import get_bbx_xys_from_xyxy, estimate_K, create_camera_sensor
+from .motion_utils.geo_transform import compute_cam_angvel
+from .motion_utils.pytorch3d_shim import axis_angle_to_matrix
+from .body_model.smplx_utils import make_smplx
+from .motion_utils.net_utils import to_cuda
+from .motion_utils.simple_vo import SimpleVO
 
 # Check DPVO availability
 DPVO_AVAILABLE = False
@@ -325,11 +326,8 @@ class GVHMRInference:
     def _load_models(cls, config: Dict) -> Dict:
         """Load GVHMR models based on config."""
         from pathlib import Path
-        from .vendor.hmr4d.model.gvhmr.gvhmr_pl_demo import DemoPL
-        from .vendor.hmr4d.model.gvhmr.pipeline.gvhmr_pipeline import Pipeline
-        from .vendor.hmr4d.network.gvhmr.relative_transformer import NetworkEncoderRoPE
-        from .vendor.hmr4d.model.gvhmr.utils.endecoder import EnDecoder
-        from .vendor.hmr4d.utils.preproc import VitPoseExtractor, Extractor
+        from .gvhmr import DemoPL, Pipeline, NetworkEncoderRoPE, EnDecoder
+        from .vitpose import VitPoseExtractor, Extractor
 
         Log.info("[GVHMRInference] Loading GVHMR models...")
 
@@ -352,10 +350,6 @@ class GVHMRInference:
         else:
             dtype = torch.float32
         Log.info(f"[GVHMRInference] Precision: {dtype}")
-
-        # Set attention backend via comfy-attn
-        from comfy_attn import set_backend as set_attention_backend
-        set_attention_backend(config.get("attention", "auto"))
 
         # Build GVHMR model directly (no Hydra)
         Log.info(f"[GVHMRInference] Loading GVHMR from {gvhmr_path}...")
@@ -415,7 +409,6 @@ class GVHMRInference:
         feature_extractor = Extractor(dtype=dtype, ckpt_path=config.get("hmr2_path"))
 
         # Wrap all models in ModelPatcher for ComfyUI VRAM management
-        import comfy.model_patcher
         from .lowvram import _enable_lowvram_cast
 
         load_device = comfy.model_management.get_torch_device()
@@ -541,7 +534,7 @@ class GVHMRInference:
         # --- Phase 2: Two-pass frame processing (GPU memory optimization) ---
         # Only one large model on GPU at a time (~2.7 GB peak vs ~5.2 GB).
         # Cropped 256×256 tensors saved between passes (~0.75 MB/frame).
-        from .vendor.hmr4d.utils.preproc.vitfeat_extractor import get_batch
+        from .vitpose.feat_extractor import get_batch
 
         vitpose_extractor = model_bundle["vitpose_extractor"]
         feature_extractor = model_bundle["feature_extractor"]

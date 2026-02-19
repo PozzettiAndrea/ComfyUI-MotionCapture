@@ -7,7 +7,7 @@ from typing import Dict, Tuple
 import torch
 import numpy as np
 
-from .vendor.hmr4d.utils.pylogger import Log
+from .motion_utils.pylogger import Log
 
 
 class SaveSMPL:

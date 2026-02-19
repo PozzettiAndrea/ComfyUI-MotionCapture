@@ -10,7 +10,7 @@ import numpy as np
 from scipy.spatial.transform import Rotation as R
 import folder_paths
 
-from .vendor.hmr4d.utils.pylogger import Log
+from .motion_utils.pylogger import Log
 
 
 # SMPL skeleton hierarchy - 21-joint variant (GVHMR, no hands) (22 total with root)

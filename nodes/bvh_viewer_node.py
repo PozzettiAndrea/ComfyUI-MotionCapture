@@ -5,7 +5,7 @@ BVHViewer Node - Interactive 3D viewer for BVH skeletal animations
 from pathlib import Path
 from typing import Dict, Tuple
 
-from .vendor.hmr4d.utils.pylogger import Log
+from .motion_utils.pylogger import Log
 
 
 class BVHViewer:

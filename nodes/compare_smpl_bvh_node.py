@@ -11,7 +11,7 @@ import torch
 import numpy as np
 import folder_paths
 
-from .vendor.hmr4d.utils.pylogger import Log
+from .motion_utils.pylogger import Log
 
 from .shared_utils import next_sequential_filename as _next_sequential_filename
 
@@ -59,7 +59,7 @@ class CompareSMPLtoBVH:
             Log.info("[CompareSMPLtoBVH] Generating SMPL mesh...")
 
             # Import SMPL model
-            from .vendor.hmr4d.utils.body_model.smplx_lite import SmplxLite
+            from .body_model.smplx_lite import SmplxLite
 
             # Extract SMPL parameters
             params = smpl_params['global']

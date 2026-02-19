@@ -3,7 +3,7 @@ FBX Animation Viewer Node - Interactive animation playback for animated FBX file
 """
 
 from typing import Tuple
-from .vendor.hmr4d.utils.pylogger import Log
+from .motion_utils.pylogger import Log
 
 
 class FBXAnimationViewer:
