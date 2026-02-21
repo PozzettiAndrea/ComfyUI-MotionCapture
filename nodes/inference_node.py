@@ -71,30 +71,6 @@ def _log_memory(label):
         Log.info(f"[Memory] {label}: (unable to read /proc/self/status)")
 
 
-def _release_shm_pages(tensor):
-    """Release shared memory pages from RSS via madvise(MADV_DONTNEED).
-    Call after data has been copied. Returns True on success."""
-    import ctypes
-    if sys.platform != "linux":
-        return False
-    try:
-        ptr = tensor.data_ptr()
-        size = tensor.nelement() * tensor.element_size()
-        if size == 0:
-            return False
-        libc = ctypes.CDLL("libc.so.6", use_errno=True)
-        page = os.sysconf("SC_PAGE_SIZE")
-        aligned = ptr & ~(page - 1)
-        ret = libc.madvise(ctypes.c_void_p(aligned), ctypes.c_size_t(size + ptr - aligned), 4)
-        if ret == 0:
-            Log.info(f"[Memory] madvise DONTNEED: released {size / 1024**2:.0f} MB")
-            return True
-        Log.info(f"[Memory] madvise failed: errno={ctypes.get_errno()}")
-        return False
-    except Exception as e:
-        Log.info(f"[Memory] madvise error: {e}")
-        return False
-
 
 def _save_tensor_to_disk(tensor, prefix="tensor"):
     """Save tensor to temp file and return path."""
@@ -110,18 +86,6 @@ def _load_tensor_from_disk(path, device="cuda"):
     os.remove(path)
     return tensor
 
-
-def _save_temp_video(images_np: np.ndarray, fps: int = 30) -> str:
-    """Save numpy images to temporary video file for SimpleVO."""
-    import tempfile
-    temp_path = tempfile.mktemp(suffix=".mp4")
-    h, w = images_np.shape[1:3]
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    writer = cv2.VideoWriter(temp_path, fourcc, fps, (w, h))
-    for frame in images_np:
-        writer.write(cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
-    writer.release()
-    return temp_path
 
 
 def _read_video_np(video_path: str) -> np.ndarray:

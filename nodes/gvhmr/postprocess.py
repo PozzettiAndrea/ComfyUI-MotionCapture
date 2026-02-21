@@ -13,7 +13,6 @@ from ..motion_utils.geo_transform import get_sequence_cammat, transform_mat, app
 from ..motion_utils.net_utils import gaussian_smooth
 from .endecoder import EnDecoder
 
-from ..motion_utils.wis3d_utils import make_wis3d, add_motion_as_lines
 
 
 @autocast("cuda", enabled=False)

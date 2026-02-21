@@ -8,7 +8,6 @@ Absorbed from:
 import logging
 
 import torch
-import torch.nn.functional as F
 import numpy as np
 from pathlib import Path
 import comfy.model_management
@@ -20,7 +19,6 @@ from .feat_extractor import get_batch
 from tqdm import tqdm
 
 from ..motion_utils.kp2d_utils import keypoints_from_heatmaps
-from ..motion_utils.geo_transform import cvt_p2d_from_pm1_to_i
 from ..motion_utils.flip_utils import flip_heatmap_coco17
 
 
@@ -64,28 +62,14 @@ class VitPoseExtractor:
             else:
                 heatmap = self.pose(imgs_batch.clone())  # (B, J, 64, 48)
 
-            if False:
-                # Get joint
-                bbx_xys_batch = bbx_xys[j : j + batch_size].cuda()
-                method = "hard"
-                if method == "hard":
-                    kp2d_pm1, conf = get_heatmap_preds(heatmap)
-                elif method == "soft":
-                    kp2d_pm1, conf = get_heatmap_preds(heatmap, soft=True)
-
-                # Convert 64, 48 to 64, 64
-                kp2d_pm1[:, :, 0] *= 24 / 32
-                kp2d = cvt_p2d_from_pm1_to_i(kp2d_pm1, bbx_xys_batch[:, None])
-                kp2d = torch.cat([kp2d, conf], dim=-1)
-
-            else:  # postprocess from mmpose
-                bbx_xys_batch = bbx_xys[j : j + batch_size]
-                heatmap = heatmap.clone().cpu().float().numpy()
-                center = bbx_xys_batch[:, :2].numpy()
-                scale = (torch.cat((bbx_xys_batch[:, [2]] * 24 / 32, bbx_xys_batch[:, [2]]), dim=1) / 200).numpy()
-                preds, maxvals = keypoints_from_heatmaps(heatmaps=heatmap, center=center, scale=scale, use_udp=True)
-                kp2d = np.concatenate((preds, maxvals), axis=-1)
-                kp2d = torch.from_numpy(kp2d)
+            # postprocess from mmpose
+            bbx_xys_batch = bbx_xys[j : j + batch_size]
+            heatmap = heatmap.clone().cpu().float().numpy()
+            center = bbx_xys_batch[:, :2].numpy()
+            scale = (torch.cat((bbx_xys_batch[:, [2]] * 24 / 32, bbx_xys_batch[:, [2]]), dim=1) / 200).numpy()
+            preds, maxvals = keypoints_from_heatmaps(heatmaps=heatmap, center=center, scale=scale, use_udp=True)
+            kp2d = np.concatenate((preds, maxvals), axis=-1)
+            kp2d = torch.from_numpy(kp2d)
 
             vitpose.append(kp2d.detach().cpu().clone())
 
@@ -95,70 +79,3 @@ class VitPoseExtractor:
 
         vitpose = torch.cat(vitpose, dim=0).clone()  # (F, 17, 3)
         return vitpose
-
-
-def get_heatmap_preds(heatmap, normalize_keypoints=True, thr=0.0, soft=False):
-    """
-    heatmap: (B, J, H, W)
-    """
-    assert heatmap.ndim == 4, "batch_images should be 4-ndim"
-
-    B, J, H, W = heatmap.shape
-    heatmaps_reshaped = heatmap.reshape((B, J, -1))
-
-    maxvals, idx = torch.max(heatmaps_reshaped, 2)
-    maxvals = maxvals.reshape((B, J, 1))
-    idx = idx.reshape((B, J, 1))
-    preds = idx.repeat(1, 1, 2).float()
-    preds[:, :, 0] = (preds[:, :, 0]) % W
-    preds[:, :, 1] = torch.floor((preds[:, :, 1]) / W)
-
-    pred_mask = torch.gt(maxvals, thr).repeat(1, 1, 2)
-    pred_mask = pred_mask.float()
-    preds *= pred_mask
-
-    # soft peak
-    if soft:
-        patch_size = 5
-        patch_half = patch_size // 2
-        patches = torch.zeros((B, J, patch_size, patch_size)).to(heatmap)
-        default_patch = torch.zeros(patch_size, patch_size).to(heatmap)
-        default_patch[patch_half, patch_half] = 1
-        for b in range(B):
-            for j in range(17):
-                x, y = preds[b, j].int()
-                if x >= patch_half and x <= W - patch_half and y >= patch_half and y <= H - patch_half:
-                    patches[b, j] = heatmap[
-                        b, j, y - patch_half : y + patch_half + 1, x - patch_half : x + patch_half + 1
-                    ]
-                else:
-                    patches[b, j] = default_patch
-
-        dx, dy = soft_patch_dx_dy(patches)
-        preds[:, :, 0] += dx
-        preds[:, :, 1] += dy
-
-    if normalize_keypoints:  # to [-1, 1]
-        preds[:, :, 0] = preds[:, :, 0] / (W - 1) * 2 - 1
-        preds[:, :, 1] = preds[:, :, 1] / (H - 1) * 2 - 1
-
-    return preds, maxvals
-
-
-def soft_patch_dx_dy(p):
-    """p (B,J,P,P)"""
-    p_batch_shape = p.shape[:-2]
-    patch_size = p.size(-1)
-    temperature = 1.0
-    score = F.softmax(p.view(-1, patch_size**2) * temperature, dim=-1)
-
-    # get a offset_grid (BN, P, P, 2) for dx, dy
-    offset_grid = torch.meshgrid(torch.arange(patch_size), torch.arange(patch_size), indexing='ij')[::-1]
-    offset_grid = torch.stack(offset_grid, dim=-1).float() - (patch_size - 1) / 2
-    offset_grid = offset_grid.view(1, 1, patch_size, patch_size, 2).to(p.device)
-
-    score = score.view(*p_batch_shape, patch_size, patch_size)
-    dx = torch.sum(score * offset_grid[..., 0], dim=(-2, -1))
-    dy = torch.sum(score * offset_grid[..., 1], dim=(-2, -1))
-
-    return dx, dy

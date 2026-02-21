@@ -265,19 +265,7 @@ def safely_render_x3d_K(x3d, K_fullimg, thr):
     x3d_unsafe_mask = x3d[..., 2] < thr  # (B, L, V)
     if (x3d_unsafe_mask).sum() > 0:
         x3d[..., 2][x3d_unsafe_mask] = thr
-        if False:
-            from .wis3d_utils import make_wis3d
-
-            wis3d = make_wis3d(name="debug-update-z")
-            bs, ls, vs = torch.where(x3d_unsafe_mask)
-            bs = torch.unique(bs)
-            for b in bs:
-                for f in range(x3d.size(1)):
-                    wis3d.set_scene_id(f)
-                    wis3d.add_point_cloud(x3d[b, f], name="unsafe")
-                pass
-
-    # renfer
+    # render
     i_x2d = perspective_projection(x3d, K_fullimg)  # (B, L, V, 2)
     return i_x2d
 

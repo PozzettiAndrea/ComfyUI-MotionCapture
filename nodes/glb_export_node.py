@@ -184,7 +184,7 @@ class SMPLToGLB:
         logger.info(f"[SMPLToGLB] {num_frames} frames, fps={fps}")
 
         # ---- Load SMPLX model data ----
-        data_dir = Path(__file__).parent / "data"
+        data_dir = Path(__file__).parent / "body_model"
         models_dir = Path(folder_paths.models_dir) / "motion_capture" / "body_models" / "smplx"
         smplx_path = models_dir / "SMPLX_NEUTRAL.npz"
         if not smplx_path.exists():

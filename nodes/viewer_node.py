@@ -85,7 +85,7 @@ class SMPLViewer:
 
         device = comfy.model_management.get_torch_device()
 
-        data_dir = Path(__file__).parent / "data"
+        data_dir = Path(__file__).parent / "body_model"
         models_dir = Path(folder_paths.models_dir) / "motion_capture" / "body_models"
 
         # Initialize SMPL-X model

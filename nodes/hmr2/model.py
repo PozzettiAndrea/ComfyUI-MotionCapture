@@ -20,8 +20,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from einops import rearrange
-from yacs.config import CfgNode
-
 import comfy.ops
 from comfy.ldm.modules.attention import optimized_attention
 
@@ -393,31 +391,35 @@ class TransformerDecoder(nn.Module):
 # SMPL decoder head
 # ============================================================================
 
+_SMPL_MEAN_PARAMS_PATH = Path(__file__).parent / "smpl_mean_params.npz"
+_NUM_BODY_JOINTS = 23
+
+
 class SMPLTransformerDecoderHead(nn.Module):
-    def __init__(self, cfg, dtype=None, device=None, operations=ops):
+    def __init__(self, dtype=None, device=None, operations=ops):
         super().__init__()
-        self.cfg = cfg
-        self.joint_rep_type = cfg.MODEL.SMPL_HEAD.get("JOINT_REP", "6d")
-        self.joint_rep_dim = {"6d": 6, "aa": 3}[self.joint_rep_type]
-        npose = self.joint_rep_dim * (cfg.SMPL.NUM_BODY_JOINTS + 1)
+        self.joint_rep_dim = 6  # 6d rotation representation
+        npose = self.joint_rep_dim * (_NUM_BODY_JOINTS + 1)
         self.npose = npose
-        self.input_is_mean_shape = cfg.MODEL.SMPL_HEAD.get("TRANSFORMER_INPUT", "zero") == "mean_shape"
-        transformer_args = dict(
-            num_tokens=1,
-            token_dim=(npose + 10 + 3) if self.input_is_mean_shape else 1,
-            dim=1024,
-        )
-        transformer_args.update(**dict(cfg.MODEL.SMPL_HEAD.TRANSFORMER_DECODER))
         self.transformer = TransformerDecoder(
-            **transformer_args,
+            num_tokens=1,
+            token_dim=1,
+            dim=1024,
+            depth=6,
+            heads=8,
+            mlp_dim=1024,
+            dim_head=64,
+            dropout=0.0,
+            emb_dropout=0.0,
+            norm="layer",
+            context_dim=1280,
             dtype=dtype, device=device, operations=operations,
         )
-        dim = transformer_args["dim"]
-        self.decpose = operations.Linear(dim, npose, dtype=dtype, device=device)
-        self.decshape = operations.Linear(dim, 10, dtype=dtype, device=device)
-        self.deccam = operations.Linear(dim, 3, dtype=dtype, device=device)
+        self.decpose = operations.Linear(1024, npose, dtype=dtype, device=device)
+        self.decshape = operations.Linear(1024, 10, dtype=dtype, device=device)
+        self.deccam = operations.Linear(1024, 3, dtype=dtype, device=device)
 
-        mean_params = np.load(cfg.SMPL.MEAN_PARAMS)
+        mean_params = np.load(_SMPL_MEAN_PARAMS_PATH)
         init_body_pose = torch.from_numpy(mean_params["pose"].astype(np.float32)).unsqueeze(0)
         init_betas = torch.from_numpy(mean_params["shape"].astype(np.float32)).unsqueeze(0)
         init_cam = torch.from_numpy(mean_params["cam"].astype(np.float32)).unsqueeze(0)
@@ -433,10 +435,7 @@ class SMPLTransformerDecoderHead(nn.Module):
         init_betas = self.init_betas.expand(batch_size, -1)
         init_cam = self.init_cam.expand(batch_size, -1)
 
-        if self.input_is_mean_shape:
-            token = torch.cat([init_body_pose, init_betas, init_cam], dim=1)[:, None, :]
-        else:
-            token = torch.zeros(batch_size, 1, 1, device=x.device, dtype=x.dtype)
+        token = torch.zeros(batch_size, 1, 1, device=x.device, dtype=x.dtype)
 
         token_out = self.transformer(token, context=x)
         token_out = token_out.squeeze(1)
@@ -456,7 +455,7 @@ class SMPLTransformerDecoderHead(nn.Module):
         }
 
         pred_body_pose_mat = joint_conversion_fn(pred_body_pose).view(
-            batch_size, self.cfg.SMPL.NUM_BODY_JOINTS + 1, 3, 3
+            batch_size, _NUM_BODY_JOINTS + 1, 3, 3
         )
         pred_smpl_params = {
             "global_orient": pred_body_pose_mat[:, [0]],
@@ -471,10 +470,8 @@ class SMPLTransformerDecoderHead(nn.Module):
 # ============================================================================
 
 class HMR2(nn.Module):
-    def __init__(self, cfg: CfgNode,
-                 dtype=None, device=None, operations=ops):
+    def __init__(self, dtype=None, device=None, operations=ops):
         super().__init__()
-        self.cfg = cfg
         self.backbone = ViT(
             img_size=(256, 192),
             patch_size=16,
@@ -489,7 +486,7 @@ class HMR2(nn.Module):
             dtype=dtype, device=device, operations=operations,
         )
         self.smpl_head = SMPLTransformerDecoderHead(
-            cfg, dtype=dtype, device=device, operations=operations,
+            dtype=dtype, device=device, operations=operations,
         )
 
     def forward(self, batch, feat_mode=True):
@@ -519,23 +516,12 @@ class HMR2(nn.Module):
 # ============================================================================
 
 def load_hmr2(checkpoint_path=None):
-    from .configs import get_config
-
     if checkpoint_path is None:
         import folder_paths
         checkpoint_path = Path(folder_paths.models_dir) / "motion_capture" / "hmr2.safetensors"
 
-    model_cfg = str((Path(__file__).parent / "configs" / "model_config.yaml").resolve())
-    model_cfg = get_config(model_cfg)
-
-    if (model_cfg.MODEL.BACKBONE.TYPE == "vit") and ("BBOX_SHAPE" not in model_cfg.MODEL):
-        model_cfg.defrost()
-        assert model_cfg.MODEL.IMAGE_SIZE == 256
-        model_cfg.MODEL.BBOX_SHAPE = [192, 256]
-        model_cfg.freeze()
-
     with torch.device("meta"):
-        model = HMR2(model_cfg)
+        model = HMR2()
 
     import comfy.utils
     state_dict = comfy.utils.load_torch_file(str(checkpoint_path))

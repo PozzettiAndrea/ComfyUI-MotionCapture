@@ -160,7 +160,7 @@ class SMPLCameraViewer:
 
         # Run SMPL-X forward pass to get vertices
         device = comfy.model_management.get_torch_device()
-        data_dir = Path(__file__).parent / "data"
+        data_dir = Path(__file__).parent / "body_model"
         models_dir = Path(folder_paths.models_dir) / "motion_capture" / "body_models"
 
         # Ensure SMPLX model files exist, auto-download if missing
