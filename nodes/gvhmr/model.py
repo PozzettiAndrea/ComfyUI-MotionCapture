@@ -90,8 +90,9 @@ class ROPE(nn.Module):
         super().__init__()
         self.d_model = d_model
         self.max_seq_len = max_seq_len
-        encoding = get_encoding(d_model, max_seq_len)
-        self.register_buffer("encoding", encoding, False)
+        with torch.device("cpu"):
+            encoding = get_encoding(d_model, max_seq_len)
+            self.register_buffer("encoding", encoding, False)
 
     def rotate_queries_or_keys(self, x):
         """x: (B, H, L, D) → (B, H, L, D)"""
