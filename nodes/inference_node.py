@@ -19,15 +19,14 @@ from .motion_utils.hmr_cam import get_bbx_xys_from_xyxy, estimate_K, create_came
 from .motion_utils.geo_transform import compute_cam_angvel
 from .motion_utils.pytorch3d_shim import axis_angle_to_matrix
 from .body_model.smplx_utils import make_smplx
-from .motion_utils.net_utils import to_cuda
 from .motion_utils.simple_vo import SimpleVO
 
 # Check DPVO availability
 DPVO_AVAILABLE = False
 try:
-    from dpvo.dpvo import DPVO
-    from dpvo.config import cfg as dpvo_cfg
-    from dpvo.utils import Timer
+    from .dpvo.dpvo import DPVO
+    from .dpvo.config import cfg as dpvo_cfg
+    from .dpvo.utils import Timer
     DPVO_AVAILABLE = True
     Log.info("[GVHMRInference] DPVO is available")
 except ImportError:
@@ -74,17 +73,19 @@ def _log_memory(label):
 
 def _save_tensor_to_disk(tensor, prefix="tensor"):
     """Save tensor to temp file and return path."""
-    fd, path = tempfile_module.mkstemp(suffix=".pt", prefix=prefix)
+    import safetensors.torch
+    fd, path = tempfile_module.mkstemp(suffix=".safetensors", prefix=prefix)
     os.close(fd)
-    torch.save(tensor.cpu(), path)
+    safetensors.torch.save_file({"t": tensor.cpu().contiguous()}, path)
     return path
 
 
-def _load_tensor_from_disk(path, device="cuda"):
+def _load_tensor_from_disk(path, device="cpu"):
     """Load tensor from disk and delete temp file."""
-    tensor = torch.load(path, map_location=device, weights_only=True)
+    import safetensors.torch
+    sd = safetensors.torch.load_file(path, device=str(device))
     os.remove(path)
-    return tensor
+    return sd["t"]
 
 
 

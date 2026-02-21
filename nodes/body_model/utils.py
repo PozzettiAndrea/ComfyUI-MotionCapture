@@ -2,6 +2,15 @@ import os
 import numpy as np
 import torch
 
+
+def load_sparse_tensor(path):
+    """Load a scipy sparse .npz file as a torch sparse COO tensor."""
+    import scipy.sparse as sp
+    mat = sp.load_npz(str(path)).tocoo()
+    indices = torch.from_numpy(np.vstack([mat.row, mat.col]).astype(np.int64))
+    values = torch.from_numpy(mat.data.astype(np.float32))
+    return torch.sparse_coo_tensor(indices, values, mat.shape)
+
 SMPLH_JOINT_NAMES = [
     'pelvis',
     'left_hip',

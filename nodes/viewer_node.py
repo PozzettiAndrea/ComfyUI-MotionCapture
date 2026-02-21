@@ -99,13 +99,8 @@ class SMPLViewer:
         smplx_model.eval()
 
         # Load SMPL-X to SMPL vertex conversion matrix
-        # weights_only=False: sparse tensors cannot be loaded with weights_only=True
-        # in PyTorch < 2.4. This file is a trusted local asset (sparse SMPLX-to-SMPL mapping).
-        smplx2smpl = torch.load(
-            str(data_dir / "smplx2smpl_sparse.pt"),
-            map_location="cpu",
-            weights_only=False,
-        ).to(device)
+        from .body_model.utils import load_sparse_tensor
+        smplx2smpl = load_sparse_tensor(data_dir / "smplx2smpl_sparse.npz").to(device)
 
         # Get SMPL faces
         faces = np.load(str(data_dir / "smpl_faces.npy"))

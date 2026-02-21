@@ -1,5 +1,5 @@
 """
-Consolidated GVHMR model — all neural network classes for the GVHMR
+Consolidated GVHMR model -- all neural network classes for the GVHMR
 temporal transformer, pipeline, and demo wrapper, migrated to ComfyUI-native format.
 
 Absorbed from:
@@ -95,7 +95,7 @@ class ROPE(nn.Module):
             self.register_buffer("encoding", encoding, False)
 
     def rotate_queries_or_keys(self, x):
-        """x: (B, H, L, D) → (B, H, L, D)"""
+        """x: (B, H, L, D) -> (B, H, L, D)"""
         seq_len, d_model = x.shape[-2:]
         assert d_model == self.d_model
         if seq_len > self.max_seq_len:
@@ -167,8 +167,8 @@ class RoPEAttention(nn.Module):
 
     def forward(self, x, attn_mask=None, key_padding_mask=None):
         # x: (B, L, C)
-        # attn_mask: (L, L) boolean — True = masked
-        # key_padding_mask: (B, L) boolean — True = padded
+        # attn_mask: (L, L) boolean -- True = masked
+        # key_padding_mask: (B, L) boolean -- True = padded
         B, L, _ = x.shape
         xq, xk, xv = self.query(x), self.key(x), self.value(x)
 
@@ -390,7 +390,7 @@ class NetworkEncoderRoPE(nn.Module):
 
 
 # ============================================================================
-# Pipeline (from model/gvhmr/pipeline/gvhmr_pipeline.py — inference only)
+# Pipeline (from model/gvhmr/pipeline/gvhmr_pipeline.py -- inference only)
 # ============================================================================
 
 @autocast("cuda", enabled=False)
@@ -537,7 +537,7 @@ class Pipeline(nn.Module):
 
 
 # ============================================================================
-# DemoPL (from model/gvhmr/gvhmr_pl_demo.py — converted to nn.Module)
+# DemoPL (from model/gvhmr/gvhmr_pl_demo.py -- converted to nn.Module)
 # ============================================================================
 
 class DemoPL(nn.Module):

@@ -86,7 +86,7 @@ def _axis_angle_to_quat(aa):
     quats = np.zeros((F, J, 4), dtype=np.float32)
     for f in range(F):
         rot = R.from_rotvec(aa[f])  # (J,) Rotation objects
-        q = rot.as_quat()  # (J, 4) in (x, y, z, w) — matches glTF
+        q = rot.as_quat()  # (J, 4) in (x, y, z, w) -- matches glTF
         quats[f] = q
     return quats
 
@@ -205,12 +205,9 @@ class SMPLToGLB:
             J_regressor = J_regressor.toarray()
         J_regressor = np.asarray(J_regressor, dtype=np.float64)  # (55, 10475)
 
-        # Load SMPLX→SMPL vertex mapping
-        smplx2smpl = torch.load(
-            str(data_dir / "smplx2smpl_sparse.pt"),
-            map_location="cpu",
-            weights_only=False,
-        ).to_dense().numpy().astype(np.float64)  # (6890, 10475)
+        # Load SMPLX->SMPL vertex mapping
+        import scipy.sparse as sp
+        smplx2smpl = sp.load_npz(str(data_dir / "smplx2smpl_sparse.npz")).toarray().astype(np.float64)  # (6890, 10475)
 
         faces = np.load(str(data_dir / "smpl_faces.npy")).astype(np.int32)  # (13776, 3)
 
@@ -223,7 +220,7 @@ class SMPLToGLB:
 
         # ---- Skeleton ----
         J_all = J_regressor @ v_shaped_smplx  # (55, 3)
-        J = J_all[:NUM_JOINTS].astype(np.float64)  # (22, 3) — body joints only
+        J = J_all[:NUM_JOINTS].astype(np.float64)  # (22, 3) -- body joints only
 
         # ---- Skinning weights ----
         smpl_weights_55 = smplx2smpl @ lbs_weights  # (6890, 55)
@@ -237,7 +234,7 @@ class SMPLToGLB:
             ibms[j, :3, 3] = -J[j].astype(np.float32)
 
         # ---- Animation data ----
-        # Combine global_orient + body_pose → (F, 22, 3) axis-angle
+        # Combine global_orient + body_pose -> (F, 22, 3) axis-angle
         full_pose = np.concatenate([
             global_orient.reshape(-1, 1, 3),
             body_pose.reshape(-1, NUM_BODY_JOINTS, 3)
@@ -309,7 +306,7 @@ class SMPLToGLB:
         norm_bv = add_buffer_view(norm_data, TGT_ARRAY)
         norm_acc = add_accessor(norm_bv, CT_FLOAT, len(normals), "VEC3")
 
-        # 3. Indices (uint16 — max index 6889 < 65535)
+        # 3. Indices (uint16 -- max index 6889 < 65535)
         indices_u16 = faces.astype(np.uint16).flatten()
         idx_data = indices_u16.tobytes()
         idx_bv = add_buffer_view(idx_data, TGT_ELEMENT)
@@ -361,7 +358,7 @@ class SMPLToGLB:
 
         # Node 0: Armature root (contains skeleton + mesh)
         armature_children = [NUM_JOINTS + 1]  # mesh node
-        # Find root joints (pelvis = joint 0 → node 1)
+        # Find root joints (pelvis = joint 0 -> node 1)
         armature_children.append(1)
         nodes.append({
             "name": "Armature",
@@ -485,7 +482,7 @@ class SMPLToGLB:
             f.write(glb_bytes)
 
         size_mb = glb_path.stat().st_size / (1024 * 1024)
-        logger.info(f"[SMPLToGLB] Wrote {glb_filename} ({size_mb:.1f} MB) — "
+        logger.info(f"[SMPLToGLB] Wrote {glb_filename} ({size_mb:.1f} MB) -- "
                      f"{num_frames} frames, {NUM_JOINTS} joints, "
                      f"{len(positions)} vertices, {len(faces)} faces")
 

@@ -146,13 +146,9 @@ def qrot_np(q, v):
     return qrot(q, v).numpy()
 
 
-def qeuler_np(q, order, epsilon=0, use_gpu=False):
-    if use_gpu:
-        q = torch.from_numpy(q).cuda().float()
-        return qeuler(q, order, epsilon).cpu().numpy()
-    else:
-        q = torch.from_numpy(q).contiguous().float()
-        return qeuler(q, order, epsilon).numpy()
+def qeuler_np(q, order, epsilon=0):
+    q = torch.from_numpy(q).contiguous().float()
+    return qeuler(q, order, epsilon).numpy()
 
 
 def qfix(q):

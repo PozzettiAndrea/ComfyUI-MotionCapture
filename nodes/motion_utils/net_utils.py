@@ -4,17 +4,6 @@ from einops import rearrange
 from scipy.ndimage._filters import _gaussian_kernel1d
 
 
-def to_cuda(data):
-    """Move data in the batch to cuda(), carefully handle data that is not tensor"""
-    if isinstance(data, torch.Tensor):
-        return data.cuda()
-    elif isinstance(data, dict):
-        return {k: to_cuda(v) for k, v in data.items()}
-    elif isinstance(data, list):
-        return [to_cuda(v) for v in data]
-    else:
-        return data
-
 
 def length_to_mask(lengths, max_len):
     """

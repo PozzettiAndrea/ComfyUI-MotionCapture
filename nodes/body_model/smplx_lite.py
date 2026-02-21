@@ -7,10 +7,10 @@ from ..motion_utils.pytorch3d_shim import axis_angle_to_matrix, rotation_6d_to_m
 from smplx.utils import Struct, to_np, to_tensor
 from einops import einsum, rearrange
 from time import time
+from .utils import load_sparse_tensor
 
-# .pt data files live alongside this module
+# Data files live alongside this module
 _BODY_MODEL_DIR = _Path(__file__).resolve().parent
-_VENDOR_BODY_MODEL_DIR = _BODY_MODEL_DIR
 
 
 def get_body_model_path(model_type="smplx"):
@@ -182,19 +182,8 @@ class SmplxLiteCoco17(SmplxLite):
 
         # Fixed topology data loaded from disk — must escape meta device context
         with torch.device("cpu"):
-            # Compute mapping
-            # weights_only=False: sparse tensors cannot be loaded with weights_only=True
-            # in PyTorch < 2.4. This file is a trusted local asset (sparse SMPLX-to-SMPL mapping).
-            smplx2smpl = torch.load(
-                _VENDOR_BODY_MODEL_DIR / "smplx2smpl_sparse.pt",
-                map_location="cpu",
-                weights_only=False,
-            )
-            COCO17_regressor = torch.load(
-                _VENDOR_BODY_MODEL_DIR / "smpl_coco17_J_regressor.pt",
-                map_location="cpu",
-                weights_only=True,
-            )
+            smplx2smpl = load_sparse_tensor(_BODY_MODEL_DIR / "smplx2smpl_sparse.npz")
+            COCO17_regressor = torch.from_numpy(np.load(_BODY_MODEL_DIR / "smpl_coco17_J_regressor.npy"))
             smplx2coco17 = torch.matmul(COCO17_regressor, smplx2smpl.to_dense())
 
             jids, smplx_vids = torch.where(smplx2coco17 != 0)
@@ -223,19 +212,8 @@ class SmplxLiteV437Coco17(SmplxLite):
 
         # Fixed topology data loaded from disk — must escape meta device context
         with torch.device("cpu"):
-            # Compute mapping (COCO17)
-            # weights_only=False: sparse tensors cannot be loaded with weights_only=True
-            # in PyTorch < 2.4. This file is a trusted local asset (sparse SMPLX-to-SMPL mapping).
-            smplx2smpl = torch.load(
-                _VENDOR_BODY_MODEL_DIR / "smplx2smpl_sparse.pt",
-                map_location="cpu",
-                weights_only=False,
-            )
-            COCO17_regressor = torch.load(
-                _VENDOR_BODY_MODEL_DIR / "smpl_coco17_J_regressor.pt",
-                map_location="cpu",
-                weights_only=True,
-            )
+            smplx2smpl = load_sparse_tensor(_BODY_MODEL_DIR / "smplx2smpl_sparse.npz")
+            COCO17_regressor = torch.from_numpy(np.load(_BODY_MODEL_DIR / "smpl_coco17_J_regressor.npy"))
             smplx2coco17 = torch.matmul(COCO17_regressor, smplx2smpl.to_dense())
 
             jids, smplx_vids = torch.where(smplx2coco17 != 0)
@@ -246,11 +224,7 @@ class SmplxLiteV437Coco17(SmplxLite):
             assert len(smplx_vids) == 132
 
             # Verts437
-            smplx_vids2 = torch.load(
-                _VENDOR_BODY_MODEL_DIR / "smplx_verts437.pt",
-                map_location="cpu",
-                weights_only=True,
-            )
+            smplx_vids2 = torch.from_numpy(np.load(_BODY_MODEL_DIR / "smplx_verts437.npy"))
             smplx_vids = torch.cat([smplx_vids, smplx_vids2])
 
             # Update to vertices of interest
@@ -281,19 +255,8 @@ class SmplxLiteSmplN24(SmplxLite):
 
         # Fixed topology data loaded from disk — must escape meta device context
         with torch.device("cpu"):
-            # Compute mapping
-            # weights_only=False: sparse tensors cannot be loaded with weights_only=True
-            # in PyTorch < 2.4. This file is a trusted local asset (sparse SMPLX-to-SMPL mapping).
-            smplx2smpl = torch.load(
-                _VENDOR_BODY_MODEL_DIR / "smplx2smpl_sparse.pt",
-                map_location="cpu",
-                weights_only=False,
-            )
-            smpl2joints = torch.load(
-                _VENDOR_BODY_MODEL_DIR / "smpl_neutral_J_regressor.pt",
-                map_location="cpu",
-                weights_only=True,
-            )
+            smplx2smpl = load_sparse_tensor(_BODY_MODEL_DIR / "smplx2smpl_sparse.npz")
+            smpl2joints = torch.from_numpy(np.load(_BODY_MODEL_DIR / "smpl_neutral_J_regressor.npy"))
             smplx2joints = torch.matmul(smpl2joints, smplx2smpl.to_dense())
 
             jids, smplx_vids = torch.where(smplx2joints != 0)
