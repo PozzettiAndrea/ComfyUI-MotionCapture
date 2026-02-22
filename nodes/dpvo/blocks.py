@@ -5,40 +5,43 @@ import torch.nn as nn
 
 import torch_scatter
 
+import comfy.ops
+ops = comfy.ops.manual_cast
+
 log = logging.getLogger("motioncapture")
 
 class LayerNorm1D(nn.Module):
-    def __init__(self, dim):
+    def __init__(self, dim, operations=ops):
         super(LayerNorm1D, self).__init__()
-        self.norm = nn.LayerNorm(dim, eps=1e-4)
+        self.norm = operations.LayerNorm(dim, eps=1e-4)
 
     def forward(self, x):
         return self.norm(x.transpose(1,2)).transpose(1,2)
 
 class GatedResidual(nn.Module):
-    def __init__(self, dim):
+    def __init__(self, dim, operations=ops):
         super().__init__()
 
         self.gate = nn.Sequential(
-            nn.Linear(dim, dim),
+            operations.Linear(dim, dim),
             nn.Sigmoid())
 
         self.res = nn.Sequential(
-            nn.Linear(dim, dim),
+            operations.Linear(dim, dim),
             nn.ReLU(inplace=True),
-            nn.Linear(dim, dim))
+            operations.Linear(dim, dim))
 
     def forward(self, x):
         return x + self.gate(x) * self.res(x)
 
 class SoftAgg(nn.Module):
-    def __init__(self, dim=512, expand=True):
+    def __init__(self, dim=512, expand=True, operations=ops):
         super(SoftAgg, self).__init__()
         self.dim = dim
         self.expand = expand
-        self.f = nn.Linear(self.dim, self.dim)
-        self.g = nn.Linear(self.dim, self.dim)
-        self.h = nn.Linear(self.dim, self.dim)
+        self.f = operations.Linear(self.dim, self.dim)
+        self.g = operations.Linear(self.dim, self.dim)
+        self.h = operations.Linear(self.dim, self.dim)
 
     def forward(self, x, ix):
         _, jx = torch.unique(ix, return_inverse=True)
@@ -51,13 +54,13 @@ class SoftAgg(nn.Module):
         return self.h(y)
 
 class SoftAggBasic(nn.Module):
-    def __init__(self, dim=512, expand=True):
+    def __init__(self, dim=512, expand=True, operations=ops):
         super(SoftAggBasic, self).__init__()
         self.dim = dim
         self.expand = expand
-        self.f = nn.Linear(self.dim, self.dim)
-        self.g = nn.Linear(self.dim,        1)
-        self.h = nn.Linear(self.dim, self.dim)
+        self.f = operations.Linear(self.dim, self.dim)
+        self.g = operations.Linear(self.dim,        1)
+        self.h = operations.Linear(self.dim, self.dim)
 
     def forward(self, x, ix):
         _, jx = torch.unique(ix, return_inverse=True)

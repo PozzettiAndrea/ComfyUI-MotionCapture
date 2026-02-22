@@ -20,51 +20,54 @@ from .utils import *
 from .ba import BA
 from . import projective_ops as pops
 
+import comfy.ops
+ops = comfy.ops.manual_cast
+
 DIM = 384
 
 class Update(nn.Module):
-    def __init__(self, p):
+    def __init__(self, p, operations=ops):
         super(Update, self).__init__()
 
         self.c1 = nn.Sequential(
-            nn.Linear(DIM, DIM),
+            operations.Linear(DIM, DIM),
             nn.ReLU(inplace=True),
-            nn.Linear(DIM, DIM))
+            operations.Linear(DIM, DIM))
 
         self.c2 = nn.Sequential(
-            nn.Linear(DIM, DIM),
+            operations.Linear(DIM, DIM),
             nn.ReLU(inplace=True),
-            nn.Linear(DIM, DIM))
+            operations.Linear(DIM, DIM))
 
-        self.norm = nn.LayerNorm(DIM, eps=1e-3)
+        self.norm = operations.LayerNorm(DIM, eps=1e-3)
 
-        self.agg_kk = SoftAgg(DIM)
-        self.agg_ij = SoftAgg(DIM)
+        self.agg_kk = SoftAgg(DIM, operations=operations)
+        self.agg_ij = SoftAgg(DIM, operations=operations)
 
         self.gru = nn.Sequential(
-            nn.LayerNorm(DIM, eps=1e-3),
-            GatedResidual(DIM),
-            nn.LayerNorm(DIM, eps=1e-3),
-            GatedResidual(DIM),
+            operations.LayerNorm(DIM, eps=1e-3),
+            GatedResidual(DIM, operations=operations),
+            operations.LayerNorm(DIM, eps=1e-3),
+            GatedResidual(DIM, operations=operations),
         )
 
         self.corr = nn.Sequential(
-            nn.Linear(2*49*p*p, DIM),
+            operations.Linear(2*49*p*p, DIM),
             nn.ReLU(inplace=True),
-            nn.Linear(DIM, DIM),
-            nn.LayerNorm(DIM, eps=1e-3),
+            operations.Linear(DIM, DIM),
+            operations.LayerNorm(DIM, eps=1e-3),
             nn.ReLU(inplace=True),
-            nn.Linear(DIM, DIM),
+            operations.Linear(DIM, DIM),
         )
 
         self.d = nn.Sequential(
             nn.ReLU(inplace=False),
-            nn.Linear(DIM, 2),
+            operations.Linear(DIM, 2),
             GradientClip())
 
         self.w = nn.Sequential(
             nn.ReLU(inplace=False),
-            nn.Linear(DIM, 2),
+            operations.Linear(DIM, 2),
             GradientClip(),
             nn.Sigmoid())
 
@@ -91,11 +94,11 @@ class Update(nn.Module):
 
 
 class Patchifier(nn.Module):
-    def __init__(self, patch_size=3):
+    def __init__(self, patch_size=3, operations=ops):
         super(Patchifier, self).__init__()
         self.patch_size = patch_size
-        self.fnet = BasicEncoder4(output_dim=128, norm_fn='instance')
-        self.inet = BasicEncoder4(output_dim=DIM, norm_fn='none')
+        self.fnet = BasicEncoder4(output_dim=128, norm_fn='instance', operations=operations)
+        self.inet = BasicEncoder4(output_dim=DIM, norm_fn='none', operations=operations)
 
     def __image_gradient(self, images):
         gray = ((images + 0.5) * (255.0 / 2)).sum(dim=2)
@@ -173,11 +176,11 @@ class CorrBlock:
 
 
 class VONet(nn.Module):
-    def __init__(self, use_viewer=False):
+    def __init__(self, use_viewer=False, operations=ops):
         super(VONet, self).__init__()
         self.P = 3
-        self.patchify = Patchifier(self.P)
-        self.update = Update(self.P)
+        self.patchify = Patchifier(self.P, operations=operations)
+        self.update = Update(self.P, operations=operations)
 
         self.DIM = DIM
         self.RES = 4
