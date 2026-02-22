@@ -266,7 +266,7 @@ class SMPLCameraViewer:
                 W = V_world - mu_w
                 C = V_incam - mu_c
 
-                # Cross-covariance  H = C^T @ W  => we want R such that V_incam ≈ R @ V_world + t
+                # Cross-covariance  H = C^T @ W  => we want R such that V_incam ~= R @ V_world + t
                 # i.e. camera-from-world: V_cam = R_w2c @ V_world + t_w2c
                 H = C.T @ W  # (3, 3)
                 U, S, Vt = np.linalg.svd(H)
