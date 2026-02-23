@@ -3,7 +3,6 @@ levels = ["syntax", "install", "registration", "instantiation", "execution"]
 publish = true
 
 [test.workflows]
-timeout = 300
 cpu = ["smpl_to_bvh_pipeline", "load_camera_traj", "apply_motion_on_character"]
 gpu = ["GVHMR", "GVHMR_cameramotion"]
 
