@@ -9,7 +9,6 @@ import torch
 import numpy as np
 import smplx
 import folder_paths
-import comfy.model_management
 
 logger = logging.getLogger("SMPLViewer")
 
@@ -58,6 +57,7 @@ class SMPLViewer:
         Generate 3D mesh data from SMPL parameters, write to .bin file,
         and return the filename for the JS viewer to fetch.
         """
+        import comfy.model_management
         logger.info("[SMPLViewer] Generating 3D mesh data for visualization...")
 
         if not npz_path or not npz_path.strip():

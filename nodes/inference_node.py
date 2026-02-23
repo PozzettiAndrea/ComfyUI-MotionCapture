@@ -7,7 +7,6 @@ from pathlib import Path
 import torch
 import folder_paths
 import numpy as np
-import comfy.model_management
 import comfy.model_patcher
 import cv2
 from typing import Dict, Tuple
@@ -48,12 +47,14 @@ from .shared_utils import next_sequential_filename as _next_sequential_filename
 
 def _clear_cuda_memory():
     """Clear GPU memory cache between pipeline stages."""
+    import comfy.model_management
     gc.collect()
     comfy.model_management.soft_empty_cache()
 
 
 def _log_memory(label):
     """Log current process RSS memory usage (actual current, not peak)."""
+    import comfy.model_management
     try:
         with open("/proc/self/status") as f:
             for line in f:
@@ -290,6 +291,7 @@ class GVHMRInference:
     @classmethod
     def _load_models(cls, config: Dict) -> Dict:
         """Load GVHMR models based on config."""
+        import comfy.model_management
         from pathlib import Path
         from .gvhmr import DemoPL, Pipeline, NetworkEncoderRoPE, EnDecoder
         from .vitpose import VitPoseExtractor, Extractor
@@ -436,6 +438,7 @@ class GVHMRInference:
         Prepare data dictionary for GVHMR inference from VIDEO inputs.
         Reads frames chunk-by-chunk from video files to minimize RAM usage.
         """
+        import comfy.model_management
         import av
 
         device = model_bundle["device"]
@@ -754,6 +757,7 @@ class GVHMRInference:
         Run GVHMR inference on video with mask video.
         Reads frames directly from video files — no large float32 tensors in RAM.
         """
+        import comfy.model_management
         try:
             static_camera = not moving_camera
             Log.info("=" * 60)

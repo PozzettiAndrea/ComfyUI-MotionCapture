@@ -9,7 +9,6 @@ import torch
 import numpy as np
 import smplx
 import folder_paths
-import comfy.model_management
 
 logger = logging.getLogger("SMPLCameraViewer")
 
@@ -55,6 +54,7 @@ class SMPLCameraViewer:
     OUTPUT_NODE = True
 
     def create_viewer_data(self, npz_path="", camera_npz_path="", mesh_color="#4a9eff", video=None):
+        import comfy.model_management
         logger.info("[SMPLCameraViewer] Generating 3D mesh + camera data...")
 
         if not npz_path or not npz_path.strip():
