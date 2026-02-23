@@ -7,7 +7,6 @@ from pathlib import Path
 import torch
 import folder_paths
 import numpy as np
-import comfy.model_patcher
 import cv2
 from typing import Dict, Tuple
 from tqdm import tqdm
@@ -28,7 +27,7 @@ try:
     from .dpvo.utils import Timer
     DPVO_AVAILABLE = True
     Log.info("[GVHMRInference] DPVO is available")
-except ImportError:
+except Exception:
     Log.info("[GVHMRInference] DPVO not installed - only SimpleVO will be available")
 
 # Import local utilities (renamed to avoid conflict with ComfyUI's utils package)
@@ -292,6 +291,7 @@ class GVHMRInference:
     def _load_models(cls, config: Dict) -> Dict:
         """Load GVHMR models based on config."""
         import comfy.model_management
+        import comfy.model_patcher
         from pathlib import Path
         from .gvhmr import DemoPL, Pipeline, NetworkEncoderRoPE, EnDecoder
         from .vitpose import VitPoseExtractor, Extractor
