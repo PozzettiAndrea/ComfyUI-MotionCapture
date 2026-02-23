@@ -54,7 +54,6 @@ class SMPLCameraViewer:
     OUTPUT_NODE = True
 
     def create_viewer_data(self, npz_path="", camera_npz_path="", mesh_color="#4a9eff", video=None):
-        import comfy.model_management
         logger.info("[SMPLCameraViewer] Generating 3D mesh + camera data...")
 
         if not npz_path or not npz_path.strip():
@@ -159,7 +158,11 @@ class SMPLCameraViewer:
             logger.info(f"[SMPLCameraViewer] Video: {video_frame_count} frames (SMPL: {num_frames})")
 
         # Run SMPL-X forward pass to get vertices
-        device = comfy.model_management.get_torch_device()
+        try:
+            import comfy.model_management
+            device = comfy.model_management.get_torch_device()
+        except Exception:
+            device = torch.device("cpu")
         data_dir = Path(__file__).parent / "body_model"
         models_dir = Path(folder_paths.models_dir) / "motion_capture" / "body_models"
 

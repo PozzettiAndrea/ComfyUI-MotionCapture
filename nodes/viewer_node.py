@@ -57,7 +57,6 @@ class SMPLViewer:
         Generate 3D mesh data from SMPL parameters, write to .bin file,
         and return the filename for the JS viewer to fetch.
         """
-        import comfy.model_management
         logger.info("[SMPLViewer] Generating 3D mesh data for visualization...")
 
         if not npz_path or not npz_path.strip():
@@ -83,7 +82,11 @@ class SMPLViewer:
         num_frames = body_pose.shape[0]
         logger.info(f"[SMPLViewer] Processing {num_frames} frames (skip={frame_skip})")
 
-        device = comfy.model_management.get_torch_device()
+        try:
+            import comfy.model_management
+            device = comfy.model_management.get_torch_device()
+        except Exception:
+            device = torch.device("cpu")
 
         data_dir = Path(__file__).parent / "body_model"
         models_dir = Path(folder_paths.models_dir) / "motion_capture" / "body_models"
