@@ -21,7 +21,7 @@ from einops import rearrange, repeat
 from torch.amp import autocast
 
 import comfy.ops
-from comfy.ldm.modules.attention import optimized_attention
+from comfy.ldm.modules.attention import optimized_attention_for_device
 
 from ..motion_utils.net_utils import length_to_mask, gaussian_smooth
 from ..motion_utils.pylogger import Log
@@ -192,7 +192,8 @@ class RoPEAttention(nn.Module):
                     key_padding_mask.reshape(B, 1, 1, L), float("-inf")
                 )
 
-        output = optimized_attention(
+        fn = optimized_attention_for_device(xq.device, mask=combined_mask is not None)
+        output = fn(
             xq, xk, xv, heads=self.num_heads,
             mask=combined_mask, skip_reshape=True, skip_output_reshape=True,
         )

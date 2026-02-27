@@ -12,6 +12,8 @@ import torch
 from scipy.spatial.transform import Rotation as R
 import folder_paths
 
+from comfy_api.latest import io
+
 from .shared_utils import next_sequential_filename
 from .smpl_to_bvh_node import SMPL_21_JOINT_NAMES, SMPL_21_PARENTS
 
@@ -61,11 +63,14 @@ def _collapse_smplx_weights_to_smpl22(weights_55, parents_55):
 
 def _top_k_weights(weights, k=4):
     """Pick top-k influences per vertex, zero out rest, renormalize."""
+    import comfy.model_management
     n_verts = weights.shape[0]
     joint_indices = np.zeros((n_verts, k), dtype=np.uint8)
     joint_weights = np.zeros((n_verts, k), dtype=np.float32)
 
     for i in range(n_verts):
+        if i % 1000 == 0:
+            comfy.model_management.throw_exception_if_processing_interrupted()
         w = weights[i]
         top_idx = np.argsort(w)[-k:][::-1]
         top_w = w[top_idx]
@@ -82,9 +87,11 @@ def _axis_angle_to_quat(aa):
     """
     Convert axis-angle (F, J, 3) to quaternions (F, J, 4) in (x, y, z, w) format.
     """
+    import comfy.model_management
     F, J, _ = aa.shape
     quats = np.zeros((F, J, 4), dtype=np.float32)
     for f in range(F):
+        comfy.model_management.throw_exception_if_processing_interrupted()
         rot = R.from_rotvec(aa[f])  # (J,) Rotation objects
         q = rot.as_quat()  # (J, 4) in (x, y, z, w) -- matches glTF
         quats[f] = q
@@ -131,40 +138,32 @@ def _build_glb(gltf_json, bin_data):
     return bytes(glb)
 
 
-class SMPLToGLB:
+class SMPLToGLB(io.ComfyNode):
     """
     Export SMPL motion capture data as an animated GLB file with skinned mesh
     and skeletal animation. The output can be imported into Blender, Three.js, etc.
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "npz_path": ("STRING", {
-                    "default": "",
-                    "multiline": False,
-                    "tooltip": "Path to .npz file with SMPL parameters (from GVHMR Inference)"
-                }),
-            },
-            "optional": {
-                "fps": ("INT", {
-                    "default": 30,
-                    "min": 1,
-                    "max": 120,
-                    "step": 1,
-                    "tooltip": "Animation frames per second"
-                }),
-            },
-        }
+    def define_schema(cls):
+        return io.Schema(
+            node_id="SMPLToGLB",
+            display_name="SMPL to GLB Animation",
+            category="MotionCapture/GVHMR",
+            is_output_node=True,
+            inputs=[
+                io.String.Input("npz_path", default="", multiline=False,
+                                tooltip="Path to .npz file with SMPL parameters (from GVHMR Inference)"),
+                io.Int.Input("fps", default=30, min=1, max=120, step=1,
+                             tooltip="Animation frames per second", optional=True),
+            ],
+            outputs=[
+                io.String.Output(display_name="glb_path"),
+            ],
+        )
 
-    RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("glb_path",)
-    FUNCTION = "export_glb"
-    CATEGORY = "MotionCapture/GVHMR"
-    OUTPUT_NODE = True
-
-    def export_glb(self, npz_path="", fps=30):
+    @classmethod
+    def execute(cls, npz_path="", fps=30):
         if not npz_path or not npz_path.strip():
             raise ValueError("npz_path is required")
         npz_file = Path(npz_path)
@@ -486,7 +485,7 @@ class SMPLToGLB:
                      f"{num_frames} frames, {NUM_JOINTS} joints, "
                      f"{len(positions)} vertices, {len(faces)} faces")
 
-        return {"ui": {}, "result": (str(glb_path),)}
+        return io.NodeOutput(str(glb_path), ui={})
 
 
 NODE_CLASS_MAPPINGS = {

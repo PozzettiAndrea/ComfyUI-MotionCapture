@@ -8,6 +8,8 @@ import os
 import logging
 from pathlib import Path
 
+from comfy_api.latest import io
+
 try:
     import folder_paths
 except ImportError:
@@ -16,7 +18,7 @@ except ImportError:
 log = logging.getLogger("motioncapture")
 
 
-class MocapPreviewRiggedMesh:
+class MocapPreviewRiggedMesh(io.ComfyNode):
     """
     Preview rigged mesh with interactive FBX viewer.
 
@@ -25,21 +27,20 @@ class MocapPreviewRiggedMesh:
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "fbx_output_path": ("STRING", {
-                    "tooltip": "FBX filename from output directory"
-                }),
-            },
-        }
+    def define_schema(cls):
+        return io.Schema(
+            node_id="MocapPreviewRiggedMesh",
+            display_name="Mocap: Preview Rigged Mesh",
+            category="MotionCapture/Visualization",
+            is_output_node=True,
+            inputs=[
+                io.String.Input("fbx_output_path", tooltip="FBX filename from output directory"),
+            ],
+            outputs=[],
+        )
 
-    RETURN_TYPES = ()
-    OUTPUT_NODE = True
-    FUNCTION = "preview"
-    CATEGORY = "MotionCapture/Visualization"
-
-    def preview(self, fbx_output_path):
+    @classmethod
+    def execute(cls, fbx_output_path):
         """Preview the rigged mesh in an interactive FBX viewer."""
         log.info("Preparing preview...")
 
@@ -53,14 +54,12 @@ class MocapPreviewRiggedMesh:
 
         if not os.path.exists(fbx_path):
             log.warning("FBX file not found: %s", fbx_output_path)
-            return {
-                "ui": {
-                    "fbx_file": [fbx_output_path],
-                    "has_skinning": [False],
-                    "has_skeleton": [False],
-                    "error": ["File not found"],
-                }
-            }
+            return io.NodeOutput(ui={
+                "fbx_file": [fbx_output_path],
+                "has_skinning": [False],
+                "has_skeleton": [False],
+                "error": ["File not found"],
+            })
 
         log.info("FBX path: %s", fbx_path)
 
@@ -71,19 +70,29 @@ class MocapPreviewRiggedMesh:
         log.debug("Has skinning: %s", has_skinning)
         log.debug("Has skeleton: %s", has_skeleton)
 
-        return {
-            "ui": {
-                "fbx_file": [fbx_output_path],
-                "has_skinning": [bool(has_skinning)],
-                "has_skeleton": [bool(has_skeleton)],
-            }
-        }
+        return io.NodeOutput(ui={
+            "fbx_file": [fbx_output_path],
+            "has_skinning": [bool(has_skinning)],
+            "has_skeleton": [bool(has_skeleton)],
+        })
 
 
 # Keep FBXPreview as an alias for backwards compatibility
 class FBXPreview(MocapPreviewRiggedMesh):
     """Alias for MocapPreviewRiggedMesh for backwards compatibility."""
-    CATEGORY = "MotionCapture"
+
+    @classmethod
+    def define_schema(cls):
+        return io.Schema(
+            node_id="FBXPreview",
+            display_name="FBX 3D Preview (Legacy)",
+            category="MotionCapture",
+            is_output_node=True,
+            inputs=[
+                io.String.Input("fbx_output_path", tooltip="FBX filename from output directory"),
+            ],
+            outputs=[],
+        )
 
 
 NODE_CLASS_MAPPINGS = {

@@ -11,6 +11,8 @@ import numpy as np
 from pathlib import Path
 from typing import Tuple
 
+from comfy_api.latest import io
+
 try:
     import folder_paths
 except ImportError:
@@ -253,7 +255,7 @@ class SMPLSkeletonWorker:
 # COMFYUI NODE
 # ===============================================================================
 
-class ExtractRestPose:
+class ExtractRestPose(io.ComfyNode):
     """
     Extract skeleton rest pose from FBX file or SMPL parameters.
 
@@ -265,42 +267,37 @@ class ExtractRestPose:
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "source_type": (["fbx", "smpl"], {
-                    "default": "fbx",
-                    "tooltip": "Source type: FBX file or SMPL parameters"
-                }),
-                "output_name": ("STRING", {
-                    "default": "rest_pose",
-                    "tooltip": "Output filename (without extension)"
-                }),
-            },
-            "optional": {
-                "fbx_path": ("STRING", {
-                    "default": "",
-                    "tooltip": "Path to input FBX file (when source_type=fbx)"
-                }),
-                "npz_path": ("STRING", {
-                    "default": "",
-                    "tooltip": "Path to SMPL params .npz file (when source_type=smpl)"
-                }),
-            }
-        }
+    def define_schema(cls):
+        return io.Schema(
+            node_id="ExtractRestPose",
+            display_name="Extract Rest Pose",
+            category="MotionCapture/Skeleton",
+            inputs=[
+                io.Combo.Input("source_type", options=["fbx", "smpl"], default="fbx",
+                               tooltip="Source type: FBX file or SMPL parameters"),
+                io.String.Input("output_name", default="rest_pose",
+                                tooltip="Output filename (without extension)"),
+                io.String.Input("fbx_path", default="",
+                                tooltip="Path to input FBX file (when source_type=fbx)",
+                                optional=True),
+                io.String.Input("npz_path", default="",
+                                tooltip="Path to SMPL params .npz file (when source_type=smpl)",
+                                optional=True),
+            ],
+            outputs=[
+                io.String.Output(display_name="fbx_path"),
+                io.String.Output(display_name="info"),
+            ],
+        )
 
-    RETURN_TYPES = ("STRING", "STRING")
-    RETURN_NAMES = ("fbx_path", "info")
-    FUNCTION = "extract_rest_pose"
-    CATEGORY = "MotionCapture/Skeleton"
-
-    def extract_rest_pose(
-        self,
+    @classmethod
+    def execute(
+        cls,
         source_type: str,
         output_name: str,
         fbx_path: str = "",
         npz_path: str = "",
-    ) -> Tuple[str, str]:
+    ) -> io.NodeOutput:
         """Extract rest pose skeleton and save as FBX."""
         log.info("Source type: %s", source_type)
 
@@ -366,4 +363,4 @@ class ExtractRestPose:
             f"Output: {output_name_fbx}"
         )
 
-        return (output_path, info)
+        return io.NodeOutput(output_path, info)

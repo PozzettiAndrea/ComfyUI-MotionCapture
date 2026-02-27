@@ -13,6 +13,8 @@ from typing import Tuple
 
 import numpy as np
 
+from comfy_api.latest import io
+
 log = logging.getLogger("motioncapture")
 
 from .smpl_bvh_utils import smpl_to_bvh
@@ -211,7 +213,7 @@ class SMPLToMixamoWorker:
 # COMFYUI NODE
 # ===============================================================================
 
-class SMPLToMixamo:
+class SMPLToMixamo(io.ComfyNode):
     """
     Retarget SMPL motion capture data to a Mixamo-rigged FBX character.
 
@@ -219,44 +221,33 @@ class SMPLToMixamo:
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "smpl_npz_path": ("STRING", {
-                    "default": "",
-                    "multiline": False,
-                }),
-                "mixamo_fbx_path": ("STRING", {
-                    "default": "",
-                    "multiline": False,
-                }),
-                "output_filename": ("STRING", {
-                    "default": "mixamo_animated",
-                    "multiline": False,
-                }),
-            },
-            "optional": {
-                "fps": ("INT", {
-                    "default": 30,
-                    "min": 1,
-                    "max": 120,
-                }),
-            }
-        }
+    def define_schema(cls):
+        return io.Schema(
+            node_id="SMPLToMixamo",
+            display_name="SMPL to Mixamo",
+            category="MotionCapture/Mixamo",
+            is_output_node=True,
+            inputs=[
+                io.String.Input("smpl_npz_path", default="", multiline=False),
+                io.String.Input("mixamo_fbx_path", default="", multiline=False),
+                io.String.Input("output_filename", default="mixamo_animated", multiline=False),
+                io.Int.Input("fps", default=30, min=1, max=120, optional=True),
+            ],
+            outputs=[
+                io.String.Output(display_name="fbx_path"),
+                io.Int.Output(display_name="frame_count"),
+                io.String.Output(display_name="info"),
+            ],
+        )
 
-    RETURN_TYPES = ("STRING", "INT", "STRING")
-    RETURN_NAMES = ("fbx_path", "frame_count", "info")
-    FUNCTION = "retarget"
-    OUTPUT_NODE = True
-    CATEGORY = "MotionCapture/Mixamo"
-
-    def retarget(
-        self,
+    @classmethod
+    def execute(
+        cls,
         smpl_npz_path: str,
         mixamo_fbx_path: str,
         output_filename: str,
         fps: int = 30,
-    ) -> Tuple[str, int, str]:
+    ) -> io.NodeOutput:
         """
         Retarget SMPL motion to Mixamo character.
 
@@ -267,7 +258,7 @@ class SMPLToMixamo:
             fps: Frame rate for animation
 
         Returns:
-            Tuple of (output_fbx_path, frame_count, info_string)
+            io.NodeOutput with (output_fbx_path, frame_count, info_string)
         """
         try:
             log.info("Starting SMPL to Mixamo retargeting...")
@@ -313,12 +304,12 @@ class SMPLToMixamo:
             )
 
             log.info("Retargeting complete! Output: %s", output_path)
-            return (str(output_path.absolute()), result_frames, full_info)
+            return io.NodeOutput(str(output_path.absolute()), result_frames, full_info)
 
         except Exception as e:
             error_msg = f"SMPLToMixamo failed: {str(e)}"
             log.error(error_msg, exc_info=True)
-            return ("", 0, error_msg)
+            return io.NodeOutput("", 0, error_msg)
 
 NODE_CLASS_MAPPINGS = {
     "SMPLToMixamo": SMPLToMixamo,

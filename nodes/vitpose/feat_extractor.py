@@ -8,8 +8,8 @@ Absorbed from:
 import torch
 import cv2
 import numpy as np
-from tqdm import tqdm
 import comfy.model_management
+import comfy.utils
 
 from ..hmr2 import load_hmr2, HMR2
 from ..motion_utils.video_io_utils import read_video_np
@@ -130,7 +130,10 @@ class Extractor:
         # Keep imgs on CPU, only move batch to GPU (saves memory for long videos)
         batch_size = 8  # Reduced from 16 for lower memory usage (~2.5GB GPU)
         features = []
-        for j in tqdm(range(0, F, batch_size), desc="HMR2 Feature", leave=self.tqdm_leave):
+        num_batches = (F + batch_size - 1) // batch_size
+        pbar = comfy.utils.ProgressBar(num_batches)
+        for j in range(0, F, batch_size):
+            comfy.model_management.throw_exception_if_processing_interrupted()
             imgs_batch = imgs[j : j + batch_size].to(device=self.device, dtype=self.dtype)
 
             with torch.no_grad():
@@ -140,6 +143,8 @@ class Extractor:
             # Periodic memory cleanup to prevent fragmentation
             if j > 0 and j % (batch_size * 4) == 0:
                 comfy.model_management.soft_empty_cache()
+
+            pbar.update(1)
 
         features = torch.cat(features, dim=0).clone()  # (F, 1024)
         return features

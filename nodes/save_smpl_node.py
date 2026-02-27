@@ -7,37 +7,39 @@ from typing import Dict, Tuple
 import torch
 import numpy as np
 
+from comfy_api.latest import io
+
 from .motion_utils.pylogger import Log
 
 
-class SaveSMPL:
+class SaveSMPL(io.ComfyNode):
     """
     Save SMPL motion parameters to .npz file for caching and reuse.
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "smpl_params": ("SMPL_PARAMS",),
-                "output_path": ("STRING", {
-                    "default": "output/motion.npz",
-                    "multiline": False,
-                }),
-            },
-        }
+    def define_schema(cls):
+        return io.Schema(
+            node_id="SaveSMPL",
+            display_name="Save SMPL Motion",
+            category="MotionCapture/SMPL",
+            is_output_node=True,
+            inputs=[
+                io.Custom("SMPL_PARAMS").Input("smpl_params"),
+                io.String.Input("output_path", default="output/motion.npz", multiline=False),
+            ],
+            outputs=[
+                io.String.Output(display_name="file_path"),
+                io.String.Output(display_name="info"),
+            ],
+        )
 
-    RETURN_TYPES = ("STRING", "STRING")
-    RETURN_NAMES = ("file_path", "info")
-    FUNCTION = "save_smpl"
-    OUTPUT_NODE = True
-    CATEGORY = "MotionCapture/SMPL"
-
-    def save_smpl(
-        self,
+    @classmethod
+    def execute(
+        cls,
         smpl_params: Dict,
         output_path: str,
-    ) -> Tuple[str, str]:
+    ) -> io.NodeOutput:
         """
         Save SMPL parameters to NPZ file.
 
@@ -46,7 +48,7 @@ class SaveSMPL:
             output_path: Path to save NPZ file
 
         Returns:
-            Tuple of (file_path, info_string)
+            NodeOutput with (file_path, info_string)
         """
         try:
             Log.info("[SaveSMPL] Saving SMPL motion data...")
@@ -86,12 +88,12 @@ class SaveSMPL:
             )
 
             Log.info(f"[SaveSMPL] Saved {num_frames} frames to {output_path}")
-            return (str(output_path.absolute()), info)
+            return io.NodeOutput(str(output_path.absolute()), info)
 
         except Exception as e:
             error_msg = f"SaveSMPL failed: {str(e)}"
             Log.error(error_msg, exc_info=True)
-            return ("", error_msg)
+            return io.NodeOutput("", error_msg)
 
 
 NODE_CLASS_MAPPINGS = {

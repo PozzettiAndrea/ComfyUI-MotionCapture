@@ -4,7 +4,7 @@ import torch
 from pathlib import Path
 import shutil
 import ffmpeg
-from tqdm import tqdm
+import comfy.utils
 import cv2
 
 
@@ -56,7 +56,11 @@ def read_images_np(image_paths, verbose=False):
         images: np.array, (N, H, W, 3) RGB, uint8
     """
     if verbose:
-        images = [cv2.imread(str(img_path))[..., ::-1] for img_path in tqdm(image_paths)]
+        pbar = comfy.utils.ProgressBar(len(image_paths))
+        images = []
+        for img_path in image_paths:
+            images.append(cv2.imread(str(img_path))[..., ::-1])
+            pbar.update(1)
     else:
         images = [cv2.imread(str(img_path))[..., ::-1] for img_path in image_paths]
     images = np.stack(images, axis=0)

@@ -10,18 +10,22 @@ import zipfile
 from pathlib import Path
 import folder_paths
 
+from comfy_api.latest import io
+
 MODELS_DIR = Path(folder_paths.models_dir) / "motion_capture"
+os.makedirs(str(MODELS_DIR), exist_ok=True)
+folder_paths.add_model_folder_path("motion_capture", str(MODELS_DIR))
 
 from .motion_utils.pylogger import Log
 
 
-class LoadGVHMRModels:
+class LoadGVHMRModels(io.ComfyNode):
     """
     ComfyUI node for checking/downloading GVHMR model files.
     Returns a config dict of paths (strings only) for GVHMRInference.
     """
 
-    # Model download configuration (HuggingFace) — safetensors from apozz repo
+    # Model download configuration (HuggingFace) -- safetensors from apozz repo
     MODEL_CONFIGS = {
         "gvhmr": {
             "repo_id": "apozz/motion-capture-safetensors",
@@ -38,42 +42,37 @@ class LoadGVHMRModels:
     }
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {},
-            "optional": {
-                "model_path_override": ("STRING", {
-                    "default": "",
-                    "multiline": False,
-                    "tooltip": "Optional: Override default model checkpoint path"
-                }),
-                "precision": (["auto", "bf16", "fp16", "fp32"], {
-                    "default": "auto",
-                    "tooltip": "Model precision. auto: best for your GPU (bf16 on Ampere+, fp16 on Volta/Turing, fp32 on older)."
-                }),
-                "attention": (["auto", "sdpa", "flash_attn", "sage"], {
-                    "default": "auto",
-                    "tooltip": "Attention backend. auto: best available (sage > flash_attn > sdpa). sdpa: PyTorch native. flash_attn: Tri Dao's FlashAttention (FA2/FA3, requires flash-attn package). sage: SageAttention (auto-detects v3 for Blackwell or v2, requires sageattention/sageattn3 package)."
-                }),
-                "load_dpvo": ("BOOLEAN", {
-                    "default": False,
-                    "tooltip": "Download DPVO model for moving camera scenarios (~100MB)"
-                }),
-            }
-        }
+    def define_schema(cls):
+        return io.Schema(
+            node_id="LoadGVHMRModels",
+            display_name="(Down)Load GVHMR Models",
+            category="MotionCapture/GVHMR",
+            inputs=[
+                io.String.Input("model_path_override", default="", multiline=False,
+                                tooltip="Optional: Override default model checkpoint path", optional=True),
+                io.Combo.Input("precision", options=["auto", "bf16", "fp16", "fp32"], default="auto",
+                               tooltip="Model precision. auto: best for your GPU (bf16 on Ampere+, fp16 on Volta/Turing, fp32 on older).",
+                               optional=True),
+                io.Combo.Input("attention", options=["auto", "sdpa", "flash_attn", "sage"], default="auto",
+                               tooltip="Attention backend. auto: best available (sage > flash_attn > sdpa). sdpa: PyTorch native. flash_attn: Tri Dao's FlashAttention (FA2/FA3, requires flash-attn package). sage: SageAttention (auto-detects v3 for Blackwell or v2, requires sageattention/sageattn3 package).",
+                               optional=True),
+                io.Boolean.Input("load_dpvo", default=False,
+                                 tooltip="Download DPVO model for moving camera scenarios (~100MB)",
+                                 optional=True),
+            ],
+            outputs=[
+                io.Custom("GVHMR_CONFIG").Output(display_name="config"),
+            ],
+        )
 
-    RETURN_TYPES = ("GVHMR_CONFIG",)
-    RETURN_NAMES = ("config",)
-    FUNCTION = "load_models"
-    CATEGORY = "MotionCapture/GVHMR"
-
-    def check_and_download_model(self, model_name: str, target_path: Path) -> bool:
+    @staticmethod
+    def check_and_download_model(model_name: str, target_path: Path) -> bool:
         """Check if model exists, download from HuggingFace if missing."""
         if target_path.exists():
             Log.info(f"[LoadGVHMRModels] {model_name} found at {target_path}")
             return True
 
-        if model_name not in self.MODEL_CONFIGS:
+        if model_name not in LoadGVHMRModels.MODEL_CONFIGS:
             Log.error(f"[LoadGVHMRModels] No download config for {model_name}")
             return False
 
@@ -83,7 +82,7 @@ class LoadGVHMRModels:
             Log.error("[LoadGVHMRModels] huggingface_hub not installed. Run: pip install huggingface_hub")
             return False
 
-        config = self.MODEL_CONFIGS[model_name]
+        config = LoadGVHMRModels.MODEL_CONFIGS[model_name]
         Log.info(f"[LoadGVHMRModels] Downloading {model_name} from HuggingFace...")
         Log.info(f"[LoadGVHMRModels] Repository: {config['repo_id']}")
         target_path.parent.mkdir(parents=True, exist_ok=True)
@@ -101,7 +100,8 @@ class LoadGVHMRModels:
             Log.error(f"[LoadGVHMRModels] Failed to download {model_name}: {e}")
             return False
 
-    def download_smpl_from_hf(self, model_name: str, target_path: Path) -> bool:
+    @staticmethod
+    def download_smpl_from_hf(model_name: str, target_path: Path) -> bool:
         """Download SMPL model from HuggingFace if missing."""
         try:
             from huggingface_hub import hf_hub_download
@@ -141,7 +141,8 @@ class LoadGVHMRModels:
             Log.error(f"[LoadGVHMRModels] Failed to download {model_name}: {e}")
             return False
 
-    def check_smpl_models(self) -> bool:
+    @staticmethod
+    def check_smpl_models() -> bool:
         """Check if SMPL body models are available, download from HuggingFace if missing."""
         smpl_dir = MODELS_DIR / "body_models" / "smpl"
         smplx_dir = MODELS_DIR / "body_models" / "smplx"
@@ -153,14 +154,14 @@ class LoadGVHMRModels:
             file_path = smpl_dir / filename
             if not file_path.exists():
                 Log.info(f"[LoadGVHMRModels] {filename} not found, downloading from HuggingFace...")
-                if not self.download_smpl_from_hf(filename, file_path):
+                if not LoadGVHMRModels.download_smpl_from_hf(filename, file_path):
                     Log.warn(f"[LoadGVHMRModels] Could not auto-download {filename}")
 
         for filename in smplx_files:
             file_path = smplx_dir / filename
             if not file_path.exists():
                 Log.info(f"[LoadGVHMRModels] {filename} not found, downloading from HuggingFace...")
-                if not self.download_smpl_from_hf(filename, file_path):
+                if not LoadGVHMRModels.download_smpl_from_hf(filename, file_path):
                     Log.warn(f"[LoadGVHMRModels] Could not auto-download {filename}")
 
         smpl_exists = all((smpl_dir / f).exists() for f in smpl_files)
@@ -189,7 +190,8 @@ class LoadGVHMRModels:
         Log.info("[LoadGVHMRModels] SMPL body models found")
         return True
 
-    def download_dpvo_checkpoint(self, target_dir: Path) -> bool:
+    @staticmethod
+    def download_dpvo_checkpoint(target_dir: Path) -> bool:
         """Download DPVO checkpoint from Dropbox if missing."""
         checkpoint_path = target_dir / "dpvo.pth"
 
@@ -202,7 +204,7 @@ class LoadGVHMRModels:
 
         try:
             import requests
-            from tqdm import tqdm
+            import comfy.utils
 
             url = "https://www.dropbox.com/s/nap0u8zslspdwm4/models.zip?dl=1"
             zip_path = target_dir / "models.zip"
@@ -213,10 +215,10 @@ class LoadGVHMRModels:
             total_size = int(response.headers.get('content-length', 0))
 
             with open(zip_path, 'wb') as f:
-                with tqdm(total=total_size, unit='B', unit_scale=True, desc="Downloading DPVO") as pbar:
-                    for chunk in response.iter_content(chunk_size=8192):
-                        f.write(chunk)
-                        pbar.update(len(chunk))
+                pbar = comfy.utils.ProgressBar(max(total_size, 1))
+                for chunk in response.iter_content(chunk_size=8192):
+                    f.write(chunk)
+                    pbar.update(len(chunk))
 
             Log.info("[LoadGVHMRModels] Extracting DPVO model files...")
 
@@ -250,7 +252,8 @@ class LoadGVHMRModels:
             Log.error(f"[LoadGVHMRModels] DPVO download failed: {e}")
             return False
 
-    def load_models(self, model_path_override="", precision="auto", attention="auto", load_dpvo=False):
+    @classmethod
+    def execute(cls, model_path_override="", precision="auto", attention="auto", load_dpvo=False):
         """Validate model paths and return config dict (strings only)."""
 
         Log.info("[LoadGVHMRModels] Checking GVHMR models...")
@@ -262,11 +265,11 @@ class LoadGVHMRModels:
         if model_path_override and model_path_override.strip():
             gvhmr_path = Path(model_path_override)
 
-        self.check_and_download_model("gvhmr", gvhmr_path)
-        self.check_and_download_model("vitpose", vitpose_path)
-        self.check_and_download_model("hmr2", hmr2_path)
+        cls.check_and_download_model("gvhmr", gvhmr_path)
+        cls.check_and_download_model("vitpose", vitpose_path)
+        cls.check_and_download_model("hmr2", hmr2_path)
 
-        self.check_smpl_models()
+        cls.check_smpl_models()
 
         if not all([gvhmr_path.exists(), vitpose_path.exists(), hmr2_path.exists()]):
             raise FileNotFoundError(
@@ -280,7 +283,7 @@ class LoadGVHMRModels:
         dpvo_dir = ""
         if load_dpvo:
             dpvo_path = MODELS_DIR / "dpvo"
-            if self.download_dpvo_checkpoint(dpvo_path):
+            if cls.download_dpvo_checkpoint(dpvo_path):
                 dpvo_dir = str(dpvo_path)
                 Log.info(f"[LoadGVHMRModels] DPVO dir: {dpvo_dir}")
             else:
@@ -298,7 +301,7 @@ class LoadGVHMRModels:
             "dpvo_dir": dpvo_dir,
         }
 
-        return (config,)
+        return io.NodeOutput(config)
 
 
 # Node registration
@@ -307,5 +310,5 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "LoadGVHMRModels": "Load GVHMR Models",
+    "LoadGVHMRModels": "(Down)Load GVHMR Models",
 }

@@ -9,7 +9,9 @@ import folder_paths
 import numpy as np
 import cv2
 from typing import Dict, Tuple
-from tqdm import tqdm
+import comfy.utils
+
+from comfy_api.latest import io
 
 # Import GVHMR components
 from .motion_utils.pylogger import Log
@@ -181,11 +183,15 @@ def _run_dpvo(images_np: np.ndarray, intrinsics: torch.Tensor, dpvo_dir: str = "
     slam = DPVO(cfg, checkpoint_path, ht=height, wd=width, viz=False)
 
     # Process frames
-    for i, frame in enumerate(tqdm(images_np, desc="DPVO")):
+    import comfy.model_management
+    pbar = comfy.utils.ProgressBar(len(images_np))
+    for i, frame in enumerate(images_np):
+        comfy.model_management.throw_exception_if_processing_interrupted()
         # DPVO expects BGR
         frame_bgr = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
         intrinsics_arr = np.array([fx, fy, cx, cy])
         slam(i, frame_bgr, intrinsics_arr)
+        pbar.update(1)
 
     # Get trajectory
     # DPVO outputs poses as (N, 7): [tx, ty, tz, qx, qy, qz, qw]
@@ -216,79 +222,57 @@ def _run_dpvo(images_np: np.ndarray, intrinsics: torch.Tensor, dpvo_dir: str = "
     return R_w2c, t_w2c
 
 
-class GVHMRInference:
+class GVHMRInference(io.ComfyNode):
     """
     ComfyUI node for GVHMR motion capture inference.
     Takes video frames and SAM3 masks, outputs SMPL parameters and 3D mesh.
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "video": ("VIDEO", {
-                    "tooltip": "Input video (e.g. from Load Video node). Frames are read directly from the video file — no large float32 tensors in RAM."
-                }),
-                "video_mask": ("VIDEO", {
-                    "tooltip": "Mask video where the person is white on black background (e.g. SAM3 mask rendered to video). Must have the same or similar frame count as video."
-                }),
-                "config": ("GVHMR_CONFIG",),  # Config from LoadGVHMRModels
-                "moving_camera": ("BOOLEAN", {
-                    "default": False,
-                    "tooltip": "Enable if camera is moving (runs visual odometry to estimate camera motion)"
-                }),
-            },
-            "optional": {
-                "focal_length_mm": ("INT", {
-                    "default": 0,
-                    "min": 0,
-                    "max": 300,
-                    "tooltip": "Camera focal length in mm (0 = auto-estimate). Ignored if intrinsics input is connected. Phones: 13-77mm typical"
-                }),
-                "bbox_scale": ("FLOAT", {
-                    "default": 1.2,
-                    "min": 1.0,
-                    "max": 2.0,
-                    "step": 0.1,
-                    "tooltip": "Expand bounding box by this factor to ensure full person capture"
-                }),
-                "vo_method": (["simple_vo", "dpvo"], {
-                    "default": "simple_vo",
-                    "tooltip": "Visual odometry method. DPVO is more accurate but requires extra dependencies (dpvo package + checkpoint)"
-                }),
-                "vo_scale": ("FLOAT", {
-                    "default": 0.5,
-                    "min": 0.1,
-                    "max": 1.0,
-                    "step": 0.1,
-                    "tooltip": "Scale factor for visual odometry processing (lower = faster, only used when static_camera=False)"
-                }),
-                "vo_step": ("INT", {
-                    "default": 8,
-                    "min": 1,
-                    "max": 30,
-                    "tooltip": "Frame step for feature matching in VO (higher = faster but less accurate, only used when static_camera=False)"
-                }),
-                "intrinsics": ("INTRINSICS", {
-                    "tooltip": "Camera intrinsics matrix (3x3). Connect from DepthAnything V3 or other source. Overrides focal_length_mm if provided."
-                }),
-                "chunk_size": ("INT", {
-                    "default": 32,
-                    "min": 1,
-                    "max": 200,
-                    "step": 1,
-                    "tooltip": "Frames per chunk during preprocessing. Higher = faster but uses more RAM. Lower = slower but saves RAM. 32 is a good default, use 10-16 if low on RAM."
-                }),
-            }
-        }
+    def define_schema(cls):
+        return io.Schema(
+            node_id="GVHMRInference",
+            display_name="GVHMR Inference",
+            category="MotionCapture/GVHMR",
+            inputs=[
+                io.Custom("VIDEO").Input("video",
+                    tooltip="Input video (e.g. from Load Video node). Frames are read directly from the video file -- no large float32 tensors in RAM."),
+                io.Custom("VIDEO").Input("video_mask",
+                    tooltip="Mask video where the person is white on black background (e.g. SAM3 mask rendered to video). Must have the same or similar frame count as video."),
+                io.Custom("GVHMR_CONFIG").Input("config"),
+                io.Boolean.Input("moving_camera", default=False,
+                    tooltip="Enable if camera is moving (runs visual odometry to estimate camera motion)"),
+                io.Int.Input("focal_length_mm", default=0, min=0, max=300,
+                    tooltip="Camera focal length in mm (0 = auto-estimate). Ignored if intrinsics input is connected. Phones: 13-77mm typical",
+                    optional=True),
+                io.Float.Input("bbox_scale", default=1.2, min=1.0, max=2.0, step=0.1,
+                    tooltip="Expand bounding box by this factor to ensure full person capture",
+                    optional=True),
+                io.Combo.Input("vo_method", options=["simple_vo", "dpvo"], default="simple_vo",
+                    tooltip="Visual odometry method. DPVO is more accurate but requires extra dependencies (dpvo package + checkpoint)",
+                    optional=True),
+                io.Float.Input("vo_scale", default=0.5, min=0.1, max=1.0, step=0.1,
+                    tooltip="Scale factor for visual odometry processing (lower = faster, only used when static_camera=False)",
+                    optional=True),
+                io.Int.Input("vo_step", default=8, min=1, max=30,
+                    tooltip="Frame step for feature matching in VO (higher = faster but less accurate, only used when static_camera=False)",
+                    optional=True),
+                io.Custom("INTRINSICS").Input("intrinsics",
+                    tooltip="Camera intrinsics matrix (3x3). Connect from DepthAnything V3 or other source. Overrides focal_length_mm if provided.",
+                    optional=True),
+                io.Int.Input("chunk_size", default=32, min=1, max=200, step=1,
+                    tooltip="Frames per chunk during preprocessing. Higher = faster but uses more RAM. Lower = slower but saves RAM. 32 is a good default, use 10-16 if low on RAM.",
+                    optional=True),
+            ],
+            outputs=[
+                io.String.Output(display_name="npz_path"),
+                io.String.Output(display_name="camera_npz_path"),
+                io.String.Output(display_name="info"),
+            ],
+        )
 
-    RETURN_TYPES = ("STRING", "STRING", "STRING")
-    RETURN_NAMES = ("npz_path", "camera_npz_path", "info")
-    FUNCTION = "run_inference"
-    CATEGORY = "MotionCapture/GVHMR"
-
-    @classmethod
-    def _load_models(cls, config: Dict) -> Dict:
+    @staticmethod
+    def _load_models(config: Dict) -> Dict:
         """Load GVHMR models based on config."""
         import comfy.model_management
         import comfy.model_patcher
@@ -364,7 +348,7 @@ class GVHMRInference:
 
         model_gvhmr.to(dtype=dtype)
         # Keep the endecoder (SMPL body model + affine decoder) in float32.
-        # It's not part of the neural network — just topology data and mean/std stats.
+        # It's not part of the neural network -- just topology data and mean/std stats.
         # Postprocessing utility libraries (IK, quaternion, matrix) assume float32.
         model_gvhmr.pipeline.endecoder.float()
 
@@ -413,14 +397,14 @@ class GVHMRInference:
         Log.info("[GVHMRInference] All models loaded successfully!")
         return model_bundle
 
-    @classmethod
-    def _get_or_load_model(cls, config: Dict) -> Dict:
+    @staticmethod
+    def _get_or_load_model(config: Dict) -> Dict:
         """Get cached model or load new one based on config."""
-        # Load fresh model each time — comfy-env handles GPU memory management
-        return cls._load_models(config)
+        # Load fresh model each time -- comfy-env handles GPU memory management
+        return GVHMRInference._load_models(config)
 
+    @staticmethod
     def prepare_data_from_videos(
-        self,
         video,
         video_mask,
         model_bundle: Dict,
@@ -468,6 +452,7 @@ class GVHMRInference:
             for frame in container.decode(stream):
                 if frame_idx >= batch_size:
                     break
+                comfy.model_management.throw_exception_if_processing_interrupted()
                 mask_np = frame.to_ndarray(format='gray')  # (H, W) uint8
                 bbox = extract_bbox_from_numpy_mask(mask_np)
                 bboxes_xywh.append(bbox)
@@ -501,7 +486,7 @@ class GVHMRInference:
 
         # --- Phase 2: Two-pass frame processing (GPU memory optimization) ---
         # Only one large model on GPU at a time (~2.7 GB peak vs ~5.2 GB).
-        # Cropped 256×256 tensors saved between passes (~0.75 MB/frame).
+        # Cropped 256x256 tensors saved between passes (~0.75 MB/frame).
         from .vitpose.feat_extractor import get_batch
 
         vitpose_extractor = model_bundle["vitpose_extractor"]
@@ -538,6 +523,7 @@ class GVHMRInference:
             for frame in container.decode(stream):
                 if frame_idx >= batch_size:
                     break
+                comfy.model_management.throw_exception_if_processing_interrupted()
                 frame_np = frame.to_ndarray(format='rgb24')  # (H, W, 3) uint8
                 chunk_frames.append(frame_np)
                 frame_idx += 1
@@ -562,7 +548,7 @@ class GVHMRInference:
                     chunk_kp2d = vitpose_extractor.extract(chunk_tensor, chunk_bbx_processed, img_ds=1.0)
                     all_kp2d.append(chunk_kp2d.cpu())
 
-                    # Save crops for HMR2 pass (256×256 tensors — tiny)
+                    # Save crops for HMR2 pass (256x256 tensors -- tiny)
                     saved_crops.append((chunk_tensor.cpu(), chunk_bbx_processed.clone()))
 
                     del chunk_np, chunk_kp2d
@@ -576,7 +562,7 @@ class GVHMRInference:
             _video_writer.release()
             _video_writer = None
 
-        # --- Pass 2: HMR2 (iterate saved crops — no video decoding) ---
+        # --- Pass 2: HMR2 (iterate saved crops -- no video decoding) ---
         # Load HMR2 onto GPU (ModelPatcher automatically offloads ViTPose)
         comfy.model_management.load_models_gpu([model_bundle["hmr2_patcher"]])
         _log_memory("HMR2 on GPU")
@@ -585,6 +571,7 @@ class GVHMRInference:
         Log.info(f"[GVHMRInference] Pass 2/2 (HMR2): {len(saved_crops)} chunks...")
 
         for i, (chunk_tensor, chunk_bbx_processed) in enumerate(saved_crops):
+            comfy.model_management.throw_exception_if_processing_interrupted()
             Log.info(f"[GVHMRInference] HMR2 chunk {i+1}/{len(saved_crops)}")
             chunk_features = feature_extractor.extract_video_features(chunk_tensor, chunk_bbx_processed, img_ds=1.0)
             all_f_imgseq.append(chunk_features.cpu())
@@ -642,7 +629,7 @@ class GVHMRInference:
             Log.info(f"[GVHMRInference] Using focal length: {focal_length_mm}mm")
             K_fullimg = create_camera_sensor(width, height, focal_length_mm)[2].repeat(batch_size, 1, 1)
         else:
-            Log.info("[GVHMRInference] Auto-estimating camera intrinsics (53° FOV)")
+            Log.info("[GVHMRInference] Auto-estimating camera intrinsics (53 deg FOV)")
             K_fullimg = estimate_K(width, height).repeat(batch_size, 1, 1)
 
         # Handle camera motion
@@ -739,8 +726,9 @@ class GVHMRInference:
         _log_memory("End of prepare_data_from_videos")
         return data, camera_data
 
-    def run_inference(
-        self,
+    @classmethod
+    def execute(
+        cls,
         video,
         video_mask,
         config: Dict,
@@ -755,7 +743,7 @@ class GVHMRInference:
     ):
         """
         Run GVHMR inference on video with mask video.
-        Reads frames directly from video files — no large float32 tensors in RAM.
+        Reads frames directly from video files -- no large float32 tensors in RAM.
         """
         import comfy.model_management
         try:
@@ -778,13 +766,13 @@ class GVHMRInference:
             _log_memory("Start of run_inference")
 
             # Load models based on config
-            model = self._get_or_load_model(config)
+            model = cls._get_or_load_model(config)
 
             # Get DPVO directory from config (just a path string)
             dpvo_dir = config.get("dpvo_dir", "")
 
             # Prepare data (reads frames from video files chunk-by-chunk)
-            data, camera_data = self.prepare_data_from_videos(
+            data, camera_data = cls.prepare_data_from_videos(
                 video, video_mask, model, static_camera, focal_length_mm, bbox_scale, vo_method, vo_scale, vo_step, intrinsics, dpvo_dir, chunk_size
             )
 
@@ -799,7 +787,7 @@ class GVHMRInference:
                 data["f_imgseq_path"] = None
                 Log.info("[GVHMRInference] Features reloaded from disk")
 
-            # Run GVHMR inference — load onto GPU (ModelPatcher offloads HMR2 automatically)
+            # Run GVHMR inference -- load onto GPU (ModelPatcher offloads HMR2 automatically)
             comfy.model_management.load_models_gpu([model["gvhmr_patcher"]])
             _log_memory("Before GVHMR predict")
             Log.info(f"[GVHMRInference] Running GVHMR model (static_cam={static_camera})...")
@@ -911,13 +899,13 @@ class GVHMRInference:
             _clear_cuda_memory()
 
             _log_memory("Final (before return)")
-            return (str(npz_path), camera_npz_path_str, info)
+            return io.NodeOutput(str(npz_path), camera_npz_path_str, info)
 
         except Exception as e:
             error_msg = f"GVHMR Inference failed: {str(e)}"
             Log.error(error_msg, exc_info=True)
             # Return placeholder on error
-            return ("", "", error_msg)
+            return io.NodeOutput("", "", error_msg)
 
 
 

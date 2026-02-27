@@ -16,7 +16,7 @@ log = logging.getLogger("motioncapture")
 
 from .model import build_model
 from .feat_extractor import get_batch
-from tqdm import tqdm
+import comfy.utils
 
 from ..motion_utils.kp2d_utils import keypoints_from_heatmaps
 from ..motion_utils.flip_utils import flip_heatmap_coco17
@@ -51,7 +51,10 @@ class VitPoseExtractor:
         L, _, H, W = imgs.shape  # (L, 3, H, W)
         batch_size = 8  # Reduced from 16 for lower memory usage
         vitpose = []
-        for j in tqdm(range(0, L, batch_size), desc="ViTPose", leave=self.tqdm_leave):
+        num_batches = (L + batch_size - 1) // batch_size
+        pbar = comfy.utils.ProgressBar(num_batches)
+        for j in range(0, L, batch_size):
+            comfy.model_management.throw_exception_if_processing_interrupted()
             # Heat map
             imgs_batch = imgs[j : j + batch_size, :, :, 32:224].to(device=self.device, dtype=self.dtype)
             if self.flip_test:
@@ -76,6 +79,8 @@ class VitPoseExtractor:
             # Periodic memory cleanup to prevent fragmentation
             if j > 0 and j % (batch_size * 4) == 0:
                 comfy.model_management.soft_empty_cache()
+
+            pbar.update(1)
 
         vitpose = torch.cat(vitpose, dim=0).clone()  # (F, 17, 3)
         return vitpose

@@ -7,6 +7,8 @@ Searches both input and output folders for .fbx files.
 import os
 import logging
 
+from comfy_api.latest import io
+
 import folder_paths
 
 from .shared_utils import resolve_file_path
@@ -14,7 +16,7 @@ from .shared_utils import resolve_file_path
 log = logging.getLogger("motioncapture")
 
 
-class LoadMixamoCharacter:
+class LoadMixamoCharacter(io.ComfyNode):
     """
     Load a Mixamo-rigged FBX character.
 
@@ -23,25 +25,26 @@ class LoadMixamoCharacter:
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        fbx_files = cls.get_fbx_files()
+    def define_schema(cls):
+        fbx_files = cls._get_fbx_files()
         if not fbx_files:
             fbx_files = ["No .fbx files found"]
-        return {
-            "required": {
-                "fbx_file": (fbx_files, {
-                    "tooltip": "FBX file containing Mixamo-rigged character"
-                }),
-            },
-        }
+        return io.Schema(
+            node_id="LoadMixamoCharacter",
+            display_name="Load Mixamo Character",
+            category="MotionCapture/Mixamo",
+            inputs=[
+                io.Combo.Input("fbx_file", options=fbx_files,
+                               tooltip="FBX file containing Mixamo-rigged character"),
+            ],
+            outputs=[
+                io.String.Output(display_name="fbx_path"),
+                io.String.Output(display_name="info"),
+            ],
+        )
 
-    RETURN_TYPES = ("STRING", "STRING")
-    RETURN_NAMES = ("fbx_path", "info")
-    FUNCTION = "load_mixamo"
-    CATEGORY = "MotionCapture/Mixamo"
-
-    @classmethod
-    def _scan_fbx(cls, base_dir, prefix=""):
+    @staticmethod
+    def _scan_fbx(base_dir, prefix=""):
         """Recursively scan directory for .fbx files."""
         fbx_files = []
         if not os.path.exists(base_dir):
@@ -57,29 +60,31 @@ class LoadMixamoCharacter:
                         fbx_files.append(rel_path)
         return fbx_files
 
-    @classmethod
-    def get_fbx_files(cls):
+    @staticmethod
+    def _get_fbx_files():
         """Get list of .fbx files in input and output folders."""
         fbx_files = []
 
         # Scan input folder
         input_dir = folder_paths.get_input_directory()
-        fbx_files.extend(cls._scan_fbx(input_dir))
+        fbx_files.extend(LoadMixamoCharacter._scan_fbx(input_dir))
 
         # Scan output folder
         output_dir = folder_paths.get_output_directory()
-        fbx_files.extend(cls._scan_fbx(output_dir, prefix="[output] "))
+        fbx_files.extend(LoadMixamoCharacter._scan_fbx(output_dir, prefix="[output] "))
 
         return fbx_files
 
     @classmethod
-    def IS_CHANGED(cls, fbx_file):
+    def fingerprint_inputs(cls, **kwargs):
+        fbx_file = kwargs.get("fbx_file")
         full_path = resolve_file_path(fbx_file)
         if full_path and os.path.exists(full_path):
             return os.path.getmtime(full_path)
         return fbx_file
 
-    def load_mixamo(self, fbx_file):
+    @classmethod
+    def execute(cls, fbx_file):
         full_path = resolve_file_path(fbx_file)
         if full_path is None:
             raise FileNotFoundError(f"Mixamo FBX file not found: {fbx_file}")
@@ -96,7 +101,7 @@ class LoadMixamoCharacter:
         )
 
         log.info("Selected: %s", full_path)
-        return (full_path, info)
+        return io.NodeOutput(full_path, info)
 
 
 NODE_CLASS_MAPPINGS = {

@@ -12,7 +12,7 @@ import torch.nn as nn
 import torch.utils.checkpoint as checkpoint
 
 import comfy.ops
-from comfy.ldm.modules.attention import optimized_attention
+from comfy.ldm.modules.attention import optimized_attention_for_device
 
 ops = comfy.ops.manual_cast
 
@@ -108,8 +108,8 @@ class Attention(nn.Module):
         qkv = self.qkv(x).reshape(B, N, 3, self.num_heads, -1).permute(2, 0, 3, 1, 4)
         q, k, v = qkv.unbind(0)
 
-        out = optimized_attention(q, k, v, heads=self.num_heads,
-                                  skip_reshape=True, skip_output_reshape=True)
+        out = optimized_attention_for_device(q.device)(q, k, v, heads=self.num_heads,
+                                                     skip_reshape=True, skip_output_reshape=True)
         x = out.transpose(1, 2).reshape(B, N, -1)
         x = self.proj(x)
         x = self.proj_drop(x)
