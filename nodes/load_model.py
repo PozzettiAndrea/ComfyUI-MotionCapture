@@ -6,7 +6,6 @@ No torch, no model loading -- all heavy work happens in GVHMRInference.
 """
 
 import os
-import zipfile
 from pathlib import Path
 import folder_paths
 
@@ -192,62 +191,33 @@ class LoadGVHMRModels(io.ComfyNode):
 
     @staticmethod
     def download_dpvo_checkpoint(target_dir: Path) -> bool:
-        """Download DPVO checkpoint from Dropbox if missing."""
+        """Download DPVO checkpoint from HuggingFace if missing."""
         checkpoint_path = target_dir / "dpvo.pth"
 
         if checkpoint_path.exists():
             Log.info(f"[LoadGVHMRModels] DPVO checkpoint found at {checkpoint_path}")
             return True
 
-        Log.info("[LoadGVHMRModels] Downloading DPVO model from Dropbox...")
+        Log.info("[LoadGVHMRModels] Downloading DPVO model from HuggingFace...")
         target_dir.mkdir(parents=True, exist_ok=True)
 
         try:
-            import requests
-            import comfy.utils
+            from huggingface_hub import hf_hub_download
 
-            url = "https://www.dropbox.com/s/nap0u8zslspdwm4/models.zip?dl=1"
-            zip_path = target_dir / "models.zip"
-
-            response = requests.get(url, stream=True, allow_redirects=True)
-            response.raise_for_status()
-
-            total_size = int(response.headers.get('content-length', 0))
-
-            with open(zip_path, 'wb') as f:
-                pbar = comfy.utils.ProgressBar(max(total_size, 1))
-                for chunk in response.iter_content(chunk_size=8192):
-                    f.write(chunk)
-                    pbar.update(len(chunk))
-
-            Log.info("[LoadGVHMRModels] Extracting DPVO model files...")
-
-            with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-                zip_ref.extractall(target_dir)
-
-            models_subdir = target_dir / "models"
-            if models_subdir.exists():
-                for item in models_subdir.iterdir():
-                    dest = target_dir / item.name
-                    if not dest.exists():
-                        item.rename(dest)
-                try:
-                    models_subdir.rmdir()
-                except OSError:
-                    pass
-
-            zip_path.unlink()
+            hf_hub_download(
+                repo_id="apozz/motion-capture-safetensors",
+                filename="dpvo.pth",
+                local_dir=str(target_dir),
+                local_dir_use_symlinks=False,
+            )
 
             if checkpoint_path.exists():
                 Log.info(f"[LoadGVHMRModels] DPVO downloaded to {target_dir}")
                 return True
             else:
-                Log.error("[LoadGVHMRModels] dpvo.pth not found after extraction")
+                Log.error("[LoadGVHMRModels] dpvo.pth not found after download")
                 return False
 
-        except ImportError:
-            Log.error("[LoadGVHMRModels] requests package not installed. Run: pip install requests")
-            return False
         except Exception as e:
             Log.error(f"[LoadGVHMRModels] DPVO download failed: {e}")
             return False
