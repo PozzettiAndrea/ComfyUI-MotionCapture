@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { margin: 0; overflow: hidden; background: #1a1a1a; font-family: Arial, sans-serif; }
+        #canvas-container { width: 100%; height: 100%; }
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            z-index: 50;
+        }
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: monospace;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading">Loading BVH animation...</div>
+    <div id="info" style="display: none;"></div>
+    <div id="canvas-container"></div>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { BVHLoader } from 'three/addons/loaders/BVHLoader.js';
+
+        let scene, camera, renderer, controls;
+        let skeletonHelper = null;
+        let mixer = null;
+        let currentAction = null;
+        let clip = null;
+        let clock = new THREE.Clock();
+        let isPlaying = false;
+        let currentFrame = 0;
+        let totalFrames = 0;
+        let frameTime = 0;
+        let skeleton = null;
+        let gridHelper, axesHelper;
+        let latestBVHContent = null;
+        let latestBVHFilename = "motion.bvh";
+
+        function init() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x1a1a1a);
+
+            // UI: download button
+            const infoDiv = document.getElementById('info');
+            infoDiv.style.display = 'none';
+            infoDiv.innerHTML = `
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+                    <strong>BVH Animation</strong>
+                    <button id="download-bvh" type="button" style="
+                        cursor:pointer;
+                        background:#2b2b2b;
+                        color:#fff;
+                        border:1px solid #555;
+                        border-radius:4px;
+                        padding:6px 10px;
+                        font-family: Arial, sans-serif;
+                        font-size: 12px;
+                    " disabled>下载 BVH</button>
+                </div>
+                <div id="bvh-stats" style="margin-top:8px; line-height:1.4;"></div>
+            `;
+            const downloadBtn = document.getElementById('download-bvh');
+            downloadBtn.addEventListener('click', downloadBVH);
+
+            camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 10000);
+            camera.position.set(2, 2, 3);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.target.set(0, 1, 0);
+            controls.update();
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            directionalLight.position.set(5, 10, 7.5);
+            scene.add(directionalLight);
+
+            gridHelper = new THREE.GridHelper(10, 10, 0x444444, 0x222222);
+            scene.add(gridHelper);
+
+            axesHelper = new THREE.AxesHelper(1);
+            scene.add(axesHelper);
+
+            window.addEventListener('resize', onWindowResize);
+            window.addEventListener('message', handleMessage);
+
+            animate();
+            window.parent.postMessage({ type: 'VIEWER_READY' }, '*');
+        }
+
+        function downloadBVH() {
+            if (!latestBVHContent) return;
+            const blob = new Blob([latestBVHContent], { type: "text/plain;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = latestBVHFilename || "motion.bvh";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+        }
+
+        function safeBasename(pathLike) {
+            if (!pathLike) return null;
+            const s = String(pathLike).replace(/\\/g, "/");
+            const parts = s.split("/").filter(Boolean);
+            return parts.length ? parts[parts.length - 1] : null;
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function handleMessage(event) {
+            const data = event.data;
+            if (data.type === 'loadBVH') {
+                loadBVHFromString(data.bvhContent, data.bvhInfo);
+            } else if (data.type === 'play') {
+                playAnimation();
+            } else if (data.type === 'pause') {
+                pauseAnimation();
+            } else if (data.type === 'setFrame') {
+                setFrame(data.frame);
+            } else if (data.type === 'setSpeed') {
+                if (mixer) mixer.timeScale = data.speed;
+            }
+        }
+
+        function loadBVHFromString(bvhContent, bvhInfo) {
+            // bvhInfo is dict with num_frames, fps, file_path
+            console.log("bvhInfo", bvhInfo);
+            latestBVHContent = bvhContent;
+            latestBVHFilename = safeBasename(bvhInfo?.file_path) || "motion.bvh";
+            const downloadBtn = document.getElementById('download-bvh');
+            if (downloadBtn) downloadBtn.disabled = !latestBVHContent;
+            if (mixer) {
+                mixer.stopAllAction();
+                mixer.uncacheRoot(mixer.getRoot());
+                mixer = null;
+            }
+
+            const toRemove = [];
+            scene.traverse((child) => {
+                if (child.isSkeletonHelper || (child.isMesh && child !== gridHelper && child !== axesHelper) || child.type === 'Bone') {
+                    toRemove.push(child);
+                }
+            });
+
+            toRemove.forEach(child => {
+                scene.remove(child);
+                if (child.geometry) child.geometry.dispose();
+                if (child.material) {
+                    if (Array.isArray(child.material)) child.material.forEach(m => m.dispose());
+                    else child.material.dispose();
+                }
+            });
+
+            skeletonHelper = null;
+            skeleton = null;
+
+            const loader = new BVHLoader();
+            let result;
+
+            try {
+                result = loader.parse(bvhContent);
+            } catch (error) {
+                document.getElementById('loading').textContent = 'Error loading BVH: ' + error.message;
+                return;
+            }
+
+            skeleton = result.skeleton;
+            clip = result.clip;
+
+            scene.add(skeleton.bones[0]);
+
+            skeletonHelper = new THREE.SkeletonHelper(skeleton.bones[0]);
+            skeletonHelper.skeleton = skeleton;
+            skeletonHelper.material = new THREE.LineBasicMaterial({ color: 0x00ff00, linewidth: 3, depthTest: false });
+            scene.add(skeletonHelper);
+
+            const jointGeometry = new THREE.SphereGeometry(0.02, 8, 8);
+            const jointMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000, depthTest: false });
+
+            skeleton.bones[0].traverse((bone) => {
+                if (bone.isBone) {
+                    const jointMarker = new THREE.Mesh(jointGeometry, jointMaterial);
+                    bone.add(jointMarker);
+                }
+            });
+
+            mixer = new THREE.AnimationMixer(skeleton.bones[0]);
+            currentAction = mixer.clipAction(clip);
+            currentAction.setEffectiveWeight(1.0);
+
+            isPlaying = true;
+            currentFrame = 0;
+
+            totalFrames = Math.floor(clip.duration / (1/30));
+            if (bvhInfo && bvhInfo.num_frames) totalFrames = bvhInfo.num_frames;
+            frameTime = clip.duration / totalFrames;
+
+            try {
+                const box = new THREE.Box3().setFromObject(skeleton.bones[0]);
+                const center = box.getCenter(new THREE.Vector3());
+                const size = box.getSize(new THREE.Vector3());
+
+                if (size.lengthSq() < 0.001) {
+                    center.set(0, 1, 0);
+                    size.set(1, 2, 1);
+                }
+
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const fov = camera.fov * (Math.PI / 180);
+                let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
+                cameraZ *= 1.5;
+
+                camera.position.set(center.x, center.y + size.y/2, center.z + cameraZ);
+                camera.lookAt(center);
+                controls.target.copy(center);
+                controls.update();
+            } catch (e) {
+                console.warn("[BVHViewer] Camera framing failed:", e);
+            }
+
+            const statsDiv = document.getElementById('bvh-stats');
+            if (statsDiv) {
+                statsDiv.innerHTML = `
+                    Bones: ${skeleton.bones.length}<br>
+                    Frames: ${totalFrames}<br>
+                    FPS: ${bvhInfo?.fps || 30}<br>
+                    Duration: ${clip.duration.toFixed(2)}s<br>
+                    File: ${latestBVHFilename}
+                `;
+            }
+            const infoDiv = document.getElementById('info');
+            infoDiv.style.display = 'block';
+            document.getElementById('loading').style.display = 'none';
+
+            playAnimation();
+            window.parent.postMessage({ type: 'frameChanged', frame: 0, totalFrames: totalFrames }, '*');
+        }
+
+        function playAnimation() {
+            if (!currentAction) return;
+            isPlaying = true;
+            currentAction.play();
+            clock.start();
+            window.parent.postMessage({ type: 'playing' }, '*');
+        }
+
+        function pauseAnimation() {
+            if (!currentAction) return;
+            isPlaying = false;
+            currentAction.paused = true;
+            window.parent.postMessage({ type: 'paused' }, '*');
+        }
+
+        function setFrame(frame) {
+            if (!mixer || !currentAction || !clip) return;
+            currentFrame = Math.max(0, Math.min(frame, totalFrames - 1));
+            const time = (currentFrame / totalFrames) * clip.duration;
+            mixer.setTime(time);
+            currentAction.time = time;
+            mixer.update(0);
+            window.parent.postMessage({ type: 'frameChanged', frame: currentFrame, totalFrames: totalFrames }, '*');
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+
+            if (mixer && isPlaying) {
+                const delta = clock.getDelta();
+                mixer.update(delta);
+
+                if (currentAction && clip) {
+                    const progress = currentAction.time / clip.duration;
+                    currentFrame = Math.floor(progress * totalFrames);
+
+                    if (currentAction.time >= clip.duration - 0.01) {
+                        window.parent.postMessage({ type: 'looped' }, '*');
+                    }
+                }
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        init();
+    </script>
+</body>
+</html>

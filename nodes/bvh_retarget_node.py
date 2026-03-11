@@ -8,6 +8,10 @@ import logging
 from pathlib import Path
 from typing import Dict, Tuple
 
+import folder_paths
+
+from .motion_utils.pylogger import Log
+
 log = logging.getLogger("motioncapture")
 
 
@@ -386,7 +390,7 @@ class BVHtoFBX:
                     "multiline": False,
                 }),
                 "output_path": ("STRING", {
-                    "default": "output/retargeted.fbx",
+                    "default": "retargeted.fbx",
                     "multiline": False,
                 }),
             },
@@ -431,10 +435,11 @@ class BVHtoFBX:
 
             Log.info(f"[BVHtoFBX] Character type: {character_type}")
 
-            # Prepare output directory
+            # Prepare output directory (use ComfyUI output folder)
             output_path = Path(output_path)
-            if not output_path.is_absolute() and not str(output_path).startswith(("output/", "temp/")):
-                output_path = Path("output") / output_path
+            if not output_path.is_absolute():
+                output_dir = Path(folder_paths.get_output_directory())
+                output_path = output_dir / output_path
             output_path.parent.mkdir(parents=True, exist_ok=True)
 
             # Ensure correct extension

@@ -80,15 +80,33 @@ def _save_tensor_to_disk(tensor, prefix="tensor"):
     return path
 
 
+# def _load_tensor_from_disk(path, device="cpu"):
+#     """Load tensor from disk and delete temp file."""
+#     import safetensors.torch
+#     sd = safetensors.torch.load_file(path, device=str(device))
+#     os.remove(path)
+#     return sd["t"]
+
+
 def _load_tensor_from_disk(path, device="cpu"):
     """Load tensor from disk and delete temp file."""
     import safetensors.torch
+    import os
+    import time
+
     sd = safetensors.torch.load_file(path, device=str(device))
-    os.remove(path)
+
+    # Windows may keep the file locked for a short moment
+    try:
+        os.remove(path)
+    except PermissionError:
+        time.sleep(0.5)
+        try:
+            os.remove(path)
+        except Exception:
+            pass
+
     return sd["t"]
-
-
-
 def _read_video_np(video_path: str) -> np.ndarray:
     """Read video file into numpy array (N, H, W, 3) RGB uint8."""
     cap = cv2.VideoCapture(video_path)

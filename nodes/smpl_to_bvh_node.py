@@ -38,6 +38,30 @@ SMPL_21_JOINT_NAMES = [
     'L_Wrist',      # 20
     'R_Wrist',      # 21
 ]
+SMPL_21_JOINT_NAMES_BIPED = [
+    'Hips',       # 0 (root)
+    'LeftHip',        # 1
+    'RightHip',        # 2
+    'Chest',       # 3
+    'LeftKnee',       # 4
+    'RightKnee',       # 5
+    'Chest2',       # 6
+    'LeftAnkle',      # 7
+    'RightAnkle',      # 8
+    'Chest3',       # 9
+    'LeftToe',       # 10
+    'RightToe',       # 11
+    'Neck',         # 12
+    'LeftCollar',     # 13
+    'RightCollar',     # 14
+    'Head',         # 15
+    'LeftShoulder',   # 16
+    'RightShoulder',   # 17
+    'LeftElbow',      # 18
+    'RightElbow',      # 19
+    'LeftWrist',      # 20
+    'RightWrist',      # 21
+]
 
 # SMPL skeleton hierarchy - 23-joint variant (full SMPL) (24 total with root)
 SMPL_23_JOINT_NAMES = [
@@ -185,7 +209,11 @@ class SMPLtoBVH:
                     "step": 0.01,
                     "round": 0.01,
                 }),
+                
             },
+            "optional": {
+                "bvh_naming": (["SMPL_21_JOINT_NAMES", "SMPL_21_JOINT_NAMES_BIPED"],),
+            }
         }
 
     RETURN_TYPES = ("BVH_DATA", "STRING", "STRING")
@@ -200,6 +228,7 @@ class SMPLtoBVH:
         filename: str,
         fps: int = 30,
         scale: float = 1.0,
+        bvh_naming: str = "SMPL_21_JOINT_NAMES",
     ) -> Tuple[Dict, str, str]:
         """
         Convert SMPL parameters to BVH file format.
@@ -266,7 +295,10 @@ class SMPLtoBVH:
 
             # Select appropriate skeleton configuration
             if num_body_joints == 21:
-                joint_names = SMPL_21_JOINT_NAMES
+                if bvh_naming == "SMPL_21_JOINT_NAMES_BIPED":
+                    joint_names = SMPL_21_JOINT_NAMES_BIPED
+                else:
+                    joint_names = SMPL_21_JOINT_NAMES
                 parent_indices = SMPL_21_PARENTS
                 Log.info("[SMPLtoBVH] Using 21-joint skeleton (GVHMR variant, no hands)")
             elif num_body_joints == 23:

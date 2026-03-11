@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { margin: 0; overflow: hidden; background: #1a1a1a; font-family: Arial, sans-serif; }
+        #canvas-container { width: 100%; height: 100%; }
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            z-index: 50;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading">Loading animated FBX...</div>
+    <div id="canvas-container"></div>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
+
+        let scene, camera, renderer, controls;
+        let currentModel = null;
+        let skeletonHelper = null;
+        let modelBoundingBox = null;
+        let mixer = null;
+        let currentAction = null;
+        let animations = [];
+        let clock = new THREE.Clock();
+        let isPlaying = false;
+        let showSkeleton = true;
+        let showMesh = true;
+
+        function init() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x1a1a1a);
+
+            camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 10000);
+            camera.position.set(0, 1.5, 3);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(5, 10, 7.5);
+            directionalLight.castShadow = true;
+            scene.add(directionalLight);
+
+            const gridHelper = new THREE.GridHelper(10, 10, 0x444444, 0x222222);
+            scene.add(gridHelper);
+
+            const axesHelper = new THREE.AxesHelper(1);
+            scene.add(axesHelper);
+
+            animate();
+            window.addEventListener('resize', onWindowResize);
+            window.addEventListener('message', handleMessage);
+            window.parent.postMessage({ type: 'VIEWER_READY' }, '*');
+        }
+
+        function handleMessage(event) {
+            const { type, ...data } = event.data;
+            switch(type) {
+                case 'LOAD_FBX': loadFBX(data.path); break;
+                case 'PLAY_PAUSE': togglePlayPause(); break;
+                case 'RESET': resetAnimation(); break;
+                case 'SET_TIMELINE': setTimeline(data.progress); break;
+                case 'SET_SPEED': setSpeed(data.speed); break;
+                case 'SET_LOOP': setLoop(data.loop); break;
+                case 'CHANGE_ANIMATION': playAnimation(data.index); break;
+                case 'TOGGLE_SKELETON': toggleSkeleton(data.visible); break;
+                case 'TOGGLE_MESH': toggleMesh(data.visible); break;
+                case 'TOGGLE_XRAY': toggleXRay(data.xray); break;
+                case 'RESET_CAMERA': resetCamera(); break;
+            }
+        }
+
+        function loadFBX(path) {
+            const loader = new FBXLoader();
+            const url = (path.startsWith('http') || path.startsWith('blob:')) ? path : window.parent.location.origin + path;
+
+            loader.load(url, (fbx) => {
+                if (currentModel) scene.remove(currentModel);
+                if (skeletonHelper) scene.remove(skeletonHelper);
+                if (mixer) mixer.stopAllAction();
+
+                currentModel = fbx;
+                scene.add(fbx);
+
+                fbx.traverse((child) => {
+                    if (child.isMesh) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                        child.visible = showMesh;
+                    }
+                });
+
+                let skinnedMesh = null;
+                fbx.traverse((child) => {
+                    if (child.isSkinnedMesh && !skinnedMesh) skinnedMesh = child;
+                });
+
+                if (skinnedMesh && skinnedMesh.skeleton) {
+                    skeletonHelper = new THREE.SkeletonHelper(fbx);
+                    skeletonHelper.material.linewidth = 2;
+                    skeletonHelper.visible = showSkeleton;
+                    scene.add(skeletonHelper);
+                }
+
+                animations = fbx.animations || [];
+                if (animations.length > 0) {
+                    setupAnimations();
+                } else {
+                    notifyParent({ type: 'NO_ANIMATIONS' });
+                }
+
+                centerModel(fbx);
+                document.getElementById('loading').style.display = 'none';
+            }, (xhr) => {
+                const percent = (xhr.loaded / xhr.total * 100).toFixed(0);
+                document.getElementById('loading').textContent = 'Loading... ' + percent + '%';
+            }, (error) => {
+                document.getElementById('loading').textContent = 'Error loading FBX';
+            });
+        }
+
+        function setupAnimations() {
+            mixer = new THREE.AnimationMixer(currentModel);
+            const animationNames = animations.map((clip, i) => ({
+                index: i,
+                name: clip.name || ('Animation ' + (i + 1)),
+                duration: clip.duration
+            }));
+            notifyParent({ type: 'ANIMATIONS_LOADED', animations: animationNames });
+            playAnimation(0);
+        }
+
+        function playAnimation(index) {
+            if (mixer && animations[index]) {
+                if (currentAction) currentAction.stop();
+                currentAction = mixer.clipAction(animations[index]);
+                currentAction.setLoop(THREE.LoopRepeat);
+                currentAction.timeScale = 1.0;
+                currentAction.play();
+                isPlaying = true;
+                notifyParent({ type: 'ANIMATION_CHANGED', index: index, duration: currentAction.getClip().duration });
+            }
+        }
+
+        function togglePlayPause() {
+            if (!currentAction) return;
+            if (isPlaying) {
+                currentAction.paused = true;
+                isPlaying = false;
+            } else {
+                currentAction.paused = false;
+                isPlaying = true;
+            }
+            notifyParent({ type: 'PLAY_STATE_CHANGED', isPlaying });
+        }
+
+        function resetAnimation() {
+            if (currentAction) {
+                currentAction.reset();
+                currentAction.play();
+                isPlaying = true;
+                notifyParent({ type: 'PLAY_STATE_CHANGED', isPlaying: true });
+            }
+        }
+
+        function setTimeline(progress) {
+            if (currentAction) {
+                const duration = currentAction.getClip().duration;
+                currentAction.time = progress * duration;
+            }
+        }
+
+        function setSpeed(speed) {
+            if (currentAction) currentAction.timeScale = speed;
+        }
+
+        function setLoop(loop) {
+            if (currentAction) currentAction.setLoop(loop ? THREE.LoopRepeat : THREE.LoopOnce);
+        }
+
+        function toggleSkeleton(visible) {
+            showSkeleton = visible;
+            if (skeletonHelper) skeletonHelper.visible = visible;
+        }
+
+        function toggleMesh(visible) {
+            showMesh = visible;
+            if (currentModel) {
+                currentModel.traverse((child) => {
+                    if (child.isMesh) child.visible = visible;
+                });
+            }
+        }
+
+        function toggleXRay(xray) {
+            if (skeletonHelper) {
+                skeletonHelper.material.depthTest = !xray;
+                skeletonHelper.material.depthWrite = !xray;
+            }
+        }
+
+        function centerModel(model) {
+            const box = new THREE.Box3().setFromObject(model);
+            const center = box.getCenter(new THREE.Vector3());
+            const size = box.getSize(new THREE.Vector3());
+
+            model.position.sub(center);
+
+            const maxDim = Math.max(size.x, size.y, size.z);
+            const fov = camera.fov * (Math.PI / 180);
+            let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
+            cameraZ *= 1.5;
+
+            camera.position.set(0, size.y / 2, cameraZ);
+            camera.lookAt(0, size.y / 2, 0);
+            controls.target.set(0, size.y / 2, 0);
+            controls.update();
+
+            modelBoundingBox = box;
+        }
+
+        function resetCamera() {
+            if (modelBoundingBox) {
+                const size = modelBoundingBox.getSize(new THREE.Vector3());
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const fov = camera.fov * (Math.PI / 180);
+                let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
+                cameraZ *= 1.5;
+
+                camera.position.set(0, size.y / 2, cameraZ);
+                camera.lookAt(0, size.y / 2, 0);
+                controls.target.set(0, size.y / 2, 0);
+                controls.update();
+            }
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function notifyParent(data) {
+            window.parent.postMessage(data, '*');
+        }
+
+        let lastTimeUpdate = 0;
+        function sendTimeUpdate() {
+            if (!currentAction) return;
+            const currentTime = currentAction.time;
+            const duration = currentAction.getClip().duration;
+            const progress = (currentTime / duration) * 100;
+            const fps = 30;
+            const currentFrame = Math.floor(currentTime * fps);
+            const totalFrames = Math.floor(duration * fps);
+
+            const now = Date.now();
+            if (now - lastTimeUpdate > 50) {
+                notifyParent({
+                    type: 'TIME_UPDATE',
+                    time: currentTime,
+                    duration: duration,
+                    progress: progress,
+                    frame: currentFrame,
+                    totalFrames: totalFrames
+                });
+                lastTimeUpdate = now;
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const delta = clock.getDelta();
+            if (mixer && isPlaying && !currentAction?.paused) {
+                mixer.update(delta);
+                sendTimeUpdate();
+            }
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        init();
+    </script>
+</body>
+</html>

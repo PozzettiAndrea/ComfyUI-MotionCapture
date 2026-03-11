@@ -45,6 +45,6 @@ pixi.lock
 _env_*
 .comfy-env-marker.toml
 
-# Built web assets
-web/
+# Built web assets#
+#web/
 

@@ -66,7 +66,8 @@ class SMPLViewer:
         file_path = Path(npz_path)
         if not file_path.exists():
             raise FileNotFoundError(f"NPZ file not found: {file_path}")
-
+        else:
+            logger.info(f"[SMPLViewer] NPZ file found: {file_path}")
         # Load npz file
         data = np.load(str(file_path))
         params = {}
