@@ -181,11 +181,12 @@ def _run_dpvo(images_np: np.ndarray, intrinsics: torch.Tensor, dpvo_dir: str = "
     slam = DPVO(cfg, checkpoint_path, ht=height, wd=width, viz=False)
 
     # Process frames
+    intrinsics_tensor = torch.tensor([fx, fy, cx, cy], dtype=torch.float32).cuda()
     for i, frame in enumerate(tqdm(images_np, desc="DPVO")):
-        # DPVO expects BGR
+        # DPVO expects a torch tensor [C, H, W] uint8 on CUDA in BGR order
         frame_bgr = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-        intrinsics_arr = np.array([fx, fy, cx, cy])
-        slam(i, frame_bgr, intrinsics_arr)
+        frame_tensor = torch.from_numpy(frame_bgr).permute(2, 0, 1).cuda()
+        slam(i, frame_tensor, intrinsics_tensor)
 
     # Get trajectory
     # DPVO outputs poses as (N, 7): [tx, ty, tz, qx, qy, qz, qw]

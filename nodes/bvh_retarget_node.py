@@ -429,7 +429,7 @@ class BVHtoFBX:
             if character_type == "auto":
                 character_type = "vrm" if character_path.suffix.lower() == ".vrm" else "fbx"
 
-            Log.info(f"[BVHtoFBX] Character type: {character_type}")
+            log.info(f"[BVHtoFBX] Character type: {character_type}")
 
             # Prepare output directory
             output_path = Path(output_path)
