@@ -17,9 +17,31 @@ from .smpl_to_bvh_node import SMPL_21_JOINT_NAMES, SMPL_21_PARENTS
 
 logger = logging.getLogger("SMPLToGLB")
 
-# Number of body joints (excluding root pelvis for body_pose, including it for skeleton)
+# Number of body joints (excluding root pelvis for body_pose)
 NUM_BODY_JOINTS = 21
-NUM_JOINTS = 22  # 1 root + 21 body
+
+SMPLX_55_JOINT_NAMES = [
+    "pelvis",
+    "left_hip", "right_hip", "spine1",
+    "left_knee", "right_knee", "spine2",
+    "left_ankle", "right_ankle", "spine3",
+    "left_foot", "right_foot", "neck",
+    "left_collar", "right_collar", "head",
+    "left_shoulder", "right_shoulder",
+    "left_elbow", "right_elbow",
+    "left_wrist", "right_wrist",
+    "jaw", "left_eye_smplhf", "right_eye_smplhf",
+    "left_index1", "left_index2", "left_index3",
+    "left_middle1", "left_middle2", "left_middle3",
+    "left_pinky1", "left_pinky2", "left_pinky3",
+    "left_ring1", "left_ring2", "left_ring3",
+    "left_thumb1", "left_thumb2", "left_thumb3",
+    "right_index1", "right_index2", "right_index3",
+    "right_middle1", "right_middle2", "right_middle3",
+    "right_pinky1", "right_pinky2", "right_pinky3",
+    "right_ring1", "right_ring2", "right_ring3",
+    "right_thumb1", "right_thumb2", "right_thumb3",
+]
 
 
 def _compute_vertex_normals(vertices, faces):
@@ -44,7 +66,6 @@ def _collapse_smplx_weights_to_smpl22(weights_55, parents_55):
     Collapse SMPLX 55-joint weights to 22 SMPL body joints.
     Joints 22-54 (hands, face) are mapped to their nearest body ancestor.
     """
-    # Build collapse map: for each joint >= 22, find ancestor <= 21
     collapse_map = {}
     for j in range(22, 55):
         p = j
@@ -155,6 +176,18 @@ class SMPLToGLB:
                     "step": 1,
                     "tooltip": "Animation frames per second"
                 }),
+                "gender": (["neutral", "male", "female"], {
+                    "default": "neutral",
+                    "tooltip": "SMPLX body model gender (neutral / male / female)"
+                }),
+                "skeleton": (["smplx_55", "smpl_22"], {
+                    "default": "smplx_55",
+                    "tooltip": "smplx_55: full 55-joint rig with controllable fingers; smpl_22: compact 22-joint body rig"
+                }),
+                "hand_pose": (["halfway", "open", "closed"], {
+                    "default": "halfway",
+                    "tooltip": "Hand pose for the 55-joint rig. halfway = model mean (natural relaxed), open = template T-pose, closed = fist. Ignored for smpl_22."
+                }),
             },
         }
 
@@ -164,7 +197,7 @@ class SMPLToGLB:
     CATEGORY = "MotionCapture/GVHMR"
     OUTPUT_NODE = True
 
-    def export_glb(self, npz_path="", fps=30):
+    def export_glb(self, npz_path="", fps=30, gender="neutral", skeleton="smplx_55", hand_pose="halfway"):
         if not npz_path or not npz_path.strip():
             raise ValueError("npz_path is required")
         npz_file = Path(npz_path)
@@ -186,7 +219,8 @@ class SMPLToGLB:
         # ---- Load SMPLX model data ----
         data_dir = Path(__file__).parent / "body_model"
         models_dir = Path(folder_paths.models_dir) / "motion_capture" / "body_models" / "smplx"
-        smplx_path = models_dir / "SMPLX_NEUTRAL.npz"
+        smplx_filename = f"SMPLX_{gender.upper()}.npz"
+        smplx_path = models_dir / smplx_filename
         if not smplx_path.exists():
             raise FileNotFoundError(f"SMPLX model not found: {smplx_path}")
 
@@ -220,27 +254,62 @@ class SMPLToGLB:
 
         # ---- Skeleton ----
         J_all = J_regressor @ v_shaped_smplx  # (55, 3)
-        J = J_all[:NUM_JOINTS].astype(np.float64)  # (22, 3) -- body joints only
-
-        # ---- Skinning weights ----
         smpl_weights_55 = smplx2smpl @ lbs_weights  # (6890, 55)
-        weights_22 = _collapse_smplx_weights_to_smpl22(smpl_weights_55, parents_55)  # (6890, 22)
-        joint_indices, joint_weights = _top_k_weights(weights_22, k=4)
+
+        use_55 = (skeleton == "smplx_55")
+        num_joints = 55 if use_55 else 22
+
+        if use_55:
+            J = J_all.astype(np.float64)  # (55, 3)
+            joint_names = SMPLX_55_JOINT_NAMES
+            joint_parents = parents_55
+            lbs = smpl_weights_55  # (6890, 55)
+        else:
+            J = J_all[:22].astype(np.float64)  # (22, 3)
+            joint_names = SMPL_21_JOINT_NAMES
+            joint_parents = np.array(SMPL_21_PARENTS, dtype=np.int32)
+            lbs = _collapse_smplx_weights_to_smpl22(smpl_weights_55, parents_55)  # (6890, 22)
+
+        joint_indices, joint_weights = _top_k_weights(lbs, k=4)
 
         # ---- Inverse bind matrices ----
-        ibms = np.zeros((NUM_JOINTS, 4, 4), dtype=np.float32)
-        for j in range(NUM_JOINTS):
+        ibms = np.zeros((num_joints, 4, 4), dtype=np.float32)
+        for j in range(num_joints):
             ibms[j] = np.eye(4, dtype=np.float32)
             ibms[j, :3, 3] = -J[j].astype(np.float32)
 
         # ---- Animation data ----
-        # Combine global_orient + body_pose -> (F, 22, 3) axis-angle
-        full_pose = np.concatenate([
+        body_pose_22 = np.concatenate([
             global_orient.reshape(-1, 1, 3),
             body_pose.reshape(-1, NUM_BODY_JOINTS, 3)
         ], axis=1).astype(np.float64)  # (F, 22, 3)
 
-        quats = _axis_angle_to_quat(full_pose)  # (F, 22, 4) in (x,y,z,w)
+        if use_55:
+            # Joints 22-24: jaw + eyes (always zero)
+            # Joints 25-39: left hand (15 joints), joints 40-54: right hand (15 joints)
+            # hands_meanl/r from the model = natural relaxed pose ("halfway")
+            hands_meanl = np.asarray(smplx_data.get('hands_meanl', np.zeros(45)), dtype=np.float64)  # (45,)
+            hands_meanr = np.asarray(smplx_data.get('hands_meanr', np.zeros(45)), dtype=np.float64)  # (45,)
+
+            hand_aa = np.zeros((33, 3), dtype=np.float64)
+            if hand_pose == "halfway":
+                scale = 1.0
+            elif hand_pose == "closed":
+                scale = 2.0
+            else:  # "open"
+                scale = 0.0
+
+            if scale != 0.0:
+                # indices 3-17 = left hand (joints 25-39), indices 18-32 = right hand (joints 40-54)
+                hand_aa[3:18] = (hands_meanl * scale).reshape(15, 3)
+                hand_aa[18:33] = (hands_meanr * scale).reshape(15, 3)
+
+            hand_pose_rest = np.tile(hand_aa, (num_frames, 1, 1))  # (F, 33, 3)
+            full_pose = np.concatenate([body_pose_22, hand_pose_rest], axis=1)  # (F, 55, 3)
+        else:
+            full_pose = body_pose_22  # (F, 22, 3)
+
+        quats = _axis_angle_to_quat(full_pose)  # (F, num_joints, 4) in (x,y,z,w)
         timestamps = (np.arange(num_frames, dtype=np.float32) / fps)
         # Root translation = skeleton root position + transl offset
         # In SMPL, transl is added on top of FK output: verts = LBS(...) + transl
@@ -327,7 +396,7 @@ class SMPLToGLB:
         ibms_col = np.transpose(ibms, (0, 2, 1)).astype(np.float32)  # to column-major
         ibm_data = ibms_col.tobytes()
         ibm_bv = add_buffer_view(ibm_data)
-        ibm_acc = add_accessor(ibm_bv, CT_FLOAT, NUM_JOINTS, "MAT4")
+        ibm_acc = add_accessor(ibm_bv, CT_FLOAT, num_joints, "MAT4")
 
         # 7. Animation timestamps
         ts_data = timestamps.tobytes()
@@ -342,7 +411,7 @@ class SMPLToGLB:
 
         # 9. Per-joint rotation quaternions
         rot_accs = []
-        for j in range(NUM_JOINTS):
+        for j in range(num_joints):
             q = quats[:, j, :].astype(np.float32).copy()  # (F, 4)
             q_data = q.tobytes()
             q_bv = add_buffer_view(q_data)
@@ -350,14 +419,14 @@ class SMPLToGLB:
             rot_accs.append(q_acc)
 
         # ---- Build glTF JSON ----
-        # Nodes: 0 = armature root, 1..22 = joint nodes, 23 = mesh node
+        # Nodes: 0 = armature root, 1..N = joint nodes, N+1 = mesh node
         # Joint nodes are arranged so node index = joint_index + 1
         # (node 0 is the armature container)
 
         nodes = []
 
         # Node 0: Armature root (contains skeleton + mesh)
-        armature_children = [NUM_JOINTS + 1]  # mesh node
+        armature_children = [num_joints + 1]  # mesh node
         # Find root joints (pelvis = joint 0 -> node 1)
         armature_children.append(1)
         nodes.append({
@@ -365,28 +434,28 @@ class SMPLToGLB:
             "children": armature_children,
         })
 
-        # Nodes 1..22: Joint nodes
-        for j in range(NUM_JOINTS):
-            node = {"name": SMPL_21_JOINT_NAMES[j]}
+        # Nodes 1..N: Joint nodes
+        for j in range(num_joints):
+            node = {"name": joint_names[j]}
             # Translation = offset from parent (or absolute for root)
-            if SMPL_21_PARENTS[j] == -1:
+            pj = int(joint_parents[j])
+            if pj == -1:
                 node["translation"] = J[j].tolist()
             else:
-                parent_j = SMPL_21_PARENTS[j]
-                offset = (J[j] - J[parent_j]).tolist()
+                offset = (J[j] - J[pj]).tolist()
                 node["translation"] = offset
 
             # Find children of this joint
             children = []
-            for c in range(NUM_JOINTS):
-                if SMPL_21_PARENTS[c] == j:
+            for c in range(num_joints):
+                if int(joint_parents[c]) == j:
                     children.append(c + 1)  # node index = joint index + 1
             if children:
                 node["children"] = children
 
             nodes.append(node)
 
-        # Node 23: Mesh node
+        # Node 56: Mesh node
         nodes.append({
             "name": "SMPLMesh",
             "mesh": 0,
@@ -394,7 +463,7 @@ class SMPLToGLB:
         })
 
         # Skin
-        joint_node_indices = list(range(1, NUM_JOINTS + 1))
+        joint_node_indices = list(range(1, num_joints + 1))
         skin = {
             "inverseBindMatrices": ibm_acc,
             "joints": joint_node_indices,
@@ -437,7 +506,7 @@ class SMPLToGLB:
         })
 
         # Per-joint rotation samplers + channels
-        for j in range(NUM_JOINTS):
+        for j in range(num_joints):
             sampler_idx = len(samplers)
             samplers.append({
                 "input": ts_acc,
@@ -483,7 +552,7 @@ class SMPLToGLB:
 
         size_mb = glb_path.stat().st_size / (1024 * 1024)
         logger.info(f"[SMPLToGLB] Wrote {glb_filename} ({size_mb:.1f} MB) -- "
-                     f"{num_frames} frames, {NUM_JOINTS} joints, "
+                     f"{num_frames} frames, {num_joints} joints ({skeleton}), "
                      f"{len(positions)} vertices, {len(faces)} faces")
 
         return {"ui": {}, "result": (str(glb_path),)}
