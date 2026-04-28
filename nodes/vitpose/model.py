@@ -10,8 +10,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-import comfy.ops
-
 from ..shared_vit import ViT, ops
 
 log = logging.getLogger("motioncapture")

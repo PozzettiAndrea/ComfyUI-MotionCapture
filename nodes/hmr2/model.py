@@ -20,7 +20,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from einops import rearrange
-import comfy.ops
 from comfy.ldm.modules.attention import optimized_attention_for_device
 
 from ..shared_vit import ViT, ops

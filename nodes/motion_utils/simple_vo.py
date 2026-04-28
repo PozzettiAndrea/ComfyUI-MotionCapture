@@ -4,7 +4,10 @@ import numpy as np
 from .relpose_utils import focal_length_from_mm
 from .matcher_wrapper import Matcher
 from .solver_two_view import TwoPairSolver, CameraParams, interpolate_missing_frames
-import comfy.model_management
+def _mm():
+    import comfy.model_management
+    return comfy.model_management
+
 import comfy.utils
 
 from .video_io_utils import get_video_lwh, read_video_np
@@ -51,7 +54,7 @@ class SimpleVO:
         num_remaining = len(frames) - 1
         pbar = comfy.utils.ProgressBar(num_remaining)
         for frame_idx in range(1, len(frames)):
-            comfy.model_management.throw_exception_if_processing_interrupted()
+            _mm().throw_exception_if_processing_interrupted()
             curr_frame = frames[frame_idx]
 
             # Match frames

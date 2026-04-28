@@ -2,8 +2,13 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-import comfy.ops
-ops = comfy.ops.manual_cast
+class _LazyOps:
+    """Lazy proxy that defers ``import comfy.ops`` until first attribute access."""
+    def __getattr__(self, name):
+        import comfy.ops
+        return getattr(comfy.ops.manual_cast, name)
+
+ops = _LazyOps()
 
 
 class ResidualBlock(nn.Module):

@@ -11,10 +11,16 @@ import torch
 import torch.nn as nn
 import torch.utils.checkpoint as checkpoint
 
-import comfy.ops
 from comfy.ldm.modules.attention import optimized_attention_for_device
 
-ops = comfy.ops.manual_cast
+
+class _LazyOps:
+    """Lazy proxy that defers ``import comfy.ops`` until first attribute access."""
+    def __getattr__(self, name):
+        import comfy.ops
+        return getattr(comfy.ops.manual_cast, name)
+
+ops = _LazyOps()
 
 
 # ---------------------------------------------------------------------------

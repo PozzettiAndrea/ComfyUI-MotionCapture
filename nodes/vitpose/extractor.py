@@ -10,7 +10,9 @@ import logging
 import torch
 import numpy as np
 from pathlib import Path
-import comfy.model_management
+def _mm():
+    import comfy.model_management
+    return comfy.model_management
 
 log = logging.getLogger("motioncapture")
 
@@ -24,7 +26,7 @@ from ..motion_utils.flip_utils import flip_heatmap_coco17
 
 class VitPoseExtractor:
     def __init__(self, tqdm_leave=True, dtype=None, ckpt_path=None):
-        self.device = comfy.model_management.get_torch_device()
+        self.device = _mm().get_torch_device()
         if ckpt_path is None:
             import folder_paths
             ckpt_path = Path(folder_paths.models_dir) / "motion_capture" / "vitpose.safetensors"
@@ -54,7 +56,7 @@ class VitPoseExtractor:
         num_batches = (L + batch_size - 1) // batch_size
         pbar = comfy.utils.ProgressBar(num_batches)
         for j in range(0, L, batch_size):
-            comfy.model_management.throw_exception_if_processing_interrupted()
+            _mm().throw_exception_if_processing_interrupted()
             # Heat map
             imgs_batch = imgs[j : j + batch_size, :, :, 32:224].to(device=self.device, dtype=self.dtype)
             if self.flip_test:
@@ -78,7 +80,7 @@ class VitPoseExtractor:
 
             # Periodic memory cleanup to prevent fragmentation
             if j > 0 and j % (batch_size * 4) == 0:
-                comfy.model_management.soft_empty_cache()
+                _mm().soft_empty_cache()
 
             pbar.update(1)
 

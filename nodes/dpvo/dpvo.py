@@ -6,7 +6,10 @@ import torch.multiprocessing as mp
 import torch.nn.functional as F
 from torch.amp import autocast
 
-import comfy.model_management
+def _mm():
+    import comfy.model_management
+    return comfy.model_management
+
 import comfy.utils
 
 log = logging.getLogger("motioncapture")
@@ -25,7 +28,7 @@ class DPVO:
 
     def __init__(self, cfg, network, ht=480, wd=640, viz=False):
         self.cfg = cfg
-        self.device = comfy.model_management.get_torch_device()
+        self.device = _mm().get_torch_device()
         self.load_weights(network)
         self.is_initialized = False
         self.enable_timing = False

@@ -9,7 +9,9 @@ import torch
 import numpy as np
 import smplx
 import folder_paths
-import comfy.model_management
+def _mm():
+    import comfy.model_management
+    return comfy.model_management
 
 from comfy_api.latest import io
 
@@ -156,8 +158,7 @@ class SMPLCameraViewer(io.ComfyNode):
 
         # Run SMPL-X forward pass to get vertices
         try:
-            import comfy.model_management
-            device = comfy.model_management.get_torch_device()
+            device = _mm().get_torch_device()
         except Exception:
             device = torch.device("cpu")
         data_dir = Path(__file__).parent / "body_model"
@@ -214,7 +215,7 @@ class SMPLCameraViewer(io.ComfyNode):
         incam_vertices_list = []
         with torch.no_grad():
             for frame_idx in range(num_frames):
-                comfy.model_management.throw_exception_if_processing_interrupted()
+                _mm().throw_exception_if_processing_interrupted()
                 bp = body_pose[frame_idx:frame_idx+1].to(device)
                 b = betas[frame_idx:frame_idx+1].to(device)
                 go = global_orient[frame_idx:frame_idx+1].to(device)
@@ -252,7 +253,7 @@ class SMPLCameraViewer(io.ComfyNode):
             R_refined = np.zeros((num_output_frames, 3, 3), dtype=np.float32)
             t_refined = np.zeros((num_output_frames, 3), dtype=np.float32)
             for fi in range(num_output_frames):
-                comfy.model_management.throw_exception_if_processing_interrupted()
+                _mm().throw_exception_if_processing_interrupted()
                 V_world = vertices_array[fi]   # (V, 3) -- world-frame vertices
                 V_incam = incam_vertices_array[fi]  # (V, 3) -- camera-frame vertices
 
@@ -354,7 +355,7 @@ class SMPLCameraViewer(io.ComfyNode):
                     for frame in in_container.decode(in_stream):
                         if frame_count >= num_frames:
                             break
-                        comfy.model_management.throw_exception_if_processing_interrupted()
+                        _mm().throw_exception_if_processing_interrupted()
                         if frame.format.name != 'yuv420p':
                             frame = frame.reformat(format='yuv420p')
                         for packet in out_stream.encode(frame):

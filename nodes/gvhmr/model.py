@@ -20,7 +20,6 @@ import torch.nn.functional as F
 from einops import rearrange, repeat
 from torch.amp import autocast
 
-import comfy.ops
 from comfy.ldm.modules.attention import optimized_attention_for_device
 
 from ..motion_utils.net_utils import length_to_mask, gaussian_smooth
@@ -47,7 +46,13 @@ from .postprocess import (
 )
 from . import stats as stats_compose
 
-ops = comfy.ops.manual_cast
+class _LazyOps:
+    """Lazy proxy that defers ``import comfy.ops`` until first attribute access."""
+    def __getattr__(self, name):
+        import comfy.ops
+        return getattr(comfy.ops.manual_cast, name)
+
+ops = _LazyOps()
 log = logging.getLogger("motioncapture")
 
 # ============================================================================
