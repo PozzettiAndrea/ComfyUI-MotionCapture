@@ -1,7 +1,7 @@
 python = "3.11"
 
-[apt]
-packages = ["python3-dev", "ffmpeg"]
+[dependencies]
+ffmpeg = "*"
 
 [cuda]
 packages = ["dpvo_cuda", "torch-scatter"]
