@@ -7,6 +7,8 @@ Loads smpl_params_*.npz files from ComfyUI output folder.
 import os
 import logging
 
+from comfy_api.latest import io
+
 import folder_paths
 
 from .shared_utils import resolve_file_path
@@ -14,7 +16,7 @@ from .shared_utils import resolve_file_path
 log = logging.getLogger("motioncapture")
 
 
-class LoadSMPLParams:
+class LoadSMPLParams(io.ComfyNode):
     """
     Select an SMPL params .npz file (smpl_params_*.npz).
 
@@ -23,25 +25,25 @@ class LoadSMPLParams:
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
+    def define_schema(cls):
         npz_files = cls.get_npz_files()
         if not npz_files:
             npz_files = ["No smpl_params files found"]
-        return {
-            "required": {
-                "file_path": (npz_files, {
-                    "tooltip": "NPZ file containing SMPL parameters (smpl_params_*.npz from GVHMR Inference)"
-                }),
-            },
-        }
+        return io.Schema(
+            node_id="LoadSMPL",
+            display_name="Load SMPL Params",
+            category="MotionCapture/SMPL",
+            inputs=[
+                io.Combo.Input("file_path", options=npz_files,
+                               tooltip="NPZ file containing SMPL parameters (smpl_params_*.npz from GVHMR Inference)"),
+            ],
+            outputs=[
+                io.String.Output(display_name="file_path"),
+            ],
+        )
 
-    RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("file_path",)
-    FUNCTION = "load"
-    CATEGORY = "MotionCapture/SMPL"
-
-    @classmethod
-    def get_npz_files(cls):
+    @staticmethod
+    def get_npz_files():
         """Get list of smpl_params_*.npz files in input and output folders."""
         npz_files = []
 
@@ -62,18 +64,20 @@ class LoadSMPLParams:
         return npz_files
 
     @classmethod
-    def IS_CHANGED(cls, file_path):
+    def fingerprint_inputs(cls, **kwargs):
+        file_path = kwargs.get("file_path")
         full_path = resolve_file_path(file_path)
         if full_path and os.path.exists(full_path):
             return os.path.getmtime(full_path)
         return file_path
 
-    def load(self, file_path):
+    @classmethod
+    def execute(cls, file_path):
         full_path = resolve_file_path(file_path)
         if full_path is None:
             raise FileNotFoundError(f"SMPL params file not found: {file_path}")
         log.info("Selected: %s", full_path)
-        return (full_path,)
+        return io.NodeOutput(full_path)
 
 
 NODE_CLASS_MAPPINGS = {

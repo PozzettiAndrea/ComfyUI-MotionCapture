@@ -11,37 +11,41 @@ import torch
 import numpy as np
 import folder_paths
 
+from comfy_api.latest import io
+
 from .motion_utils.pylogger import Log
 
 from .shared_utils import next_sequential_filename as _next_sequential_filename
 
 
-class CompareSMPLtoBVH:
+class CompareSMPLtoBVH(io.ComfyNode):
     """
     Side-by-side comparison viewer for SMPL and BVH animations.
     Synchronized playback and camera for easy comparison.
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "smpl_params": ("SMPL_PARAMS",),
-                "bvh_data": ("BVH_DATA",),
-            },
-        }
+    def define_schema(cls):
+        return io.Schema(
+            node_id="CompareSMPLtoBVH",
+            display_name="Compare SMPL vs BVH",
+            category="MotionCapture/Comparison",
+            is_output_node=True,
+            inputs=[
+                io.Custom("SMPL_PARAMS").Input("smpl_params"),
+                io.Custom("BVH_DATA").Input("bvh_data"),
+            ],
+            outputs=[
+                io.String.Output(display_name="info"),
+            ],
+        )
 
-    RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("info",)
-    FUNCTION = "compare_animations"
-    OUTPUT_NODE = True
-    CATEGORY = "MotionCapture/Comparison"
-
-    def compare_animations(
-        self,
+    @classmethod
+    def execute(
+        cls,
         smpl_params: Dict,
         bvh_data: Dict,
-    ) -> Tuple[str]:
+    ) -> io.NodeOutput:
         """
         Display SMPL and BVH animations side-by-side.
 
@@ -50,7 +54,7 @@ class CompareSMPLtoBVH:
             bvh_data: BVH data from SMPLtoBVH
 
         Returns:
-            Tuple of (info_string,)
+            NodeOutput with info string and UI data
         """
         try:
             Log.info("[CompareSMPLtoBVH] Loading animations for comparison...")
@@ -133,10 +137,8 @@ class CompareSMPLtoBVH:
                 bvh_content = f.read()
 
             # Store data for web viewer
-            # Send just the filename so JS can fetch via /view?filename=...
-            self.smpl_mesh_filename = mesh_filename
-            self.bvh_content = bvh_content
-            self.bvh_info = {
+            smpl_mesh_filename = mesh_filename
+            bvh_info = {
                 "num_frames": bvh_data.get("num_frames", 0),
                 "fps": bvh_data.get("fps", 30),
                 "file_path": bvh_file_path,
@@ -155,29 +157,23 @@ class CompareSMPLtoBVH:
             Log.info(f"[CompareSMPLtoBVH] Ready for comparison - SMPL: {smpl_frames} frames, BVH: {bvh_frames} frames")
 
             # Return data in ComfyUI OUTPUT_NODE format
-            return {
-                "ui": {
-                    "smpl_mesh_filename": [self.smpl_mesh_filename],
-                    "bvh_content": [self.bvh_content],
-                    "bvh_info": [self.bvh_info]
-                },
-                "result": (info,)
-            }
+            return io.NodeOutput(info, ui={
+                "smpl_mesh_filename": [smpl_mesh_filename],
+                "bvh_content": [bvh_content],
+                "bvh_info": [bvh_info]
+            })
 
         except Exception as e:
             error_msg = f"CompareSMPLtoBVH failed: {str(e)}"
             Log.error(error_msg, exc_info=True)
-            return {
-                "ui": {
-                    "smpl_mesh_file": [""],
-                    "bvh_content": [""],
-                    "bvh_info": [{}]
-                },
-                "result": (error_msg,)
-            }
+            return io.NodeOutput(error_msg, ui={
+                "smpl_mesh_file": [""],
+                "bvh_content": [""],
+                "bvh_info": [{}]
+            })
 
     @classmethod
-    def IS_CHANGED(cls, **kwargs):
+    def fingerprint_inputs(cls, **kwargs):
         # Always update when input changes
         return float("nan")
 

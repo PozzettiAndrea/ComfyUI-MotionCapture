@@ -1,10 +1,10 @@
 python = "3.11"
 
-[apt]
-packages = ["python3-dev", "ffmpeg"]
+[dependencies]
+ffmpeg = "*"
 
 [cuda]
-packages = ["dpvo-cuda", "torch-scatter", "torch", "torchvision"]
+packages = ["dpvo_cuda", "torch-scatter"]
 
 [pypi-dependencies]
 numpy = ">=1.23.0,<2.0.0"
@@ -30,7 +30,6 @@ smplx = ">=0.1.28"
 pycolmap = "*"
 bvh = ">=0.3"
 lapx = "*"
-setuptools = ">=68.0"
 yacs = ">=0.1.8"
 huggingface-hub = ">=1.0.0"
 gdown = ">=4.7.0"

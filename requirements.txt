@@ -1,3 +1,2 @@
-#comfy-deps
-comfy-env==0.2.14
-comfy-3d-viewers==0.2.33
+comfy-env==0.3.30
+comfy-3d-viewers==0.2.41

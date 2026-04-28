@@ -20,8 +20,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from einops import rearrange
-import comfy.ops
-from comfy.ldm.modules.attention import optimized_attention
+from comfy.ldm.modules.attention import optimized_attention_for_device
 
 from ..shared_vit import ViT, ops
 
@@ -251,8 +250,8 @@ class PoseAttention(nn.Module):
     def forward(self, x):
         qkv = self.to_qkv(x).chunk(3, dim=-1)
         q, k, v = map(lambda t: rearrange(t, "b n (h d) -> b h n d", h=self.heads), qkv)
-        out = optimized_attention(q, k, v, heads=self.heads,
-                                  skip_reshape=True, skip_output_reshape=True)
+        out = optimized_attention_for_device(q.device)(q, k, v, heads=self.heads,
+                                                     skip_reshape=True, skip_output_reshape=True)
         out = rearrange(out, "b h n d -> b n (h d)")
         return self.to_out(out)
 
@@ -284,8 +283,8 @@ class CrossAttention(nn.Module):
         k, v = self.to_kv(context).chunk(2, dim=-1)
         q = self.to_q(x)
         q, k, v = map(lambda t: rearrange(t, "b n (h d) -> b h n d", h=self.heads), [q, k, v])
-        out = optimized_attention(q, k, v, heads=self.heads,
-                                  skip_reshape=True, skip_output_reshape=True)
+        out = optimized_attention_for_device(q.device)(q, k, v, heads=self.heads,
+                                                     skip_reshape=True, skip_output_reshape=True)
         out = rearrange(out, "b h n d -> b n (h d)")
         return self.to_out(out)
 

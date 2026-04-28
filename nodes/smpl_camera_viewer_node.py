@@ -9,51 +9,50 @@ import torch
 import numpy as np
 import smplx
 import folder_paths
+def _mm():
+    import comfy.model_management
+    return comfy.model_management
+
+from comfy_api.latest import io
 
 logger = logging.getLogger("SMPLCameraViewer")
 
 from .shared_utils import next_sequential_filename as _next_sequential_filename
 
 
-class SMPLCameraViewer:
+class SMPLCameraViewer(io.ComfyNode):
     """
     ComfyUI node for visualizing SMPL mesh from the estimated camera perspective.
     Supports both trajectory camera (from GVHMR moving camera) and free orbit mode.
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "npz_path": ("STRING", {
-                    "default": "",
-                    "multiline": False,
-                    "tooltip": "Path to .npz file with SMPL parameters (from GVHMR Inference)"
-                }),
-            },
-            "optional": {
-                "camera_npz_path": ("STRING", {
-                    "default": "",
-                    "multiline": False,
-                    "tooltip": "Path to camera trajectory .npz (from GVHMR moving camera output). If empty, checks main NPZ for camera data."
-                }),
-                "mesh_color": ("STRING", {
-                    "default": "#4a9eff",
-                    "tooltip": "Hex color for the mesh (e.g. #4a9eff for blue)"
-                }),
-                "video": ("VIDEO", {
-                    "tooltip": "Reference video to display side-by-side with the 3D mesh"
-                }),
-            }
-        }
+    def define_schema(cls):
+        return io.Schema(
+            node_id="SMPLCameraViewer",
+            display_name="SMPL Viewer with Camera",
+            category="MotionCapture/GVHMR",
+            is_output_node=True,
+            inputs=[
+                io.String.Input("npz_path", default="", multiline=False,
+                                tooltip="Path to .npz file with SMPL parameters (from GVHMR Inference)"),
+                io.String.Input("camera_npz_path", default="", multiline=False,
+                                tooltip="Path to camera trajectory .npz (from GVHMR moving camera output). If empty, checks main NPZ for camera data.",
+                                optional=True),
+                io.String.Input("mesh_color", default="#4a9eff",
+                                tooltip="Hex color for the mesh (e.g. #4a9eff for blue)",
+                                optional=True),
+                io.Custom("VIDEO").Input("video",
+                                         tooltip="Reference video to display side-by-side with the 3D mesh",
+                                         optional=True),
+            ],
+            outputs=[
+                io.String.Output(display_name="mesh_file"),
+            ],
+        )
 
-    RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("mesh_file",)
-    FUNCTION = "create_viewer_data"
-    CATEGORY = "MotionCapture/GVHMR"
-    OUTPUT_NODE = True
-
-    def create_viewer_data(self, npz_path="", camera_npz_path="", mesh_color="#4a9eff", video=None):
+    @classmethod
+    def execute(cls, npz_path="", camera_npz_path="", mesh_color="#4a9eff", video=None):
         logger.info("[SMPLCameraViewer] Generating 3D mesh + camera data...")
 
         if not npz_path or not npz_path.strip():
@@ -159,8 +158,7 @@ class SMPLCameraViewer:
 
         # Run SMPL-X forward pass to get vertices
         try:
-            import comfy.model_management
-            device = comfy.model_management.get_torch_device()
+            device = _mm().get_torch_device()
         except Exception:
             device = torch.device("cpu")
         data_dir = Path(__file__).parent / "body_model"
@@ -217,6 +215,7 @@ class SMPLCameraViewer:
         incam_vertices_list = []
         with torch.no_grad():
             for frame_idx in range(num_frames):
+                _mm().throw_exception_if_processing_interrupted()
                 bp = body_pose[frame_idx:frame_idx+1].to(device)
                 b = betas[frame_idx:frame_idx+1].to(device)
                 go = global_orient[frame_idx:frame_idx+1].to(device)
@@ -249,15 +248,12 @@ class SMPLCameraViewer:
                      f"{num_verts} vertices, {faces_u32.shape[0]} faces")
 
         # Refine R_cam2world / t_cam2world via Procrustes alignment of actual vertices.
-        # The orientation-derived camera transform (R_body_world @ R_body_cam^T) doesn't
-        # account for SMPL's pose blend shapes which depend on global_orient, causing the
-        # world and incam meshes to differ by more than a rigid transform.  Procrustes
-        # on the actual vertex clouds gives a much more accurate camera extrinsic.
         if has_camera and incam_vertices_array is not None:
             logger.info("[SMPLCameraViewer] Refining camera via Procrustes alignment of vertices...")
             R_refined = np.zeros((num_output_frames, 3, 3), dtype=np.float32)
             t_refined = np.zeros((num_output_frames, 3), dtype=np.float32)
             for fi in range(num_output_frames):
+                _mm().throw_exception_if_processing_interrupted()
                 V_world = vertices_array[fi]   # (V, 3) -- world-frame vertices
                 V_incam = incam_vertices_array[fi]  # (V, 3) -- camera-frame vertices
 
@@ -269,11 +265,8 @@ class SMPLCameraViewer:
                 W = V_world - mu_w
                 C = V_incam - mu_c
 
-                # Cross-covariance  H = C^T @ W  => we want R such that V_incam ~= R @ V_world + t
-                # i.e. camera-from-world: V_cam = R_w2c @ V_world + t_w2c
                 H = C.T @ W  # (3, 3)
                 U, S, Vt = np.linalg.svd(H)
-                # R_w2c = U @ Vt, with reflection correction
                 d = np.linalg.det(U @ Vt)
                 D = np.diag([1.0, 1.0, np.sign(d)])
                 R_w2c = U @ D @ Vt
@@ -362,6 +355,7 @@ class SMPLCameraViewer:
                     for frame in in_container.decode(in_stream):
                         if frame_count >= num_frames:
                             break
+                        _mm().throw_exception_if_processing_interrupted()
                         if frame.format.name != 'yuv420p':
                             frame = frame.reformat(format='yuv420p')
                         for packet in out_stream.encode(frame):
@@ -374,10 +368,7 @@ class SMPLCameraViewer:
             logger.info(f"[SMPLCameraViewer] Wrote {ref_filename} ({ref_mb:.1f} MB, {frame_count} frames, all-intra)")
             ui_data["video_info"] = [{"filename": ref_filename, "subfolder": "", "type": "output", "fps": video_fps}]
 
-        return {
-            "ui": ui_data,
-            "result": (mesh_filename,)
-        }
+        return io.NodeOutput(mesh_filename, ui=ui_data)
 
 
 NODE_CLASS_MAPPINGS = {

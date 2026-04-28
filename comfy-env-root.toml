@@ -1,11 +1,4 @@
-[apt]
-packages = ["python3-dev"]
-
-[brew]
-packages = ["ffmpeg"]
-
 [node_reqs]
 ComfyUI-VideoHelperSuite = "Kosinkadink/ComfyUI-VideoHelperSuite"
 ComfyUI-CameraPack = "PozzettiAndrea/ComfyUI-CameraPack"
 ComfyUI-HyMotion = "PozzettiAndrea/ComfyUI-HyMotion"
-ComfyUI-Env-Manager = "PozzettiAndrea/ComfyUI-Env-Manager"

@@ -7,33 +7,35 @@ from pathlib import Path
 from typing import Tuple, List
 import folder_paths
 
+from comfy_api.latest import io
+
 from .motion_utils.pylogger import Log
 
 
-class LoadFBXCharacter:
+class LoadFBXCharacter(io.ComfyNode):
     """
     Load a rigged FBX character from input or output folders.
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "source_folder": (["input", "output"], {"default": "input"}),
-                "fbx_file": ("COMBO", {
-                    "remote": {
-                        "route": "/motioncapture/fbx_files",
-                        "query": "source_folder", # Pass selected source_folder to API
-                        "refresh_button": True,
-                    },
+    def define_schema(cls):
+        return io.Schema(
+            node_id="LoadFBXCharacter",
+            display_name="Load FBX Character",
+            category="MotionCapture",
+            inputs=[
+                io.Combo.Input("source_folder", options=["input", "output"], default="input"),
+                io.Combo.Input("fbx_file", options=[], remote={
+                    "route": "/motioncapture/fbx_files",
+                    "query": "source_folder",
+                    "refresh_button": True,
                 }),
-            }
-        }
-
-    RETURN_TYPES = ("STRING", "STRING")
-    RETURN_NAMES = ("fbx_path", "info")
-    FUNCTION = "load_fbx"
-    CATEGORY = "MotionCapture"
+            ],
+            outputs=[
+                io.String.Output(display_name="fbx_path"),
+                io.String.Output(display_name="info"),
+            ],
+        )
 
     @staticmethod
     def get_fbx_files_from_input() -> List[str]:
@@ -73,11 +75,12 @@ class LoadFBXCharacter:
             Log.error(f"[LoadFBXCharacter] Error scanning output directory: {e}")
             return []
 
-    def load_fbx(
-        self,
+    @classmethod
+    def execute(
+        cls,
         fbx_file: str,
         source_folder: str,
-    ) -> Tuple[str, str]:
+    ) -> io.NodeOutput:
         """
         Load FBX character and return path.
 
@@ -86,7 +89,7 @@ class LoadFBXCharacter:
             source_folder: "input" or "output"
 
         Returns:
-            Tuple of (absolute_fbx_path, info_string)
+            NodeOutput with (absolute_fbx_path, info_string)
         """
         try:
             Log.info(f"[LoadFBXCharacter] Loading FBX: {fbx_file}")
@@ -117,12 +120,12 @@ class LoadFBXCharacter:
             )
 
             Log.info(f"[LoadFBXCharacter] FBX loaded successfully: {fbx_path}")
-            return (fbx_path, info)
+            return io.NodeOutput(fbx_path, info)
 
         except Exception as e:
             error_msg = f"LoadFBXCharacter failed: {str(e)}"
             Log.error(error_msg, exc_info=True)
-            return ("", error_msg)
+            return io.NodeOutput("", error_msg)
 
 
 NODE_CLASS_MAPPINGS = {

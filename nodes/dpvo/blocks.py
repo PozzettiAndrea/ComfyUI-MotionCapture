@@ -5,8 +5,13 @@ import torch.nn as nn
 
 import torch_scatter
 
-import comfy.ops
-ops = comfy.ops.manual_cast
+class _LazyOps:
+    """Lazy proxy that defers ``import comfy.ops`` until first attribute access."""
+    def __getattr__(self, name):
+        import comfy.ops
+        return getattr(comfy.ops.manual_cast, name)
+
+ops = _LazyOps()
 
 log = logging.getLogger("motioncapture")
 

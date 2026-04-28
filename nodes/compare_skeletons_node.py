@@ -7,6 +7,8 @@ import os
 import logging
 from typing import Tuple
 
+from comfy_api.latest import io
+
 try:
     import folder_paths
 except ImportError:
@@ -15,7 +17,7 @@ except ImportError:
 log = logging.getLogger("motioncapture")
 
 
-class CompareSkeletons:
+class CompareSkeletons(io.ComfyNode):
     """
     Compare two skeletons side-by-side with synced rotation.
 
@@ -26,24 +28,21 @@ class CompareSkeletons:
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "fbx_path_left": ("STRING", {
-                    "tooltip": "Path to left skeleton FBX file"
-                }),
-                "fbx_path_right": ("STRING", {
-                    "tooltip": "Path to right skeleton FBX file"
-                }),
-            },
-        }
+    def define_schema(cls):
+        return io.Schema(
+            node_id="CompareSkeletons",
+            display_name="Compare Skeletons",
+            category="MotionCapture/Skeleton",
+            is_output_node=True,
+            inputs=[
+                io.String.Input("fbx_path_left", tooltip="Path to left skeleton FBX file"),
+                io.String.Input("fbx_path_right", tooltip="Path to right skeleton FBX file"),
+            ],
+            outputs=[],
+        )
 
-    RETURN_TYPES = ()
-    OUTPUT_NODE = True
-    FUNCTION = "compare_skeletons"
-    CATEGORY = "MotionCapture/Skeleton"
-
-    def compare_skeletons(self, fbx_path_left: str, fbx_path_right: str):
+    @classmethod
+    def execute(cls, fbx_path_left: str, fbx_path_right: str):
         """Open both FBX files in the comparison skeleton viewer."""
         log.info("Preparing skeleton comparison view...")
 
@@ -97,9 +96,7 @@ class CompareSkeletons:
         else:
             viewer_filename_right = fbx_path_right
 
-        return {
-            "ui": {
-                "fbx_file_left": [viewer_filename_left],
-                "fbx_file_right": [viewer_filename_right],
-            }
-        }
+        return io.NodeOutput(ui={
+            "fbx_file_left": [viewer_filename_left],
+            "fbx_file_right": [viewer_filename_right],
+        })

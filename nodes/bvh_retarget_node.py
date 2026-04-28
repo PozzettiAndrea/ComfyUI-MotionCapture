@@ -8,6 +8,8 @@ import logging
 from pathlib import Path
 from typing import Dict, Tuple
 
+from comfy_api.latest import io
+
 log = logging.getLogger("motioncapture")
 
 
@@ -370,46 +372,41 @@ class BVHtoFBXWorker:
 # COMFYUI NODE
 # ===============================================================================
 
-class BVHtoFBX:
+class BVHtoFBX(io.ComfyNode):
     """
     Retarget BVH motion data to a rigged FBX/VRM character using bpy.
     Runs in an isolated environment with the bpy package.
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "bvh_data": ("BVH_DATA",),
-                "character_path": ("STRING", {
-                    "default": "",
-                    "multiline": False,
-                }),
-                "output_path": ("STRING", {
-                    "default": "output/retargeted.fbx",
-                    "multiline": False,
-                }),
-            },
-            "optional": {
-                "character_type": (["auto", "vrm", "fbx"],),
-                "output_format": (["fbx", "vrm"],),
-            }
-        }
+    def define_schema(cls):
+        return io.Schema(
+            node_id="BVHtoFBX",
+            display_name="BVH to FBX Retargeter",
+            category="MotionCapture/BVH",
+            is_output_node=True,
+            inputs=[
+                io.Custom("BVH_DATA").Input("bvh_data"),
+                io.String.Input("character_path", default="", multiline=False),
+                io.String.Input("output_path", default="output/retargeted.fbx", multiline=False),
+                io.Combo.Input("character_type", options=["auto", "vrm", "fbx"], optional=True),
+                io.Combo.Input("output_format", options=["fbx", "vrm"], optional=True),
+            ],
+            outputs=[
+                io.String.Output(display_name="output_path"),
+                io.String.Output(display_name="info"),
+            ],
+        )
 
-    RETURN_TYPES = ("STRING", "STRING")
-    RETURN_NAMES = ("output_path", "info")
-    FUNCTION = "retarget"
-    OUTPUT_NODE = True
-    CATEGORY = "MotionCapture/BVH"
-
-    def retarget(
-        self,
+    @classmethod
+    def execute(
+        cls,
         bvh_data: Dict,
         character_path: str,
         output_path: str,
         character_type: str = "auto",
         output_format: str = "fbx",
-    ) -> Tuple[str, str]:
+    ) -> io.NodeOutput:
         try:
             log.info("Starting BVH retargeting...")
 
@@ -429,7 +426,7 @@ class BVHtoFBX:
             if character_type == "auto":
                 character_type = "vrm" if character_path.suffix.lower() == ".vrm" else "fbx"
 
-            Log.info(f"[BVHtoFBX] Character type: {character_type}")
+            log.info(f"[BVHtoFBX] Character type: {character_type}")
 
             # Prepare output directory
             output_path = Path(output_path)
@@ -470,12 +467,12 @@ class BVHtoFBX:
             )
 
             log.info("Retargeting complete!")
-            return (str(output_path.absolute()), full_info)
+            return io.NodeOutput(str(output_path.absolute()), full_info)
 
         except Exception as e:
             error_msg = f"BVHtoFBX Failed:\n{str(e)}"
             log.error(error_msg)
-            return ("", error_msg)
+            return io.NodeOutput("", error_msg)
 
 
 NODE_CLASS_MAPPINGS = {

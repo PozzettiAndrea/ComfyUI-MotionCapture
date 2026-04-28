@@ -4,7 +4,11 @@ import numpy as np
 from .relpose_utils import focal_length_from_mm
 from .matcher_wrapper import Matcher
 from .solver_two_view import TwoPairSolver, CameraParams, interpolate_missing_frames
-from tqdm import tqdm
+def _mm():
+    import comfy.model_management
+    return comfy.model_management
+
+import comfy.utils
 
 from .video_io_utils import get_video_lwh, read_video_np
 
@@ -47,7 +51,10 @@ class SimpleVO:
     def process_video_T_w2c_list_np(self, frames, matcher: Matcher, solver: TwoPairSolver):
         T_w2c_list = [np.eye(4)]  # cam poses are defined as T_w2c @ p_w = p_c
         prev_frame = frames[0]
-        for frame_idx in tqdm(range(1, len(frames))):
+        num_remaining = len(frames) - 1
+        pbar = comfy.utils.ProgressBar(num_remaining)
+        for frame_idx in range(1, len(frames)):
+            _mm().throw_exception_if_processing_interrupted()
             curr_frame = frames[frame_idx]
 
             # Match frames
@@ -59,5 +66,6 @@ class SimpleVO:
 
             # Current frame becomes previous frame for next iteration
             prev_frame = curr_frame
+            pbar.update(1)
 
         return T_w2c_list

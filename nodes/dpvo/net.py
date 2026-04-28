@@ -20,8 +20,13 @@ from .utils import *
 from .ba import BA
 from . import projective_ops as pops
 
-import comfy.ops
-ops = comfy.ops.manual_cast
+class _LazyOps:
+    """Lazy proxy that defers ``import comfy.ops`` until first attribute access."""
+    def __getattr__(self, name):
+        import comfy.ops
+        return getattr(comfy.ops.manual_cast, name)
+
+ops = _LazyOps()
 
 DIM = 384
 

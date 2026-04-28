@@ -10,49 +10,43 @@ import numpy as np
 import smplx
 import folder_paths
 
+from comfy_api.latest import io
+
 logger = logging.getLogger("SMPLViewer")
 
 from .shared_utils import next_sequential_filename as _next_sequential_filename
 
 
-class SMPLViewer:
+class SMPLViewer(io.ComfyNode):
     """
     ComfyUI node for visualizing SMPL motion capture sequences in an interactive 3D viewer.
     Writes mesh to a .bin file; the JS widget fetches it via /view?filename=...&type=output.
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "npz_path": ("STRING", {
-                    "default": "",
-                    "multiline": False,
-                    "tooltip": "Path to .npz file with SMPL parameters (from GVHMR Inference)"
-                }),
-            },
-            "optional": {
-                "frame_skip": ("INT", {
-                    "default": 1,
-                    "min": 1,
-                    "max": 10,
-                    "step": 1,
-                    "tooltip": "Skip every N frames to reduce data size (1 = no skip)"
-                }),
-                "mesh_color": ("STRING", {
-                    "default": "#4a9eff",
-                    "tooltip": "Hex color for the mesh (e.g. #4a9eff for blue)"
-                }),
-            }
-        }
+    def define_schema(cls):
+        return io.Schema(
+            node_id="SMPLViewer",
+            display_name="SMPL 3D Viewer",
+            category="MotionCapture/GVHMR",
+            is_output_node=True,
+            inputs=[
+                io.String.Input("npz_path", default="", multiline=False,
+                                tooltip="Path to .npz file with SMPL parameters (from GVHMR Inference)"),
+                io.Int.Input("frame_skip", default=1, min=1, max=10, step=1,
+                             tooltip="Skip every N frames to reduce data size (1 = no skip)",
+                             optional=True),
+                io.String.Input("mesh_color", default="#4a9eff",
+                                tooltip="Hex color for the mesh (e.g. #4a9eff for blue)",
+                                optional=True),
+            ],
+            outputs=[
+                io.String.Output(display_name="mesh_file"),
+            ],
+        )
 
-    RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("mesh_file",)
-    FUNCTION = "create_viewer_data"
-    CATEGORY = "MotionCapture/GVHMR"
-    OUTPUT_NODE = True
-
-    def create_viewer_data(self, npz_path="", frame_skip=1, mesh_color="#4a9eff"):
+    @classmethod
+    def execute(cls, npz_path="", frame_skip=1, mesh_color="#4a9eff") -> io.NodeOutput:
         """
         Generate 3D mesh data from SMPL parameters, write to .bin file,
         and return the filename for the JS viewer to fetch.
@@ -109,9 +103,11 @@ class SMPLViewer:
         faces = np.load(str(data_dir / "smpl_faces.npy"))
 
         # Generate vertices
+        import comfy.model_management
         vertices_list = []
         with torch.no_grad():
             for frame_idx in range(0, num_frames, frame_skip):
+                comfy.model_management.throw_exception_if_processing_interrupted()
                 bp = body_pose[frame_idx:frame_idx+1].to(device)
                 b = betas[frame_idx:frame_idx+1].to(device)
                 go = global_orient[frame_idx:frame_idx+1].to(device)
@@ -151,12 +147,9 @@ class SMPLViewer:
         size_mb = mesh_filepath.stat().st_size / (1024 * 1024)
         logger.info(f"[SMPLViewer] Wrote {mesh_filename} ({size_mb:.1f} MB)")
 
-        return {
-            "ui": {
-                "smpl_mesh_file": [mesh_filename]
-            },
-            "result": (mesh_filename,)
-        }
+        return io.NodeOutput(mesh_filename, ui={
+            "smpl_mesh_file": [mesh_filename]
+        })
 
 
 # Node registration

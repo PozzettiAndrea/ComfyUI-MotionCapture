@@ -10,6 +10,8 @@ import numpy as np
 from scipy.spatial.transform import Rotation as R
 import folder_paths
 
+from comfy_api.latest import io
+
 from .motion_utils.pylogger import Log
 
 
@@ -152,55 +154,42 @@ SMPL_OFFSETS = {
 }
 
 
-class SMPLtoBVH:
+class SMPLtoBVH(io.ComfyNode):
     """
     Convert SMPL motion parameters to BVH (Biovision Hierarchy) format.
     BVH is a standard format for skeletal animation used across many 3D tools.
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "npz_path": ("STRING", {
-                    "default": "",
-                    "multiline": False,
-                    "tooltip": "Path to .npz file with SMPL parameters (from GVHMR Inference)"
-                }),
-                "filename": ("STRING", {
-                    "default": "motion.bvh",
-                    "multiline": False,
-                    "tooltip": "Output filename (saved to ComfyUI output folder)"
-                }),
-                "fps": ("INT", {
-                    "default": 30,
-                    "min": 1,
-                    "max": 120,
-                    "step": 1,
-                }),
-                "scale": ("FLOAT", {
-                    "default": 1.0,
-                    "min": 0.01,
-                    "max": 100.0,
-                    "step": 0.01,
-                    "round": 0.01,
-                }),
-            },
-        }
+    def define_schema(cls):
+        return io.Schema(
+            node_id="SMPLtoBVH",
+            display_name="SMPL to BVH Converter",
+            category="MotionCapture/BVH",
+            is_output_node=True,
+            inputs=[
+                io.String.Input("npz_path", default="", multiline=False,
+                                tooltip="Path to .npz file with SMPL parameters (from GVHMR Inference)"),
+                io.String.Input("filename", default="motion.bvh", multiline=False,
+                                tooltip="Output filename (saved to ComfyUI output folder)"),
+                io.Int.Input("fps", default=30, min=1, max=120, step=1),
+                io.Float.Input("scale", default=1.0, min=0.01, max=100.0, step=0.01, round=0.01),
+            ],
+            outputs=[
+                io.Custom("BVH_DATA").Output(display_name="bvh_data"),
+                io.String.Output(display_name="file_path"),
+                io.String.Output(display_name="info"),
+            ],
+        )
 
-    RETURN_TYPES = ("BVH_DATA", "STRING", "STRING")
-    RETURN_NAMES = ("bvh_data", "file_path", "info")
-    FUNCTION = "convert_to_bvh"
-    OUTPUT_NODE = True
-    CATEGORY = "MotionCapture/BVH"
-
-    def convert_to_bvh(
-        self,
+    @classmethod
+    def execute(
+        cls,
         npz_path: str,
         filename: str,
         fps: int = 30,
         scale: float = 1.0,
-    ) -> Tuple[Dict, str, str]:
+    ) -> io.NodeOutput:
         """
         Convert SMPL parameters to BVH file format.
 
@@ -211,7 +200,7 @@ class SMPLtoBVH:
             scale: Scale factor for the skeleton (1.0 = meters, 100.0 = centimeters)
 
         Returns:
-            Tuple of (bvh_data_dict, file_path, info_string)
+            io.NodeOutput with (bvh_data_dict, file_path, info_string)
         """
         try:
             Log.info("[SMPLtoBVH] Converting SMPL to BVH format...")
@@ -286,7 +275,7 @@ class SMPLtoBVH:
             frame_time = 1.0 / fps
 
             # Convert axis-angle rotations to Euler angles (ZXY order, BVH standard)
-            euler_rotations = self._axis_angle_to_euler(full_pose)  # [F, num_total_joints, 3]
+            euler_rotations = cls._axis_angle_to_euler(full_pose)  # [F, num_total_joints, 3]
 
             # Validate rotation ranges to detect potential issues
             rot_mins = np.min(euler_rotations, axis=(0, 1))
@@ -297,7 +286,7 @@ class SMPLtoBVH:
             Log.info(f"  Y: [{rot_mins[2]:.1f}, {rot_maxs[2]:.1f}]")
 
             # Write BVH file
-            bvh_content = self._write_bvh(
+            bvh_content = cls._write_bvh(
                 euler_rotations,
                 transl,
                 frame_time,
@@ -335,14 +324,15 @@ class SMPLtoBVH:
             )
 
             Log.info(f"[SMPLtoBVH] Converted {num_frames} frames to {output_path}")
-            return (bvh_data, str(output_path.absolute()), info)
+            return io.NodeOutput(bvh_data, str(output_path.absolute()), info)
 
         except Exception as e:
             error_msg = f"SMPLtoBVH failed: {str(e)}"
             Log.error(error_msg, exc_info=True)
-            return ({}, "", error_msg)
+            return io.NodeOutput({}, "", error_msg)
 
-    def _get_bvh_joint_order(self, parent_indices: list) -> list:
+    @staticmethod
+    def _get_bvh_joint_order(parent_indices: list) -> list:
         """
         Get the depth-first traversal order of joints for BVH motion data.
         BVH requires motion data to be in the same order as joints appear in hierarchy.
@@ -366,7 +356,8 @@ class SMPLtoBVH:
         traverse(0)
         return joint_order
 
-    def _axis_angle_to_euler(self, axis_angle: np.ndarray) -> np.ndarray:
+    @staticmethod
+    def _axis_angle_to_euler(axis_angle: np.ndarray) -> np.ndarray:
         """
         Convert axis-angle rotations to Euler angles (ZXY order for BVH).
 
@@ -376,10 +367,12 @@ class SMPLtoBVH:
         Returns:
             [F, J, 3] Euler angles in degrees (ZXY order)
         """
+        import comfy.model_management
         num_frames, num_joints, _ = axis_angle.shape
         euler = np.zeros((num_frames, num_joints, 3))
 
         for frame in range(num_frames):
+            comfy.model_management.throw_exception_if_processing_interrupted()
             for joint in range(num_joints):
                 aa = axis_angle[frame, joint]
 
@@ -398,8 +391,8 @@ class SMPLtoBVH:
 
         return euler
 
+    @staticmethod
     def _write_bvh(
-        self,
         rotations: np.ndarray,
         translations: np.ndarray,
         frame_time: float,
@@ -424,16 +417,12 @@ class SMPLtoBVH:
         num_frames = rotations.shape[0]
         num_joints = rotations.shape[1]
 
-        # Store skeleton config for _write_joint
-        self.joint_names = joint_names
-        self.parent_indices = parent_indices
-
         # Get BVH joint order (depth-first traversal)
-        joint_order = self._get_bvh_joint_order(parent_indices)
+        joint_order = SMPLtoBVH._get_bvh_joint_order(parent_indices)
 
         # Build BVH hierarchy
         lines = ["HIERARCHY"]
-        self._write_joint(lines, 0, 0, scale)
+        SMPLtoBVH._write_joint(lines, 0, 0, scale, joint_names, parent_indices)
 
         # Write motion data
         lines.append("MOTION")
@@ -441,7 +430,9 @@ class SMPLtoBVH:
         lines.append(f"Frame Time: {frame_time:.6f}")
 
         # Write frame data
+        import comfy.model_management
         for frame in range(num_frames):
+            comfy.model_management.throw_exception_if_processing_interrupted()
             frame_data = []
 
             # Write joints in BVH hierarchy order (depth-first traversal)
@@ -461,7 +452,9 @@ class SMPLtoBVH:
 
         return "\n".join(lines)
 
-    def _write_joint(self, lines: list, joint_idx: int, indent_level: int, scale: float):
+    @staticmethod
+    def _write_joint(lines: list, joint_idx: int, indent_level: int, scale: float,
+                     joint_names: list, parent_indices: list):
         """
         Recursively write joint hierarchy in BVH format.
 
@@ -470,9 +463,11 @@ class SMPLtoBVH:
             joint_idx: current joint index
             indent_level: indentation level
             scale: scale factor for offsets
+            joint_names: list of joint names
+            parent_indices: list of parent indices for each joint
         """
         indent = "  " * indent_level
-        joint_name = self.joint_names[joint_idx]
+        joint_name = joint_names[joint_idx]
         offset = SMPL_OFFSETS.get(joint_idx, [0.0, 0.0, 0.0])  # Default to zero if joint not in offsets
         offset_scaled = [o * scale for o in offset]
 
@@ -494,11 +489,11 @@ class SMPLtoBVH:
             lines.append(f"{indent}  CHANNELS 3 Zrotation Xrotation Yrotation")
 
         # Find and write children
-        children = [i for i, parent in enumerate(self.parent_indices) if parent == joint_idx]
+        children = [i for i, parent in enumerate(parent_indices) if parent == joint_idx]
 
         if children:
             for child_idx in children:
-                self._write_joint(lines, child_idx, indent_level + 1, scale)
+                SMPLtoBVH._write_joint(lines, child_idx, indent_level + 1, scale, joint_names, parent_indices)
         else:
             # End site for leaf joints
             lines.append(f"{indent}  End Site")

@@ -20,8 +20,7 @@ import torch.nn.functional as F
 from einops import rearrange, repeat
 from torch.amp import autocast
 
-import comfy.ops
-from comfy.ldm.modules.attention import optimized_attention
+from comfy.ldm.modules.attention import optimized_attention_for_device
 
 from ..motion_utils.net_utils import length_to_mask, gaussian_smooth
 from ..motion_utils.pylogger import Log
@@ -47,7 +46,13 @@ from .postprocess import (
 )
 from . import stats as stats_compose
 
-ops = comfy.ops.manual_cast
+class _LazyOps:
+    """Lazy proxy that defers ``import comfy.ops`` until first attribute access."""
+    def __getattr__(self, name):
+        import comfy.ops
+        return getattr(comfy.ops.manual_cast, name)
+
+ops = _LazyOps()
 log = logging.getLogger("motioncapture")
 
 # ============================================================================
@@ -192,7 +197,8 @@ class RoPEAttention(nn.Module):
                     key_padding_mask.reshape(B, 1, 1, L), float("-inf")
                 )
 
-        output = optimized_attention(
+        fn = optimized_attention_for_device(xq.device, mask=combined_mask is not None)
+        output = fn(
             xq, xk, xv, heads=self.num_heads,
             mask=combined_mask, skip_reshape=True, skip_output_reshape=True,
         )

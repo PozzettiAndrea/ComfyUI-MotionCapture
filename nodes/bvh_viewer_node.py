@@ -5,33 +5,34 @@ BVHViewer Node - Interactive 3D viewer for BVH skeletal animations
 from pathlib import Path
 from typing import Dict, Tuple
 
+from comfy_api.latest import io
+
 from .motion_utils.pylogger import Log
 
 
-class BVHViewer:
+class BVHViewer(io.ComfyNode):
     """
     Display BVH skeletal animations in an interactive 3D viewer.
     Uses Three.js BVHLoader for visualization.
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "bvh_data": ("BVH_DATA",),
-            },
-        }
+    def define_schema(cls):
+        return io.Schema(
+            node_id="BVHViewer",
+            display_name="BVH Animation Viewer",
+            category="MotionCapture/BVH",
+            is_output_node=True,
+            inputs=[
+                io.Custom("BVH_DATA").Input("bvh_data"),
+            ],
+            outputs=[
+                io.String.Output(display_name="info"),
+            ],
+        )
 
-    RETURN_TYPES = ("STRING",)
-    RETURN_NAMES = ("info",)
-    FUNCTION = "view_bvh"
-    OUTPUT_NODE = True
-    CATEGORY = "MotionCapture/BVH"
-
-    def view_bvh(
-        self,
-        bvh_data: Dict,
-    ) -> Tuple[str]:
+    @classmethod
+    def execute(cls, bvh_data: Dict) -> io.NodeOutput:
         """
         Display BVH animation in interactive viewer.
 
@@ -39,7 +40,7 @@ class BVHViewer:
             bvh_data: BVH data dictionary from SMPLtoBVH node
 
         Returns:
-            Tuple of (info_string,)
+            NodeOutput with info string and UI data
         """
         try:
             Log.info("[BVHViewer] Loading BVH for visualization...")
@@ -63,17 +64,14 @@ class BVHViewer:
             Log.info(f"[BVHViewer DEBUG] BVH content length: {len(bvh_content)} bytes")
             Log.info(f"[BVHViewer DEBUG] First 200 chars: {bvh_content[:200]}")
 
-            # Store for web viewer (accessed via onExecuted callback in JavaScript)
-            # The web extension will receive this via the message system
-            self.bvh_content = bvh_content
-            self.bvh_info = {
+            bvh_info = {
                 "num_frames": num_frames,
                 "fps": fps,
                 "file_path": file_path,
             }
 
             Log.info(f"[BVHViewer DEBUG] Stored bvh_content ({len(bvh_content)} bytes) and bvh_info for frontend")
-            Log.info(f"[BVHViewer DEBUG] bvh_info: {self.bvh_info}")
+            Log.info(f"[BVHViewer DEBUG] bvh_info: {bvh_info}")
 
             info = (
                 f"BVH Viewer Ready\n"
@@ -87,27 +85,21 @@ class BVHViewer:
 
             # Return data in ComfyUI OUTPUT_NODE format
             # The "ui" dict is sent to the frontend JavaScript
-            return {
-                "ui": {
-                    "bvh_content": [bvh_content],
-                    "bvh_info": [self.bvh_info]
-                },
-                "result": (info,)
-            }
+            return io.NodeOutput(info, ui={
+                "bvh_content": [bvh_content],
+                "bvh_info": [bvh_info]
+            })
 
         except Exception as e:
             error_msg = f"BVHViewer failed: {str(e)}"
             Log.error(error_msg, exc_info=True)
-            return {
-                "ui": {
-                    "bvh_content": [""],
-                    "bvh_info": [{}]
-                },
-                "result": (error_msg,)
-            }
+            return io.NodeOutput(error_msg, ui={
+                "bvh_content": [""],
+                "bvh_info": [{}]
+            })
 
     @classmethod
-    def IS_CHANGED(cls, **kwargs):
+    def fingerprint_inputs(cls, **kwargs):
         # Always update when input changes
         return float("nan")
 

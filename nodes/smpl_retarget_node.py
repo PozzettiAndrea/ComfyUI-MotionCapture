@@ -15,6 +15,8 @@ import logging
 import numpy as np
 import torch
 
+from comfy_api.latest import io
+
 log = logging.getLogger("motioncapture")
 
 from .smpl_bvh_utils import SMPL_BONE_NAMES as SMPL_JOINT_NAMES
@@ -111,17 +113,6 @@ class SMPLRetargetWorker:
 
         bpy.ops.object.mode_set(mode='POSE')
 
-        # SMPL bone local coordinate system:
-        #   X: along bone (from joint to child)
-        #   Y: perpendicular
-        #   Z: perpendicular
-        #
-        # Blender bone local coordinate system:
-        #   X: perpendicular (roll)
-        #   Y: along bone
-        #   Z: perpendicular
-        #
-        # Basis transformation: SMPL local -> Blender local
         smpl_to_blender_local = Matrix([
             [0, 0, 1],  # Blender X = SMPL Z
             [1, 0, 0],  # Blender Y = SMPL X
@@ -129,9 +120,6 @@ class SMPLRetargetWorker:
         ]).to_3x3()
         smpl_to_blender_local_inv = smpl_to_blender_local.inverted()
 
-        # World coordinate conversion (SMPL world -> rig world)
-        # UniRig SMPL export: right = -X (L_shoulder at +X, R at -X)
-        # SMPL standard: right = +X
         smpl_to_rig_world = Matrix([
             [-1, 0, 0],
             [0, 1, 0],
@@ -218,7 +206,7 @@ class SMPLRetargetWorker:
 # COMFYUI NODE
 # ===============================================================================
 
-class SMPLRetargetToSMPL:
+class SMPLRetargetToSMPL(io.ComfyNode):
     """
     Apply SMPL motion data to a rigged FBX with SMPL skeleton.
     Runs in an isolated environment with the bpy package.
@@ -229,33 +217,30 @@ class SMPLRetargetToSMPL:
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "smpl_params": ("SMPL_PARAMS",),
-                "rigged_fbx_path": ("STRING", {
-                    "default": "",
-                    "multiline": False,
-                }),
-                "output_filename": ("STRING", {
-                    "default": "animated_character",
-                    "multiline": False,
-                }),
-            },
-        }
+    def define_schema(cls):
+        return io.Schema(
+            node_id="SMPLRetargetToSMPL",
+            display_name="SMPL to SMPL Retargeting",
+            category="MotionCapture/Retarget",
+            is_output_node=True,
+            inputs=[
+                io.Custom("SMPL_PARAMS").Input("smpl_params"),
+                io.String.Input("rigged_fbx_path", default="", multiline=False),
+                io.String.Input("output_filename", default="animated_character", multiline=False),
+            ],
+            outputs=[
+                io.String.Output(display_name="fbx_path"),
+                io.Int.Output(display_name="frame_count"),
+            ],
+        )
 
-    RETURN_TYPES = ("STRING", "INT")
-    RETURN_NAMES = ("fbx_path", "frame_count")
-    FUNCTION = "retarget"
-    OUTPUT_NODE = True
-    CATEGORY = "MotionCapture/Retarget"
-
-    def retarget(
-        self,
+    @classmethod
+    def execute(
+        cls,
         smpl_params: Dict,
         rigged_fbx_path: str,
         output_filename: str,
-    ) -> Tuple[str, int]:
+    ) -> io.NodeOutput:
         """
         Apply SMPL motion to a rigged SMPL skeleton FBX.
 
@@ -265,7 +250,7 @@ class SMPLRetargetToSMPL:
             output_filename: Name for output animated FBX (without extension)
 
         Returns:
-            Tuple of (output_fbx_path, frame_count)
+            NodeOutput with (output_fbx_path, frame_count)
         """
         try:
             log.info("Starting SMPL-to-SMPL retargeting...")
@@ -286,7 +271,7 @@ class SMPLRetargetToSMPL:
             # Extract SMPL parameters to temporary NPZ
             temp_dir = Path(tempfile.gettempdir())
             motion_npz_path = temp_dir / "smpl_motion_temp.npz"
-            frame_count = self._save_smpl_params(smpl_params, motion_npz_path)
+            frame_count = cls._save_smpl_params(smpl_params, motion_npz_path)
 
             log.info("Saved motion data: %s (%d frames)", motion_npz_path, frame_count)
 
@@ -302,14 +287,15 @@ class SMPLRetargetToSMPL:
                 raise RuntimeError(f"Output FBX not created: {result_path}")
 
             log.info("Animation complete! Output: %s", output_path)
-            return (str(output_path.absolute()), result_frames)
+            return io.NodeOutput(str(output_path.absolute()), result_frames)
 
         except Exception as e:
             error_msg = f"SMPLRetargetToSMPL failed: {str(e)}"
             log.error(error_msg, exc_info=True)
-            return ("", 0)
+            return io.NodeOutput("", 0)
 
-    def _save_smpl_params(self, smpl_params: Dict, output_path: Path) -> int:
+    @staticmethod
+    def _save_smpl_params(smpl_params: Dict, output_path: Path) -> int:
         """
         Save SMPL parameters to NPZ file for the isolated worker.
 

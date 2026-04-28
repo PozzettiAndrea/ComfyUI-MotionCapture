@@ -13,6 +13,8 @@ from typing import Dict, Tuple
 import torch
 import numpy as np
 
+from comfy_api.latest import io
+
 log = logging.getLogger("motioncapture")
 
 from .smpl_bvh_utils import smpl_to_bvh
@@ -182,50 +184,42 @@ class SMPLToFBXWorker:
 # COMFYUI NODE
 # ===============================================================================
 
-class SMPLToFBX:
+class SMPLToFBX(io.ComfyNode):
     """
     Retarget SMPL motion capture data to a rigged FBX character using bpy.
     Runs in an isolated environment with the bpy package.
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "smpl_params": ("SMPL_PARAMS",),
-                "fbx_path": ("STRING", {
-                    "default": "",
-                    "multiline": False,
-                }),
-                "output_path": ("STRING", {
-                    "default": "output/retargeted.fbx",
-                    "multiline": False,
-                }),
-            },
-            "optional": {
-                "rig_type": (["auto", "vroid", "mixamo", "rigify", "ue5_mannequin"],),
-                "fps": ("INT", {
-                    "default": 30,
-                    "min": 1,
-                    "max": 120,
-                }),
-            }
-        }
+    def define_schema(cls):
+        return io.Schema(
+            node_id="SMPLToFBX",
+            display_name="SMPL to FBX Retargeting",
+            category="MotionCapture",
+            is_output_node=True,
+            inputs=[
+                io.Custom("SMPL_PARAMS").Input("smpl_params"),
+                io.String.Input("fbx_path", default="", multiline=False),
+                io.String.Input("output_path", default="output/retargeted.fbx", multiline=False),
+                io.Combo.Input("rig_type", options=["auto", "vroid", "mixamo", "rigify", "ue5_mannequin"],
+                               optional=True),
+                io.Int.Input("fps", default=30, min=1, max=120, optional=True),
+            ],
+            outputs=[
+                io.String.Output(display_name="output_fbx_path"),
+                io.String.Output(display_name="info"),
+            ],
+        )
 
-    RETURN_TYPES = ("STRING", "STRING")
-    RETURN_NAMES = ("output_fbx_path", "info")
-    FUNCTION = "retarget"
-    OUTPUT_NODE = True
-    CATEGORY = "MotionCapture"
-
-    def retarget(
-        self,
+    @classmethod
+    def execute(
+        cls,
         smpl_params: Dict,
         fbx_path: str,
         output_path: str,
         rig_type: str = "auto",
         fps: int = 30,
-    ) -> Tuple[str, str]:
+    ) -> io.NodeOutput:
         """
         Retarget SMPL motion to FBX character.
 
@@ -237,7 +231,7 @@ class SMPLToFBX:
             fps: Frame rate for animation
 
         Returns:
-            Tuple of (output_fbx_path, info_string)
+            NodeOutput with (output_fbx_path, info_string)
         """
         try:
             log.info("Starting FBX retargeting...")
@@ -255,7 +249,7 @@ class SMPLToFBX:
             temp_dir = Path(tempfile.gettempdir()) / "mocap_retarget"
             temp_dir.mkdir(exist_ok=True)
             smpl_data_path = temp_dir / "smpl_params.npz"
-            self._save_smpl_params(smpl_params, smpl_data_path)
+            cls._save_smpl_params(smpl_params, smpl_data_path)
 
             log.info("Saved SMPL data to: %s", smpl_data_path)
 
@@ -284,14 +278,15 @@ class SMPLToFBX:
             )
 
             log.info("Retargeting complete!")
-            return (str(output_path.absolute()), full_info)
+            return io.NodeOutput(str(output_path.absolute()), full_info)
 
         except Exception as e:
             error_msg = f"SMPLToFBX failed: {str(e)}"
             log.error(error_msg, exc_info=True)
-            return ("", error_msg)
+            return io.NodeOutput("", error_msg)
 
-    def _save_smpl_params(self, smpl_params: Dict, output_path: Path):
+    @staticmethod
+    def _save_smpl_params(smpl_params: Dict, output_path: Path):
         """Save SMPL parameters to npz file for the isolated worker."""
         global_params = smpl_params.get("global", {})
 
