@@ -59,24 +59,24 @@ import os
 # ── CONFIGURE ────────────────────────────────────────────────────────────────
 
 # Path to the main NPZ from "GVHMR Inference" (always required)
-NPZ_PATH = ""
+NPZ_PATH = "/mnt/share/dev-lbringer/ComfyUI_nightly/output/smpl_params_0014.npz"
 
 # Path to the separate camera NPZ from "GVHMR Inference"
 # (produced only when moving_camera=True; leave empty "" to load camera data
 #  from the main NPZ if it was embedded there)
-CAMERA_NPZ_PATH = ""
+CAMERA_NPZ_PATH = "/mnt/share/dev-lbringer/ComfyUI_nightly/output/camera_trajectory_0009.npz"
 
 # Path to the SMPC .bin file from "SMPL Viewer with Camera" node.
 # When set, uses the Procrustes-REFINED camera (same as what the viewer shows)
 # instead of the raw NPZ camera — fixes height and alignment offsets.
 # Takes priority over CAMERA_NPZ_PATH when provided.
-SMPC_BIN_PATH = ""
+SMPC_BIN_PATH = "/mnt/share/dev-lbringer/ComfyUI_nightly/output/smpl_camera_mesh_0013.bin"
 
 # Path to the BVH from "SMPL to BVH Converter" node.
 # Imports as a native Blender armature — fully editable in Pose Mode / NLA editor.
 # Can be used alongside GLB_PATH (the GLB provides the skin mesh, the BVH the rig).
 # Set to "" to skip.
-BVH_PATH = ""
+BVH_PATH = ""  # disabled — using the GLB's built-in armature instead
 
 # Path to the animated FBX from "BVH to FBX Retargeter" node.
 # This is a fully rigged character with baked SMPL motion — editable in Blender.
@@ -85,10 +85,10 @@ FBX_PATH = ""
 
 # Path to the GLB from "SMPL to GLB Animation" node (simpler, no rig).
 # Used only when FBX_PATH is empty. Set to "" to skip body import entirely.
-GLB_PATH = ""
+GLB_PATH = "/mnt/share/dev-lbringer/ComfyUI_nightly/output/smpl_anim_0009.glb"
 
 # Frames-per-second of the original video fed to GVHMR Inference.
-FPS = 30
+FPS = 24
 
 # Sensor width used to convert pixel focal length → mm (Blender default: 36 mm).
 SENSOR_WIDTH_MM = 36.0
@@ -102,7 +102,7 @@ FLIP_CAMERA_Y = True
 # the BVH root is at (transl), so the armature needs to be shifted up by J[0].y
 # (which becomes a Z offset after Y-up → Z-up conversion).
 # Set to "" to disable auto-computation and use BVH_Z_OFFSET manually instead.
-SMPLX_MODEL_PATH = ""
+SMPLX_MODEL_PATH = "/mnt/share/dev-lbringer/ComfyUI_nightly/models/motion_capture/body_models/smplx/SMPLX_NEUTRAL.npz"
 
 # Manual Z offset applied to the BVH armature (in Blender units = metres).
 # Ignored when SMPLX_MODEL_PATH is set and the file is found.

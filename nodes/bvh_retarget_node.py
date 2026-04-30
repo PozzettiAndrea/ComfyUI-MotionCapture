@@ -69,6 +69,13 @@ VROID_BONE_MAP = {
     'RightToes': 'J_Bip_R_ToeBase',
 }
 
+COMMON_BONE_PREFIXES = (
+    "mixamorig:",
+    "mixamorig_",
+    "mixamo:",
+    "mixamo_",
+)
+
 
 # ===============================================================================
 # ISOLATED BLENDER WORKER
@@ -171,8 +178,21 @@ class BVHtoFBXWorker:
         log.debug("BVH Armature Bones: %s", [b.name for b in bvh_armature.data.bones])
 
         # Auto-detect bone naming convention
-        bone_names = char_armature.pose.bones.keys()
+        bone_names = list(char_armature.pose.bones.keys())
         is_vroid = any("J_Bip_C_Hips" in b for b in bone_names)
+
+        def resolve_target_bone(base_name):
+            if base_name in char_armature.pose.bones:
+                return base_name
+            for prefix in COMMON_BONE_PREFIXES:
+                candidate = f"{prefix}{base_name}"
+                if candidate in char_armature.pose.bones:
+                    return candidate
+            suffix = f":{base_name}"
+            for bone_name in bone_names:
+                if bone_name.endswith(suffix) or bone_name.endswith(f"_{base_name}"):
+                    return bone_name
+            return None
 
         bone_map = BONE_MAP.copy()
         if is_vroid:
@@ -184,6 +204,20 @@ class BVHtoFBXWorker:
                 else:
                     new_map[smpl] = vrm
             bone_map = new_map
+        else:
+            resolved_map = {}
+            missing_targets = []
+            for smpl, target in bone_map.items():
+                resolved = resolve_target_bone(target)
+                if resolved is None:
+                    missing_targets.append(target)
+                    resolved = target
+                resolved_map[smpl] = resolved
+            bone_map = resolved_map
+            if any("mixamorig:" in bone for bone in bone_map.values()):
+                log.info("Detected Mixamo 'mixamorig:' bone prefix")
+            elif any("mixamorig_" in bone for bone in bone_map.values()):
+                log.info("Detected Mixamo 'mixamorig_' bone prefix")
 
         # Set up bone mapping
         log.info("Setting up bone mapping...")
@@ -216,9 +250,13 @@ class BVHtoFBXWorker:
 
         bvh_height = get_skeleton_height(bvh_armature, 'Pelvis', 'Head')
         if is_vroid:
-            target_height = get_skeleton_height(char_armature, 'J_Bip_C_Hips', 'J_Bip_C_Head')
+            hips_bone = 'J_Bip_C_Hips'
+            head_bone = 'J_Bip_C_Head'
         else:
-            target_height = get_skeleton_height(char_armature, 'Hips', 'Head')
+            hips_bone = bone_map.get('Pelvis', 'Hips')
+            head_bone = bone_map.get('Head', 'Head')
+
+        target_height = get_skeleton_height(char_armature, hips_bone, head_bone)
 
         scale_ratio = target_height / bvh_height if bvh_height > 0.01 else 1.0
         log.info("Scale ratio: %.3f", scale_ratio)
@@ -275,12 +313,8 @@ class BVHtoFBXWorker:
         # Calculate foot height compensation
         bvh_l_foot = 'L_Ankle'
         bvh_r_foot = 'R_Ankle'
-        if is_vroid:
-            target_l_foot = 'J_Bip_L_Foot'
-            target_r_foot = 'J_Bip_R_Foot'
-        else:
-            target_l_foot = 'LeftFoot'
-            target_r_foot = 'RightFoot'
+        target_l_foot = bone_map.get('L_Ankle', 'J_Bip_L_Foot' if is_vroid else 'LeftFoot')
+        target_r_foot = bone_map.get('R_Ankle', 'J_Bip_R_Foot' if is_vroid else 'RightFoot')
 
         bvh_min_foot_z = float('inf')
         target_min_foot_z = float('inf')
@@ -304,7 +338,7 @@ class BVHtoFBXWorker:
                 target_min_foot_z = min(target_min_foot_z, target_r_z)
 
         foot_height_offset = target_min_foot_z - bvh_min_foot_z
-        if abs(foot_height_offset) > 0.05:
+        if bvh_min_foot_z != float('inf') and target_min_foot_z != float('inf') and abs(foot_height_offset) > 0.05:
             log.info("Applying height compensation: %.3fm", foot_height_offset)
             char_armature.location.z -= foot_height_offset
             bpy.context.view_layer.update()

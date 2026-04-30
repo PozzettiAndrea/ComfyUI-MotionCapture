@@ -47,4 +47,6 @@ _env_*
 
 # Built web assets
 web/
+*.abc
+*.fbx
 
