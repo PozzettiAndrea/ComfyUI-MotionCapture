@@ -1,5 +1,25 @@
 # ComfyUI-MotionCapture
 
+## Installation
+
+Three options, in order of speed → reliability:
+
+1. **ComfyUI Manager (nightly, recommended)** — search for `ComfyUI-MotionCapture` in the Manager and click Install **from the nightly version**. Do **NOT** use any numbered version like `0.2.4` — they are outdated.
+2. **Manager via Git URL** — in ComfyUI Manager: "Install via Git URL" with `https://github.com/PozzettiAndrea/ComfyUI-MotionCapture.git`.
+3. **Manual (most reliable)**:
+   ```bash
+   cd ComfyUI/custom_nodes
+   git clone https://github.com/PozzettiAndrea/ComfyUI-MotionCapture.git
+   cd ComfyUI-MotionCapture
+   pip install -r requirements.txt --upgrade
+   python install.py
+   ```
+
+> **Please report any problems** you hit during installation or use of my nodes — open a [Discussion](https://github.com/PozzettiAndrea/ComfyUI-MotionCapture/discussions) or [Issue](https://github.com/PozzettiAndrea/ComfyUI-MotionCapture/issues). Very grateful for your help! 🙏
+
+---
+
+
 <div align="center">
 <a href="https://pozzettiandrea.github.io/ComfyUI-MotionCapture/">
 <img src="https://pozzettiandrea.github.io/ComfyUI-MotionCapture/gallery-preview.png" alt="Workflow Test Gallery" width="800">
@@ -18,15 +38,6 @@ https://github.com/user-attachments/assets/17638ca5-8139-40ca-b215-0d7dabf0ea73
 https://github.com/user-attachments/assets/ba7a7797-713d-4750-9210-ff07bcc6bb01
 
 
-https://github.com/user-attachments/assets/d0b1d43e-a291-418a-816c-8c88e470bad4
-
-
-https://github.com/user-attachments/assets/b90ad09f-ea4f-4b2f-a8a7-70e53c1f4618
-
-
-## Installation
-
-Please always install through ComfyUI-Manager
 
 ## Credits
 
