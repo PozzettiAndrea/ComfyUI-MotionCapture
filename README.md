@@ -15,6 +15,9 @@ Three options, in order of speed → reliability:
    python install.py
    ```
 
+---
+
+
 
 <div align="center">
 <a href="https://pozzettiandrea.github.io/ComfyUI-MotionCapture/">
@@ -33,7 +36,6 @@ https://github.com/user-attachments/assets/17638ca5-8139-40ca-b215-0d7dabf0ea73
 
 https://github.com/user-attachments/assets/ba7a7797-713d-4750-9210-ff07bcc6bb01
 
----
 
 
 ## Credits
