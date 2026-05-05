@@ -3,6 +3,6 @@ ComfyUI-VideoHelperSuite = "Kosinkadink/ComfyUI-VideoHelperSuite"
 ComfyUI-CameraPack = "PozzettiAndrea/ComfyUI-CameraPack"
 ComfyUI-HyMotion = "PozzettiAndrea/ComfyUI-HyMotion"
 
-[target.osx-arm64.dependencies]
+[dependencies]
 av = "*"
 ffmpeg = "*"
