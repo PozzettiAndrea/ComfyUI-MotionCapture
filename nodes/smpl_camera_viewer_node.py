@@ -41,6 +41,13 @@ class SMPLCameraViewer:
                     "default": "#4a9eff",
                     "tooltip": "Hex color for the mesh (e.g. #4a9eff for blue)"
                 }),
+                "fps": ("INT", {
+                    "default": 24,
+                    "min": 1,
+                    "max": 240,
+                    "step": 1,
+                    "tooltip": "Frame rate written into the SMPC camera/mesh file"
+                }),
                 "video": ("VIDEO", {
                     "tooltip": "Reference video to display side-by-side with the 3D mesh"
                 }),
@@ -53,7 +60,7 @@ class SMPLCameraViewer:
     CATEGORY = "MotionCapture/GVHMR"
     OUTPUT_NODE = True
 
-    def create_viewer_data(self, npz_path="", camera_npz_path="", mesh_color="#4a9eff", video=None):
+    def create_viewer_data(self, npz_path="", camera_npz_path="", mesh_color="#4a9eff", fps=24, video=None):
         logger.info("[SMPLCameraViewer] Generating 3D mesh + camera data...")
 
         if not npz_path or not npz_path.strip():
@@ -243,7 +250,7 @@ class SMPLCameraViewer:
         faces_u32 = faces.astype(np.uint32)
         num_output_frames = vertices_array.shape[0]
         num_verts = vertices_array.shape[1]
-        fps = 30
+        fps = max(1, int(fps))
 
         logger.info(f"[SMPLCameraViewer] Generated mesh: {num_output_frames} frames, "
                      f"{num_verts} vertices, {faces_u32.shape[0]} faces")
