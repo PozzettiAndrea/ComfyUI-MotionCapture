@@ -2,12 +2,12 @@ python = "3.11"
 
 [dependencies]
 ffmpeg = "*"
+numpy = ">=1.23.0,<2.0.0"
 
 [cuda]
 packages = ["dpvo_cuda", "torch-scatter"]
 
 [pypi-dependencies]
-numpy = ">=1.23.0,<2.0.0"
 pillow = ">=9.0.0"
 opencv-python-headless = ">=4.8.0"
 av = ">=13.0.0"
