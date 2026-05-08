@@ -1,8 +1,13 @@
-python = "3.11"
+[workspace]
+channels = ["conda-forge", "pozzettiandrea"]
 
 [dependencies]
 ffmpeg = "*"
 numpy = ">=1.23.0,<2.0.0"
+bpy = {version = "*", channel = "pozzettiandrea"}
+
+[target.linux-64.dependencies]
+xorg-libsm = "*"     # libSM.so.6 required by bpy
 
 [cuda]
 packages = ["dpvo_cuda", "torch-scatter"]
@@ -47,7 +52,6 @@ iopath = ">=0.1.7"
 tabulate = "*"
 portalocker = "*"
 psutil = ">=5.9.0"
-bpy = "==4.2"
 comfy_aimdo = "*"
 
 [target.linux-64.pypi-dependencies]
