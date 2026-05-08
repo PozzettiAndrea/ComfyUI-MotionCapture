@@ -3,7 +3,6 @@ channels = ["conda-forge", "pozzettiandrea"]
 
 [dependencies]
 ffmpeg = "*"
-numpy = ">=1.23.0,<2.0.0"
 bpy = {version = "*", channel = "pozzettiandrea"}
 
 [target.linux-64.dependencies]
