@@ -1,0 +1,22 @@
+Capturing execution frames: smpl_to_bvh_pipeline.json
+  Frame 1 saved (frame_000.jpg, t=0.0s)
+  Validating workflow...
+  Queuing workflow for execution...
+  Frame 2 saved (frame_001.jpg, t=2.3s)
+  [capture-periodic] freeze=6ms shot=102ms unfreeze=4ms saved=True
+  Frame 3 saved (frame_002.jpg, t=4.5s)
+  [capture-periodic] freeze=8ms shot=143ms unfreeze=4ms saved=True
+  [capture-loop] iter=50 t=6.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.1/16.0GB (32%) swap=0.3/2.9GB (11%) cpu=49% browser_rss=0.84GB
+  Frame 4 saved (frame_003.jpg, t=6.7s)
+  [capture-periodic] freeze=3ms shot=115ms unfreeze=4ms saved=True
+  Node executed (1 total), capturing...
+  Frame 5 saved (frame_004.jpg, t=7.5s)
+  [capture-node] freeze=27ms shot=96ms unfreeze=0ms saved=True
+  Execution complete (t=7.5s)
+  Captured 5 unique frames over 7.63s
+  [debug] iframes: 1
+  [debug]   iframe[0]: src=http://127.0.0.1:8188/extensions/ComfyUI-MotionCapture/viewer_bvh.html?v=1778326, canvas=374x600, rafFrozen=True
+  [timing] trigger_3d_previews: 0.0s
+  Saved high-quality screenshot: smpl_to_bvh_pipeline_executed.png
+  [timing] final_screenshot: 0.2s
+    Captured 6 video frames

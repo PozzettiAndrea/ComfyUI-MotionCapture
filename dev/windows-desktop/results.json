@@ -1,0 +1,29 @@
+{
+  "workflows": [
+    {
+      "name": "system",
+      "status": "pass",
+      "duration_seconds": 0,
+      "error": null,
+      "hardware": null
+    },
+    {
+      "name": "apply_motion_on_character",
+      "status": "pass",
+      "duration_seconds": 24,
+      "error": null
+    },
+    {
+      "name": "smpl_to_bvh_pipeline",
+      "status": "pass",
+      "duration_seconds": 8,
+      "error": null
+    },
+    {
+      "name": "load_camera_traj",
+      "status": "pass",
+      "duration_seconds": 48,
+      "error": null
+    }
+  ]
+}

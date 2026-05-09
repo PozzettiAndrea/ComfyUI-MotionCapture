@@ -1,0 +1,421 @@
+[00:00] Crash dump logging enabled: C:\logs\MotionCapture-1259\dev\windows-gpu\crash_dump.log
+[00:00] 
+[00:00] [1/5] SYNTAX
+[00:00] ----------------------------------------
+[00:00] 
+[DEBUG] server=None, server_url=None, api=None
+[00:00] Found pyproject.toml (modern format)
+[00:00] Found requirements.txt (legacy format)
+[00:00] Unicode check: OK (all characters cp1252-safe)
+[00:00] Forbidden patterns check: OK
+[00:00] [SYNTAX] PASSED
+[00:00] 
+[00:00] [2/5] INSTALL
+[00:00] ----------------------------------------
+[00:00] 
+[DEBUG] server=None, server_url=None, api=None
+[00:00] 
+Setting up ComfyUI...
+[00:00] Creating virtual environment at C:\workspaces\MotionCapture-1259\.venv...
+[00:00] Running: uv venv C:\workspaces\MotionCapture-1259\.venv --python 3.13
+[00:03] Cloning ComfyUI (latest) to C:\workspaces\MotionCapture-1259\ComfyUI...
+[00:03] Running: git clone --depth 1 https://github.com/comfyanonymous/ComfyUI.git C:\workspaces\MotionCapture-1259\ComfyUI
+[00:06] Installing ComfyUI requirements into C:\workspaces\MotionCapture-1259\.venv...
+[00:06]     comfyui-frontend-package==1.43.17
+[00:06]     comfyui-workflow-templates==0.9.72
+[00:06]     comfyui-embedded-docs==0.4.4
+[00:06]     torch
+[00:06]     torchsde
+[00:06]     torchvision
+[00:06]     torchaudio
+[00:06]     numpy>=1.25.0
+[00:06]     einops
+[00:06]     transformers>=4.50.3
+[00:06]     tokenizers>=0.13.3
+[00:06]     sentencepiece
+[00:06]     safetensors>=0.4.2
+[00:06]     aiohttp>=3.11.8
+[00:06]     yarl>=1.18.0
+[00:06]     pyyaml
+[00:06]     Pillow
+[00:06]     scipy
+[00:06]     tqdm
+[00:06]     psutil
+[00:06]     alembic
+[00:06]     SQLAlchemy>=2.0.0
+[00:06]     filelock
+[00:06]     av>=14.2.0
+[00:06]     comfy-kitchen>=0.2.8
+[00:06]     comfy-aimdo==0.3.0
+[00:06]     requests
+[00:06]     simpleeval>=1.0.0
+[00:06]     blake3
+[00:06]     
+[00:06]     #non essential dependencies:
+[00:06]     kornia>=0.7.1
+[00:06]     spandrel
+[00:06]     pydantic~=2.0
+[00:06]     pydantic-settings~=2.0
+[00:06]     PyOpenGL
+[00:06]     glfw
+[00:06] Running: uv pip install --python C:\workspaces\MotionCapture-1259\.venv\Scripts\python.exe --index-url https://download.pytorch.org/whl/cu128 --extra-index-url https://pypi.org/simple --index-strategy unsafe-best-match -r C:\workspaces\MotionCapture-1259\ComfyUI\requirements.txt
+[00:54] 
+Installing custom node...
+[00:54] Copying ComfyUI-MotionCapture to C:\workspaces\MotionCapture-1259\ComfyUI\custom_nodes\ComfyUI-MotionCapture...
+[00:54] Installing node requirements...
+[00:54]     comfy-env==0.3.76
+[00:54]     comfy-3d-viewers==0.2.44
+[00:54] Running: uv pip install --python C:\workspaces\MotionCapture-1259\.venv\Scripts\python.exe --index-url https://download.pytorch.org/whl/cu128 --extra-index-url https://pypi.org/simple --index-strategy unsafe-best-match -r C:\workspaces\MotionCapture-1259\ComfyUI\custom_nodes\ComfyUI-MotionCapture\requirements.txt
+[00:57] 
+Running install.py...
+[00:57] Running: C:\workspaces\MotionCapture-1259\.venv\Scripts\python.exe C:\workspaces\MotionCapture-1259\ComfyUI\custom_nodes\ComfyUI-MotionCapture\install.py
+[00:59]   [comfy-env] Enabled Windows long path support
+[00:59]   
+[00:59]   Installing 3 node dependencies...
+[00:59]     Cloning ComfyUI-VideoHelperSuite...
+[01:00]     Installing requirements for ComfyUI-VideoHelperSuite...
+[01:02]     Cloning ComfyUI-CameraPack...
+[01:02]     Cloning ComfyUI-HyMotion...
+[01:06]     Installing requirements for ComfyUI-HyMotion...
+[01:10]     Running install.py for ComfyUI-HyMotion...
+[01:12]   Using uv for installation...
+[01:12]   Installing fbxsdkpy==2020.1.post2...
+[01:13]   Installing requirements from C:\workspaces\MotionCapture-1259\ComfyUI\custom_nodes\ComfyUI-HyMotion\requirements.txt...
+[01:13]   
+[01:13]   [requirements] Re-installing main package requirements...
+[01:13]     Installing requirements for ComfyUI-MotionCapture...
+[01:14]   [comfy-env] Workspace: C:\workspaces\MotionCapture-1259\ComfyUI\.ce
+[01:14]   [comfy-env] ComfyUI: C:\workspaces\MotionCapture-1259\ComfyUI
+[01:14]   [comfy-env] Found 1 node config(s):
+[01:14]     - motioncapture-nodes <- custom_nodes\ComfyUI-MotionCapture\nodes\comfy-env.toml (python=host)
+[01:15]   [comfy-env] Bootstrap interpreter has python 3.13 + torch 2.11.0 (cu128). Looking for cuda-only wheels matching cu128/torch2.11/cp313.
+[01:15]   [comfy-env] GPU: Detection: smi
+[01:15]   Driver: 581.57
+[01:15]   CUDA: 13.0
+[01:15]   Recommended: CUDA 13.0
+[01:15]   
+[01:15]     GPU 0: NVIDIA GeForce RTX 3090 (sm_86) [Ampere] 24576MB
+[01:15]   [comfy-env] Comfyui feature -> torch 2.11.0 from https://download.pytorch.org/whl/cu128 (CUDA 12.8 via bootstrap torch)
+[01:16]   [comfy-env] cuda-wheels: 2 package(s) need a matched (cuda, torch, python) combo: ['dpvo_cuda', 'torch-scatter']
+[01:16]   [comfy-env] cuda-wheels tier 1 (bootstrap): probing cu12.8/torch2.11/cp313
+[01:16]   [cuda-wheels] Looking up dpvo_cuda: cu128 torch2.11 cp313 win_amd64
+[01:16]   [cuda-wheels]   https://pozzettiandrea.github.io/cuda-wheels/v2/dpvo_cuda/: HTTPError: HTTP Error 404: Not Found
+[01:16]   [cuda-wheels]   Found: dpvo_cuda-0.0.0+cu128torch2.11-cp313-cp313-win_amd64.whl
+[01:16]   [cuda-wheels] Looking up torch-scatter: cu128 torch2.11 cp313 win_amd64
+[01:16]   [cuda-wheels]   https://pozzettiandrea.github.io/cuda-wheels/v2/torch_scatter/: HTTPError: HTTP Error 404: Not Found
+[01:16]   [cuda-wheels]   Found: torch_scatter-2.1.2+cu128torch2.11-cp313-cp313-win_amd64.whl
+[01:16]   [comfy-env] cuda-wheels combo: cu12.8/torch2.11 (bootstrap matches; per-node envs will pin to this)
+[01:16]   [comfy-env] Root conda deps from ComfyUI-MotionCapture: ['av', 'ffmpeg']
+[01:16]   [comfy-env] Comfyui feature pin: torch ==2.11.0, torchvision ==0.26.*, torchaudio ==2.11.*
+[01:16]   [comfy-env] Root conda deps injected into comfyui feature: ['av', 'ffmpeg']
+[01:16]   [comfy-env] cuda-wheels combo: per-node cuda features will pin ['torch', 'torchaudio', 'torchvision'] via pypi-options.dependency-overrides (https://download.pytorch.org/whl/cu128)
+[01:16]   [cuda-wheels] Looking up dpvo_cuda: cu128 torch2.11 cp313 win_amd64
+[01:16]   [cuda-wheels]   https://pozzettiandrea.github.io/cuda-wheels/v2/dpvo_cuda/: HTTPError: HTTP Error 404: Not Found
+[01:16]   [cuda-wheels]   Found: dpvo_cuda-0.0.0+cu128torch2.11-cp313-cp313-win_amd64.whl
+[01:16]   [cuda-wheels] Looking up torch-scatter: cu128 torch2.11 cp313 win_amd64
+[01:17]   [cuda-wheels]   https://pozzettiandrea.github.io/cuda-wheels/v2/torch_scatter/: HTTPError: HTTP Error 404: Not Found
+[01:17]   [cuda-wheels]   Found: torch_scatter-2.1.2+cu128torch2.11-cp313-cp313-win_amd64.whl
+[01:17]   [comfy-env] motioncapture-nodes: cuda-wheels deferred for post-pixi install (dpvo_cuda, torch-scatter)
+[01:17]   [comfy-env] motioncapture-nodes: torch override -> torch==2.11.0, torchvision==0.26.*, torchaudio==2.11.* from https://download.pytorch.org/whl/cu128
+[01:17]   Generated C:\workspaces\MotionCapture-1259\ComfyUI\.ce\pixi.toml
+[01:17]   [comfy-env] Patched C:\Users\ContainerAdministrator\AppData\Roaming\uv\python\cpython-3.13-windows-x86_64-none\Lib\platform.py for conda-forge compat
+[01:17]   [comfy-env] Patched C:\Users\ContainerAdministrator\AppData\Roaming\uv\python\cpython-3.13.13-windows-x86_64-none\Lib\platform.py for conda-forge compat
+[01:17]   [comfy-env] Installing 1 environment(s):
+[01:17]     - motioncapture-nodes (python=host, 40 pypi deps, 2 cuda wheels)
+[01:17]   [comfy-env] Running `pixi install --all`...
+[01:32]      WARN Skipped running the post-link scripts because `run-post-link-scripts` = `false`
+[01:32]     	- Scripts/.librsvg-pre-unlink.bat
+[01:32]     To enable them, run:
+[01:32]     	pixi config set --local run-post-link-scripts insecure
+[01:32]     More info:
+[01:32]     	https://pixi.sh/latest/reference/pixi_configuration/#run-post-link-scripts
+[01:35]     Error:   Ã— failed to solve the pypi requirements of environment 'motioncapture-nodes'
+[01:35]       â”‚ for platform 'win-64'
+[01:35]       â”œâ”€â–¶ failed to resolve pypi dependencies
+[01:35]       â”œâ”€â–¶ Failed to download and build `bvh==0.3`
+[01:35]       â”œâ”€â–¶ The build backend returned an error
+[01:35]       â•°â”€â–¶ Call to `setuptools.build_meta:__legacy__.build_wheel` failed (exit
+[01:35]           code: 1)
+[01:35]           [31m[stderr][39m
+[01:35]           Traceback (most recent call last):
+[01:35]             File "<string>", line 8, in <module>
+[01:35]               from setuptools.build_meta import __legacy__ as backend
+[01:35]             File "C:\Users\ContainerAdministrator\AppData\Local\rattler\cache\uv-
+[01:35]           cache\builds-v0\.tmpPWLZGu\Lib\site-packages\setuptools\__init__.py",
+[01:35]           line 26, in <module>
+[01:35]               from .dist import Distribution
+[01:35]             File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+[01:35]             File "<frozen importlib._bootstrap>", line 1331, in
+[01:35]           _find_and_load_unlocked
+[01:35]             File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+[01:35]             File "C:\Users\ContainerAdministrator\AppData\Local\rattler\cache\uv-
+[01:35]           cache\builds-v0\.tmpPWLZGu\Lib\site-packages\_virtualenv.py", line 89,
+[01:35]           in exec_module
+[01:35]               old(module)
+[01:35]               ~~~^^^^^^^^
+[01:35]             File "C:\Users\ContainerAdministrator\AppData\Local\rattler\cache\uv-
+[01:35]           cache\builds-v0\.tmpPWLZGu\Lib\site-packages\setuptools\dist.py", line
+[01:35]           30, in <module>
+[01:35]               from .config import pyprojecttoml, setupcfg
+[01:35]             File "C:\Users\ContainerAdministrator\AppData\Local\rattler\cache\uv-
+[01:35]           cache\builds-v0\.tmpPWLZGu\Lib\site-
+[01:35]           packages\setuptools\config\pyprojecttoml.py", line 26, in <module>
+[01:35]               from ._apply_pyprojecttoml import _PREVIOUSLY_DEFINED,
+[01:35]           _MissingDynamic, apply as _apply
+[01:35]             File "C:\Users\ContainerAdministrator\AppData\Local\rattler\cache\uv-
+[01:35]           cache\builds-v0\.tmpPWLZGu\Lib\site-
+[01:35]           packages\setuptools\config\_apply_pyprojecttoml.py", line 26, in
+[01:35]           <module>
+[01:35]               from ..extension import Extension
+[01:35]             File "C:\Users\ContainerAdministrator\AppData\Local\rattler\cache\uv-
+[01:35]           cache\builds-v0\.tmpPWLZGu\Lib\site-packages\setuptools\extension.py",
+[01:35]           line 36, in <module>
+[01:35]               _Extension = get_unpatched(distutils.core.Extension)
+[01:35]             File "C:\Users\ContainerAdministrator\AppData\Local\rattler\cache\uv-
+[01:35]           cache\builds-v0\.tmpPWLZGu\Lib\site-packages\setuptools\monkey.py", line
+[01:35]           48, in get_unpatched
+[01:35]               return get_unpatched_class(item)
+[01:35]             File "C:\Users\ContainerAdministrator\AppData\Local\rattler\cache\uv-
+[01:35]           cache\builds-v0\.tmpPWLZGu\Lib\site-packages\setuptools\monkey.py", line
+[01:35]           62, in get_unpatched_class
+[01:35]               for cls in _get_mro(cls)
+[01:35]                          ~~~~~~~~^^^^^
+[01:35]             File "C:\Users\ContainerAdministrator\AppData\Local\rattler\cache\uv-
+[01:35]           cache\builds-v0\.tmpPWLZGu\Lib\site-packages\setuptools\monkey.py", line
+[01:35]           35, in _get_mro
+[01:35]               if platform.python_implementation() == "Jython":
+[01:35]                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+[01:35]             File "C:
+[01:35]           \Users\ContainerAdministrator\AppData\Roaming\uv\python\cpython-
+[01:35]           3.13-windows-x86_64-none\Lib\platform.py", line 1242, in
+[01:35]           python_implementation
+[01:35]               return _sys_version()[0]
+[01:35]                      ~~~~~~~~~~~~^^
+[01:35]             File "C:
+[01:35]           \Users\ContainerAdministrator\AppData\Roaming\uv\python\cpython-3.13-
+[01:35]           windows-x86_64-none\Lib\platform.py", line 1202, in _sys_version
+[01:35]               raise ValueError(
+[01:35]                   'failed to parse CPython sys.version: %s' %
+[01:35]                   repr(sys_version))
+[01:35]           ValueError: failed to parse CPython sys.version: '3.13.13 | packaged by
+[01:35]           conda-forge | (main, Apr  8 2026, 01:56:49) [MSC v.1944 64 bit (AMD64)]'
+[01:35]           [36m[1mhint[0m[39m[1m:[0m This usually indicates a problem with the package or the build
+[01:35]           environment.
+[01:35] Warning: install.py failed (exit code 1), continuing...
+[01:35]   [!]         File "C:
+[01:35]   [!]       \Users\ContainerAdministrator\AppData\Roaming\uv\python\cpython-
+[01:35]   [!]       3.13-windows-x86_64-none\Lib\platform.py", line 1242, in
+[01:35]   [!]       python_implementation
+[01:35]   [!]           return _sys_version()[0]
+[01:35]   [!]                  ~~~~~~~~~~~~^^
+[01:35]   [!]         File "C:
+[01:35]   [!]       \Users\ContainerAdministrator\AppData\Roaming\uv\python\cpython-3.13-
+[01:35]   [!]       windows-x86_64-none\Lib\platform.py", line 1202, in _sys_version
+[01:35]   [!]           raise ValueError(
+[01:35]   [!]               'failed to parse CPython sys.version: %s' %
+[01:35]   [!]               repr(sys_version))
+[01:35]   [!]       ValueError: failed to parse CPython sys.version: '3.13.13 | packaged by
+[01:35]   [!]       conda-forge | (main, Apr  8 2026, 01:56:49) [MSC v.1944 64 bit (AMD64)]'
+[01:35]   [!]       
+[01:35]   [!]       [36m[1mhint[0m[39m[1m:[0m This usually indicates a problem with the package or the build
+[01:35]   [!]       environment.
+[01:35]   [!] 
+[01:35]   [!] 
+[01:35]   [!] stdout:
+[01:35] Installing 3 node dependency(ies)...
+[01:35]   ComfyUI-VideoHelperSuite from Kosinkadink/ComfyUI-VideoHelperSuite
+[01:35]   ComfyUI-VideoHelperSuite already exists, skipping...
+[01:35]   ComfyUI-CameraPack from PozzettiAndrea/ComfyUI-CameraPack
+[01:35]   ComfyUI-CameraPack already exists, skipping...
+[01:35]   ComfyUI-HyMotion from PozzettiAndrea/ComfyUI-HyMotion
+[01:35]   ComfyUI-HyMotion already exists, skipping...
+[01:35] Installing validation endpoint...
+[01:35]   Cloning PozzettiAndrea/ComfyUI-validate-endpoint...
+[01:35] Running: git clone --depth 1 https://github.com/PozzettiAndrea/ComfyUI-validate-endpoint.git C:\workspaces\MotionCapture-1259\ComfyUI\custom_nodes\ComfyUI-validate-endpoint
+[01:36] CUDA packages absent (will mock): dpvo_cuda, torch_scatter
+[01:36] [INSTALL] PASSED
+[01:36] 
+[01:36] [3/5] REGISTRATION
+[01:36] ----------------------------------------
+[01:36] 
+[DEBUG] server=None, server_url=None, api=None
+[01:36] 
+Starting ComfyUI server...
+[01:36] Starting ComfyUI server on port 41886...
+[01:36] CUDA mock packages: dpvo_cuda, torch_scatter
+[01:36] Starting ComfyUI server on port 41886...
+[01:36] Waiting for server to be ready (timeout: 600s)...
+[01:39]   [ComfyUI] setup plugin alembic.autogenerate.schemas
+[01:39]   [ComfyUI] setup plugin alembic.autogenerate.tables
+[01:39]   [ComfyUI] setup plugin alembic.autogenerate.types
+[01:39]   [ComfyUI] setup plugin alembic.autogenerate.constraints
+[01:39]   [ComfyUI] setup plugin alembic.autogenerate.defaults
+[01:39]   [ComfyUI] setup plugin alembic.autogenerate.comments
+[01:40]   [ComfyUI] [comfy-env] ComfyUI-MotionCapture: 1 isolation env(s):
+[01:40]   [ComfyUI] [comfy-env]   nodes -> C:\workspaces\MotionCapture-1259\ComfyUI\custom_nodes\ComfyUI-MotionCapture\nodes
+[01:40]   [ComfyUI] [comfy-env] prestartup complete
+[01:40]   [ComfyUI] 
+[01:40]   [ComfyUI] Prestartup times for custom nodes:
+[01:40]   [ComfyUI]    0.4 seconds: C:\workspaces\MotionCapture-1259\ComfyUI\custom_nodes\ComfyUI-MotionCapture
+[01:40]   [ComfyUI] 
+[02:53]   [ComfyUI] WARNING: You need pytorch with cu130 or higher to use optimized CUDA operations.
+[02:53]   [ComfyUI] Found comfy_kitchen backend triton: {'available': False, 'disabled': True, 'unavailable_reason': "ImportError: No module named 'triton'", 'capabilities': []}
+[02:53]   [ComfyUI] Found comfy_kitchen backend eager: {'available': True, 'disabled': False, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_mxfp8', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8', 'scaled_mm_mxfp8', 'scaled_mm_nvfp4']}
+[02:53]   [ComfyUI] Found comfy_kitchen backend cuda: {'available': True, 'disabled': True, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8']}
+[02:53]   [ComfyUI] Checkpoint files will always be loaded safely.
+[02:54]   [ComfyUI] Total VRAM 24576 MB, total RAM 32684 MB
+[02:54]   [ComfyUI] pytorch version: 2.11.0+cu128
+[02:54]   [ComfyUI] Set vram state to: NORMAL_VRAM
+[02:54]   [ComfyUI] Device: cuda:0 NVIDIA GeForce RTX 3090 : cudaMallocAsync
+[02:54]   [ComfyUI] Using async weight offloading with 2 streams
+[02:54]   [ComfyUI] Enabled pinned memory 13073.0
+[02:55]   [ComfyUI] Using pytorch attention
+[03:10]   [ComfyUI] aimdo: src-win/cuda-detour.c:38:INFO:aimdo_setup_hooks: installing 6 hooks
+[03:10]   [ComfyUI] aimdo: src-win/cuda-detour.c:28:DEBUG:install_hook_entries: hooks successfully installed
+[03:10]   [ComfyUI] aimdo: src-win/shmem-detect.c:80:INFO:comfy-aimdo WDDM adapter match: NVIDIA GeForce RTX 3090 runtime_luid=00000000:0000bd06 dxgi_luid=00000000:0000bd06
+[03:10]   [ComfyUI] aimdo: src/control.c:152:INFO:comfy-aimdo inited for GPU: NVIDIA GeForce RTX 3090 (VRAM: 24575 MB)
+[03:10]   [ComfyUI] DynamicVRAM support detected and enabled
+[03:10]   [ComfyUI] Python version: 3.13.13 (main, Apr 14 2026, 14:30:19) [MSC v.1944 64 bit (AMD64)]
+[03:10]   [ComfyUI] ComfyUI version: 0.20.1
+[03:10]   [ComfyUI] comfy-aimdo version: 0.3.0
+[03:10]   [ComfyUI] comfy-kitchen version: 0.2.8
+[03:10]   [ComfyUI] ****** User settings have been changed to be stored on the server instead of browser storage. ******
+[03:10]   [ComfyUI] ****** For multi-user setups add the --multi-user CLI argument to enable multiple user profiles. ******
+[03:10]   [ComfyUI] ComfyUI frontend version: 1.43.17
+[03:10]   [ComfyUI] [Prompt Server] web root: C:\workspaces\MotionCapture-1259\.venv\Lib\site-packages\comfyui_frontend_package\static
+[03:10]   [ComfyUI] Asset seeder disabled
+[03:17]   [ComfyUI] generated new fontManager
+[03:18]   [ComfyUI] loading...
+[03:18]   [ComfyUI] calling register_nodes
+[03:18]   [ComfyUI] [comfy-env] Version: 0.3.76
+[03:19]   [ComfyUI] [comfy-env] register_nodes: ComfyUI-MotionCapture
+[03:19]   [ComfyUI] [comfy-env] ComfyUI source dir: C:\workspaces\MotionCapture-1259\ComfyUI
+[03:19]   [ComfyUI] [comfy-env] Found 1 isolation env(s)
+[03:19]   [ComfyUI] [comfy-env] Scanning nodes metadata (isolation root)...
+[03:19]   [ComfyUI] [comfy-env] motioncapture-nodes: Library/bin has 235 DLLs
+[03:19]   [ComfyUI] [comfy-env] Metadata scan: C:\Users\ContainerAdministrator\.pixi\bin\pixi.exe run --as-is --manifest-path C:\workspaces\MotionCapture-1259\ComfyUI\.ce\pixi.toml -e motioncapture-nodes python C:\Users\ContainerAdministrator\AppData\Local\Temp\comfy_meta_g97_d0rf.py C:\workspaces\MotionCapture-1259\ComfyUI\custom_nodes\ComfyUI-MotionCapture nodes
+[03:19]   [ComfyUI] [comfy-env] Scan env PATH for nodes:
+[03:19]   [ComfyUI] [comfy-env]   [0] C:\workspaces\MotionCapture-1259\ComfyUI\.ce\.pixi\envs\motioncapture-nodes
+[03:19]   [ComfyUI] [comfy-env]   [1] C:\workspaces\MotionCapture-1259\ComfyUI\.ce\.pixi\envs\motioncapture-nodes\Library\bin
+[03:19]   [ComfyUI] [comfy-env]   [2] C:\workspaces\MotionCapture-1259\ComfyUI\.ce\.pixi\envs\motioncapture-nodes\Scripts
+[03:19]   [ComfyUI] [comfy-env]   [3] C:\workspaces\MotionCapture-1259\ComfyUI\.ce\.pixi\envs\motioncapture-nodes\Lib\site-packages\bpy
+[03:19]   [ComfyUI] [comfy-env]   [4] C:\Windows\System32
+[03:19]   [ComfyUI] [comfy-env]   [5] C:\Windows
+[03:19]   [ComfyUI] [comfy-env]   [6] C:\Windows\System32\Wbem
+[03:19]   [ComfyUI] [comfy-env] Metadata scan stderr for nodes:
+[03:19]   [ComfyUI] [comfy-env]   [meta-scan] importing nodes from C:\workspaces\MotionCapture-1259\ComfyUI\custom_nodes\ComfyUI-MotionCapture
+[03:19]   [ComfyUI] [comfy-env]   Traceback (most recent call last):
+[03:19]   [ComfyUI] [comfy-env]     File "C:\Users\ContainerAdministrator\AppData\Local\Temp\comfy_meta_g97_d0rf.py", line 65, in <module>
+[03:19]   [ComfyUI] [comfy-env]       module = importlib.import_module(package_name)
+[03:19]   [ComfyUI] [comfy-env]     File "C:\workspaces\MotionCapture-1259\ComfyUI\.ce\.pixi\envs\motioncapture-nodes\Lib\importlib\__init__.py", line 88, in import_module
+[03:19]   [ComfyUI] [comfy-env]       return _bootstrap._gcd_import(name[level:], package, level)
+[03:19]   [ComfyUI] [comfy-env]              ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[03:19]   [ComfyUI] [comfy-env]     File "<frozen importlib._bootstrap>", line 1395, in _gcd_import
+[03:19]   [ComfyUI] [comfy-env]     File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+[03:19]   [ComfyUI] [comfy-env]     File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+[03:19]   [ComfyUI] [comfy-env]     File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+[03:19]   [ComfyUI] [comfy-env]     File "<frozen importlib._bootstrap_external>", line 1023, in exec_module
+[03:19]   [ComfyUI] [comfy-env]     File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+[03:19]   [ComfyUI] [comfy-env]     File "C:\workspaces\MotionCapture-1259\ComfyUI\custom_nodes\ComfyUI-MotionCapture\nodes\__init__.py", line 4, in <module>
+[03:19]   [ComfyUI] [comfy-env]       from .load_model import LoadGVHMRModels
+[03:19]   [ComfyUI] [comfy-env]     File "C:\workspaces\MotionCapture-1259\ComfyUI\custom_nodes\ComfyUI-MotionCapture\nodes\load_model.py", line 12, in <module>
+[03:19]   [ComfyUI] [comfy-env]       from comfy_api.latest import io
+[03:19]   [ComfyUI] [comfy-env]     File "C:\workspaces\MotionCapture-1259\ComfyUI\comfy_api\latest\__init__.py", line 5, in <module>
+[03:19]   [ComfyUI] [comfy-env]       from comfy_api.internal import ComfyAPIBase
+[03:19]   [ComfyUI] [comfy-env]     File "C:\workspaces\MotionCapture-1259\ComfyUI\comfy_api\internal\__init__.py", line 2, in <module>
+[03:19]   [ComfyUI] [comfy-env]       from .api_registry import (
+[03:19]   [ComfyUI] [comfy-env]       ...<4 lines>...
+[03:19]   [ComfyUI] [comfy-env]       )
+[03:19]   [ComfyUI] [comfy-env]     File "C:\workspaces\MotionCapture-1259\ComfyUI\comfy_api\internal\api_registry.py", line 3, in <module>
+[03:19]   [ComfyUI] [comfy-env]       from packaging import version as packaging_version
+[03:19]   [ComfyUI] [comfy-env]   ModuleNotFoundError: No module named 'packaging'
+[03:19]   [ComfyUI] [comfy-env] Metadata scan failed for nodes (exit 1, 0.4s):
+[03:19]   [ComfyUI] [comfy-env]       from comfy_api.latest import io
+[03:19]   [ComfyUI] [comfy-env]     File "C:\workspaces\MotionCapture-1259\ComfyUI\comfy_api\latest\__init__.py", line 5, in <module>
+[03:19]   [ComfyUI] [comfy-env]       from comfy_api.internal import ComfyAPIBase
+[03:19]   [ComfyUI] [comfy-env]     File "C:\workspaces\MotionCapture-1259\ComfyUI\comfy_api\internal\__init__.py", line 2, in <module>
+[03:19]   [ComfyUI] [comfy-env]       from .api_registry import (
+[03:19]   [ComfyUI] [comfy-env]       ...<4 lines>...
+[03:19]   [ComfyUI] [comfy-env]       )
+[03:19]   [ComfyUI] [comfy-env]     File "C:\workspaces\MotionCapture-1259\ComfyUI\comfy_api\internal\api_registry.py", line 3, in <module>
+[03:19]   [ComfyUI] [comfy-env]       from packaging import version as packaging_version
+[03:19]   [ComfyUI] [comfy-env]   ModuleNotFoundError: No module named 'packaging'
+[03:19]   [ComfyUI] [comfy-env] Scanned nodes root: 0 nodes (0.4s)
+[03:19]   [ComfyUI] [comfy-env] Imported nodes root: 0 nodes (isolation)
+[03:19]   [ComfyUI] [comfy-env] Registered 0 total nodes
+[03:22]   [ComfyUI] 
+[03:22]   [ComfyUI] Import times for custom nodes:
+[03:22]   [ComfyUI]    0.0 seconds: C:\workspaces\MotionCapture-1259\ComfyUI\custom_nodes\websocket_image_save.py
+[03:22]   [ComfyUI]    0.0 seconds: C:\workspaces\MotionCapture-1259\ComfyUI\custom_nodes\ComfyUI-validate-endpoint
+[03:22]   [ComfyUI]    0.0 seconds: C:\workspaces\MotionCapture-1259\ComfyUI\custom_nodes\ComfyUI-CameraPack
+[03:22]   [ComfyUI]    1.2 seconds: C:\workspaces\MotionCapture-1259\ComfyUI\custom_nodes\ComfyUI-MotionCapture
+[03:22]   [ComfyUI]    2.5 seconds: C:\workspaces\MotionCapture-1259\ComfyUI\custom_nodes\ComfyUI-VideoHelperSuite
+[03:22]   [ComfyUI]    3.9 seconds: C:\workspaces\MotionCapture-1259\ComfyUI\custom_nodes\ComfyUI-HyMotion
+[03:22]   [ComfyUI] 
+[03:22]   [ComfyUI] Context impl SQLiteImpl.
+[03:22]   [ComfyUI] Will assume non-transactional DDL.
+[03:22]   [ComfyUI] Context impl SQLiteImpl.
+[03:22]   [ComfyUI] Will assume non-transactional DDL.
+[03:22]   [ComfyUI] Running upgrade  -> 0001_assets, Initial assets schema
+[03:22]   [ComfyUI] Revision ID: 0001_assets
+[03:22]   [ComfyUI] Revises: None
+[03:22]   [ComfyUI] Create Date: 2025-12-10 00:00:00
+[03:22]   [ComfyUI] Running upgrade 0001_assets -> 0002_merge_to_asset_references, Merge AssetInfo and AssetCacheState into unified asset_references table.
+[03:22]   [ComfyUI] Running upgrade 0002_merge_to_asset_references -> 0003_add_metadata_job_id, Add system_metadata and job_id columns to asset_references.
+[03:22]   [ComfyUI] Change preview_id FK from assets.id to asset_references.id.
+[03:22]   [ComfyUI] Database upgraded from None to 0003_add_metadata_job_id
+[03:22]   [ComfyUI] Starting server
+[03:22]   [ComfyUI] 
+[03:22]   [ComfyUI] To see the GUI go to: http://127.0.0.1:41886
+[03:23] Server responding, waiting for nodes to load...
+[03:43] Server is ready!
+[03:43] Checking for import errors in server logs...
+[03:43] No import errors detected
+[03:43] Found 766 registered nodes
+[03:43] [REGISTRATION] PASSED
+[03:43] 
+[03:43] [4/5] INSTANTIATION
+[03:43] ----------------------------------------
+[03:43] 
+[DEBUG] server=<comfy_test.comfyui.server.ComfyUIServer object at 0x000002D2D8D473A0>, server_url=None, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x000002D2D8D47DF0>
+[03:43] Testing node constructors...
+[03:44] All 0 node(s) instantiated successfully!
+[03:44] [INSTANTIATION] PASSED
+[03:44] 
+[03:44] [5/5] EXECUTION
+[03:44] ----------------------------------------
+[03:44] 
+[DEBUG] server=<comfy_test.comfyui.server.ComfyUIServer object at 0x000002D2D8D473A0>, server_url=None, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x000002D2D8D47DF0>
+[03:44] GPU runner - will execute 2 workflow(s)
+[03:44] Running 5 workflow(s) (all with videos)...
+[03:44] Installing screenshot dependencies (playwright, pillow)...
+[03:46]   Packages installed, downloading chromium browser...
+[04:04]   Screenshot dependencies installed successfully
+[04:04] Starting headless browser...
+[04:05]   GPU detected (no Vulkan) — using ANGLE/OpenGL rendering
+[04:10]   [1/5] SKIPPED (not in gpu list) apply_motion_on_character.json
+[04:10] Capturing execution frames: GVHMR.json
+[04:12]   [ComfyUI] [DEPRECATION WARNING] Detected import of deprecated legacy API: /extensions/core/widgetInputs.js. This is likely caused by a custom node extension using outdated APIs. Please update your extensions or contact the extension author for an updated version.
+[04:18]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[04:18]   Validating workflow...
+[04:18]   Validation failed: graphToPrompt produced nodes without class_type: graphToPrompt: 5 nodes, missing class_type: [2,11,16], sample: {"inputs":{"UNKNOWN":false},"_meta":{}}
+[04:18] Capturing execution frames: GVHMR_cameramotion.json
+[04:24]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[04:24]   Validating workflow...
+[04:24]   Validation failed: graphToPrompt produced nodes without class_type: graphToPrompt: 6 nodes, missing class_type: [20,26,34], sample: {"inputs":{"UNKNOWN":"","npz_path":["34",0]},"_meta":{}}
+[04:25]   [4/5] SKIPPED (not in gpu list) load_camera_traj.json
+[04:25]   [5/5] SKIPPED (not in gpu list) smpl_to_bvh_pipeline.json
+[04:25] Results saved to C:\logs\MotionCapture-1259\dev\windows-gpu\results.json
+[04:25] Saved: C:\logs\MotionCapture-1259\dev\windows-gpu\index.html
+[04:25] 
+windows: FAILED
+[04:25] Error: Workflow execution failed (2 error(s))
+[04:25] Details: GVHMR.json: Workflow validation failed
+
+Details:
+graphToPrompt produced nodes without class_type: graphToPrompt: 5 nodes, missing class_type: [2,11,16], sample: {"inputs":{"UNKNOWN":false},"_meta":{}}
+GVHMR_cameramotion.json: Workflow validation failed
+
+Details:
+graphToPrompt produced nodes without class_type: graphToPrompt: 6 nodes, missing class_type: [20,26,34], sample: {"inputs":{"UNKNOWN":"","npz_path":["34",0]},"_meta":{}}
+[04:25] Stopping ComfyUI server...

@@ -1,0 +1,85 @@
+{
+  "timestamp": "2026-05-09T11:04:15.921219+00:00",
+  "platform": "windows",
+  "hardware": {
+    "os": "Windows-10-10.0.26200-SP0",
+    "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel",
+    "gpu": "NVIDIA GeForce RTX 3090"
+  },
+  "commit_hash": "0e034772247f2bd9d0a6253d5a4876eafba0a825",
+  "success": false,
+  "summary": {
+    "total": 5,
+    "passed": 0,
+    "failed": 2
+  },
+  "workflows": [
+    {
+      "name": "apply_motion_on_character",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for GPU runner",
+      "hardware": null
+    },
+    {
+      "name": "GVHMR",
+      "status": "fail",
+      "duration_seconds": 7.55,
+      "error": "Workflow validation failed\n\nDetails:\ngraphToPrompt produced nodes without class_type: graphToPrompt: 5 nodes, missing class_type: [2,11,16], sample: {\"inputs\":{\"UNKNOWN\":false},\"_meta\":{}}",
+      "hardware": {
+        "os": "Windows-10-10.0.26200-SP0",
+        "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel",
+        "gpu": "NVIDIA GeForce RTX 3090"
+      },
+      "resources": {
+        "ram": {
+          "peak": 0.96,
+          "avg": 0.96
+        },
+        "total_ram_gb": 31.9,
+        "samples": 7,
+        "vram": {
+          "peak": 0.9,
+          "avg": 0.8
+        }
+      }
+    },
+    {
+      "name": "GVHMR_cameramotion",
+      "status": "fail",
+      "duration_seconds": 5.99,
+      "error": "Workflow validation failed\n\nDetails:\ngraphToPrompt produced nodes without class_type: graphToPrompt: 6 nodes, missing class_type: [20,26,34], sample: {\"inputs\":{\"UNKNOWN\":\"\",\"npz_path\":[\"34\",0]},\"_meta\":{}}",
+      "hardware": {
+        "os": "Windows-10-10.0.26200-SP0",
+        "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel",
+        "gpu": "NVIDIA GeForce RTX 3090"
+      },
+      "resources": {
+        "ram": {
+          "peak": 0.96,
+          "avg": 0.96
+        },
+        "total_ram_gb": 31.9,
+        "samples": 6,
+        "vram": {
+          "peak": 1.0,
+          "avg": 0.96
+        }
+      }
+    },
+    {
+      "name": "load_camera_traj",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for GPU runner",
+      "hardware": null
+    },
+    {
+      "name": "smpl_to_bvh_pipeline",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for GPU runner",
+      "hardware": null
+    }
+  ]
+}

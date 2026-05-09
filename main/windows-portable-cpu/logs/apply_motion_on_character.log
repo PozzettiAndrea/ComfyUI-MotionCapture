@@ -1,0 +1,30 @@
+Capturing execution frames: apply_motion_on_character.json
+  Frame 1 saved (frame_000.jpg, t=0.0s)
+  Validating workflow...
+  Queuing workflow for execution...
+  Frame 2 saved (frame_001.jpg, t=2.4s)
+  [capture-periodic] freeze=5ms shot=152ms unfreeze=8ms saved=True
+  Frame 3 saved (frame_002.jpg, t=4.7s)
+  [capture-periodic] freeze=5ms shot=138ms unfreeze=6ms saved=True
+  [capture-loop] iter=50 t=6.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=6.0/16.0GB (37%) swap=0.3/2.9GB (10%) cpu=66% browser_rss=0.71GB
+  Frame 4 saved (frame_003.jpg, t=7.0s)
+  [capture-periodic] freeze=5ms shot=140ms unfreeze=5ms saved=True
+  [capture-loop] iter=100 t=13.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6 ram=6.6/16.0GB (41%) swap=0.3/2.9GB (10%) cpu=100% browser_rss=0.71GB
+  Frame 5 saved (frame_004.jpg, t=18.1s)
+  [capture-periodic] freeze=5ms shot=154ms unfreeze=6ms saved=True
+  [capture-loop] iter=150 t=19.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=6.0/16.0GB (37%) swap=0.3/2.9GB (10%) cpu=93% browser_rss=0.71GB
+  [capture-loop] iter=200 t=25.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.9/16.0GB (37%) swap=0.3/2.9GB (10%) cpu=62% browser_rss=0.65GB
+  Node executed (2 total), capturing...
+  Frame 6 saved (frame_005.jpg, t=28.0s)
+  [capture-node] freeze=5ms shot=1201ms unfreeze=0ms saved=True
+  Execution complete (t=28.0s)
+  [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
+  [3d-wait] Phase 1 exception after 60.1s: Page.wait_for_function: Timeout 60000ms exceeded.
+  [3d-wait] Phase 2: iframes=0
+  [3d-wait] Total 3D wait: 60.2s
+  Captured 6 unique frames over 90.31s
+  [debug] iframes: 0
+  [timing] trigger_3d_previews: 0.0s
+  Saved high-quality screenshot: apply_motion_on_character_executed.png
+  [timing] final_screenshot: 0.2s
+    Captured 7 video frames

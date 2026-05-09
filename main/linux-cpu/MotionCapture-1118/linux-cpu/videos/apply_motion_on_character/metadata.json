@@ -1,0 +1,35 @@
+{
+  "frames": [
+    {
+      "file": "frame_000.jpg",
+      "time": 0.0,
+      "log": "Capturing execution frames: apply_motion_on_character.json"
+    },
+    {
+      "file": "frame_001.jpg",
+      "time": 2.3,
+      "log": "Capturing execution frames: apply_motion_on_character.json\n  Frame 1 saved (frame_000.jpg, t=0.0s)\n  Validating workflow...\n  Queuing workflow for execution..."
+    },
+    {
+      "file": "frame_002.jpg",
+      "time": 4.53,
+      "log": "Capturing execution frames: apply_motion_on_character.json\n  Frame 1 saved (frame_000.jpg, t=0.0s)\n  Validating workflow...\n  Queuing workflow for execution...\n  Frame 2 saved (frame_001.jpg, t=2.3s)\n  [capture-periodic] freeze=3ms shot=114ms unfreeze=6ms saved=True"
+    },
+    {
+      "file": "frame_003.jpg",
+      "time": 6.81,
+      "log": "Capturing execution frames: apply_motion_on_character.json\n  Frame 1 saved (frame_000.jpg, t=0.0s)\n  Validating workflow...\n  Queuing workflow for execution...\n  Frame 2 saved (frame_001.jpg, t=2.3s)\n  [capture-periodic] freeze=3ms shot=114ms unfreeze=6ms saved=True\n  Frame 3 saved (frame_002.jpg, t=4.5s)\n  [capture-periodic] freeze=4ms shot=138ms unfreeze=10ms saved=True\n  [capture-loop] iter=50 t=5.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=2.9/15.6GB (19%) swap=0.0/3.0GB (0%) cpu=37% browser_rss=0.93GB"
+    },
+    {
+      "file": "frame_004.jpg",
+      "time": 14.43,
+      "log": "Capturing execution frames: apply_motion_on_character.json\n  Frame 1 saved (frame_000.jpg, t=0.0s)\n  Validating workflow...\n  Queuing workflow for execution...\n  Frame 2 saved (frame_001.jpg, t=2.3s)\n  [capture-periodic] freeze=3ms shot=114ms unfreeze=6ms saved=True\n  Frame 3 saved (frame_002.jpg, t=4.5s)\n  [capture-periodic] freeze=4ms shot=138ms unfreeze=10ms saved=True\n  [capture-loop] iter=50 t=5.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=2.9/15.6GB (19%) swap=0.0/3.0GB (0%) cpu=37% browser_rss=0.93GB\n  Frame 4 saved (frame_003.jpg, t=6.8s)\n  [capture-periodic] freeze=4ms shot=105ms unfreeze=3ms saved=True\n  [capture-loop] iter=100 t=11.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3 ram=2.5/15.6GB (16%) swap=0.0/3.0GB (0%) cpu=34% browser_rss=0.93GB"
+    },
+    {
+      "file": "frame_005.jpg",
+      "time": 78.63310861587524,
+      "log": "Final screenshot"
+    }
+  ],
+  "total_time": 76.38
+}

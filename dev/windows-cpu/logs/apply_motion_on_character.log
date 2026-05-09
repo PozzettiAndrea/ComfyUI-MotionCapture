@@ -1,0 +1,29 @@
+Capturing execution frames: apply_motion_on_character.json
+  Frame 1 saved (frame_000.jpg, t=0.0s)
+  Validating workflow...
+  Queuing workflow for execution...
+  Frame 2 saved (frame_001.jpg, t=2.3s)
+  [capture-periodic] freeze=4ms shot=121ms unfreeze=4ms saved=True
+  Frame 3 saved (frame_002.jpg, t=4.5s)
+  [capture-periodic] freeze=6ms shot=131ms unfreeze=5ms saved=True
+  [capture-loop] iter=50 t=6.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=13 ram=5.6/16.0GB (35%) swap=0.2/2.9GB (5%) cpu=36% browser_rss=0.71GB
+  Frame 4 saved (frame_003.jpg, t=6.8s)
+  [capture-periodic] freeze=14ms shot=186ms unfreeze=6ms saved=True
+  [capture-loop] iter=100 t=12.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.6/16.0GB (35%) swap=0.2/2.9GB (5%) cpu=89% browser_rss=0.70GB
+  Frame 5 saved (frame_004.jpg, t=13.5s)
+  [capture-periodic] freeze=6ms shot=128ms unfreeze=6ms saved=True
+  [capture-loop] iter=150 t=18.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.2/16.0GB (32%) swap=0.2/2.9GB (5%) cpu=47% browser_rss=0.71GB
+  Node executed (2 total), capturing...
+  Frame 6 saved (frame_005.jpg, t=21.3s)
+  [capture-node] freeze=4ms shot=154ms unfreeze=0ms saved=True
+  Execution complete (t=21.3s)
+  [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
+  [3d-wait] Phase 1 exception after 60.0s: Page.wait_for_function: Timeout 60000ms exceeded.
+  [3d-wait] Phase 2: iframes=0
+  [3d-wait] Total 3D wait: 60.0s
+  Captured 6 unique frames over 81.56s
+  [debug] iframes: 0
+  [timing] trigger_3d_previews: 0.0s
+  Saved high-quality screenshot: apply_motion_on_character_executed.png
+  [timing] final_screenshot: 0.2s
+    Captured 7 video frames

@@ -1,0 +1,121 @@
+[00:00] Crash dump logging enabled: D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1139\windows-cpu\crash_dump.log
+[00:00] 
+[00:00] [1/3] REGISTRATION
+[00:00] ----------------------------------------
+[00:00] 
+[DEBUG] server=None, server_url=http://127.0.0.1:8188, api=None
+[00:00] 
+Connecting to existing server at http://127.0.0.1:8188...
+[00:00] Connecting to existing server at http://127.0.0.1:8188...
+[00:00] Connected to server! (attempt 1, 0.0s)
+[00:00] Checking for import errors in server logs...
+[00:00] No import errors detected
+[00:00] Found 788 registered nodes
+[00:00] [REGISTRATION] PASSED
+[00:00] 
+[00:00] [2/3] INSTANTIATION
+[00:00] ----------------------------------------
+[00:00] 
+[DEBUG] server=<comfy_test.comfyui.server.ExternalComfyUIServer object at 0x0000026DEFCBF290>, server_url=http://127.0.0.1:8188, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x0000026DEFCBEF00>
+[00:00] Testing node constructors...
+[00:03] All 22 node(s) instantiated successfully!
+[00:03] [INSTANTIATION] PASSED
+[00:03] 
+[00:03] [3/3] EXECUTION
+[00:03] ----------------------------------------
+[00:03] 
+[DEBUG] server=<comfy_test.comfyui.server.ExternalComfyUIServer object at 0x0000026DEFCBF290>, server_url=http://127.0.0.1:8188, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x0000026DEFCBEF00>
+[00:03] CPU runner - will execute 3 workflow(s)
+[00:03] Running 5 workflow(s) (all with videos)...
+[00:03] Starting headless browser...
+[00:04]   Downloading Mesa llvmpipe for Windows...
+[00:13]   Copied opengl32.dll to Chromium dir
+[00:13]   Copied libgallium_wgl.dll to Chromium dir
+[00:13]   Using Mesa llvmpipe (desktop GL) — multithreaded CPU rendering
+[00:14] Capturing execution frames: apply_motion_on_character.json
+[00:24]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[00:24]   Validating workflow...
+[00:24]   Queuing workflow for execution...
+[00:26]   Frame 2 saved (frame_001.jpg, t=2.3s)
+[00:26]   [capture-periodic] freeze=4ms shot=121ms unfreeze=4ms saved=True
+[00:28]   Frame 3 saved (frame_002.jpg, t=4.5s)
+[00:28]   [capture-periodic] freeze=6ms shot=131ms unfreeze=5ms saved=True
+[00:30]   [capture-loop] iter=50 t=6.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=13 ram=5.6/16.0GB (35%) swap=0.2/2.9GB (5%) cpu=36% browser_rss=0.71GB
+[00:30]   Frame 4 saved (frame_003.jpg, t=6.8s)
+[00:30]   [capture-periodic] freeze=14ms shot=186ms unfreeze=6ms saved=True
+[00:36]   [capture-loop] iter=100 t=12.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.6/16.0GB (35%) swap=0.2/2.9GB (5%) cpu=89% browser_rss=0.70GB
+[00:37]   Frame 5 saved (frame_004.jpg, t=13.5s)
+[00:37]   [capture-periodic] freeze=6ms shot=128ms unfreeze=6ms saved=True
+[00:42]   [capture-loop] iter=150 t=18.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.2/16.0GB (32%) swap=0.2/2.9GB (5%) cpu=47% browser_rss=0.71GB
+[00:45]   Node executed (2 total), capturing...
+[00:45]   Frame 6 saved (frame_005.jpg, t=21.3s)
+[00:45]   [capture-node] freeze=4ms shot=154ms unfreeze=0ms saved=True
+[00:45]   Execution complete (t=21.3s)
+[00:45]   [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
+[01:45]   [3d-wait] Phase 1 exception after 60.0s: Page.wait_for_function: Timeout 60000ms exceeded.
+[01:45]   [3d-wait] Phase 2: iframes=0
+[01:45]   [3d-wait] Total 3D wait: 60.0s
+[01:45]   Captured 6 unique frames over 81.56s
+[01:45]   [debug] iframes: 0
+[01:45]   [timing] trigger_3d_previews: 0.0s
+[01:47]   Saved high-quality screenshot: apply_motion_on_character_executed.png
+[01:47]   [timing] final_screenshot: 0.2s
+[01:48]   [2/5] SKIPPED (not in cpu list) GVHMR.json
+[01:48]   [3/5] SKIPPED (not in cpu list) GVHMR_cameramotion.json
+[01:48] Capturing execution frames: load_camera_traj.json
+[01:55]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[01:55]   Validating workflow...
+[01:55]   Queuing workflow for execution...
+[01:57]   Frame 2 saved (frame_001.jpg, t=2.3s)
+[01:57]   [capture-periodic] freeze=9ms shot=144ms unfreeze=6ms saved=True
+[01:59]   Frame 3 saved (frame_002.jpg, t=4.5s)
+[01:59]   [capture-periodic] freeze=5ms shot=119ms unfreeze=3ms saved=True
+[02:01]   [capture-loop] iter=50 t=6.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.3/16.0GB (33%) swap=0.2/2.9GB (5%) cpu=17% browser_rss=0.87GB
+[02:01]   Frame 4 saved (frame_003.jpg, t=6.7s)
+[02:01]   [capture-periodic] freeze=16ms shot=125ms unfreeze=4ms saved=True
+[02:06]   Frame 5 saved (frame_004.jpg, t=11.2s)
+[02:06]   [capture-periodic] freeze=4ms shot=122ms unfreeze=5ms saved=True
+[02:07]   [capture-loop] iter=100 t=12.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.4/16.0GB (34%) swap=0.2/2.9GB (5%) cpu=52% browser_rss=0.85GB
+[02:13]   [capture-loop] iter=150 t=18.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.4/16.0GB (34%) swap=0.2/2.9GB (5%) cpu=80% browser_rss=0.80GB
+[02:19]   [capture-loop] iter=200 t=24.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.4/16.0GB (34%) swap=0.2/2.9GB (5%) cpu=83% browser_rss=0.80GB
+[02:25]   [capture-loop] iter=250 t=30.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.3/16.0GB (33%) swap=0.2/2.9GB (5%) cpu=86% browser_rss=0.70GB
+[02:31]   [capture-loop] iter=300 t=36.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.4/16.0GB (34%) swap=0.2/2.9GB (5%) cpu=83% browser_rss=0.69GB
+[02:38]   [capture-loop] iter=350 t=43.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=18 ram=5.5/16.0GB (34%) swap=0.2/2.9GB (5%) cpu=89% browser_rss=0.68GB
+[02:45]   [capture-loop] iter=400 t=50.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=9 ram=5.5/16.0GB (34%) swap=0.2/2.9GB (5%) cpu=87% browser_rss=0.68GB
+[02:48]   Node executed (1 total), capturing...
+[02:48]   Frame 6 saved (frame_005.jpg, t=53.4s)
+[02:48]   [capture-node] freeze=4ms shot=120ms unfreeze=11ms saved=True
+[02:48]   Execution complete (t=53.8s)
+[02:48]   Captured 6 unique frames over 53.93s
+[02:49]   [debug] iframes: 1
+[02:49]   [debug]   iframe[0]: src=http://127.0.0.1:8188/extensions/ComfyUI-MotionCapture/viewer_smpl_camera.html?v, canvas=413x343, rafFrozen=False
+[02:49]   [timing] trigger_3d_previews: 0.0s
+[02:51]   Saved high-quality screenshot: load_camera_traj_executed.png
+[02:51]   [timing] final_screenshot: 0.2s
+[02:51] Capturing execution frames: smpl_to_bvh_pipeline.json
+[02:57]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[02:57]   Validating workflow...
+[02:57]   Queuing workflow for execution...
+[02:59]   Frame 2 saved (frame_001.jpg, t=2.3s)
+[02:59]   [capture-periodic] freeze=6ms shot=102ms unfreeze=4ms saved=True
+[03:02]   Frame 3 saved (frame_002.jpg, t=4.5s)
+[03:02]   [capture-periodic] freeze=8ms shot=143ms unfreeze=4ms saved=True
+[03:03]   [capture-loop] iter=50 t=6.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.1/16.0GB (32%) swap=0.3/2.9GB (11%) cpu=49% browser_rss=0.84GB
+[03:04]   Frame 4 saved (frame_003.jpg, t=6.7s)
+[03:04]   [capture-periodic] freeze=3ms shot=115ms unfreeze=4ms saved=True
+[03:04]   Node executed (1 total), capturing...
+[03:05]   Frame 5 saved (frame_004.jpg, t=7.5s)
+[03:05]   [capture-node] freeze=27ms shot=96ms unfreeze=0ms saved=True
+[03:05]   Execution complete (t=7.5s)
+[03:05]   Captured 5 unique frames over 7.63s
+[03:05]   [debug] iframes: 1
+[03:05]   [debug]   iframe[0]: src=http://127.0.0.1:8188/extensions/ComfyUI-MotionCapture/viewer_bvh.html?v=1778326, canvas=374x600, rafFrozen=True
+[03:05]   [timing] trigger_3d_previews: 0.0s
+[03:07]   Saved high-quality screenshot: smpl_to_bvh_pipeline_executed.png
+[03:07]   [timing] final_screenshot: 0.2s
+[03:07] Results saved to D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1139\windows-cpu\results.json
+[03:07] Model report: 3 files, 311.2 MB -> D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1139\windows-cpu\models.json
+[03:07] Saved: D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1139\windows-cpu\index.html
+[03:07] [EXECUTION] PASSED
+[03:07] 
+windows: PASSED

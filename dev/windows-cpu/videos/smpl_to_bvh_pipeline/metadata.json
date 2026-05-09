@@ -1,0 +1,35 @@
+{
+  "frames": [
+    {
+      "file": "frame_000.jpg",
+      "time": 0.0,
+      "log": "Capturing execution frames: smpl_to_bvh_pipeline.json"
+    },
+    {
+      "file": "frame_001.jpg",
+      "time": 2.26,
+      "log": "Capturing execution frames: smpl_to_bvh_pipeline.json\n  Frame 1 saved (frame_000.jpg, t=0.0s)\n  Validating workflow...\n  Queuing workflow for execution..."
+    },
+    {
+      "file": "frame_002.jpg",
+      "time": 4.5,
+      "log": "Capturing execution frames: smpl_to_bvh_pipeline.json\n  Frame 1 saved (frame_000.jpg, t=0.0s)\n  Validating workflow...\n  Queuing workflow for execution...\n  Frame 2 saved (frame_001.jpg, t=2.3s)\n  [capture-periodic] freeze=6ms shot=102ms unfreeze=4ms saved=True"
+    },
+    {
+      "file": "frame_003.jpg",
+      "time": 6.7,
+      "log": "Capturing execution frames: smpl_to_bvh_pipeline.json\n  Frame 1 saved (frame_000.jpg, t=0.0s)\n  Validating workflow...\n  Queuing workflow for execution...\n  Frame 2 saved (frame_001.jpg, t=2.3s)\n  [capture-periodic] freeze=6ms shot=102ms unfreeze=4ms saved=True\n  Frame 3 saved (frame_002.jpg, t=4.5s)\n  [capture-periodic] freeze=8ms shot=143ms unfreeze=4ms saved=True\n  [capture-loop] iter=50 t=6.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.1/16.0GB (32%) swap=0.3/2.9GB (11%) cpu=49% browser_rss=0.84GB"
+    },
+    {
+      "file": "frame_004.jpg",
+      "time": 7.48,
+      "log": "Capturing execution frames: smpl_to_bvh_pipeline.json\n  Frame 1 saved (frame_000.jpg, t=0.0s)\n  Validating workflow...\n  Queuing workflow for execution...\n  Frame 2 saved (frame_001.jpg, t=2.3s)\n  [capture-periodic] freeze=6ms shot=102ms unfreeze=4ms saved=True\n  Frame 3 saved (frame_002.jpg, t=4.5s)\n  [capture-periodic] freeze=8ms shot=143ms unfreeze=4ms saved=True\n  [capture-loop] iter=50 t=6.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.1/16.0GB (32%) swap=0.3/2.9GB (11%) cpu=49% browser_rss=0.84GB\n  Frame 4 saved (frame_003.jpg, t=6.7s)\n  [capture-periodic] freeze=3ms shot=115ms unfreeze=4ms saved=True"
+    },
+    {
+      "file": "frame_005.jpg",
+      "time": 9.836253881454468,
+      "log": "Final screenshot"
+    }
+  ],
+  "total_time": 7.63
+}

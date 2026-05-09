@@ -1,0 +1,109 @@
+{
+  "models_dir": "/workspaces/MotionCapture-1213/ComfyUI/models",
+  "summary": {
+    "total_files": 18,
+    "total_size_bytes": 6026981421,
+    "total_size_human": "5.6 GB"
+  },
+  "folders": {
+    "motion_capture": {
+      "total_size_bytes": 6026981421,
+      "total_size_human": "5.6 GB",
+      "source": {
+        "type": "unknown"
+      },
+      "files": [
+        {
+          "path": "hmr2.safetensors",
+          "size_bytes": 2709332301,
+          "size_human": "2.5 GB"
+        },
+        {
+          "path": "vitpose.safetensors",
+          "size_bytes": 2548881980,
+          "size_human": "2.4 GB"
+        },
+        {
+          "path": "gvhmr.safetensors",
+          "size_bytes": 163436944,
+          "size_human": "155.9 MB"
+        },
+        {
+          "path": "body_models/smplx/SMPLX_FEMALE.npz",
+          "size_bytes": 108794146,
+          "size_human": "103.8 MB"
+        },
+        {
+          "path": "body_models/smplx/SMPLX_MALE.npz",
+          "size_bytes": 108753445,
+          "size_human": "103.7 MB"
+        },
+        {
+          "path": "body_models/smplx/SMPLX_NEUTRAL.npz",
+          "size_bytes": 108752058,
+          "size_human": "103.7 MB"
+        },
+        {
+          "path": "body_models/smpl/SMPL_MALE.npz",
+          "size_bytes": 88305815,
+          "size_human": "84.2 MB"
+        },
+        {
+          "path": "body_models/smpl/SMPL_FEMALE.npz",
+          "size_bytes": 88305743,
+          "size_human": "84.2 MB"
+        },
+        {
+          "path": "body_models/smpl/SMPL_NEUTRAL.npz",
+          "size_bytes": 88250365,
+          "size_human": "84.2 MB"
+        },
+        {
+          "path": "dpvo/dpvo.pth",
+          "size_bytes": 14167743,
+          "size_human": "13.5 MB"
+        },
+        {
+          "path": ".cache/huggingface/CACHEDIR.TAG",
+          "size_bytes": 191,
+          "size_human": "191.0 B"
+        },
+        {
+          "path": "dpvo/.cache/huggingface/CACHEDIR.TAG",
+          "size_bytes": 191,
+          "size_human": "191.0 B"
+        },
+        {
+          "path": ".cache/huggingface/download/gvhmr.safetensors.metadata",
+          "size_bytes": 125,
+          "size_human": "125.0 B"
+        },
+        {
+          "path": ".cache/huggingface/download/hmr2.safetensors.metadata",
+          "size_bytes": 124,
+          "size_human": "124.0 B"
+        },
+        {
+          "path": ".cache/huggingface/download/vitpose.safetensors.metadata",
+          "size_bytes": 124,
+          "size_human": "124.0 B"
+        },
+        {
+          "path": "dpvo/.cache/huggingface/download/dpvo.pth.metadata",
+          "size_bytes": 124,
+          "size_human": "124.0 B"
+        },
+        {
+          "path": ".cache/huggingface/.gitignore",
+          "size_bytes": 1,
+          "size_human": "1.0 B"
+        },
+        {
+          "path": "dpvo/.cache/huggingface/.gitignore",
+          "size_bytes": 1,
+          "size_human": "1.0 B"
+        }
+      ]
+    }
+  }
+}

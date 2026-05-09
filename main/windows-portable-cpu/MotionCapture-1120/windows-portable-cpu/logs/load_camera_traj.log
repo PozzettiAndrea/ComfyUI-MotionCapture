@@ -1,0 +1,29 @@
+Capturing execution frames: load_camera_traj.json
+  Frame 1 saved (frame_000.jpg, t=0.0s)
+  Validating workflow...
+  Queuing workflow for execution...
+  Frame 2 saved (frame_001.jpg, t=2.2s)
+  [capture-periodic] freeze=4ms shot=150ms unfreeze=5ms saved=True
+  Frame 3 saved (frame_002.jpg, t=4.5s)
+  [capture-periodic] freeze=3ms shot=96ms unfreeze=5ms saved=True
+  [capture-loop] iter=50 t=6.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=6.0/16.0GB (37%) swap=0.3/2.9GB (10%) cpu=24% browser_rss=0.89GB
+  Frame 4 saved (frame_003.jpg, t=10.9s)
+  [capture-periodic] freeze=4ms shot=117ms unfreeze=7ms saved=True
+  [capture-loop] iter=100 t=12.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7 ram=6.2/16.0GB (39%) swap=0.3/2.9GB (10%) cpu=59% browser_rss=0.89GB
+  [capture-loop] iter=150 t=18.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=9 ram=6.2/16.0GB (38%) swap=0.3/2.9GB (10%) cpu=75% browser_rss=0.85GB
+  [capture-loop] iter=200 t=24.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7 ram=6.1/16.0GB (38%) swap=0.3/2.9GB (10%) cpu=86% browser_rss=0.76GB
+  [capture-loop] iter=250 t=30.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=6.1/16.0GB (38%) swap=0.3/2.9GB (10%) cpu=78% browser_rss=0.75GB
+  [capture-loop] iter=300 t=36.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=6.3/16.0GB (39%) swap=0.3/2.9GB (10%) cpu=84% browser_rss=0.71GB
+  [capture-loop] iter=350 t=43.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=20 ram=6.2/16.0GB (39%) swap=0.3/2.9GB (10%) cpu=80% browser_rss=0.71GB
+  [capture-loop] iter=400 t=49.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=14 ram=6.1/16.0GB (38%) swap=0.4/2.9GB (15%) cpu=81% browser_rss=0.71GB
+  Node executed (1 total), capturing...
+  Frame 5 saved (frame_004.jpg, t=49.7s)
+  [capture-node] freeze=4ms shot=126ms unfreeze=0ms saved=True
+  Execution complete (t=49.7s)
+  Captured 5 unique frames over 49.91s
+  [debug] iframes: 1
+  [debug]   iframe[0]: src=http://127.0.0.1:8188/extensions/ComfyUI-MotionCapture/viewer_smpl_camera.html?v, canvas=413x343, rafFrozen=True
+  [timing] trigger_3d_previews: 0.0s
+  Saved high-quality screenshot: load_camera_traj_executed.png
+  [timing] final_screenshot: 0.2s
+    Captured 6 video frames

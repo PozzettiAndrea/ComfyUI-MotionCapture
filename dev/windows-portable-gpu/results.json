@@ -1,0 +1,85 @@
+{
+  "timestamp": "2026-05-09T11:15:36.560282+00:00",
+  "platform": "windows_portable",
+  "hardware": {
+    "os": "Windows-10-10.0.26200-SP0",
+    "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel",
+    "gpu": "NVIDIA GeForce RTX 3060"
+  },
+  "commit_hash": "0e034772247f2bd9d0a6253d5a4876eafba0a825",
+  "success": true,
+  "summary": {
+    "total": 5,
+    "passed": 2,
+    "failed": 0
+  },
+  "workflows": [
+    {
+      "name": "apply_motion_on_character",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for GPU runner",
+      "hardware": null
+    },
+    {
+      "name": "GVHMR",
+      "status": "pass",
+      "duration_seconds": 124.78,
+      "error": null,
+      "hardware": {
+        "os": "Windows-10-10.0.26200-SP0",
+        "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel",
+        "gpu": "NVIDIA GeForce RTX 3060"
+      },
+      "resources": {
+        "ram": {
+          "peak": 8.8,
+          "avg": 2.72
+        },
+        "total_ram_gb": 31.9,
+        "samples": 109,
+        "vram": {
+          "peak": 3.24,
+          "avg": 1.18
+        }
+      }
+    },
+    {
+      "name": "GVHMR_cameramotion",
+      "status": "pass",
+      "duration_seconds": 117.25,
+      "error": null,
+      "hardware": {
+        "os": "Windows-10-10.0.26200-SP0",
+        "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel",
+        "gpu": "NVIDIA GeForce RTX 3060"
+      },
+      "resources": {
+        "ram": {
+          "peak": 7.93,
+          "avg": 4.08
+        },
+        "total_ram_gb": 31.9,
+        "samples": 102,
+        "vram": {
+          "peak": 3.31,
+          "avg": 1.97
+        }
+      }
+    },
+    {
+      "name": "load_camera_traj",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for GPU runner",
+      "hardware": null
+    },
+    {
+      "name": "smpl_to_bvh_pipeline",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for GPU runner",
+      "hardware": null
+    }
+  ]
+}

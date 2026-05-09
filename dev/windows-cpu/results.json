@@ -1,0 +1,85 @@
+{
+  "timestamp": "2026-05-09T11:42:20.168347+00:00",
+  "platform": "windows",
+  "hardware": {
+    "os": "Windows-2025Server-10.0.26100-SP0",
+    "cpu": "AMD64 Family 25 Model 17 Stepping 1, AuthenticAMD"
+  },
+  "commit_hash": "8f838554024df51e8e8ecf40b8fb4defa4a45f89",
+  "success": true,
+  "summary": {
+    "total": 5,
+    "passed": 3,
+    "failed": 0
+  },
+  "workflows": [
+    {
+      "name": "apply_motion_on_character",
+      "status": "pass",
+      "duration_seconds": 93.21,
+      "error": null,
+      "hardware": {
+        "os": "Windows-2025Server-10.0.26100-SP0",
+        "cpu": "AMD64 Family 25 Model 17 Stepping 1, AuthenticAMD"
+      },
+      "resources": {
+        "ram": {
+          "peak": 6.18,
+          "avg": 5.18
+        },
+        "total_ram_gb": 16.0,
+        "samples": 94
+      }
+    },
+    {
+      "name": "GVHMR",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for CPU runner",
+      "hardware": null
+    },
+    {
+      "name": "GVHMR_cameramotion",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for CPU runner",
+      "hardware": null
+    },
+    {
+      "name": "load_camera_traj",
+      "status": "pass",
+      "duration_seconds": 62.96,
+      "error": null,
+      "hardware": {
+        "os": "Windows-2025Server-10.0.26100-SP0",
+        "cpu": "AMD64 Family 25 Model 17 Stepping 1, AuthenticAMD"
+      },
+      "resources": {
+        "ram": {
+          "peak": 5.52,
+          "avg": 5.36
+        },
+        "total_ram_gb": 16.0,
+        "samples": 63
+      }
+    },
+    {
+      "name": "smpl_to_bvh_pipeline",
+      "status": "pass",
+      "duration_seconds": 15.55,
+      "error": null,
+      "hardware": {
+        "os": "Windows-2025Server-10.0.26100-SP0",
+        "cpu": "AMD64 Family 25 Model 17 Stepping 1, AuthenticAMD"
+      },
+      "resources": {
+        "ram": {
+          "peak": 5.16,
+          "avg": 5.04
+        },
+        "total_ram_gb": 16.0,
+        "samples": 16
+      }
+    }
+  ]
+}

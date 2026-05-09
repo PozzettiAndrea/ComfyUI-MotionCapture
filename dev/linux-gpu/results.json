@@ -1,0 +1,85 @@
+{
+  "timestamp": "2026-05-09T12:20:03.807316+00:00",
+  "platform": "linux",
+  "hardware": {
+    "os": "Linux-6.8.0-107-generic-x86_64-with-glibc2.35",
+    "cpu": "AMD Ryzen 5 3600 6-Core Processor",
+    "gpu": "NVIDIA GeForce RTX 5060"
+  },
+  "commit_hash": "8f838554024df51e8e8ecf40b8fb4defa4a45f89",
+  "success": true,
+  "summary": {
+    "total": 5,
+    "passed": 2,
+    "failed": 0
+  },
+  "workflows": [
+    {
+      "name": "GVHMR",
+      "status": "pass",
+      "duration_seconds": 114.17,
+      "error": null,
+      "hardware": {
+        "os": "Linux-6.8.0-107-generic-x86_64-with-glibc2.35",
+        "cpu": "AMD Ryzen 5 3600 6-Core Processor",
+        "gpu": "NVIDIA GeForce RTX 5060"
+      },
+      "resources": {
+        "ram": {
+          "peak": 9.07,
+          "avg": 2.97
+        },
+        "total_ram_gb": 31.3,
+        "samples": 111,
+        "vram": {
+          "peak": 2.95,
+          "avg": 0.6
+        }
+      }
+    },
+    {
+      "name": "GVHMR_cameramotion",
+      "status": "pass",
+      "duration_seconds": 57.67,
+      "error": null,
+      "hardware": {
+        "os": "Linux-6.8.0-107-generic-x86_64-with-glibc2.35",
+        "cpu": "AMD Ryzen 5 3600 6-Core Processor",
+        "gpu": "NVIDIA GeForce RTX 5060"
+      },
+      "resources": {
+        "ram": {
+          "peak": 8.97,
+          "avg": 5.26
+        },
+        "total_ram_gb": 31.3,
+        "samples": 57,
+        "vram": {
+          "peak": 2.95,
+          "avg": 1.52
+        }
+      }
+    },
+    {
+      "name": "apply_motion_on_character",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for GPU runner",
+      "hardware": null
+    },
+    {
+      "name": "load_camera_traj",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for GPU runner",
+      "hardware": null
+    },
+    {
+      "name": "smpl_to_bvh_pipeline",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for GPU runner",
+      "hardware": null
+    }
+  ]
+}
