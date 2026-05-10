@@ -1,12 +1,13 @@
 {
-  "timestamp": "2026-05-10T03:49:02.499338+00:00",
+  "timestamp": "2026-05-10T14:58:13.390419+00:00",
   "platform": "linux",
   "hardware": {
     "os": "Linux-6.8.0-107-generic-x86_64-with-glibc2.35",
     "cpu": "Intel(R) Xeon(R) CPU E5-2697 v4 @ 2.30GHz",
     "gpu": "NVIDIA GeForce RTX 3090"
   },
-  "commit_hash": "8e04d4ed160e97e4c18cb17081f58cfb8528b9a3",
+  "commit_hash": "e25020b91a557dfc9ac8f8e8de9a834938388a7d",
+  "run_url": null,
   "success": true,
   "summary": {
     "total": 5,
@@ -17,7 +18,7 @@
     {
       "name": "GVHMR",
       "status": "pass",
-      "duration_seconds": 101.81,
+      "duration_seconds": 155.46,
       "error": null,
       "hardware": {
         "os": "Linux-6.8.0-107-generic-x86_64-with-glibc2.35",
@@ -26,21 +27,21 @@
       },
       "resources": {
         "ram": {
-          "peak": 7.16,
-          "avg": 3.18
+          "peak": 8.28,
+          "avg": 2.77
         },
         "total_ram_gb": 31.2,
-        "samples": 99,
+        "samples": 151,
         "vram": {
           "peak": 3.21,
-          "avg": 0.93
+          "avg": 0.77
         }
       }
     },
     {
       "name": "GVHMR_cameramotion",
       "status": "pass",
-      "duration_seconds": 72.53,
+      "duration_seconds": 68.45,
       "error": null,
       "hardware": {
         "os": "Linux-6.8.0-107-generic-x86_64-with-glibc2.35",
@@ -49,14 +50,14 @@
       },
       "resources": {
         "ram": {
-          "peak": 9.34,
-          "avg": 5.38
+          "peak": 7.84,
+          "avg": 5.09
         },
         "total_ram_gb": 31.2,
-        "samples": 71,
+        "samples": 67,
         "vram": {
           "peak": 3.21,
-          "avg": 1.69
+          "avg": 1.71
         }
       }
     },
