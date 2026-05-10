@@ -7,8 +7,8 @@
 [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
 [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
 [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
-[Console-warning] WARNING: Multiple instances of Three.js being imported.
 [Console-log] [HY-Motion] app imported successfully: true
+[Console-warning] WARNING: Multiple instances of Three.js being imported.
 [Console-log] [BVHViewer] Loading BVH Viewer extension
 [Console-log] [BVHViewer] Loading BVH viewer extension...
 [Console-log] [BVHViewer] Extension registered: comfy3d.bvhviewer
