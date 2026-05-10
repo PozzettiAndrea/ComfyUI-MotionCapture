@@ -1,11 +1,11 @@
 {
-  "timestamp": "2026-05-10T01:22:54.852449+00:00",
+  "timestamp": "2026-05-10T03:06:19.474567+00:00",
   "platform": "linux",
   "hardware": {
     "os": "Linux-6.17.0-1010-azure-x86_64-with-glibc2.39",
     "cpu": "AMD EPYC 7763 64-Core Processor"
   },
-  "commit_hash": "2ae86b351ef5f55c07a4f135c9e28cd4d786424b",
+  "commit_hash": "8e04d4ed160e97e4c18cb17081f58cfb8528b9a3",
   "success": true,
   "summary": {
     "total": 5,
@@ -30,7 +30,7 @@
     {
       "name": "apply_motion_on_character",
       "status": "pass",
-      "duration_seconds": 88.09,
+      "duration_seconds": 85.12,
       "error": null,
       "hardware": {
         "os": "Linux-6.17.0-1010-azure-x86_64-with-glibc2.39",
@@ -38,17 +38,17 @@
       },
       "resources": {
         "ram": {
-          "peak": 2.29,
-          "avg": 1.46
+          "peak": 2.03,
+          "avg": 1.37
         },
         "total_ram_gb": 15.6,
-        "samples": 88
+        "samples": 85
       }
     },
     {
       "name": "load_camera_traj",
       "status": "pass",
-      "duration_seconds": 41.65,
+      "duration_seconds": 41.46,
       "error": null,
       "hardware": {
         "os": "Linux-6.17.0-1010-azure-x86_64-with-glibc2.39",
@@ -56,8 +56,8 @@
       },
       "resources": {
         "ram": {
-          "peak": 1.86,
-          "avg": 1.67
+          "peak": 1.77,
+          "avg": 1.59
         },
         "total_ram_gb": 15.6,
         "samples": 42
@@ -66,7 +66,7 @@
     {
       "name": "smpl_to_bvh_pipeline",
       "status": "pass",
-      "duration_seconds": 9.26,
+      "duration_seconds": 9.11,
       "error": null,
       "hardware": {
         "os": "Linux-6.17.0-1010-azure-x86_64-with-glibc2.39",
@@ -74,8 +74,8 @@
       },
       "resources": {
         "ram": {
-          "peak": 1.67,
-          "avg": 1.67
+          "peak": 1.61,
+          "avg": 1.61
         },
         "total_ram_gb": 15.6,
         "samples": 10
