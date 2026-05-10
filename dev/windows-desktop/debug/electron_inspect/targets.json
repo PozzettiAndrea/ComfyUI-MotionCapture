@@ -1,11 +1,11 @@
 [
   {
     "description": "",
-    "devtoolsFrontendUrl": "/devtools/inspector.html?ws=localhost:9222/devtools/page/951E254661BB3130917EF04F6A11FD29",
-    "id": "951E254661BB3130917EF04F6A11FD29",
+    "devtoolsFrontendUrl": "/devtools/inspector.html?ws=localhost:50966/devtools/page/99E2CDD7111790AD58D4477EDFEFFD7A",
+    "id": "99E2CDD7111790AD58D4477EDFEFFD7A",
     "title": "ComfyUI",
     "type": "page",
-    "url": "file:///C:/Users/runneradmin/AppData/Local/Programs/ComfyUI/resources/desktop-ui/index.html#/not-supported",
-    "webSocketDebuggerUrl": "ws://localhost:9222/devtools/page/951E254661BB3130917EF04F6A11FD29"
+    "url": "file:///C:/Users/runneradmin/.comfy-test-cache/desktop/ComfyUI/resources/desktop-ui/index.html#/not-supported",
+    "webSocketDebuggerUrl": "ws://localhost:50966/devtools/page/99E2CDD7111790AD58D4477EDFEFFD7A"
   }
 ]
