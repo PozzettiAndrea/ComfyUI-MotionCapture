@@ -1,13 +1,13 @@
 {
-  "models_dir": "C:\\workspaces\\MotionCapture-1305\\portable-comfyui\\ComfyUI_windows_portable\\ComfyUI\\models",
+  "models_dir": "C:\\workspaces\\MotionCapture-0744\\portable-comfyui\\ComfyUI_windows_portable\\ComfyUI\\models",
   "summary": {
     "total_files": 26,
-    "total_size_bytes": 6046641436,
+    "total_size_bytes": 6046641435,
     "total_size_human": "5.6 GB"
   },
   "folders": {
     "motion_capture": {
-      "total_size_bytes": 6026981444,
+      "total_size_bytes": 6026981443,
       "total_size_human": "5.6 GB",
       "source": {
         "type": "unknown"
@@ -84,14 +84,14 @@
           "size_human": "128.0 B"
         },
         {
-          "path": ".cache\\huggingface\\download\\vitpose.safetensors.metadata",
+          "path": "dpvo\\.cache\\huggingface\\download\\dpvo.pth.metadata",
           "size_bytes": 128,
           "size_human": "128.0 B"
         },
         {
-          "path": "dpvo\\.cache\\huggingface\\download\\dpvo.pth.metadata",
-          "size_bytes": 128,
-          "size_human": "128.0 B"
+          "path": ".cache\\huggingface\\download\\vitpose.safetensors.metadata",
+          "size_bytes": 127,
+          "size_human": "127.0 B"
         },
         {
           "path": ".cache\\huggingface\\.gitignore",
