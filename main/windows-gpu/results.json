@@ -1,17 +1,17 @@
 {
-  "timestamp": "2026-05-09T11:04:15.921219+00:00",
+  "timestamp": "2026-05-10T14:23:05.817402+00:00",
   "platform": "windows",
   "hardware": {
-    "os": "Windows-10-10.0.26200-SP0",
-    "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel",
-    "gpu": "NVIDIA GeForce RTX 3090"
+    "os": "Windows-11-10.0.26200-SP0",
+    "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel"
   },
-  "commit_hash": "0e034772247f2bd9d0a6253d5a4876eafba0a825",
-  "success": false,
+  "commit_hash": "e25020b91a557dfc9ac8f8e8de9a834938388a7d",
+  "run_url": null,
+  "success": true,
   "summary": {
     "total": 5,
-    "passed": 0,
-    "failed": 2
+    "passed": 2,
+    "failed": 0
   },
   "workflows": [
     {
@@ -23,48 +23,38 @@
     },
     {
       "name": "GVHMR",
-      "status": "fail",
-      "duration_seconds": 7.55,
-      "error": "Workflow validation failed\n\nDetails:\ngraphToPrompt produced nodes without class_type: graphToPrompt: 5 nodes, missing class_type: [2,11,16], sample: {\"inputs\":{\"UNKNOWN\":false},\"_meta\":{}}",
+      "status": "pass",
+      "duration_seconds": 125.47,
+      "error": null,
       "hardware": {
-        "os": "Windows-10-10.0.26200-SP0",
-        "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel",
-        "gpu": "NVIDIA GeForce RTX 3090"
+        "os": "Windows-11-10.0.26200-SP0",
+        "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel"
       },
       "resources": {
         "ram": {
-          "peak": 0.96,
-          "avg": 0.96
+          "peak": 8.52,
+          "avg": 2.76
         },
         "total_ram_gb": 31.9,
-        "samples": 7,
-        "vram": {
-          "peak": 0.9,
-          "avg": 0.8
-        }
+        "samples": 124
       }
     },
     {
       "name": "GVHMR_cameramotion",
-      "status": "fail",
-      "duration_seconds": 5.99,
-      "error": "Workflow validation failed\n\nDetails:\ngraphToPrompt produced nodes without class_type: graphToPrompt: 6 nodes, missing class_type: [20,26,34], sample: {\"inputs\":{\"UNKNOWN\":\"\",\"npz_path\":[\"34\",0]},\"_meta\":{}}",
+      "status": "pass",
+      "duration_seconds": 123.1,
+      "error": null,
       "hardware": {
-        "os": "Windows-10-10.0.26200-SP0",
-        "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel",
-        "gpu": "NVIDIA GeForce RTX 3090"
+        "os": "Windows-11-10.0.26200-SP0",
+        "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel"
       },
       "resources": {
         "ram": {
-          "peak": 0.96,
-          "avg": 0.96
+          "peak": 7.05,
+          "avg": 4.11
         },
         "total_ram_gb": 31.9,
-        "samples": 6,
-        "vram": {
-          "peak": 1.0,
-          "avg": 0.96
-        }
+        "samples": 122
       }
     },
     {

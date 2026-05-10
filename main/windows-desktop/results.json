@@ -1,11 +1,35 @@
 {
+  "timestamp": "2026-05-10T03:16:27.745401+00:00",
+  "platform": "windows_desktop",
+  "hardware": {
+    "os": "Windows-2025Server-10.0.26100-SP0",
+    "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
+  },
+  "commit_hash": "62515d5145c09565893b8ee2383e82cd4e1ac59d",
+  "success": true,
+  "summary": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0
+  },
   "workflows": [
     {
-      "name": "system",
+      "name": "apply_motion_on_character",
       "status": "pass",
-      "duration_seconds": 0,
-      "error": null,
-      "hardware": null
+      "duration_seconds": 29,
+      "error": null
+    },
+    {
+      "name": "smpl_to_bvh_pipeline",
+      "status": "pass",
+      "duration_seconds": 8,
+      "error": null
+    },
+    {
+      "name": "load_camera_traj",
+      "status": "pass",
+      "duration_seconds": 46,
+      "error": null
     }
   ]
 }
