@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-05-10T20:37:58.619194+00:00",
+  "timestamp": "2026-05-10T21:27:48.043910+00:00",
   "platform": "windows_portable",
   "hardware": {
-    "os": "Windows-10-10.0.26100-SP0",
+    "os": "Windows-2025Server-10.0.26100-SP0",
     "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
   },
-  "commit_hash": "13b875ab336eb495d7656c7ec544c5c00f06aa64",
-  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/25638985064",
+  "commit_hash": "d74956eadc50f3f36521cd03435b94a08393b109",
+  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/25640101906",
   "success": false,
   "summary": {
     "total": 5,
@@ -17,10 +17,10 @@
     {
       "name": "apply_motion_on_character",
       "status": "fail",
-      "duration_seconds": 9.21,
+      "duration_seconds": 9.23,
       "error": "Workflow validation failed\n\nDetails:\ngraphToPrompt produced nodes without class_type: graphToPrompt: 6 nodes, missing class_type: [2], sample: {\"inputs\":{\"npz_path\":[\"2\",0]},\"class_type\":\"HYMotionNPZToSMPLParams\",\"_meta\":{\"title\":\"HY-Motion NPZ to SMPL_PARAMS\"}}",
       "hardware": {
-        "os": "Windows-10-10.0.26100-SP0",
+        "os": "Windows-2025Server-10.0.26100-SP0",
         "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
       },
       "resources": {
@@ -49,10 +49,10 @@
     {
       "name": "load_camera_traj",
       "status": "fail",
-      "duration_seconds": 6.27,
+      "duration_seconds": 6.58,
       "error": "Workflow validation failed\n\nDetails:\ngraphToPrompt produced nodes without class_type: graphToPrompt: 4 nodes, missing class_type: [2,3,8], sample: {\"inputs\":{\"UNKNOWN\":\"smpl_params_example.npz\"},\"_meta\":{}}",
       "hardware": {
-        "os": "Windows-10-10.0.26100-SP0",
+        "os": "Windows-2025Server-10.0.26100-SP0",
         "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
       },
       "resources": {
@@ -67,10 +67,10 @@
     {
       "name": "smpl_to_bvh_pipeline",
       "status": "fail",
-      "duration_seconds": 5.73,
+      "duration_seconds": 5.74,
       "error": "Workflow validation failed\n\nDetails:\ngraphToPrompt produced nodes without class_type: graphToPrompt: 3 nodes, missing class_type: [3,10,11], sample: {\"inputs\":{\"UNKNOWN\":\"\",\"bvh_data\":[\"10\",0]},\"_meta\":{}}",
       "hardware": {
-        "os": "Windows-10-10.0.26100-SP0",
+        "os": "Windows-2025Server-10.0.26100-SP0",
         "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
       },
       "resources": {
