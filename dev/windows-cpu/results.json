@@ -1,11 +1,11 @@
 {
-  "timestamp": "2026-05-09T11:42:20.168347+00:00",
+  "timestamp": "2026-05-10T03:09:52.942535+00:00",
   "platform": "windows",
   "hardware": {
-    "os": "Windows-2025Server-10.0.26100-SP0",
-    "cpu": "AMD64 Family 25 Model 17 Stepping 1, AuthenticAMD"
+    "os": "Windows-10-10.0.26100-SP0",
+    "cpu": "Intel64 Family 6 Model 106 Stepping 6, GenuineIntel"
   },
-  "commit_hash": "8f838554024df51e8e8ecf40b8fb4defa4a45f89",
+  "commit_hash": "8e04d4ed160e97e4c18cb17081f58cfb8528b9a3",
   "success": true,
   "summary": {
     "total": 5,
@@ -16,19 +16,19 @@
     {
       "name": "apply_motion_on_character",
       "status": "pass",
-      "duration_seconds": 93.21,
+      "duration_seconds": 94.81,
       "error": null,
       "hardware": {
-        "os": "Windows-2025Server-10.0.26100-SP0",
-        "cpu": "AMD64 Family 25 Model 17 Stepping 1, AuthenticAMD"
+        "os": "Windows-10-10.0.26100-SP0",
+        "cpu": "Intel64 Family 6 Model 106 Stepping 6, GenuineIntel"
       },
       "resources": {
         "ram": {
-          "peak": 6.18,
-          "avg": 5.18
+          "peak": 1.9,
+          "avg": 0.95
         },
         "total_ram_gb": 16.0,
-        "samples": 94
+        "samples": 95
       }
     },
     {
@@ -48,37 +48,37 @@
     {
       "name": "load_camera_traj",
       "status": "pass",
-      "duration_seconds": 62.96,
+      "duration_seconds": 59.49,
       "error": null,
       "hardware": {
-        "os": "Windows-2025Server-10.0.26100-SP0",
-        "cpu": "AMD64 Family 25 Model 17 Stepping 1, AuthenticAMD"
+        "os": "Windows-10-10.0.26100-SP0",
+        "cpu": "Intel64 Family 6 Model 106 Stepping 6, GenuineIntel"
       },
       "resources": {
         "ram": {
-          "peak": 5.52,
-          "avg": 5.36
+          "peak": 1.26,
+          "avg": 1.05
         },
         "total_ram_gb": 16.0,
-        "samples": 63
+        "samples": 59
       }
     },
     {
       "name": "smpl_to_bvh_pipeline",
       "status": "pass",
-      "duration_seconds": 15.55,
+      "duration_seconds": 17.02,
       "error": null,
       "hardware": {
-        "os": "Windows-2025Server-10.0.26100-SP0",
-        "cpu": "AMD64 Family 25 Model 17 Stepping 1, AuthenticAMD"
+        "os": "Windows-10-10.0.26100-SP0",
+        "cpu": "Intel64 Family 6 Model 106 Stepping 6, GenuineIntel"
       },
       "resources": {
         "ram": {
-          "peak": 5.16,
-          "avg": 5.04
+          "peak": 0.92,
+          "avg": 0.83
         },
         "total_ram_gb": 16.0,
-        "samples": 16
+        "samples": 17
       }
     }
   ]
