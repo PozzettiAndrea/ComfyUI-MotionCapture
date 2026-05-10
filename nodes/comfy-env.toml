@@ -4,6 +4,7 @@ channels = ["conda-forge", "pozzettiandrea"]
 [dependencies]
 ffmpeg = "*"
 bpy = {version = "*", channel = "pozzettiandrea"}
+av = "*"
 
 [target.linux-64.dependencies]
 xorg-libsm = "*"     # libSM.so.6 required by bpy
