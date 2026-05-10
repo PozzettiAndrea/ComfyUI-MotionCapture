@@ -1,30 +1,7 @@
 Capturing execution frames: apply_motion_on_character.json
   Frame 1 saved (frame_000.jpg, t=0.0s)
   Validating workflow...
-  Queuing workflow for execution...
-  Frame 2 saved (frame_001.jpg, t=2.2s)
-  [capture-periodic] freeze=3ms shot=122ms unfreeze=6ms saved=True
-  Frame 3 saved (frame_002.jpg, t=4.5s)
-  [capture-periodic] freeze=5ms shot=124ms unfreeze=4ms saved=True
-  [capture-loop] iter=50 t=6.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=6.0/16.0GB (37%) swap=0.3/2.9GB (10%) cpu=33% browser_rss=0.72GB
-  Frame 4 saved (frame_003.jpg, t=6.7s)
-  [capture-periodic] freeze=5ms shot=145ms unfreeze=6ms saved=True
-  [capture-loop] iter=100 t=12.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=19 ram=6.4/16.0GB (40%) swap=0.3/2.9GB (10%) cpu=88% browser_rss=0.71GB
-  Frame 5 saved (frame_004.jpg, t=15.8s)
-  [capture-periodic] freeze=12ms shot=180ms unfreeze=5ms saved=True
-  [capture-loop] iter=150 t=19.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.7/16.0GB (36%) swap=0.3/2.9GB (10%) cpu=86% browser_rss=0.71GB
-  [capture-loop] iter=200 t=25.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.7/16.0GB (36%) swap=0.3/2.9GB (10%) cpu=47% browser_rss=0.64GB
-  Node executed (2 total), capturing...
-  Frame 6 saved (frame_005.jpg, t=27.7s)
-  [capture-node] freeze=4ms shot=962ms unfreeze=0ms saved=True
-  Execution complete (t=27.7s)
-  [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
-  [3d-wait] Phase 1 exception after 60.0s: Page.wait_for_function: Timeout 60000ms exceeded.
-  [3d-wait] Phase 2: iframes=0
-  [3d-wait] Total 3D wait: 60.0s
-  Captured 6 unique frames over 89.55s
-  [debug] iframes: 0
-  [timing] trigger_3d_previews: 0.0s
-  Saved high-quality screenshot: apply_motion_on_character_executed.png
-  [timing] final_screenshot: 0.2s
-    Captured 7 video frames
+  Validation failed: graphToPrompt produced nodes without class_type: graphToPrompt: 6 nodes, missing class_type: [2], sample: {"inputs":{"npz_path":["2",0]},"class_type":"HYMotionNPZToSMPLParams","_meta":{"title":"HY-Motion NPZ to SMPL_PARAMS"}}
+    Status: FAILED
+    Error: Workflow validation failed
+    Details: graphToPrompt produced nodes without class_type: graphToPrompt: 6 nodes, missing class_type: [2], sample: {"inputs":{"npz_path":["2",0]},"class_type":"HYMotionNPZToSMPLParams","_meta":{"title":"HY-Motion NPZ to SMPL_PARAMS"}}

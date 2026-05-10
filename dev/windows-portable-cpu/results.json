@@ -1,34 +1,35 @@
 {
-  "timestamp": "2026-05-09T16:20:44.809828+00:00",
+  "timestamp": "2026-05-10T17:07:15.257163+00:00",
   "platform": "windows_portable",
   "hardware": {
-    "os": "Windows-2025Server-10.0.26100-SP0",
+    "os": "Windows-10-10.0.26100-SP0",
     "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
   },
-  "commit_hash": "2ae86b351ef5f55c07a4f135c9e28cd4d786424b",
-  "success": true,
+  "commit_hash": "e25020b91a557dfc9ac8f8e8de9a834938388a7d",
+  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/25634518096",
+  "success": false,
   "summary": {
     "total": 5,
-    "passed": 3,
-    "failed": 0
+    "passed": 0,
+    "failed": 3
   },
   "workflows": [
     {
       "name": "apply_motion_on_character",
-      "status": "pass",
-      "duration_seconds": 100.96,
-      "error": null,
+      "status": "fail",
+      "duration_seconds": 9.2,
+      "error": "Workflow validation failed\n\nDetails:\ngraphToPrompt produced nodes without class_type: graphToPrompt: 6 nodes, missing class_type: [2], sample: {\"inputs\":{\"npz_path\":[\"2\",0]},\"class_type\":\"HYMotionNPZToSMPLParams\",\"_meta\":{\"title\":\"HY-Motion NPZ to SMPL_PARAMS\"}}",
       "hardware": {
-        "os": "Windows-2025Server-10.0.26100-SP0",
+        "os": "Windows-10-10.0.26100-SP0",
         "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
       },
       "resources": {
         "ram": {
-          "peak": 6.81,
-          "avg": 5.75
+          "peak": 1.46,
+          "avg": 1.44
         },
         "total_ram_gb": 16.0,
-        "samples": 101
+        "samples": 10
       }
     },
     {
@@ -47,38 +48,38 @@
     },
     {
       "name": "load_camera_traj",
-      "status": "pass",
-      "duration_seconds": 61.31,
-      "error": null,
+      "status": "fail",
+      "duration_seconds": 6.31,
+      "error": "Workflow validation failed\n\nDetails:\ngraphToPrompt produced nodes without class_type: graphToPrompt: 4 nodes, missing class_type: [2,3,8], sample: {\"inputs\":{\"UNKNOWN\":\"smpl_params_example.npz\"},\"_meta\":{}}",
       "hardware": {
-        "os": "Windows-2025Server-10.0.26100-SP0",
+        "os": "Windows-10-10.0.26100-SP0",
         "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
       },
       "resources": {
         "ram": {
-          "peak": 6.37,
-          "avg": 6.16
+          "peak": 1.46,
+          "avg": 1.46
         },
         "total_ram_gb": 16.0,
-        "samples": 62
+        "samples": 7
       }
     },
     {
       "name": "smpl_to_bvh_pipeline",
-      "status": "pass",
-      "duration_seconds": 17.58,
-      "error": null,
+      "status": "fail",
+      "duration_seconds": 5.76,
+      "error": "Workflow validation failed\n\nDetails:\ngraphToPrompt produced nodes without class_type: graphToPrompt: 3 nodes, missing class_type: [3,10,11], sample: {\"inputs\":{\"UNKNOWN\":\"\",\"bvh_data\":[\"10\",0]},\"_meta\":{}}",
       "hardware": {
-        "os": "Windows-2025Server-10.0.26100-SP0",
+        "os": "Windows-10-10.0.26100-SP0",
         "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
       },
       "resources": {
         "ram": {
-          "peak": 6.2,
-          "avg": 5.86
+          "peak": 1.46,
+          "avg": 1.46
         },
         "total_ram_gb": 16.0,
-        "samples": 18
+        "samples": 6
       }
     }
   ]
