@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-05-10T17:07:15.257163+00:00",
+  "timestamp": "2026-05-10T20:37:58.619194+00:00",
   "platform": "windows_portable",
   "hardware": {
     "os": "Windows-10-10.0.26100-SP0",
     "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
   },
-  "commit_hash": "e25020b91a557dfc9ac8f8e8de9a834938388a7d",
-  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/25634518096",
+  "commit_hash": "13b875ab336eb495d7656c7ec544c5c00f06aa64",
+  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/25638985064",
   "success": false,
   "summary": {
     "total": 5,
@@ -17,7 +17,7 @@
     {
       "name": "apply_motion_on_character",
       "status": "fail",
-      "duration_seconds": 9.2,
+      "duration_seconds": 9.21,
       "error": "Workflow validation failed\n\nDetails:\ngraphToPrompt produced nodes without class_type: graphToPrompt: 6 nodes, missing class_type: [2], sample: {\"inputs\":{\"npz_path\":[\"2\",0]},\"class_type\":\"HYMotionNPZToSMPLParams\",\"_meta\":{\"title\":\"HY-Motion NPZ to SMPL_PARAMS\"}}",
       "hardware": {
         "os": "Windows-10-10.0.26100-SP0",
@@ -25,8 +25,8 @@
       },
       "resources": {
         "ram": {
-          "peak": 1.46,
-          "avg": 1.44
+          "peak": 1.43,
+          "avg": 1.43
         },
         "total_ram_gb": 16.0,
         "samples": 10
@@ -49,7 +49,7 @@
     {
       "name": "load_camera_traj",
       "status": "fail",
-      "duration_seconds": 6.31,
+      "duration_seconds": 6.27,
       "error": "Workflow validation failed\n\nDetails:\ngraphToPrompt produced nodes without class_type: graphToPrompt: 4 nodes, missing class_type: [2,3,8], sample: {\"inputs\":{\"UNKNOWN\":\"smpl_params_example.npz\"},\"_meta\":{}}",
       "hardware": {
         "os": "Windows-10-10.0.26100-SP0",
@@ -57,8 +57,8 @@
       },
       "resources": {
         "ram": {
-          "peak": 1.46,
-          "avg": 1.46
+          "peak": 1.45,
+          "avg": 1.44
         },
         "total_ram_gb": 16.0,
         "samples": 7
@@ -67,7 +67,7 @@
     {
       "name": "smpl_to_bvh_pipeline",
       "status": "fail",
-      "duration_seconds": 5.76,
+      "duration_seconds": 5.73,
       "error": "Workflow validation failed\n\nDetails:\ngraphToPrompt produced nodes without class_type: graphToPrompt: 3 nodes, missing class_type: [3,10,11], sample: {\"inputs\":{\"UNKNOWN\":\"\",\"bvh_data\":[\"10\",0]},\"_meta\":{}}",
       "hardware": {
         "os": "Windows-10-10.0.26100-SP0",
@@ -75,8 +75,8 @@
       },
       "resources": {
         "ram": {
-          "peak": 1.46,
-          "avg": 1.46
+          "peak": 1.45,
+          "avg": 1.45
         },
         "total_ram_gb": 16.0,
         "samples": 6
