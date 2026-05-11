@@ -67,7 +67,7 @@ class SMPLCameraViewer(io.ComfyNode):
                                 tooltip="Hex color for the mesh (e.g. #4a9eff for blue)",
                                 optional=True),
                 io.Custom("VIDEO").Input("video",
-                                         tooltip="Reference video to display side-by-side with the 3D mesh",
+                                         tooltip="Reference video to display stacked above the 3D mesh",
                                          optional=True),
             ],
             outputs=[
