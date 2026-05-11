@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-05-10T20:51:57.708836+00:00",
+  "timestamp": "2026-05-11T06:23:15.197384+00:00",
   "platform": "linux",
   "hardware": {
     "os": "Linux-6.8.0-107-generic-x86_64-with-glibc2.35",
     "cpu": "AMD Ryzen 5 3600 6-Core Processor",
     "gpu": "NVIDIA GeForce RTX 5060"
   },
-  "commit_hash": "13b875ab336eb495d7656c7ec544c5c00f06aa64",
-  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/25639000201",
+  "commit_hash": "11f03d936fcd52a68a3fda40942a21c89be2e06e",
+  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/25653244561",
   "success": true,
   "summary": {
     "total": 5,
@@ -18,7 +18,7 @@
     {
       "name": "GVHMR",
       "status": "pass",
-      "duration_seconds": 95.52,
+      "duration_seconds": 98.16,
       "error": null,
       "hardware": {
         "os": "Linux-6.8.0-107-generic-x86_64-with-glibc2.35",
@@ -27,11 +27,11 @@
       },
       "resources": {
         "ram": {
-          "peak": 8.75,
-          "avg": 3.16
+          "peak": 7.94,
+          "avg": 3.08
         },
         "total_ram_gb": 31.3,
-        "samples": 93,
+        "samples": 96,
         "vram": {
           "peak": 2.95,
           "avg": 0.64
@@ -41,7 +41,7 @@
     {
       "name": "GVHMR_cameramotion",
       "status": "pass",
-      "duration_seconds": 55.89,
+      "duration_seconds": 56.66,
       "error": null,
       "hardware": {
         "os": "Linux-6.8.0-107-generic-x86_64-with-glibc2.35",
@@ -50,14 +50,14 @@
       },
       "resources": {
         "ram": {
-          "peak": 13.55,
-          "avg": 9.35
+          "peak": 12.86,
+          "avg": 9.36
         },
         "total_ram_gb": 31.3,
-        "samples": 55,
+        "samples": 56,
         "vram": {
           "peak": 2.95,
-          "avg": 1.63
+          "avg": 1.61
         }
       }
     },
