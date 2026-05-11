@@ -1,308 +1,331 @@
-[2026-05-10 22:24:46.020] [SRV] [2026-05-10 22:24:46.020] [info]  setup plugin alembic.autogenerate.schemas
-[2026-05-10 22:24:46.020] [SRV] setup plugin alembic.autogenerate.tables
-[2026-05-10 22:24:46.020] [SRV] 
-[2026-05-10 22:24:46.022] [SRV] [2026-05-10 22:24:46.022] [info]  setup plugin alembic.autogenerate.types
-[2026-05-10 22:24:46.022] [SRV] setup plugin alembic.autogenerate.constraints
-[2026-05-10 22:24:46.022] [SRV] setup plugin alembic.autogenerate.defaults
-[2026-05-10 22:24:46.022] [SRV] setup plugin alembic.autogenerate.comments
-[2026-05-10 22:24:46.022] [SRV] 
-[2026-05-10 22:24:46.579] [SRV] [2026-05-10 22:24:46.579] [info]  Adding extra search path custom_nodes C:\Users\runneradmin\Documents\ComfyUI\custom_nodes
-[2026-05-10 22:24:46.579] [SRV] Adding extra search path download_model_base C:\Users\runneradmin\Documents\ComfyUI\models
-[2026-05-10 22:24:46.579] [SRV] 
-[2026-05-10 22:24:46.580] [SRV] [2026-05-10 22:24:46.580] [info]  Adding extra search path custom_nodes C:\Users\runneradmin\.comfy-test-cache\desktop\ComfyUI\resources\ComfyUI\custom_nodes
-[2026-05-10 22:24:46.580] [SRV] Setting output directory to: C:\Users\runneradmin\Documents\ComfyUI\output
-[2026-05-10 22:24:46.580] [SRV] Setting input directory to: C:\Users\runneradmin\Documents\ComfyUI\input
-[2026-05-10 22:24:46.580] [SRV] Setting user directory to: C:\Users\runneradmin\Documents\ComfyUI\user
-[2026-05-10 22:24:46.580] [SRV] 
-[2026-05-10 22:24:48.398] [SRV] [2026-05-10 22:24:48.398] [info]  [START] Security scan
-[2026-05-10 22:24:48.398] [SRV] [DONE] Security scan
-[2026-05-10 22:24:48.398] [SRV] ** ComfyUI startup time: 
-[2026-05-10 22:24:48.400] [SRV] [2026-05-10 22:24:48.400] [info]  2026-05-10 22:24:48.397
-[2026-05-10 22:24:48.400] [SRV] ** Platform: Windows
-[2026-05-10 22:24:48.400] [SRV] ** Python version: 3.12.11 (main, Aug 18 2025, 19:17:54) [MSC v.1944 64 bit (AMD64)]
-[2026-05-10 22:24:48.400] [SRV] ** Python executable: C:\Users\runneradmin\Documents\ComfyUI\.venv\Scripts\python.exe
-[2026-05-10 22:24:48.400] [SRV] ** ComfyUI Path: C:\Users\runneradmin\.comfy-test-cache\desktop\ComfyUI\resources\ComfyUI
-[2026-05-10 22:24:48.400] [SRV] ** ComfyUI Base Folder Path: C:\Users\runneradmin\.comfy-test-cache\desktop\ComfyUI\resources\ComfyUI
-[2026-05-10 22:24:48.400] [SRV] 
-[2026-05-10 22:24:48.425] [SRV] [2026-05-10 22:24:48.425] [info]  ** User directory: C:\Users\runneradmin\Documents\ComfyUI\user
-[2026-05-10 22:24:48.427] [SRV] [2026-05-10 22:24:48.427] [info]  
-[2026-05-10 22:24:48.427] [SRV] ** ComfyUI-Manager config path: C:\Users\runneradmin\Documents\ComfyUI\user\__manager\config.ini
-[2026-05-10 22:24:48.427] [SRV] ** Log path: C:\Users\runneradmin\Documents\ComfyUI\user\comfyui.log
-[2026-05-10 22:24:48.427] [SRV] 
-[2026-05-10 22:24:49.715] [SRV] [2026-05-10 22:24:49.715] [info]  [ComfyUI-Manager] Skipped fixing the 'comfyui-frontend-package' dependency because the ComfyUI is outdated.
-[2026-05-10 22:24:49.715] [SRV] 
-[2026-05-10 22:24:49.717] [SRV] [2026-05-10 22:24:49.717] [info]  [PRE] ComfyUI-Manager
-[2026-05-10 22:24:49.717] [SRV] 
-[2026-05-10 22:24:50.119] [SRV] [2026-05-10 22:24:50.119] [error] [comfy-env] comfyui-motioncapture: 1 isolation env(s):
-[2026-05-10 22:24:50.120] [SRV] [2026-05-10 22:24:50.120] [error] 
-[2026-05-10 22:24:50.120] [SRV] [comfy-env]   nodes -> C:\Users\runneradmin\Documents\ComfyUI\custom_nodes\comfyui-motioncapture\nodes
-[2026-05-10 22:24:50.120] [SRV] [comfy-env] prestartup complete
-[2026-05-10 22:24:50.120] [SRV] 
-[2026-05-10 22:24:53.185] [SRV] [2026-05-10 22:24:53.185] [info]  Found comfy_kitchen backend triton: {'available': False, 'disabled': True, 'unavailable_reason': "ImportError: No module named 'triton'", 'capabilities': []}
-[2026-05-10 22:24:53.185] [SRV] 
-[2026-05-10 22:24:53.186] [SRV] [2026-05-10 22:24:53.186] [info]  Found comfy_kitchen backend cuda: {'available': False, 'disabled': True, 'unavailable_reason': 'CUDA not available on this system', 'capabilities': []}
-[2026-05-10 22:24:53.186] [SRV] Found comfy_kitchen backend eager: {'available': True, 'disabled': False, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_mxfp8', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8', 'scaled_mm_mxfp8', 'scaled_mm_nvfp4']}
-[2026-05-10 22:24:53.186] [SRV] 
-[2026-05-10 22:24:53.192] [SRV] [2026-05-10 22:24:53.192] [info]  Checkpoint files will always be loaded safely.
-[2026-05-10 22:24:53.192] [SRV] 
-[2026-05-10 22:24:53.210] [SRV] [2026-05-10 22:24:53.210] [info]  Total VRAM 16379 MB, total RAM 16379 MB
-[2026-05-10 22:24:53.210] [SRV] 
-[2026-05-10 22:24:53.212] [SRV] [2026-05-10 22:24:53.212] [info]  pytorch version: 2.10.0+cpu
-[2026-05-10 22:24:53.212] [SRV] Set vram state to: DISABLED
-[2026-05-10 22:24:53.212] [SRV] Device: cpu
-[2026-05-10 22:24:53.212] [SRV] 
-[2026-05-10 22:24:53.570] [SRV] [2026-05-10 22:24:53.570] [info]  Using sub quadratic optimization for attention, if you have memory or speed issues try using: --use-split-cross-attention
-[2026-05-10 22:24:53.570] [SRV] 
-[2026-05-10 22:24:56.679] [SRV] [2026-05-10 22:24:56.679] [info]  Python version: 3.12.11 (main, Aug 18 2025, 19:17:54) [MSC v.1944 64 bit (AMD64)]
-[2026-05-10 22:24:56.679] [SRV] ComfyUI version: 0.20.1
-[2026-05-10 22:24:56.679] [SRV] comfy-aimdo version: 0.2.14
-[2026-05-10 22:24:56.679] [SRV] comfy-kitchen version: 0.2.8
-[2026-05-10 22:24:56.679] [SRV] [Prompt Server] web root: C:\Users\runneradmin\.comfy-test-cache\desktop\ComfyUI\resources\ComfyUI\web_custom_versions\desktop_app
-[2026-05-10 22:24:56.679] [SRV] Asset seeder disabled
-[2026-05-10 22:24:56.679] [SRV] [START] ComfyUI-Manager
-[2026-05-10 22:24:56.679] [SRV] 
-[2026-05-10 22:24:56.807] [SRV] [2026-05-10 22:24:56.807] [info]  [ComfyUI-Manager] Using GitPython backend
-[2026-05-10 22:24:56.807] [SRV] 
-[2026-05-10 22:24:56.879] [SRV] [2026-05-10 22:24:56.879] [info]  [ComfyUI-Manager] network_mode: public
-[2026-05-10 22:24:56.879] [SRV] 
-[2026-05-10 22:24:56.888] [SRV] [2026-05-10 22:24:56.888] [info]  [ComfyUI-Manager] The matrix sharing feature has been disabled because the `matrix-nio` dependency is not installed.
-[2026-05-10 22:24:56.888] [SRV] 	To use this feature, please run the following command:
-[2026-05-10 22:24:56.888] [SRV] 	C:\Users\runneradmin\Documents\ComfyUI\.venv\Scripts\python.exe -m pip install matrix-nio
-[2026-05-10 22:24:56.888] [SRV] 
-[2026-05-10 22:24:56.888] [SRV] 
-[2026-05-10 22:25:00.127] [SRV] [2026-05-10 22:25:00.127] [info]  loading...
-[2026-05-10 22:25:00.127] [SRV] calling register_nodes
-[2026-05-10 22:25:00.127] [SRV] 
-[2026-05-10 22:25:00.132] [SRV] [2026-05-10 22:25:00.132] [error] [comfy-env] Version: 0.3.82
-[2026-05-10 22:25:00.134] [SRV] [2026-05-10 22:25:00.134] [error] 
-[2026-05-10 22:25:00.134] [SRV] 
-[2026-05-10 22:25:02.602] [SRV] [2026-05-10 22:25:02.602] [info]  [comfy-env] Removed stale temp dir: C:\Users\RUNNER~1\AppData\Local\Temp\comfyui_pvenv_cikl_893
-[2026-05-10 22:25:02.602] [SRV] 
-[2026-05-10 22:25:04.108] [SRV] [2026-05-10 22:25:04.108] [error] [comfy-env] register_nodes: comfyui-motioncapture
-[2026-05-10 22:25:04.110] [SRV] [2026-05-10 22:25:04.110] [error] 
-[2026-05-10 22:25:04.110] [SRV] 
-[2026-05-10 22:25:04.113] [SRV] [2026-05-10 22:25:04.113] [error] [comfy-env] ComfyUI source dir: C:\Users\runneradmin\.comfy-test-cache\desktop\ComfyUI\resources\ComfyUI
-[2026-05-10 22:25:04.114] [SRV] [2026-05-10 22:25:04.114] [error] 
-[2026-05-10 22:25:04.114] [SRV] 
-[2026-05-10 22:25:04.117] [SRV] [2026-05-10 22:25:04.117] [error] [comfy-env] Scanning nodes metadata (isolation root)...
-[2026-05-10 22:25:04.119] [SRV] [2026-05-10 22:25:04.119] [error] 
-[2026-05-10 22:25:04.119] [SRV] 
-[2026-05-10 22:25:04.133] [SRV] [2026-05-10 22:25:04.133] [error] [comfy-env] Cache hit for nodes: 22 nodes
-[2026-05-10 22:25:04.135] [SRV] [2026-05-10 22:25:04.135] [error] 
-[2026-05-10 22:25:04.135] [SRV] [comfy-env] Scanned nodes root: 22 nodes (0.0s)
-[2026-05-10 22:25:04.135] [SRV] 
-[2026-05-10 22:25:04.138] [SRV] [2026-05-10 22:25:04.138] [error] [comfy-env] Imported nodes root: 22 nodes (isolation)
-[2026-05-10 22:25:04.140] [SRV] [2026-05-10 22:25:04.140] [error] 
-[2026-05-10 22:25:04.140] [SRV] 
-[2026-05-10 22:25:04.142] [SRV] [2026-05-10 22:25:04.142] [error] [comfy-env] Registered 22 total nodes
-[2026-05-10 22:25:04.144] [SRV] [2026-05-10 22:25:04.144] [error] 
-[2026-05-10 22:25:04.144] [SRV] 
-[2026-05-10 22:25:04.232] [SRV] [2026-05-10 22:25:04.232] [info]  
-[2026-05-10 22:25:04.232] [SRV] Import times for custom nodes:
-[2026-05-10 22:25:04.232] [SRV] 
-[2026-05-10 22:25:04.234] [SRV] [2026-05-10 22:25:04.234] [info]     0.0 seconds: C:\Users\runneradmin\.comfy-test-cache\desktop\ComfyUI\resources\ComfyUI\custom_nodes\websocket_image_save.py
-[2026-05-10 22:25:04.234] [SRV]    0.0 seconds: C:\Users\runneradmin\Documents\ComfyUI\custom_nodes\ComfyUI-CameraPack
-[2026-05-10 22:25:04.234] [SRV]    0.1 seconds: C:\Users\runneradmin\Documents\ComfyUI\custom_nodes\ComfyUI-VideoHelperSuite
-[2026-05-10 22:25:04.234] [SRV]    1.0 seconds: C:\Users\runneradmin\Documents\ComfyUI\custom_nodes\ComfyUI-HyMotion
-[2026-05-10 22:25:04.234] [SRV]    4.0 seconds: C:\Users\runneradmin\Documents\ComfyUI\custom_nodes\comfyui-motioncapture
-[2026-05-10 22:25:04.234] [SRV] 
-[2026-05-10 22:25:04.234] [SRV] 
-[2026-05-10 22:25:04.237] [SRV] [2026-05-10 22:25:04.237] [info]  Context impl SQLiteImpl.
-[2026-05-10 22:25:04.237] [SRV] 
-[2026-05-10 22:25:04.238] [SRV] [2026-05-10 22:25:04.238] [info]  Will assume non-transactional DDL.
-[2026-05-10 22:25:04.238] [SRV] 
-[2026-05-10 22:25:04.244] [SRV] [2026-05-10 22:25:04.244] [error] Failed to initialize database. Please ensure you have installed the latest requirements. If the error persists, please report this as in future the database will be required: Could not acquire lock on database 'C:/Users/runneradmin/Documents/ComfyUI/user/comfyui.db'. Another ComfyUI process may already be using it. Use --database-url to specify a separate database file.
-[2026-05-10 22:25:04.244] [SRV] 
-[2026-05-10 22:25:04.371] [SRV] [2026-05-10 22:25:04.371] [info]  Starting server
-[2026-05-10 22:25:04.371] [SRV] 
-[2026-05-10 22:25:04.371] [SRV] 
-[2026-05-10 22:25:04.373] [SRV] [2026-05-10 22:25:04.373] [info]  To see the GUI go to: http://127.0.0.1:8001
-[2026-05-10 22:25:04.373] [SRV] 
-[2026-05-10 22:25:07.759] [SRV] [2026-05-10 22:25:07.759] [info]  [ComfyUI-Manager] The ComfyRegistry cache update is still in progress, so an outdated cache is being used.
-[2026-05-10 22:25:07.759] [SRV] 
-[2026-05-10 22:25:07.865] [SRV] [2026-05-10 22:25:07.865] [info]  FETCH DATA from: C:\Users\runneradmin\Documents\ComfyUI\.venv\Lib\site-packages\comfyui_manager\custom-node-list.json
-[2026-05-10 22:25:07.890] [SRV] [2026-05-10 22:25:07.890] [info]   [DONE]
-[2026-05-10 22:25:07.890] [SRV] 
-[2026-05-10 22:25:08.135] [SRV] [2026-05-10 22:25:08.135] [info]  [DEPRECATION WARNING] Detected import of deprecated legacy API: /extensions/core/widgetInputs.js. This is likely caused by a custom node extension using outdated APIs. Please update your extensions or contact the extension author for an updated version.
-[2026-05-10 22:25:08.135] [SRV] 
-[2026-05-10 22:25:11.072] [SRV] [2026-05-10 22:25:11.072] [info]  [ComfyUI-Manager] The ComfyRegistry cache update is still in progress, so an outdated cache is being used.
-[2026-05-10 22:25:11.072] [SRV] 
-[2026-05-10 22:25:11.225] [SRV] [2026-05-10 22:25:11.225] [info]  FETCH DATA from: C:\Users\runneradmin\Documents\ComfyUI\.venv\Lib\site-packages\comfyui_manager\custom-node-list.json
-[2026-05-10 22:25:11.231] [SRV] [2026-05-10 22:25:11.231] [info]   [DONE]
-[2026-05-10 22:25:11.231] [SRV] 
-[2026-05-10 22:25:33.466] [SRV] [2026-05-10 22:25:33.466] [info]  got prompt
-[2026-05-10 22:25:33.466] [SRV] 
-[2026-05-10 22:25:33.494] [SRV] [2026-05-10 22:25:33.494] [info]  [comfyui-motioncapture] python: C:\ce\.pixi\envs\motioncapture-nodes\python.exe
-[2026-05-10 22:25:33.496] [SRV] [2026-05-10 22:25:33.496] [info]  
-[2026-05-10 22:25:33.496] [SRV] 
-[2026-05-10 22:25:33.497] [SRV] [2026-05-10 22:25:33.497] [info]  [comfyui-motioncapture] sys_path sent to worker: ['C:\\Users\\runneradmin\\.comfy-test-cache\\desktop\\ComfyUI\\resources\\ComfyUI', 'C:\\Users\\runneradmin\\Documents\\ComfyUI\\custom_nodes\\comfyui-motioncapture', 'C:\\ce\\.pixi\\envs\\motioncapture-nodes\\Lib\\site-packages', 'C:\\Users\\runneradmin\\Documents\\ComfyUI\\custom_nodes\\comfyui-motioncapture']
-[2026-05-10 22:25:33.498] [SRV] [2026-05-10 22:25:33.498] [info]  
-[2026-05-10 22:25:33.498] [SRV] 
-[2026-05-10 22:25:36.622] [SRV] [2026-05-10 22:25:36.622] [error] [worker:comfyui-motioncapture] ERROR: Failed to import comfy_kitchen, Error: No module named 'comfy_kitchen', fp8 and fp4 support will not be available.
-[2026-05-10 22:25:36.622] [SRV] 
-[2026-05-10 22:25:37.313] [SRV] [2026-05-10 22:25:37.313] [error] [worker:comfyui-motioncapture] INFO: [GVHMRInference] DPVO not installed - only SimpleVO will be available
-[2026-05-10 22:25:37.313] [SRV] 
-[2026-05-10 22:25:37.316] [SRV] [2026-05-10 22:25:37.316] [error] [05/10 22:25:37][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
-[2026-05-10 22:25:37.316] [SRV] 
-[2026-05-10 22:25:38.042] [SRV] [2026-05-10 22:25:38.042] [error] [worker:comfyui-motioncapture] INFO: Selected: C:\Users\runneradmin\Documents\ComfyUI\input\camera_trajectory_example.npz
-[2026-05-10 22:25:38.042] [SRV] 
-[2026-05-10 22:25:38.045] [SRV] [2026-05-10 22:25:38.045] [error] [05/10 22:25:38][INFO] Selected: C:\Users\runneradmin\Documents\ComfyUI\input\camera_trajectory_example.npz
-[2026-05-10 22:25:38.045] [SRV] 
-[2026-05-10 22:25:38.063] [SRV] [2026-05-10 22:25:38.063] [error] [comfyui-motioncapture] Health check: ping (timeout=5.0s)...
-[2026-05-10 22:25:38.066] [SRV] [2026-05-10 22:25:38.066] [error] 
-[2026-05-10 22:25:38.066] [SRV] 
-[2026-05-10 22:25:38.069] [SRV] [2026-05-10 22:25:38.069] [error] [comfyui-motioncapture] Health check: ok
-[2026-05-10 22:25:38.071] [SRV] [2026-05-10 22:25:38.071] [error] 
-[2026-05-10 22:25:38.071] [SRV] 
-[2026-05-10 22:25:38.125] [SRV] [2026-05-10 22:25:38.125] [error] [worker:comfyui-motioncapture] INFO: Selected: C:\Users\runneradmin\Documents\ComfyUI\input\smpl_params_example.npz
-[2026-05-10 22:25:38.125] [SRV] 
-[2026-05-10 22:25:38.128] [SRV] [2026-05-10 22:25:38.128] [error] [05/10 22:25:38][INFO] Selected: C:\Users\runneradmin\Documents\ComfyUI\input\smpl_params_example.npz
-[2026-05-10 22:25:38.128] [SRV] 
-[2026-05-10 22:25:38.145] [SRV] [2026-05-10 22:25:38.145] [error] [comfyui-motioncapture] Health check: ping (timeout=5.0s)...
-[2026-05-10 22:25:38.148] [SRV] [2026-05-10 22:25:38.148] [error] 
-[2026-05-10 22:25:38.148] [SRV] 
-[2026-05-10 22:25:38.153] [SRV] [2026-05-10 22:25:38.153] [error] [comfyui-motioncapture] Health check: ok
-[2026-05-10 22:25:38.153] [SRV] 
-[2026-05-10 22:25:38.233] [SRV] [2026-05-10 22:25:38.233] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Generating 3D mesh + camera data...
-[2026-05-10 22:25:38.233] [SRV] 
-[2026-05-10 22:25:38.237] [SRV] [2026-05-10 22:25:38.237] [error] [05/10 22:25:38][INFO] [SMPLCameraViewer] Generating 3D mesh + camera data...
-[2026-05-10 22:25:38.237] [SRV] 
-[2026-05-10 22:25:38.243] [SRV] [2026-05-10 22:25:38.243] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Found incam params for through-camera rendering
-[2026-05-10 22:25:38.243] [SRV] 
-[2026-05-10 22:25:38.249] [SRV] [2026-05-10 22:25:38.249] [error] [05/10 22:25:38][INFO] [SMPLCameraViewer] Found incam params for through-camera rendering
-[2026-05-10 22:25:38.249] [SRV] 
-[2026-05-10 22:25:38.250] [SRV] [2026-05-10 22:25:38.250] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Processing 551 frames
-[2026-05-10 22:25:38.250] [SRV] 
-[2026-05-10 22:25:38.255] [SRV] [2026-05-10 22:25:38.255] [error] [05/10 22:25:38][INFO] [SMPLCameraViewer] Processing 551 frames
-[2026-05-10 22:25:38.255] [SRV] 
-[2026-05-10 22:25:38.261] [SRV] [2026-05-10 22:25:38.261] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Loaded camera trajectory (new format) from: C:\Users\runneradmin\Documents\ComfyUI\input\camera_trajectory_example.npz
-[2026-05-10 22:25:38.261] [SRV] 
-[2026-05-10 22:25:38.265] [SRV] [2026-05-10 22:25:38.265] [error] [05/10 22:25:38][INFO] [SMPLCameraViewer] Loaded camera trajectory (new format) from: C:\Users\runneradmin\Documents\ComfyUI\input\camera_trajectory_example.npz
-[2026-05-10 22:25:38.265] [SRV] 
-[2026-05-10 22:25:38.281] [SRV] [2026-05-10 22:25:38.281] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Video: 575 frames (SMPL: 551)
-[2026-05-10 22:25:38.281] [SRV] 
-[2026-05-10 22:25:38.284] [SRV] [2026-05-10 22:25:38.284] [error] [05/10 22:25:38][INFO] [SMPLCameraViewer] Video: 575 frames (SMPL: 551)
-[2026-05-10 22:25:38.284] [SRV] 
-[2026-05-10 22:25:38.286] [SRV] [2026-05-10 22:25:38.286] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] SMPLX models not found, downloading from HuggingFace...
-[2026-05-10 22:25:38.286] [SRV] 
-[2026-05-10 22:25:38.289] [SRV] [2026-05-10 22:25:38.289] [error] [05/10 22:25:38][INFO] [SMPLCameraViewer] SMPLX models not found, downloading from HuggingFace...
-[2026-05-10 22:25:38.289] [SRV] 
-[2026-05-10 22:25:39.324] [SRV] [2026-05-10 22:25:39.324] [error] C:\ce\.pixi\envs\motioncapture-nodes\Lib\site-packages\huggingface_hub\utils\_validators.py:205: UserWarning: The `local_dir_use_symlinks` argument is deprecated and ignored in `hf_hub_download`. Downloading to a local directory does not use symlinks anymore.
-[2026-05-10 22:25:39.324] [SRV]   warnings.warn(
-[2026-05-10 22:25:39.324] [SRV] 
-[2026-05-10 22:25:39.761] [SRV] [2026-05-10 22:25:39.761] [error] [worker:comfyui-motioncapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
-[2026-05-10 22:25:39.761] [SRV] 
-[2026-05-10 22:25:39.777] [SRV] [2026-05-10 22:25:39.777] [error] [05/10 22:25:39][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
-[2026-05-10 22:25:39.777] [SRV] 
-[2026-05-10 22:25:39.827] [SRV] [2026-05-10 22:25:39.827] [error] [worker:comfyui-motioncapture] INFO: HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
-[2026-05-10 22:25:39.827] [SRV] 
-[2026-05-10 22:25:39.832] [SRV] [2026-05-10 22:25:39.832] [error] [05/10 22:25:39][INFO] HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
-[2026-05-10 22:25:39.832] [SRV] 
-[2026-05-10 22:25:39.835] [SRV] [2026-05-10 22:25:39.835] [error] 
-[2026-05-10 22:25:39.835] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
-[2026-05-10 22:25:41.345] [SRV] [2026-05-10 22:25:41.345] [error] 
-[2026-05-10 22:25:41.345] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz:  62%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–�   | 67.0M/109M [00:01<00:00, 44.4MB/s]
-[2026-05-10 22:25:41.425] [SRV] [2026-05-10 22:25:41.425] [error] 
-[2026-05-10 22:25:41.425] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ| 109M/109M [00:01<00:00, 68.4MB/s] 
-[2026-05-10 22:25:41.425] [SRV] 
-[2026-05-10 22:25:41.438] [SRV] [2026-05-10 22:25:41.438] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_FEMALE.npz
-[2026-05-10 22:25:41.438] [SRV] 
-[2026-05-10 22:25:41.442] [SRV] [2026-05-10 22:25:41.442] [error] [05/10 22:25:41][INFO] [SMPLCameraViewer] Downloaded SMPLX_FEMALE.npz
-[2026-05-10 22:25:41.442] [SRV] 
-[2026-05-10 22:25:41.574] [SRV] [2026-05-10 22:25:41.574] [error] [worker:comfyui-motioncapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
-[2026-05-10 22:25:41.574] [SRV] 
-[2026-05-10 22:25:41.578] [SRV] [2026-05-10 22:25:41.578] [error] [05/10 22:25:41][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
-[2026-05-10 22:25:41.578] [SRV] 
-[2026-05-10 22:25:41.579] [SRV] [2026-05-10 22:25:41.579] [error] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-[2026-05-10 22:25:41.579] [SRV] [worker:comfyui-motioncapture] WARNING: Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-[2026-05-10 22:25:41.579] [SRV] 
-[2026-05-10 22:25:41.582] [SRV] [2026-05-10 22:25:41.582] [error] [05/10 22:25:41][WARNING] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-[2026-05-10 22:25:41.582] [SRV] 
-[2026-05-10 22:25:41.588] [SRV] [2026-05-10 22:25:41.588] [error] 
-[2026-05-10 22:25:41.588] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
-[2026-05-10 22:25:42.843] [SRV] [2026-05-10 22:25:42.843] [error] 
-[2026-05-10 22:25:42.843] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz:  62%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–�   | 67.1M/109M [00:01<00:00, 53.5MB/s]
-[2026-05-10 22:25:43.005] [SRV] [2026-05-10 22:25:43.005] [error] 
-[2026-05-10 22:25:43.005] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ| 109M/109M [00:01<00:00, 85.2MB/s] 
-[2026-05-10 22:25:43.008] [SRV] [2026-05-10 22:25:43.008] [error] 
-[2026-05-10 22:25:43.008] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ| 109M/109M [00:01<00:00, 76.6MB/s]
-[2026-05-10 22:25:43.010] [SRV] [2026-05-10 22:25:43.010] [error] 
-[2026-05-10 22:25:43.010] [SRV] 
-[2026-05-10 22:25:43.023] [SRV] [2026-05-10 22:25:43.023] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_MALE.npz
-[2026-05-10 22:25:43.023] [SRV] 
-[2026-05-10 22:25:43.027] [SRV] [2026-05-10 22:25:43.027] [error] [05/10 22:25:43][INFO] [SMPLCameraViewer] Downloaded SMPLX_MALE.npz
-[2026-05-10 22:25:43.027] [SRV] 
-[2026-05-10 22:25:43.085] [SRV] [2026-05-10 22:25:43.085] [error] [worker:comfyui-motioncapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
-[2026-05-10 22:25:43.085] [SRV] 
-[2026-05-10 22:25:43.094] [SRV] [2026-05-10 22:25:43.094] [error] [05/10 22:25:43][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
-[2026-05-10 22:25:43.094] [SRV] 
-[2026-05-10 22:25:43.098] [SRV] [2026-05-10 22:25:43.098] [error] 
-[2026-05-10 22:25:43.098] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
-[2026-05-10 22:25:43.856] [SRV] [2026-05-10 22:25:43.856] [error] 
-[2026-05-10 22:25:43.856] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz:  24%|â–ˆâ–ˆâ–�       | 26.4M/109M [00:00<00:02, 34.8MB/s]
-[2026-05-10 22:25:44.353] [SRV] [2026-05-10 22:25:44.353] [error] 
-[2026-05-10 22:25:44.353] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz:  62%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–�   | 67.3M/109M [00:01<00:00, 57.8MB/s]
-[2026-05-10 22:25:44.528] [SRV] [2026-05-10 22:25:44.528] [error] 
-[2026-05-10 22:25:44.528] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ| 109M/109M [00:01<00:00, 92.9MB/s] 
-[2026-05-10 22:25:44.530] [SRV] [2026-05-10 22:25:44.530] [error] 
-[2026-05-10 22:25:44.530] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ| 109M/109M [00:01<00:00, 76.0MB/s]
-[2026-05-10 22:25:44.530] [SRV] 
-[2026-05-10 22:25:44.544] [SRV] [2026-05-10 22:25:44.544] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_NEUTRAL.npz
-[2026-05-10 22:25:44.544] [SRV] 
-[2026-05-10 22:25:44.550] [SRV] [2026-05-10 22:25:44.550] [error] [05/10 22:25:44][INFO] [SMPLCameraViewer] Downloaded SMPLX_NEUTRAL.npz
-[2026-05-10 22:25:44.550] [SRV] 
-[2026-05-10 22:25:44.814] [SRV] [2026-05-10 22:25:44.814] [error] C:\ce\.pixi\envs\motioncapture-nodes\Lib\site-packages\numpy\lib\_format_impl.py:838: VisibleDeprecationWarning: dtype(): align should be passed as Python or NumPy boolean but got `align=0`. Did you mean to pass a tuple to create a subarray type? (Deprecated NumPy 2.4)
-[2026-05-10 22:25:44.814] [SRV]   array = pickle.load(fp, **pickle_kwargs)
-[2026-05-10 22:25:44.814] [SRV] 
-[2026-05-10 22:26:01.943] [SRV] [2026-05-10 22:26:01.943] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Generated mesh: 551 frames, 6890 vertices, 13776 faces
-[2026-05-10 22:26:01.943] [SRV] 
-[2026-05-10 22:26:02.067] [SRV] [2026-05-10 22:26:02.067] [error] [05/10 22:26:01][INFO] [SMPLCameraViewer] Generated mesh: 551 frames, 6890 vertices, 13776 faces
-[2026-05-10 22:26:02.067] [SRV] 
-[2026-05-10 22:26:02.068] [SRV] [2026-05-10 22:26:02.068] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Refining camera via Procrustes alignment of vertices...
-[2026-05-10 22:26:02.068] [SRV] 
-[2026-05-10 22:26:02.505] [SRV] [2026-05-10 22:26:02.505] [error] [05/10 22:26:02][INFO] [SMPLCameraViewer] Refining camera via Procrustes alignment of vertices...
-[2026-05-10 22:26:02.505] [SRV] 
-[2026-05-10 22:26:02.827] [SRV] [2026-05-10 22:26:02.827] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.6115304  1.8134843 -4.3272085]
-[2026-05-10 22:26:02.827] [SRV] 
-[2026-05-10 22:26:02.856] [SRV] [2026-05-10 22:26:02.856] [error] [05/10 22:26:02][INFO] [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.6115304  1.8134843 -4.3272085]
-[2026-05-10 22:26:02.856] [SRV] 
-[2026-05-10 22:26:02.857] [SRV] [2026-05-10 22:26:02.857] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Camera refined via Procrustes alignment
-[2026-05-10 22:26:02.857] [SRV] 
-[2026-05-10 22:26:02.921] [SRV] [2026-05-10 22:26:02.921] [error] [05/10 22:26:02][INFO] [SMPLCameraViewer] Camera refined via Procrustes alignment
-[2026-05-10 22:26:02.921] [SRV] 
-[2026-05-10 22:26:08.932] [SRV] [2026-05-10 22:26:08.932] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Wrote 551 incam vertex frames
-[2026-05-10 22:26:08.932] [SRV] 
-[2026-05-10 22:26:08.944] [SRV] [2026-05-10 22:26:08.944] [error] [05/10 22:26:08][INFO] [SMPLCameraViewer] Wrote 551 incam vertex frames
-[2026-05-10 22:26:08.944] [SRV] 
-[2026-05-10 22:26:08.948] [SRV] [2026-05-10 22:26:08.948] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Wrote smpl_camera_mesh_0001.bin (87.1 MB), has_camera=True
-[2026-05-10 22:26:08.948] [SRV] 
-[2026-05-10 22:26:08.958] [SRV] [2026-05-10 22:26:08.958] [error] [05/10 22:26:08][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001.bin (87.1 MB), has_camera=True
-[2026-05-10 22:26:08.958] [SRV] 
-[2026-05-10 22:26:08.972] [SRV] [2026-05-10 22:26:08.972] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Encoding 551 frames as all-intra H.264...
-[2026-05-10 22:26:08.972] [SRV] 
-[2026-05-10 22:26:08.986] [SRV] [2026-05-10 22:26:08.986] [error] [05/10 22:26:08][INFO] [SMPLCameraViewer] Encoding 551 frames as all-intra H.264...
-[2026-05-10 22:26:08.986] [SRV] 
-[2026-05-10 22:26:24.570] [SRV] [2026-05-10 22:26:24.570] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Wrote smpl_camera_mesh_0001_ref.mp4 (17.3 MB, 551 frames, all-intra)
-[2026-05-10 22:26:24.570] [SRV] 
-[2026-05-10 22:26:24.588] [SRV] [2026-05-10 22:26:24.588] [error] [05/10 22:26:24][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001_ref.mp4 (17.3 MB, 551 frames, all-intra)
-[2026-05-10 22:26:24.588] [SRV] 
-[2026-05-10 22:26:24.667] [SRV] [2026-05-10 22:26:24.667] [info]  Prompt executed in 51.20 seconds
-[2026-05-10 22:26:24.667] [SRV] 
-[2026-05-10 22:26:25.117] [SRV] [2026-05-10 22:26:25.117] [error] Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
-[2026-05-10 22:26:25.117] [SRV] handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
-[2026-05-10 22:26:25.117] [SRV] Traceback (most recent call last):
-[2026-05-10 22:26:25.117] [SRV]   File "C:\Users\runneradmin\AppData\Roaming\uv\python\cpython-3.12.11-windows-x86_64-none\Lib\asyncio\events.py", line 88, in _run
-[2026-05-10 22:26:25.117] [SRV]     self._context.run(self._callback, *self._args)
-[2026-05-10 22:26:25.117] [SRV]   File "C:\Users\runneradmin\AppData\Roaming\uv\python\cpython-3.12.11-windows-x86_64-none\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
-[2026-05-10 22:26:25.117] [SRV]     self._sock.shutdown(socket.SHUT_RDWR)
-[2026-05-10 22:26:25.117] [SRV] ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-[2026-05-10 22:26:25.117] [SRV] 
-[2026-05-10 22:26:30.881] [SRV] [2026-05-10 22:26:30.881] [info]  FETCH ComfyRegistry Data [DONE]
-[2026-05-10 22:26:30.881] [SRV] 
-[2026-05-10 22:26:36.529] [SRV] [2026-05-10 22:26:36.529] [info]  [ComfyUI-Manager] default cache updated: https://api.comfy.org/nodes
-[2026-05-10 22:26:36.529] [SRV] 
-[2026-05-10 22:26:36.984] [SRV] [2026-05-10 22:26:36.984] [info]  FETCH DATA from: C:\Users\runneradmin\Documents\ComfyUI\user\__manager\cache\1514988643_custom-node-list.json
-[2026-05-10 22:26:37.126] [SRV] [2026-05-10 22:26:37.126] [info]   [DONE]
-[2026-05-10 22:26:37.126] [SRV] 
-[2026-05-10 22:26:37.875] [SRV] [2026-05-10 22:26:37.875] [info]  [ComfyUI-Manager] All startup tasks have been completed.
-[2026-05-10 22:26:37.875] [SRV] 
+[2026-05-11 09:32:10.092] [SRV] [2026-05-11 09:32:10.092] [info]  setup plugin alembic.autogenerate.schemas
+[2026-05-11 09:32:10.092] [SRV] 
+[2026-05-11 09:32:10.095] [SRV] [2026-05-11 09:32:10.095] [info]  setup plugin alembic.autogenerate.tables
+[2026-05-11 09:32:10.095] [SRV] setup plugin alembic.autogenerate.types
+[2026-05-11 09:32:10.095] [SRV] setup plugin alembic.autogenerate.constraints
+[2026-05-11 09:32:10.095] [SRV] setup plugin alembic.autogenerate.defaults
+[2026-05-11 09:32:10.095] [SRV] setup plugin alembic.autogenerate.comments
+[2026-05-11 09:32:10.095] [SRV] 
+[2026-05-11 09:32:10.534] [SRV] [2026-05-11 09:32:10.534] [info]  Adding extra search path custom_nodes C:\Users\runneradmin\Documents\ComfyUI\custom_nodes
+[2026-05-11 09:32:10.534] [SRV] Adding extra search path download_model_base C:\Users\runneradmin\Documents\ComfyUI\models
+[2026-05-11 09:32:10.534] [SRV] 
+[2026-05-11 09:32:10.536] [SRV] [2026-05-11 09:32:10.536] [info]  Adding extra search path custom_nodes C:\Users\runneradmin\.comfy-test-cache\desktop\ComfyUI\resources\ComfyUI\custom_nodes
+[2026-05-11 09:32:10.536] [SRV] Setting output directory to: C:\Users\runneradmin\Documents\ComfyUI\output
+[2026-05-11 09:32:10.536] [SRV] Setting input directory to: C:\Users\runneradmin\Documents\ComfyUI\input
+[2026-05-11 09:32:10.536] [SRV] Setting user directory to: C:\Users\runneradmin\Documents\ComfyUI\user
+[2026-05-11 09:32:10.536] [SRV] 
+[2026-05-11 09:32:12.018] [SRV] [2026-05-11 09:32:12.018] [info]  [START] Security scan
+[2026-05-11 09:32:12.018] [SRV] [DONE] Security scan
+[2026-05-11 09:32:12.018] [SRV] ** ComfyUI startup time: 
+[2026-05-11 09:32:12.020] [SRV] [2026-05-11 09:32:12.020] [info]  2026-05-11 09:32:12.017
+[2026-05-11 09:32:12.020] [SRV] ** Platform: Windows
+[2026-05-11 09:32:12.020] [SRV] ** Python version: 3.12.11 (main, Aug 18 2025, 19:17:54) [MSC v.1944 64 bit (AMD64)]
+[2026-05-11 09:32:12.020] [SRV] ** Python executable: C:\Users\runneradmin\Documents\ComfyUI\.venv\Scripts\python.exe
+[2026-05-11 09:32:12.020] [SRV] ** ComfyUI Path: C:\Users\runneradmin\.comfy-test-cache\desktop\ComfyUI\resources\ComfyUI
+[2026-05-11 09:32:12.020] [SRV] ** ComfyUI Base Folder Path: C:\Users\runneradmin\.comfy-test-cache\desktop\ComfyUI\resources\ComfyUI
+[2026-05-11 09:32:12.020] [SRV] 
+[2026-05-11 09:32:12.027] [SRV] [2026-05-11 09:32:12.027] [info]  ** User directory: 
+[2026-05-11 09:32:12.029] [SRV] [2026-05-11 09:32:12.029] [info]  C:\Users\runneradmin\Documents\ComfyUI\user
+[2026-05-11 09:32:12.029] [SRV] ** ComfyUI-Manager config path: C:\Users\runneradmin\Documents\ComfyUI\user\__manager\config.ini
+[2026-05-11 09:32:12.029] [SRV] ** Log path: C:\Users\runneradmin\Documents\ComfyUI\user\comfyui.log
+[2026-05-11 09:32:12.029] [SRV] 
+[2026-05-11 09:32:13.197] [SRV] [2026-05-11 09:32:13.197] [info]  [ComfyUI-Manager] Skipped fixing the 'comfyui-frontend-package' dependency because the ComfyUI is outdated.
+[2026-05-11 09:32:13.197] [SRV] 
+[2026-05-11 09:32:13.199] [SRV] [2026-05-11 09:32:13.199] [info]  [PRE] ComfyUI-Manager
+[2026-05-11 09:32:13.199] [SRV] 
+[2026-05-11 09:32:13.537] [SRV] [2026-05-11 09:32:13.537] [error] [comfy-env] comfyui-motioncapture: 1 isolation env(s):
+[2026-05-11 09:32:13.539] [SRV] [2026-05-11 09:32:13.539] [error] 
+[2026-05-11 09:32:13.539] [SRV] [comfy-env]   nodes -> C:\Users\runneradmin\Documents\ComfyUI\custom_nodes\comfyui-motioncapture\nodes
+[2026-05-11 09:32:13.539] [SRV] [comfy-env] prestartup complete
+[2026-05-11 09:32:13.539] [SRV] 
+[2026-05-11 09:32:16.304] [SRV] [2026-05-11 09:32:16.304] [info]  Found comfy_kitchen backend cuda: {'available': False, 'disabled': True, 'unavailable_reason': 'CUDA not available on this system', 'capabilities': []}
+[2026-05-11 09:32:16.304] [SRV] 
+[2026-05-11 09:32:16.305] [SRV] [2026-05-11 09:32:16.305] [info]  Found comfy_kitchen backend eager: {'available': True, 'disabled': False, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_mxfp8', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8', 'scaled_mm_mxfp8', 'scaled_mm_nvfp4']}
+[2026-05-11 09:32:16.305] [SRV] Found comfy_kitchen backend triton: {'available': False, 'disabled': True, 'unavailable_reason': "ImportError: No module named 'triton'", 'capabilities': []}
+[2026-05-11 09:32:16.305] [SRV] 
+[2026-05-11 09:32:16.311] [SRV] [2026-05-11 09:32:16.311] [info]  Checkpoint files will always be loaded safely.
+[2026-05-11 09:32:16.311] [SRV] 
+[2026-05-11 09:32:16.326] [SRV] [2026-05-11 09:32:16.326] [info]  Total VRAM 16379 MB, total RAM 16379 MB
+[2026-05-11 09:32:16.326] [SRV] 
+[2026-05-11 09:32:16.327] [SRV] [2026-05-11 09:32:16.327] [info]  pytorch version: 2.10.0+cpu
+[2026-05-11 09:32:16.327] [SRV] Set vram state to: DISABLED
+[2026-05-11 09:32:16.327] [SRV] Device: cpu
+[2026-05-11 09:32:16.327] [SRV] 
+[2026-05-11 09:32:16.646] [SRV] [2026-05-11 09:32:16.646] [info]  Using sub quadratic optimization for attention, if you have memory or speed issues try using: --use-split-cross-attention
+[2026-05-11 09:32:16.646] [SRV] 
+[2026-05-11 09:32:19.264] [SRV] [2026-05-11 09:32:19.264] [info]  Python version: 3.12.11 (main, Aug 18 2025, 19:17:54) [MSC v.1944 64 bit (AMD64)]
+[2026-05-11 09:32:19.264] [SRV] ComfyUI version: 0.20.1
+[2026-05-11 09:32:19.264] [SRV] 
+[2026-05-11 09:32:19.265] [SRV] [2026-05-11 09:32:19.265] [info]  comfy-aimdo version: 0.2.14
+[2026-05-11 09:32:19.265] [SRV] 
+[2026-05-11 09:32:19.266] [SRV] [2026-05-11 09:32:19.266] [info]  comfy-kitchen version: 0.2.8
+[2026-05-11 09:32:19.266] [SRV] 
+[2026-05-11 09:32:19.269] [SRV] [2026-05-11 09:32:19.269] [info]  [Prompt Server] web root: C:\Users\runneradmin\.comfy-test-cache\desktop\ComfyUI\resources\ComfyUI\web_custom_versions\desktop_app
+[2026-05-11 09:32:19.269] [SRV] 
+[2026-05-11 09:32:19.273] [SRV] [2026-05-11 09:32:19.273] [info]  Asset seeder disabled
+[2026-05-11 09:32:19.273] [SRV] 
+[2026-05-11 09:32:19.274] [SRV] [2026-05-11 09:32:19.274] [info]  [START] ComfyUI-Manager
+[2026-05-11 09:32:19.274] [SRV] 
+[2026-05-11 09:32:19.397] [SRV] [2026-05-11 09:32:19.397] [info]  [ComfyUI-Manager] Using GitPython backend
+[2026-05-11 09:32:19.397] [SRV] 
+[2026-05-11 09:32:19.462] [SRV] [2026-05-11 09:32:19.462] [info]  [ComfyUI-Manager] network_mode: public
+[2026-05-11 09:32:19.462] [SRV] 
+[2026-05-11 09:32:19.468] [SRV] [2026-05-11 09:32:19.468] [info]  [ComfyUI-Manager] The matrix sharing feature has been disabled because the `matrix-nio` dependency is not installed.
+[2026-05-11 09:32:19.468] [SRV] 	To use this feature, please run the following command:
+[2026-05-11 09:32:19.468] [SRV] 	C:\Users\runneradmin\Documents\ComfyUI\.venv\Scripts\python.exe -m pip install matrix-nio
+[2026-05-11 09:32:19.468] [SRV] 
+[2026-05-11 09:32:19.468] [SRV] 
+[2026-05-11 09:32:22.120] [SRV] [2026-05-11 09:32:22.120] [info]  loading...
+[2026-05-11 09:32:22.120] [SRV] 
+[2026-05-11 09:32:22.121] [SRV] [2026-05-11 09:32:22.121] [info]  calling register_nodes
+[2026-05-11 09:32:22.121] [SRV] 
+[2026-05-11 09:32:22.124] [SRV] [2026-05-11 09:32:22.124] [error] [comfy-env] Version: 0.3.83
+[2026-05-11 09:32:22.125] [SRV] [2026-05-11 09:32:22.125] [error] 
+[2026-05-11 09:32:22.125] [SRV] 
+[2026-05-11 09:32:25.583] [SRV] [2026-05-11 09:32:25.583] [info]  [comfy-env] Removed stale temp dir: C:\Users\RUNNER~1\AppData\Local\Temp\comfyui_pvenv_ry5exiil
+[2026-05-11 09:32:25.583] [SRV] 
+[2026-05-11 09:32:25.952] [SRV] [2026-05-11 09:32:25.952] [error] [comfy-env] register_nodes: comfyui-motioncapture
+[2026-05-11 09:32:25.954] [SRV] [2026-05-11 09:32:25.954] [error] 
+[2026-05-11 09:32:25.954] [SRV] 
+[2026-05-11 09:32:25.956] [SRV] [2026-05-11 09:32:25.956] [error] [comfy-env] ComfyUI source dir: C:\Users\runneradmin\.comfy-test-cache\desktop\ComfyUI\resources\ComfyUI
+[2026-05-11 09:32:25.958] [SRV] [2026-05-11 09:32:25.958] [error] 
+[2026-05-11 09:32:25.958] [SRV] 
+[2026-05-11 09:32:25.961] [SRV] [2026-05-11 09:32:25.961] [error] [comfy-env] Scanning nodes metadata (isolation root)...
+[2026-05-11 09:32:25.962] [SRV] [2026-05-11 09:32:25.962] [error] 
+[2026-05-11 09:32:25.962] [SRV] 
+[2026-05-11 09:32:25.972] [SRV] [2026-05-11 09:32:25.972] [error] [comfy-env] Cache hit for nodes: 22 nodes
+[2026-05-11 09:32:25.973] [SRV] [2026-05-11 09:32:25.973] [error] 
+[2026-05-11 09:32:25.973] [SRV] [comfy-env] Scanned nodes root: 22 nodes (0.0s)
+[2026-05-11 09:32:25.974] [SRV] [2026-05-11 09:32:25.974] [error] 
+[2026-05-11 09:32:25.974] [SRV] 
+[2026-05-11 09:32:25.976] [SRV] [2026-05-11 09:32:25.976] [error] [comfy-env] Imported nodes root: 22 nodes (isolation)
+[2026-05-11 09:32:25.977] [SRV] [2026-05-11 09:32:25.977] [error] 
+[2026-05-11 09:32:25.977] [SRV] [comfy-env] Registered 22 total nodes
+[2026-05-11 09:32:25.978] [SRV] [2026-05-11 09:32:25.978] [error] 
+[2026-05-11 09:32:25.978] [SRV] 
+[2026-05-11 09:32:26.065] [SRV] [2026-05-11 09:32:26.065] [info]  
+[2026-05-11 09:32:26.065] [SRV] Import times for custom nodes:
+[2026-05-11 09:32:26.065] [SRV] 
+[2026-05-11 09:32:26.067] [SRV] [2026-05-11 09:32:26.067] [info]     0.0 seconds: C:\Users\runneradmin\.comfy-test-cache\desktop\ComfyUI\resources\ComfyUI\custom_nodes\websocket_image_save.py
+[2026-05-11 09:32:26.067] [SRV]    0.0 seconds: C:\Users\runneradmin\Documents\ComfyUI\custom_nodes\ComfyUI-CameraPack
+[2026-05-11 09:32:26.067] [SRV]    0.1 seconds: C:\Users\runneradmin\Documents\ComfyUI\custom_nodes\ComfyUI-VideoHelperSuite
+[2026-05-11 09:32:26.067] [SRV]    0.9 seconds: C:\Users\runneradmin\Documents\ComfyUI\custom_nodes\ComfyUI-HyMotion
+[2026-05-11 09:32:26.067] [SRV]    3.9 seconds: C:\Users\runneradmin\Documents\ComfyUI\custom_nodes\comfyui-motioncapture
+[2026-05-11 09:32:26.067] [SRV] 
+[2026-05-11 09:32:26.067] [SRV] 
+[2026-05-11 09:32:26.070] [SRV] [2026-05-11 09:32:26.070] [info]  Context impl SQLiteImpl.
+[2026-05-11 09:32:26.070] [SRV] 
+[2026-05-11 09:32:26.071] [SRV] [2026-05-11 09:32:26.071] [info]  Will assume non-transactional DDL.
+[2026-05-11 09:32:26.071] [SRV] 
+[2026-05-11 09:32:26.076] [SRV] [2026-05-11 09:32:26.076] [error] Failed to initialize database. Please ensure you have installed the latest requirements. If the error persists, please report this as in future the database will be required: Could not acquire lock on database 'C:/Users/runneradmin/Documents/ComfyUI/user/comfyui.db'. Another ComfyUI process may already be using it. Use --database-url to specify a separate database file.
+[2026-05-11 09:32:26.076] [SRV] 
+[2026-05-11 09:32:26.156] [SRV] [2026-05-11 09:32:26.156] [info]  Starting server
+[2026-05-11 09:32:26.156] [SRV] 
+[2026-05-11 09:32:26.156] [SRV] 
+[2026-05-11 09:32:26.157] [SRV] [2026-05-11 09:32:26.157] [info]  To see the GUI go to: http://127.0.0.1:8001
+[2026-05-11 09:32:26.157] [SRV] 
+[2026-05-11 09:32:29.241] [SRV] [2026-05-11 09:32:29.241] [info]  [ComfyUI-Manager] The ComfyRegistry cache update is still in progress, so an outdated cache is being used.
+[2026-05-11 09:32:29.241] [SRV] 
+[2026-05-11 09:32:29.370] [SRV] [2026-05-11 09:32:29.370] [info]  FETCH DATA from: C:\Users\runneradmin\Documents\ComfyUI\.venv\Lib\site-packages\comfyui_manager\custom-node-list.json
+[2026-05-11 09:32:29.394] [SRV] [2026-05-11 09:32:29.394] [info]   [DONE]
+[2026-05-11 09:32:29.394] [SRV] 
+[2026-05-11 09:32:29.449] [SRV] [2026-05-11 09:32:29.449] [info]  [DEPRECATION WARNING] Detected import of deprecated legacy API: /extensions/core/widgetInputs.js. This is likely caused by a custom node extension using outdated APIs. Please update your extensions or contact the extension author for an updated version.
+[2026-05-11 09:32:29.449] [SRV] 
+[2026-05-11 09:32:32.751] [SRV] [2026-05-11 09:32:32.751] [info]  [ComfyUI-Manager] The ComfyRegistry cache update is still in progress, so an outdated cache is being used.
+[2026-05-11 09:32:32.751] [SRV] 
+[2026-05-11 09:32:32.857] [SRV] [2026-05-11 09:32:32.857] [info]  FETCH DATA from: C:\Users\runneradmin\Documents\ComfyUI\.venv\Lib\site-packages\comfyui_manager\custom-node-list.json
+[2026-05-11 09:32:32.880] [SRV] [2026-05-11 09:32:32.880] [info]   [DONE]
+[2026-05-11 09:32:32.880] [SRV] 
+[2026-05-11 09:32:49.934] [SRV] [2026-05-11 09:32:49.934] [error] Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+[2026-05-11 09:32:49.934] [SRV] handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+[2026-05-11 09:32:49.934] [SRV] Traceback (most recent call last):
+[2026-05-11 09:32:49.934] [SRV]   File "C:\Users\runneradmin\AppData\Roaming\uv\python\cpython-3.12.11-windows-x86_64-none\Lib\asyncio\events.py", line 88, in _run
+[2026-05-11 09:32:49.934] [SRV]     self._context.run(self._callback, *self._args)
+[2026-05-11 09:32:49.934] [SRV]   File "C:\Users\runneradmin\AppData\Roaming\uv\python\cpython-3.12.11-windows-x86_64-none\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+[2026-05-11 09:32:49.934] [SRV]     self._sock.shutdown(socket.SHUT_RDWR)
+[2026-05-11 09:32:49.934] [SRV] ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+[2026-05-11 09:32:49.934] [SRV] 
+[2026-05-11 09:32:49.936] [SRV] [2026-05-11 09:32:49.936] [error] Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+[2026-05-11 09:32:49.936] [SRV] handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+[2026-05-11 09:32:49.936] [SRV] Traceback (most recent call last):
+[2026-05-11 09:32:49.936] [SRV]   File "C:\Users\runneradmin\AppData\Roaming\uv\python\cpython-3.12.11-windows-x86_64-none\Lib\asyncio\events.py", line 88, in _run
+[2026-05-11 09:32:49.936] [SRV]     self._context.run(self._callback, *self._args)
+[2026-05-11 09:32:49.936] [SRV]   File "C:\Users\runneradmin\AppData\Roaming\uv\python\cpython-3.12.11-windows-x86_64-none\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+[2026-05-11 09:32:49.936] [SRV]     self._sock.shutdown(socket.SHUT_RDWR)
+[2026-05-11 09:32:49.936] [SRV] ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+[2026-05-11 09:32:49.936] [SRV] 
+[2026-05-11 09:32:55.602] [SRV] [2026-05-11 09:32:55.602] [info]  got prompt
+[2026-05-11 09:32:55.602] [SRV] 
+[2026-05-11 09:32:55.634] [SRV] [2026-05-11 09:32:55.634] [info]  [comfyui-motioncapture] python: C:\ce\.pixi\envs\motioncapture-nodes\python.exe
+[2026-05-11 09:32:55.635] [SRV] [2026-05-11 09:32:55.635] [info]  
+[2026-05-11 09:32:55.635] [SRV] [comfyui-motioncapture] sys_path sent to worker: ['C:\\Users\\runneradmin\\.comfy-test-cache\\desktop\\ComfyUI\\resources\\ComfyUI', 'C:\\Users\\runneradmin\\Documents\\ComfyUI\\custom_nodes\\comfyui-motioncapture', 'C:\\ce\\.pixi\\envs\\motioncapture-nodes\\Lib\\site-packages', 'C:\\Users\\runneradmin\\Documents\\ComfyUI\\custom_nodes\\comfyui-motioncapture']
+[2026-05-11 09:32:55.635] [SRV] 
+[2026-05-11 09:32:58.367] [SRV] [2026-05-11 09:32:58.367] [error] [worker:comfyui-motioncapture] ERROR: Failed to import comfy_kitchen, Error: No module named 'comfy_kitchen', fp8 and fp4 support will not be available.
+[2026-05-11 09:32:58.367] [SRV] 
+[2026-05-11 09:32:59.057] [SRV] [2026-05-11 09:32:59.057] [error] [worker:comfyui-motioncapture] INFO: [GVHMRInference] DPVO not installed - only SimpleVO will be available
+[2026-05-11 09:32:59.057] [SRV] 
+[2026-05-11 09:32:59.068] [SRV] [2026-05-11 09:32:59.068] [error] [05/11 09:32:59][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
+[2026-05-11 09:32:59.068] [SRV] 
+[2026-05-11 09:32:59.881] [SRV] [2026-05-11 09:32:59.881] [error] [worker:comfyui-motioncapture] INFO: Selected: C:\Users\runneradmin\Documents\ComfyUI\input\camera_trajectory_example.npz
+[2026-05-11 09:32:59.881] [SRV] 
+[2026-05-11 09:32:59.890] [SRV] [2026-05-11 09:32:59.890] [error] [05/11 09:32:59][INFO] Selected: C:\Users\runneradmin\Documents\ComfyUI\input\camera_trajectory_example.npz
+[2026-05-11 09:32:59.890] [SRV] 
+[2026-05-11 09:32:59.917] [SRV] [2026-05-11 09:32:59.917] [error] [comfyui-motioncapture] Health check: ping (timeout=5.0s)...
+[2026-05-11 09:32:59.919] [SRV] [2026-05-11 09:32:59.919] [error] 
+[2026-05-11 09:32:59.919] [SRV] 
+[2026-05-11 09:32:59.925] [SRV] [2026-05-11 09:32:59.925] [error] [comfyui-motioncapture] Health check: ok
+[2026-05-11 09:32:59.926] [SRV] [2026-05-11 09:32:59.926] [error] 
+[2026-05-11 09:32:59.926] [SRV] 
+[2026-05-11 09:33:00.025] [SRV] [2026-05-11 09:33:00.025] [error] [worker:comfyui-motioncapture] INFO: Selected: C:\Users\runneradmin\Documents\ComfyUI\input\smpl_params_example.npz
+[2026-05-11 09:33:00.025] [SRV] 
+[2026-05-11 09:33:00.038] [SRV] [2026-05-11 09:33:00.038] [error] [05/11 09:33:00][INFO] Selected: C:\Users\runneradmin\Documents\ComfyUI\input\smpl_params_example.npz
+[2026-05-11 09:33:00.038] [SRV] 
+[2026-05-11 09:33:00.065] [SRV] [2026-05-11 09:33:00.065] [error] [comfyui-motioncapture] Health check: ping (timeout=5.0s)...
+[2026-05-11 09:33:00.065] [SRV] 
+[2026-05-11 09:33:00.077] [SRV] [2026-05-11 09:33:00.077] [error] [comfyui-motioncapture] Health check: ok
+[2026-05-11 09:33:00.077] [SRV] 
+[2026-05-11 09:33:00.172] [SRV] [2026-05-11 09:33:00.172] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Generating 3D mesh + camera data...
+[2026-05-11 09:33:00.172] [SRV] 
+[2026-05-11 09:33:00.181] [SRV] [2026-05-11 09:33:00.181] [error] [05/11 09:33:00][INFO] [SMPLCameraViewer] Generating 3D mesh + camera data...
+[2026-05-11 09:33:00.181] [SRV] 
+[2026-05-11 09:33:00.185] [SRV] [2026-05-11 09:33:00.185] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Found incam params for through-camera rendering
+[2026-05-11 09:33:00.185] [SRV] 
+[2026-05-11 09:33:00.196] [SRV] [2026-05-11 09:33:00.196] [error] [05/11 09:33:00][INFO] [SMPLCameraViewer] Found incam params for through-camera rendering
+[2026-05-11 09:33:00.196] [SRV] 
+[2026-05-11 09:33:00.197] [SRV] [2026-05-11 09:33:00.197] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Processing 551 frames
+[2026-05-11 09:33:00.197] [SRV] 
+[2026-05-11 09:33:00.204] [SRV] [2026-05-11 09:33:00.204] [error] [05/11 09:33:00][INFO] [SMPLCameraViewer] Processing 551 frames
+[2026-05-11 09:33:00.204] [SRV] 
+[2026-05-11 09:33:00.210] [SRV] [2026-05-11 09:33:00.210] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Loaded camera trajectory (new format) from: C:\Users\runneradmin\Documents\ComfyUI\input\camera_trajectory_example.npz
+[2026-05-11 09:33:00.210] [SRV] 
+[2026-05-11 09:33:00.217] [SRV] [2026-05-11 09:33:00.217] [error] [05/11 09:33:00][INFO] [SMPLCameraViewer] Loaded camera trajectory (new format) from: C:\Users\runneradmin\Documents\ComfyUI\input\camera_trajectory_example.npz
+[2026-05-11 09:33:00.217] [SRV] 
+[2026-05-11 09:33:00.233] [SRV] [2026-05-11 09:33:00.233] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Video: 575 frames (SMPL: 551)
+[2026-05-11 09:33:00.233] [SRV] 
+[2026-05-11 09:33:00.245] [SRV] [2026-05-11 09:33:00.245] [error] [05/11 09:33:00][INFO] [SMPLCameraViewer] Video: 575 frames (SMPL: 551)
+[2026-05-11 09:33:00.245] [SRV] 
+[2026-05-11 09:33:00.247] [SRV] [2026-05-11 09:33:00.247] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] SMPLX models not found, downloading from HuggingFace...
+[2026-05-11 09:33:00.247] [SRV] 
+[2026-05-11 09:33:00.255] [SRV] [2026-05-11 09:33:00.255] [error] [05/11 09:33:00][INFO] [SMPLCameraViewer] SMPLX models not found, downloading from HuggingFace...
+[2026-05-11 09:33:00.255] [SRV] 
+[2026-05-11 09:33:01.291] [SRV] [2026-05-11 09:33:01.291] [error] C:\ce\.pixi\envs\motioncapture-nodes\Lib\site-packages\huggingface_hub\utils\_validators.py:205: UserWarning: The `local_dir_use_symlinks` argument is deprecated and ignored in `hf_hub_download`. Downloading to a local directory does not use symlinks anymore.
+[2026-05-11 09:33:01.291] [SRV]   warnings.warn(
+[2026-05-11 09:33:01.291] [SRV] 
+[2026-05-11 09:33:01.695] [SRV] [2026-05-11 09:33:01.695] [error] [worker:comfyui-motioncapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
+[2026-05-11 09:33:01.695] [SRV] 
+[2026-05-11 09:33:01.706] [SRV] [2026-05-11 09:33:01.706] [error] [05/11 09:33:01][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
+[2026-05-11 09:33:01.706] [SRV] 
+[2026-05-11 09:33:01.766] [SRV] [2026-05-11 09:33:01.766] [error] [worker:comfyui-motioncapture] INFO: HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
+[2026-05-11 09:33:01.766] [SRV] 
+[2026-05-11 09:33:01.771] [SRV] [2026-05-11 09:33:01.771] [error] [05/11 09:33:01][INFO] HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
+[2026-05-11 09:33:01.771] [SRV] 
+[2026-05-11 09:33:01.774] [SRV] [2026-05-11 09:33:01.774] [error] 
+[2026-05-11 09:33:01.774] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
+[2026-05-11 09:33:03.783] [SRV] [2026-05-11 09:33:03.783] [error] 
+[2026-05-11 09:33:03.783] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz:  62%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–�   | 67.0M/109M [00:02<00:01, 33.4MB/s]
+[2026-05-11 09:33:04.033] [SRV] [2026-05-11 09:33:04.033] [error] 
+[2026-05-11 09:33:04.033] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ| 109M/109M [00:02<00:00, 53.6MB/s] 
+[2026-05-11 09:33:04.038] [SRV] [2026-05-11 09:33:04.038] [error] 
+[2026-05-11 09:33:04.038] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ| 109M/109M [00:02<00:00, 48.1MB/s]
+[2026-05-11 09:33:04.038] [SRV] 
+[2026-05-11 09:33:04.051] [SRV] [2026-05-11 09:33:04.051] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_FEMALE.npz
+[2026-05-11 09:33:04.051] [SRV] 
+[2026-05-11 09:33:04.067] [SRV] [2026-05-11 09:33:04.067] [error] [05/11 09:33:04][INFO] [SMPLCameraViewer] Downloaded SMPLX_FEMALE.npz
+[2026-05-11 09:33:04.067] [SRV] 
+[2026-05-11 09:33:04.122] [SRV] [2026-05-11 09:33:04.122] [error] [worker:comfyui-motioncapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
+[2026-05-11 09:33:04.122] [SRV] 
+[2026-05-11 09:33:04.133] [SRV] [2026-05-11 09:33:04.133] [error] [05/11 09:33:04][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
+[2026-05-11 09:33:04.133] [SRV] 
+[2026-05-11 09:33:04.135] [SRV] [2026-05-11 09:33:04.135] [error] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[2026-05-11 09:33:04.135] [SRV] 
+[2026-05-11 09:33:04.136] [SRV] [2026-05-11 09:33:04.136] [error] [worker:comfyui-motioncapture] WARNING: Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[2026-05-11 09:33:04.136] [SRV] 
+[2026-05-11 09:33:04.151] [SRV] [2026-05-11 09:33:04.151] [error] [05/11 09:33:04][WARNING] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[2026-05-11 09:33:04.151] [SRV] 
+[2026-05-11 09:33:04.155] [SRV] [2026-05-11 09:33:04.155] [error] 
+[2026-05-11 09:33:04.155] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
+[2026-05-11 09:33:05.910] [SRV] [2026-05-11 09:33:05.910] [error] 
+[2026-05-11 09:33:05.910] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz:  62%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–�   | 67.1M/109M [00:01<00:01, 38.3MB/s]
+[2026-05-11 09:33:06.167] [SRV] [2026-05-11 09:33:06.167] [error] 
+[2026-05-11 09:33:06.167] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ| 109M/109M [00:02<00:00, 59.6MB/s] 
+[2026-05-11 09:33:06.168] [SRV] [2026-05-11 09:33:06.168] [error] 
+[2026-05-11 09:33:06.168] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ| 109M/109M [00:02<00:00, 54.0MB/s]
+[2026-05-11 09:33:06.168] [SRV] 
+[2026-05-11 09:33:06.178] [SRV] [2026-05-11 09:33:06.178] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_MALE.npz
+[2026-05-11 09:33:06.178] [SRV] 
+[2026-05-11 09:33:06.192] [SRV] [2026-05-11 09:33:06.192] [error] [05/11 09:33:06][INFO] [SMPLCameraViewer] Downloaded SMPLX_MALE.npz
+[2026-05-11 09:33:06.192] [SRV] 
+[2026-05-11 09:33:06.266] [SRV] [2026-05-11 09:33:06.266] [error] [worker:comfyui-motioncapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
+[2026-05-11 09:33:06.266] [SRV] [05/11 09:33:06][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
+[2026-05-11 09:33:06.266] [SRV] 
+[2026-05-11 09:33:06.268] [SRV] [2026-05-11 09:33:06.268] [error] 
+[2026-05-11 09:33:06.268] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
+[2026-05-11 09:33:07.275] [SRV] [2026-05-11 09:33:07.275] [error] 
+[2026-05-11 09:33:07.275] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz:  24%|â–ˆâ–ˆâ–�       | 26.4M/109M [00:01<00:03, 26.1MB/s]
+[2026-05-11 09:33:07.775] [SRV] [2026-05-11 09:33:07.775] [error] 
+[2026-05-11 09:33:07.775] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz:  62%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–�   | 67.3M/109M [00:01<00:00, 49.3MB/s]
+[2026-05-11 09:33:07.981] [SRV] [2026-05-11 09:33:07.981] [error] 
+[2026-05-11 09:33:07.981] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ| 109M/109M [00:01<00:00, 79.1MB/s] 
+[2026-05-11 09:33:07.983] [SRV] [2026-05-11 09:33:07.983] [error] 
+[2026-05-11 09:33:07.983] [SRV] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ| 109M/109M [00:01<00:00, 63.4MB/s]
+[2026-05-11 09:33:07.983] [SRV] 
+[2026-05-11 09:33:07.996] [SRV] [2026-05-11 09:33:07.996] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_NEUTRAL.npz
+[2026-05-11 09:33:07.996] [SRV] 
+[2026-05-11 09:33:08.006] [SRV] [2026-05-11 09:33:08.006] [error] [05/11 09:33:07][INFO] [SMPLCameraViewer] Downloaded SMPLX_NEUTRAL.npz
+[2026-05-11 09:33:08.006] [SRV] 
+[2026-05-11 09:33:08.291] [SRV] [2026-05-11 09:33:08.291] [error] C:\ce\.pixi\envs\motioncapture-nodes\Lib\site-packages\numpy\lib\_format_impl.py:838: VisibleDeprecationWarning: dtype(): align should be passed as Python or NumPy boolean but got `align=0`. Did you mean to pass a tuple to create a subarray type? (Deprecated NumPy 2.4)
+[2026-05-11 09:33:08.291] [SRV]   array = pickle.load(fp, **pickle_kwargs)
+[2026-05-11 09:33:08.291] [SRV] 
+[2026-05-11 09:33:27.587] [SRV] [2026-05-11 09:33:27.587] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Generated mesh: 551 frames, 6890 vertices, 13776 faces
+[2026-05-11 09:33:27.587] [SRV] 
+[2026-05-11 09:33:27.599] [SRV] [2026-05-11 09:33:27.599] [error] [05/11 09:33:27][INFO] [SMPLCameraViewer] Generated mesh: 551 frames, 6890 vertices, 13776 faces
+[2026-05-11 09:33:27.599] [SRV] 
+[2026-05-11 09:33:27.600] [SRV] [2026-05-11 09:33:27.600] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Refining camera via Procrustes alignment of vertices...
+[2026-05-11 09:33:27.600] [SRV] 
+[2026-05-11 09:33:27.632] [SRV] [2026-05-11 09:33:27.632] [error] [05/11 09:33:27][INFO] [SMPLCameraViewer] Refining camera via Procrustes alignment of vertices...
+[2026-05-11 09:33:27.632] [SRV] 
+[2026-05-11 09:33:27.976] [SRV] [2026-05-11 09:33:27.976] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.6115304  1.8134843 -4.3272085]
+[2026-05-11 09:33:27.976] [SRV] 
+[2026-05-11 09:33:28.011] [SRV] [2026-05-11 09:33:28.011] [error] [05/11 09:33:27][INFO] [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.6115304  1.8134843 -4.3272085]
+[2026-05-11 09:33:28.011] [SRV] 
+[2026-05-11 09:33:28.013] [SRV] [2026-05-11 09:33:28.013] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Camera refined via Procrustes alignment
+[2026-05-11 09:33:28.013] [SRV] 
+[2026-05-11 09:33:28.072] [SRV] [2026-05-11 09:33:28.072] [error] [05/11 09:33:28][INFO] [SMPLCameraViewer] Camera refined via Procrustes alignment
+[2026-05-11 09:33:28.072] [SRV] 
+[2026-05-11 09:33:35.422] [SRV] [2026-05-11 09:33:35.422] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Wrote 551 incam vertex frames
+[2026-05-11 09:33:35.422] [SRV] 
+[2026-05-11 09:33:35.439] [SRV] [2026-05-11 09:33:35.439] [error] [05/11 09:33:35][INFO] [SMPLCameraViewer] Wrote 551 incam vertex frames
+[2026-05-11 09:33:35.439] [SRV] 
+[2026-05-11 09:33:35.443] [SRV] [2026-05-11 09:33:35.443] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Wrote smpl_camera_mesh_0001.bin (87.1 MB), has_camera=True
+[2026-05-11 09:33:35.443] [SRV] 
+[2026-05-11 09:33:35.456] [SRV] [2026-05-11 09:33:35.456] [error] [05/11 09:33:35][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001.bin (87.1 MB), has_camera=True
+[2026-05-11 09:33:35.456] [SRV] 
+[2026-05-11 09:33:35.468] [SRV] [2026-05-11 09:33:35.468] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Encoding 551 frames as all-intra H.264...
+[2026-05-11 09:33:35.468] [SRV] 
+[2026-05-11 09:33:35.485] [SRV] [2026-05-11 09:33:35.485] [error] [05/11 09:33:35][INFO] [SMPLCameraViewer] Encoding 551 frames as all-intra H.264...
+[2026-05-11 09:33:35.485] [SRV] 
+[2026-05-11 09:33:49.354] [SRV] [2026-05-11 09:33:49.354] [info]  FETCH ComfyRegistry Data [DONE]
+[2026-05-11 09:33:49.354] [SRV] 
+[2026-05-11 09:33:50.095] [SRV] [2026-05-11 09:33:50.095] [info]  [ComfyUI-Manager] default cache updated: https://api.comfy.org/nodes
+[2026-05-11 09:33:50.095] [SRV] 
+[2026-05-11 09:33:50.203] [SRV] [2026-05-11 09:33:50.203] [info]  FETCH DATA from: C:\Users\runneradmin\Documents\ComfyUI\user\__manager\cache\1514988643_custom-node-list.json
+[2026-05-11 09:33:50.236] [SRV] [2026-05-11 09:33:50.236] [info]   [DONE]
+[2026-05-11 09:33:50.239] [SRV] [2026-05-11 09:33:50.239] [info]  
+[2026-05-11 09:33:50.239] [SRV] 
+[2026-05-11 09:33:50.385] [SRV] [2026-05-11 09:33:50.385] [info]  [ComfyUI-Manager] All startup tasks have been completed.
+[2026-05-11 09:33:50.385] [SRV] 
+[2026-05-11 09:33:51.544] [SRV] [2026-05-11 09:33:51.544] [error] [worker:comfyui-motioncapture] INFO: [SMPLCameraViewer] Wrote smpl_camera_mesh_0001_ref.mp4 (17.3 MB, 551 frames, all-intra)
+[2026-05-11 09:33:51.544] [SRV] 
+[2026-05-11 09:33:51.564] [SRV] [2026-05-11 09:33:51.564] [error] [05/11 09:33:51][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001_ref.mp4 (17.3 MB, 551 frames, all-intra)
+[2026-05-11 09:33:51.564] [SRV] 
+[2026-05-11 09:33:51.652] [SRV] [2026-05-11 09:33:51.652] [info]  Prompt executed in 56.05 seconds
+[2026-05-11 09:33:51.652] [SRV] 
+[2026-05-11 09:33:52.158] [SRV] [2026-05-11 09:33:52.158] [error] Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+[2026-05-11 09:33:52.158] [SRV] handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+[2026-05-11 09:33:52.158] [SRV] Traceback (most recent call last):
+[2026-05-11 09:33:52.158] [SRV]   File "C:\Users\runneradmin\AppData\Roaming\uv\python\cpython-3.12.11-windows-x86_64-none\Lib\asyncio\events.py", line 88, in _run
+[2026-05-11 09:33:52.158] [SRV]     self._context.run(self._callback, *self._args)
+[2026-05-11 09:33:52.158] [SRV]   File "C:\Users\runneradmin\AppData\Roaming\uv\python\cpython-3.12.11-windows-x86_64-none\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+[2026-05-11 09:33:52.158] [SRV]     self._sock.shutdown(socket.SHUT_RDWR)
+[2026-05-11 09:33:52.158] [SRV] ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+[2026-05-11 09:33:52.158] [SRV] 

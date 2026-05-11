@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-05-10T22:26:31.901643+00:00",
+  "timestamp": "2026-05-11T09:33:59.280774+00:00",
   "platform": "windows_desktop",
   "hardware": {
     "os": "Windows-2025Server-10.0.26100-SP0",
-    "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
+    "cpu": "AMD64 Family 25 Model 17 Stepping 1, AuthenticAMD"
   },
-  "commit_hash": "85f94ff67937741872d34c5d14143f9fa5893e7c",
-  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/25641166352",
+  "commit_hash": "29ad4f87f0333ce8f191594e16f423e07dc2d5fa",
+  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/25661506159",
   "success": true,
   "summary": {
     "total": 3,
@@ -17,7 +17,7 @@
     {
       "name": "apply_motion_on_character",
       "status": "pass",
-      "duration_seconds": 35,
+      "duration_seconds": 23,
       "error": null
     },
     {
@@ -29,7 +29,7 @@
     {
       "name": "load_camera_traj",
       "status": "pass",
-      "duration_seconds": 51,
+      "duration_seconds": 56,
       "error": null
     }
   ]

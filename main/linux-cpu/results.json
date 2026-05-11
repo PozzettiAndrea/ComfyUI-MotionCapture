@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-05-11T00:35:45.561485+00:00",
+  "timestamp": "2026-05-11T09:24:21.762504+00:00",
   "platform": "linux",
   "hardware": {
     "os": "Linux-6.17.0-1010-azure-x86_64-with-glibc2.39",
     "cpu": "AMD EPYC 7763 64-Core Processor"
   },
-  "commit_hash": "11f03d936fcd52a68a3fda40942a21c89be2e06e",
-  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/25644120259",
+  "commit_hash": "cc062ff600c7a8dea02e98e36790b7ab9615b2f6",
+  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/25661498163",
   "success": true,
   "summary": {
     "total": 5,
@@ -31,7 +31,7 @@
     {
       "name": "apply_motion_on_character",
       "status": "pass",
-      "duration_seconds": 86.99,
+      "duration_seconds": 84.43,
       "error": null,
       "hardware": {
         "os": "Linux-6.17.0-1010-azure-x86_64-with-glibc2.39",
@@ -39,17 +39,17 @@
       },
       "resources": {
         "ram": {
-          "peak": 2.48,
-          "avg": 1.44
+          "peak": 2.01,
+          "avg": 1.34
         },
         "total_ram_gb": 15.6,
-        "samples": 87
+        "samples": 85
       }
     },
     {
       "name": "load_camera_traj",
       "status": "pass",
-      "duration_seconds": 40.52,
+      "duration_seconds": 41.34,
       "error": null,
       "hardware": {
         "os": "Linux-6.17.0-1010-azure-x86_64-with-glibc2.39",
@@ -57,17 +57,17 @@
       },
       "resources": {
         "ram": {
-          "peak": 1.79,
-          "avg": 1.62
+          "peak": 1.73,
+          "avg": 1.56
         },
         "total_ram_gb": 15.6,
-        "samples": 41
+        "samples": 42
       }
     },
     {
       "name": "smpl_to_bvh_pipeline",
       "status": "pass",
-      "duration_seconds": 9.48,
+      "duration_seconds": 9.26,
       "error": null,
       "hardware": {
         "os": "Linux-6.17.0-1010-azure-x86_64-with-glibc2.39",
@@ -75,8 +75,8 @@
       },
       "resources": {
         "ram": {
-          "peak": 1.62,
-          "avg": 1.62
+          "peak": 1.54,
+          "avg": 1.54
         },
         "total_ram_gb": 15.6,
         "samples": 10

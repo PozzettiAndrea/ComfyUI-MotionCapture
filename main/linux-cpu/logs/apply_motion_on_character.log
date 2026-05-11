@@ -16,19 +16,19 @@ Capturing execution frames: apply_motion_on_character.json
   [ComfyUI]   Node 1: HYMotionNPZToSMPLParams
   [ComfyUI]   Node 1: HYMotionNPZToSMPLParams
   [ComfyUI]   Node 1: HYMotionNPZToSMPLParams
+  [ComfyUI]     Inputs: {"npz_path": ["2", 0]}
+  [ComfyUI]     Inputs: {"npz_path": ["2", 0]}
+  [ComfyUI]     Inputs: {"npz_path": ["2", 0]}
+  [ComfyUI]   Node 2: LoadSMPL
+  [ComfyUI]   Node 2: LoadSMPL
+  [ComfyUI]   Node 2: LoadSMPL
+  [ComfyUI]     Inputs: {"file_path": "smpl_params_example.npz"}
+  [ComfyUI]     Inputs: {"file_path": "smpl_params_example.npz"}
+  [ComfyUI]     Inputs: {"file_path": "smpl_params_example.npz"}
+  [ComfyUI]   Node 3: HYMotionSMPLToData
+  [ComfyUI]   Node 3: HYMotionSMPLToData
+  [ComfyUI]   Node 3: HYMotionSMPLToData
   Queuing workflow for execution...
-  [ComfyUI]     Inputs: {"npz_path": ["2", 0]}
-  [ComfyUI]     Inputs: {"npz_path": ["2", 0]}
-  [ComfyUI]     Inputs: {"npz_path": ["2", 0]}
-  [ComfyUI]   Node 2: LoadSMPL
-  [ComfyUI]   Node 2: LoadSMPL
-  [ComfyUI]   Node 2: LoadSMPL
-  [ComfyUI]     Inputs: {"file_path": "smpl_params_example.npz"}
-  [ComfyUI]     Inputs: {"file_path": "smpl_params_example.npz"}
-  [ComfyUI]     Inputs: {"file_path": "smpl_params_example.npz"}
-  [ComfyUI]   Node 3: HYMotionSMPLToData
-  [ComfyUI]   Node 3: HYMotionSMPLToData
-  [ComfyUI]   Node 3: HYMotionSMPLToData
   [ComfyUI]     Inputs: {"text": "", "duration": 0, "smpl_params": ["1", 0]}
   [ComfyUI]     Inputs: {"text": "", "duration": 0, "smpl_params": ["1", 0]}
   [ComfyUI]     Inputs: {"text": "", "duration": 0, "smpl_params": ["1", 0]}
@@ -50,9 +50,9 @@ Capturing execution frames: apply_motion_on_character.json
   [ComfyUI]     Inputs: {"value": "3d/mixamo.fbx"}
   [ComfyUI]     Inputs: {"value": "3d/mixamo.fbx"}
   [ComfyUI]     Inputs: {"value": "3d/mixamo.fbx"}
-  [ComfyUI] Generated prompt_id: 98bcf94f-bb73-42f5-9b8d-1181f144a2b7
-  [ComfyUI] Generated prompt_id: 98bcf94f-bb73-42f5-9b8d-1181f144a2b7
-  [ComfyUI] Generated prompt_id: 98bcf94f-bb73-42f5-9b8d-1181f144a2b7
+  [ComfyUI] Generated prompt_id: 92a44ed6-ca64-4c83-a9d1-89edbc880db7
+  [ComfyUI] Generated prompt_id: 92a44ed6-ca64-4c83-a9d1-89edbc880db7
+  [ComfyUI] Generated prompt_id: 92a44ed6-ca64-4c83-a9d1-89edbc880db7
   [ComfyUI] Calling execution.validate_prompt()...
   [ComfyUI] Calling execution.validate_prompt()...
   [ComfyUI] Calling execution.validate_prompt()...
@@ -71,30 +71,30 @@ Capturing execution frames: apply_motion_on_character.json
   [ComfyUI] [comfy-env] SubprocessWorker: /home/runner/.ce/.pixi/envs/motioncapture-nodes/bin/python
   [ComfyUI] [comfy-env] SubprocessWorker: /home/runner/.ce/.pixi/envs/motioncapture-nodes/bin/python
   [ComfyUI] [comfy-env] SubprocessWorker: /home/runner/.ce/.pixi/envs/motioncapture-nodes/bin/python
-  [ComfyUI] [comfy-env] env_vars: {'COMFYUI_BASE': '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI'}
-  [ComfyUI] [comfy-env] env_vars: {'COMFYUI_BASE': '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI'}
-  [ComfyUI] [comfy-env] env_vars: {'COMFYUI_BASE': '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI'}
+  [ComfyUI] [comfy-env] env_vars: {'COMFYUI_BASE': '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI'}
+  [ComfyUI] [comfy-env] env_vars: {'COMFYUI_BASE': '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI'}
+  [ComfyUI] [comfy-env] env_vars: {'COMFYUI_BASE': '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI'}
   [ComfyUI] [SubprocessWorker] call_method: nodes.load_smpl_node.LoadSMPLParams.EXECUTE_NORMALIZED
   [ComfyUI] [SubprocessWorker] call_method: nodes.load_smpl_node.LoadSMPLParams.EXECUTE_NORMALIZED
   [ComfyUI] [SubprocessWorker] call_method: nodes.load_smpl_node.LoadSMPLParams.EXECUTE_NORMALIZED
-  [ComfyUI] [ComfyUI-MotionCapture] python: /home/runner/.ce/.pixi/envs/motioncapture-nodes/bin/python
-  [ComfyUI] [ComfyUI-MotionCapture] python: /home/runner/.ce/.pixi/envs/motioncapture-nodes/bin/python
-  [ComfyUI] [ComfyUI-MotionCapture] python: /home/runner/.ce/.pixi/envs/motioncapture-nodes/bin/python
   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
-  [ComfyUI] [ComfyUI-MotionCapture] sys_path sent to worker: ['/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI', '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/custom_nodes/ComfyUI-MotionCapture', '/home/runner/.ce/.pixi/envs/motioncapture-nodes/lib/python3.13/site-packages', '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/custom_nodes/ComfyUI-MotionCapture']
-  [ComfyUI] [ComfyUI-MotionCapture] sys_path sent to worker: ['/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI', '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/custom_nodes/ComfyUI-MotionCapture', '/home/runner/.ce/.pixi/envs/motioncapture-nodes/lib/python3.13/site-packages', '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/custom_nodes/ComfyUI-MotionCapture']
-  [ComfyUI] [ComfyUI-MotionCapture] sys_path sent to worker: ['/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI', '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/custom_nodes/ComfyUI-MotionCapture', '/home/runner/.ce/.pixi/envs/motioncapture-nodes/lib/python3.13/site-packages', '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/custom_nodes/ComfyUI-MotionCapture']
+  [ComfyUI] [ComfyUI-MotionCapture] python: /home/runner/.ce/.pixi/envs/motioncapture-nodes/bin/python
+  [ComfyUI] [ComfyUI-MotionCapture] python: /home/runner/.ce/.pixi/envs/motioncapture-nodes/bin/python
+  [ComfyUI] [ComfyUI-MotionCapture] python: /home/runner/.ce/.pixi/envs/motioncapture-nodes/bin/python
+  [ComfyUI] [ComfyUI-MotionCapture] sys_path sent to worker: ['/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI', '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/custom_nodes/ComfyUI-MotionCapture', '/home/runner/.ce/.pixi/envs/motioncapture-nodes/lib/python3.10/site-packages', '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/custom_nodes/ComfyUI-MotionCapture']
+  [ComfyUI] [ComfyUI-MotionCapture] sys_path sent to worker: ['/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI', '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/custom_nodes/ComfyUI-MotionCapture', '/home/runner/.ce/.pixi/envs/motioncapture-nodes/lib/python3.10/site-packages', '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/custom_nodes/ComfyUI-MotionCapture']
+  [ComfyUI] [ComfyUI-MotionCapture] sys_path sent to worker: ['/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI', '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/custom_nodes/ComfyUI-MotionCapture', '/home/runner/.ce/.pixi/envs/motioncapture-nodes/lib/python3.10/site-packages', '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/custom_nodes/ComfyUI-MotionCapture']
   [ComfyUI] [SubprocessWorker] is_pixi=True, python=/home/runner/.ce/.pixi/envs/motioncapture-nodes/bin/python
   [ComfyUI] [SubprocessWorker] is_pixi=True, python=/home/runner/.ce/.pixi/envs/motioncapture-nodes/bin/python
   [ComfyUI] [SubprocessWorker] is_pixi=True, python=/home/runner/.ce/.pixi/envs/motioncapture-nodes/bin/python
-  [ComfyUI] [SubprocessWorker] launching cmd=['/home/runner/.pixi/bin/pixi', 'run', '--as-is', '--manifest-path', '/home/runner/.ce/pixi.toml', '-e', 'motioncapture-nodes', 'python', '/tmp/comfyui_pvenv_52_wt7ds/persistent_worker.py', 'abstract://comfy_worker_d48a57093df0']...
-  [ComfyUI] [SubprocessWorker] launching cmd=['/home/runner/.pixi/bin/pixi', 'run', '--as-is', '--manifest-path', '/home/runner/.ce/pixi.toml', '-e', 'motioncapture-nodes', 'python', '/tmp/comfyui_pvenv_52_wt7ds/persistent_worker.py', 'abstract://comfy_worker_d48a57093df0']...
-  [ComfyUI] [SubprocessWorker] launching cmd=['/home/runner/.pixi/bin/pixi', 'run', '--as-is', '--manifest-path', '/home/runner/.ce/pixi.toml', '-e', 'motioncapture-nodes', 'python', '/tmp/comfyui_pvenv_52_wt7ds/persistent_worker.py', 'abstract://comfy_worker_d48a57093df0']...
-  [ComfyUI] [SubprocessWorker] socket_addr=abstract://comfy_worker_d48a57093df0 (abstract, no filesystem path)
-  [ComfyUI] [SubprocessWorker] socket_addr=abstract://comfy_worker_d48a57093df0 (abstract, no filesystem path)
-  [ComfyUI] [SubprocessWorker] socket_addr=abstract://comfy_worker_d48a57093df0 (abstract, no filesystem path)
+  [ComfyUI] [SubprocessWorker] launching cmd=['/home/runner/.pixi/bin/pixi', 'run', '--as-is', '--manifest-path', '/home/runner/.ce/pixi.toml', '-e', 'motioncapture-nodes', 'python', '/tmp/comfyui_pvenv_vvryfdwm/persistent_worker.py', 'abstract://comfy_worker_6f49d53a94b4']...
+  [ComfyUI] [SubprocessWorker] launching cmd=['/home/runner/.pixi/bin/pixi', 'run', '--as-is', '--manifest-path', '/home/runner/.ce/pixi.toml', '-e', 'motioncapture-nodes', 'python', '/tmp/comfyui_pvenv_vvryfdwm/persistent_worker.py', 'abstract://comfy_worker_6f49d53a94b4']...
+  [ComfyUI] [SubprocessWorker] launching cmd=['/home/runner/.pixi/bin/pixi', 'run', '--as-is', '--manifest-path', '/home/runner/.ce/pixi.toml', '-e', 'motioncapture-nodes', 'python', '/tmp/comfyui_pvenv_vvryfdwm/persistent_worker.py', 'abstract://comfy_worker_6f49d53a94b4']...
+  [ComfyUI] [SubprocessWorker] socket_addr=abstract://comfy_worker_6f49d53a94b4 (abstract, no filesystem path)
+  [ComfyUI] [SubprocessWorker] socket_addr=abstract://comfy_worker_6f49d53a94b4 (abstract, no filesystem path)
+  [ComfyUI] [SubprocessWorker] socket_addr=abstract://comfy_worker_6f49d53a94b4 (abstract, no filesystem path)
   [ComfyUI] [worker:ComfyUI-MotionCapture] ERROR: Failed to import comfy_kitchen, Error: No module named 'comfy_kitchen', fp8 and fp4 support will not be available.
   [ComfyUI] [worker:ComfyUI-MotionCapture] ERROR: Failed to import comfy_kitchen, Error: No module named 'comfy_kitchen', fp8 and fp4 support will not be available.
   [ComfyUI] [worker:ComfyUI-MotionCapture] ERROR: Failed to import comfy_kitchen, Error: No module named 'comfy_kitchen', fp8 and fp4 support will not be available.
@@ -116,24 +116,24 @@ Capturing execution frames: apply_motion_on_character.json
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] DPVO not installed - only SimpleVO will be available
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] DPVO not installed - only SimpleVO will be available
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] DPVO not installed - only SimpleVO will be available
-  [ComfyUI] [05/11 00:33:36][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
-  [ComfyUI] [05/11 00:33:36][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
-  [ComfyUI] [05/11 00:33:36][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/input/smpl_params_example.npz
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/input/smpl_params_example.npz
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/input/smpl_params_example.npz
-  [ComfyUI] [05/11 00:33:36][INFO] Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/input/smpl_params_example.npz
-  [ComfyUI] [05/11 00:33:36][INFO] Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/input/smpl_params_example.npz
-  [ComfyUI] [05/11 00:33:36][INFO] Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/input/smpl_params_example.npz
+  [ComfyUI] [05/11 09:22:14][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
+  [ComfyUI] [05/11 09:22:14][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
+  [ComfyUI] [05/11 09:22:14][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
+  [ComfyUI] [05/11 09:22:14][INFO] Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/input/smpl_params_example.npz
+  [ComfyUI] [05/11 09:22:14][INFO] Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/input/smpl_params_example.npz
+  [ComfyUI] [05/11 09:22:14][INFO] Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/input/smpl_params_example.npz
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/input/smpl_params_example.npz
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/input/smpl_params_example.npz
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/input/smpl_params_example.npz
+  [ComfyUI] [HY-Motion] NPZ to SMPL_PARAMS: loaded /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/input/smpl_params_example.npz
+  [ComfyUI] [HY-Motion] NPZ to SMPL_PARAMS: loaded /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/input/smpl_params_example.npz
+  [ComfyUI] [HY-Motion] NPZ to SMPL_PARAMS: loaded /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/input/smpl_params_example.npz
   [ComfyUI] [SubprocessWorker] got response: ok
   [ComfyUI] [SubprocessWorker] got response: ok
   [ComfyUI] [SubprocessWorker] got response: ok
-  [ComfyUI] [comfy-env] LoadSMPL done (1.88s): result: NodeOutput
-  [ComfyUI] [comfy-env] LoadSMPL done (1.88s): result: NodeOutput
-  [ComfyUI] [comfy-env] LoadSMPL done (1.88s): result: NodeOutput
-  [ComfyUI] [HY-Motion] NPZ to SMPL_PARAMS: loaded /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/input/smpl_params_example.npz
-  [ComfyUI] [HY-Motion] NPZ to SMPL_PARAMS: loaded /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/input/smpl_params_example.npz
-  [ComfyUI] [HY-Motion] NPZ to SMPL_PARAMS: loaded /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/input/smpl_params_example.npz
+  [ComfyUI] [comfy-env] LoadSMPL done (1.70s): result: NodeOutput
+  [ComfyUI] [comfy-env] LoadSMPL done (1.70s): result: NodeOutput
+  [ComfyUI] [comfy-env] LoadSMPL done (1.70s): result: NodeOutput
   [ComfyUI] [HY-Motion]   keys: ['body_pose', 'betas', 'global_orient', 'transl', 'global_orient_incam', 'transl_incam', 'R_cam2world', 't_cam2world', 'K_fullimg', 'img_width', 'img_height']
   [ComfyUI] [HY-Motion]   keys: ['body_pose', 'betas', 'global_orient', 'transl', 'global_orient_incam', 'transl_incam', 'R_cam2world', 't_cam2world', 'K_fullimg', 'img_width', 'img_height']
   [ComfyUI] [HY-Motion]   keys: ['body_pose', 'betas', 'global_orient', 'transl', 'global_orient_incam', 'transl_incam', 'R_cam2world', 't_cam2world', 'K_fullimg', 'img_width', 'img_height']
@@ -152,11 +152,11 @@ Capturing execution frames: apply_motion_on_character.json
   [ComfyUI] [WoodenMesh] Loaded model: 24256 vertices, 52 joints
   [ComfyUI] [WoodenMesh] Loaded model: 24256 vertices, 52 joints
   [ComfyUI] [WoodenMesh] Loaded model: 24256 vertices, 52 joints
-  Frame 2 saved (frame_001.jpg, t=2.2s)
-  [capture-periodic] freeze=5ms shot=137ms unfreeze=9ms saved=True
+  Frame 2 saved (frame_001.jpg, t=2.3s)
+  [capture-periodic] freeze=3ms shot=139ms unfreeze=9ms saved=True
   Frame 3 saved (frame_002.jpg, t=4.5s)
-  [capture-periodic] freeze=5ms shot=103ms unfreeze=4ms saved=True
-  [capture-loop] iter=50 t=5.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=3.3/15.6GB (21%) swap=0.0/3.0GB (0%) cpu=33% browser_rss=0.93GB
+  [capture-periodic] freeze=3ms shot=123ms unfreeze=2ms saved=True
+  [capture-loop] iter=50 t=5.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=2.8/15.6GB (18%) swap=0.0/3.0GB (0%) cpu=29% browser_rss=0.88GB
   [ComfyUI] [HY-Motion] Successfully converted 551 frames (52 joints) from SMPL to HY-Motion format (Batch: 1).
   [ComfyUI] [HY-Motion] Successfully converted 551 frames (52 joints) from SMPL to HY-Motion format (Batch: 1).
   [ComfyUI] [HY-Motion] Successfully converted 551 frames (52 joints) from SMPL to HY-Motion format (Batch: 1).
@@ -170,11 +170,10 @@ Capturing execution frames: apply_motion_on_character.json
   [ComfyUI] Using full 52-joint 'poses' from NPZ...
   [ComfyUI] Using full 52-joint 'poses' from NPZ...
   Frame 4 saved (frame_003.jpg, t=8.9s)
-  [capture-periodic] freeze=2ms shot=96ms unfreeze=5ms saved=True
-  [capture-loop] iter=100 t=11.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3 ram=2.3/15.6GB (15%) swap=0.0/3.0GB (0%) cpu=37% browser_rss=0.93GB
-  [ComfyUI] [HY-Motion] Loading FBX for retargeting: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/input/3d/mixamo.fbx
-  [ComfyUI] [HY-Motion] Loading FBX for retargeting: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/input/3d/mixamo.fbx
-  [ComfyUI] [HY-Motion] Loading FBX for retargeting: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/input/3d/mixamo.fbx
+  [capture-periodic] freeze=2ms shot=107ms unfreeze=3ms saved=True
+  [ComfyUI] [HY-Motion] Loading FBX for retargeting: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/input/3d/mixamo.fbx
+  [ComfyUI] [HY-Motion] Loading FBX for retargeting: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/input/3d/mixamo.fbx
+  [ComfyUI] [HY-Motion] Loading FBX for retargeting: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/input/3d/mixamo.fbx
   [ComfyUI] Using hardcoded bone mappings (no JSON file needed)
   [ComfyUI] Using hardcoded bone mappings (no JSON file needed)
   [ComfyUI] Using hardcoded bone mappings (no JSON file needed)
@@ -388,35 +387,33 @@ Capturing execution frames: apply_motion_on_character.json
   [ComfyUI] [Retarget] Initial hip pos: [ 17.38 104.27  30.34]
   [ComfyUI] [Retarget] Initial hip pos: [ 17.38 104.27  30.34]
   [ComfyUI] [Retarget] Initial hip pos: [ 17.38 104.27  30.34]
+  [capture-loop] iter=100 t=11.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3 ram=2.2/15.6GB (14%) swap=0.0/3.0GB (0%) cpu=39% browser_rss=0.89GB
   [ComfyUI] [Retarget] Configured FBX export with embedded materials
   [ComfyUI] [Retarget] Configured FBX export with embedded materials
   [ComfyUI] [Retarget] Configured FBX export with embedded materials
-  [ComfyUI] Prompt executed in 15.18 seconds
-  [ComfyUI] Prompt executed in 15.18 seconds
-  [ComfyUI] Prompt executed in 15.18 seconds
-  [ComfyUI] [Retarget] Saved FBX to: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/output/hymotion_retarget/retarget_20260511_003341584_6248b58c_000.fbx
-  [ComfyUI] [Retarget] Saved FBX to: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/output/hymotion_retarget/retarget_20260511_003341584_6248b58c_000.fbx
-  [ComfyUI] [Retarget] Saved FBX to: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0031/ComfyUI/output/hymotion_retarget/retarget_20260511_003341584_6248b58c_000.fbx
-  [ComfyUI] [HYMotionRetargetFBX] Batch 0 done: retarget_20260511_003341584_6248b58c_000.fbx
-  [ComfyUI] [HYMotionRetargetFBX] Batch 0 done: retarget_20260511_003341584_6248b58c_000.fbx
-  [ComfyUI] [HYMotionRetargetFBX] Batch 0 done: retarget_20260511_003341584_6248b58c_000.fbx
+  [ComfyUI] [Retarget] Saved FBX to: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/output/hymotion_retarget/retarget_20260511_092219594_048ab5d7_000.fbx
+  [ComfyUI] [Retarget] Saved FBX to: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/output/hymotion_retarget/retarget_20260511_092219594_048ab5d7_000.fbx
+  [ComfyUI] [Retarget] Saved FBX to: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-0920/ComfyUI/output/hymotion_retarget/retarget_20260511_092219594_048ab5d7_000.fbx
+  [ComfyUI] [HYMotionRetargetFBX] Batch 0 done: retarget_20260511_092219594_048ab5d7_000.fbx
+  [ComfyUI] [HYMotionRetargetFBX] Batch 0 done: retarget_20260511_092219594_048ab5d7_000.fbx
+  [ComfyUI] [HYMotionRetargetFBX] Batch 0 done: retarget_20260511_092219594_048ab5d7_000.fbx
   [ComfyUI] [HYMotionRetargetFBX] Successfully retargeted 1 batch item(s)
   [ComfyUI] [HYMotionRetargetFBX] Successfully retargeted 1 batch item(s)
   [ComfyUI] [HYMotionRetargetFBX] Successfully retargeted 1 batch item(s)
-  Node executed (1 total), capturing...
-  Frame 5 saved (frame_004.jpg, t=15.9s)
-  [capture-node] freeze=917ms shot=866ms unfreeze=4ms saved=True
+  [ComfyUI] Prompt executed in 12.74 seconds
+  [ComfyUI] Prompt executed in 12.74 seconds
+  [ComfyUI] Prompt executed in 12.74 seconds
   Node executed (2 total), capturing...
-  Frame 6 saved (frame_005.jpg, t=17.9s)
-  [capture-node] freeze=3ms shot=104ms unfreeze=0ms saved=True
-  Execution complete (t=17.9s)
+  Frame 5 saved (frame_004.jpg, t=13.5s)
+  [capture-node] freeze=862ms shot=896ms unfreeze=0ms saved=True
+  Execution complete (t=13.5s)
   [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
   [3d-wait] Phase 1 exception after 60.0s: Page.wait_for_function: Timeout 60000ms exceeded.
   [3d-wait] Phase 2: iframes=0
   [3d-wait] Total 3D wait: 60.0s
-  Captured 6 unique frames over 78.09s
+  Captured 5 unique frames over 75.37s
   [debug] iframes: 0
   [timing] trigger_3d_previews: 0.0s
   Saved high-quality screenshot: apply_motion_on_character_executed.png
   [timing] final_screenshot: 0.3s
-    Captured 7 video frames
+    Captured 6 video frames
