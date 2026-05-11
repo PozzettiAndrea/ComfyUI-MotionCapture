@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-05-10T22:59:51.348639+00:00",
+  "timestamp": "2026-05-11T02:16:48.220799+00:00",
   "platform": "windows",
   "hardware": {
     "os": "Windows-11-10.0.26200-SP0",
     "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel"
   },
-  "commit_hash": "8e532ab455ed2da3c5ebbe491e242303d42a069b",
-  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/25640825235",
+  "commit_hash": "11f03d936fcd52a68a3fda40942a21c89be2e06e",
+  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/25644122154",
   "success": true,
   "summary": {
     "total": 5,
@@ -24,7 +24,7 @@
     {
       "name": "GVHMR",
       "status": "pass",
-      "duration_seconds": 131.63,
+      "duration_seconds": 120.22,
       "error": null,
       "hardware": {
         "os": "Windows-11-10.0.26200-SP0",
@@ -32,17 +32,17 @@
       },
       "resources": {
         "ram": {
-          "peak": 7.2,
-          "avg": 2.71
+          "peak": 8.17,
+          "avg": 2.38
         },
         "total_ram_gb": 31.9,
-        "samples": 130
+        "samples": 111
       }
     },
     {
       "name": "GVHMR_cameramotion",
       "status": "pass",
-      "duration_seconds": 118.31,
+      "duration_seconds": 88.81,
       "error": null,
       "hardware": {
         "os": "Windows-11-10.0.26200-SP0",
@@ -50,11 +50,11 @@
       },
       "resources": {
         "ram": {
-          "peak": 8.0,
-          "avg": 4.15
+          "peak": 8.98,
+          "avg": 3.8
         },
         "total_ram_gb": 31.9,
-        "samples": 117
+        "samples": 88
       }
     },
     {
