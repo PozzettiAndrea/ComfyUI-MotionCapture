@@ -17,24 +17,24 @@ Capturing execution frames: apply_motion_on_character.json
   [ComfyUI]     Inputs: {"model_file": ["4", 0], "image": ""}
   [ComfyUI]   Node 9: PrimitiveString
   [ComfyUI]     Inputs: {"value": "3d/mixamo.fbx"}
-  [ComfyUI] Generated prompt_id: 75d12b2c-3d56-4b0c-a355-7660ef6788e7
+  [ComfyUI] Generated prompt_id: bb906435-5bcf-4a05-a538-0c53bff87e80
   [ComfyUI] Calling execution.validate_prompt()...
   [ComfyUI] Validation result: valid=True
   [ComfyUI] === Validation PASSED ===
   [ComfyUI] got prompt
   [ComfyUI] [comfy-env] Running LoadSMPL: file_path: 'smpl_params_example.npz'
-  [ComfyUI] [comfy-env] SubprocessWorker: C:\Users\runneradmin\AppData\Local\Programs\comfy-env\.pixi\envs\motioncapture-nodes\python.exe
-  [ComfyUI] [comfy-env] env_vars: {'COMFYUI_BASE': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-0801\\portable-comfyui\\ComfyUI_windows_portable\\ComfyUI'}
+  [ComfyUI] [comfy-env] SubprocessWorker: C:\Users\stduser\AppData\Local\Programs\comfy-env\.pixi\envs\motioncapture-nodes\python.exe
   [ComfyUI] [SubprocessWorker] call_method: nodes.load_smpl_node.LoadSMPLParams.EXECUTE_NORMALIZED
-  [ComfyUI] [ComfyUI-MotionCapture] python: C:\Users\runneradmin\AppData\Local\Programs\comfy-env\.pixi\envs\motioncapture-nodes\python.exe
+  [ComfyUI] [comfy-env] env_vars: {'COMFYUI_BASE': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1106\\portable-comfyui\\ComfyUI_windows_portable\\ComfyUI'}
   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
-  [ComfyUI] [ComfyUI-MotionCapture] sys_path sent to worker: ['D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-0801\\portable-comfyui\\ComfyUI_windows_portable\\ComfyUI', 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-0801\\portable-comfyui\\ComfyUI_windows_portable\\ComfyUI\\custom_nodes\\ComfyUI-MotionCapture', 'C:\\Users\\runneradmin\\AppData\\Local\\Programs\\comfy-env\\.pixi\\envs\\motioncapture-nodes\\Lib\\site-packages', 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-0801\\portable-comfyui\\ComfyUI_windows_portable\\ComfyUI\\custom_nodes\\ComfyUI-MotionCapture']
+  [ComfyUI] [ComfyUI-MotionCapture] python: C:\Users\stduser\AppData\Local\Programs\comfy-env\.pixi\envs\motioncapture-nodes\python.exe
   [ComfyUI] [comfy-env] motioncapture-nodes: Library/bin has 237 DLLs
-  [ComfyUI] [SubprocessWorker] is_pixi=True, python=C:\Users\runneradmin\AppData\Local\Programs\comfy-env\.pixi\envs\motioncapture-nodes\python.exe
-  [ComfyUI] [SubprocessWorker] launching cmd=['C:\\Users\\runneradmin\\.pixi\\bin\\pixi.exe', 'run', '--as-is', '--manifest-path', 'C:\\Users\\runneradmin\\AppData\\Local\\Programs\\comfy-env\\pixi.toml', '-e', 'motioncapture-nodes', 'python', 'C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\comfyui_pvenv_3htg07xy\\persistent_worker.py', 'tcp://127.0.0.1:56744']...
+  [ComfyUI] [ComfyUI-MotionCapture] sys_path sent to worker: ['D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1106\\portable-comfyui\\ComfyUI_windows_portable\\ComfyUI', 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1106\\portable-comfyui\\ComfyUI_windows_portable\\ComfyUI\\custom_nodes\\ComfyUI-MotionCapture', 'C:\\Users\\stduser\\AppData\\Local\\Programs\\comfy-env\\.pixi\\envs\\motioncapture-nodes\\Lib\\site-packages', 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1106\\portable-comfyui\\ComfyUI_windows_portable\\ComfyUI\\custom_nodes\\ComfyUI-MotionCapture']
+  [ComfyUI] [SubprocessWorker] is_pixi=True, python=C:\Users\stduser\AppData\Local\Programs\comfy-env\.pixi\envs\motioncapture-nodes\python.exe
+  [ComfyUI] [SubprocessWorker] launching cmd=['C:\\Users\\stduser\\.pixi\\bin\\pixi.exe', 'run', '--as-is', '--manifest-path', 'C:\\Users\\stduser\\AppData\\Local\\Programs\\comfy-env\\pixi.toml', '-e', 'motioncapture-nodes', 'python', 'C:\\Users\\stduser\\AppData\\Local\\Temp\\comfyui_pvenv_vnpwe4t3\\persistent_worker.py', 'tcp://127.0.0.1:61301']...
   Frame 2 saved (frame_001.jpg, t=2.4s)
-  [capture-periodic] freeze=4ms shot=126ms unfreeze=5ms saved=True
-  [ComfyUI] C:\Users\runneradmin\AppData\Local\Programs\comfy-env\.pixi\envs\motioncapture-nodes\Lib\site-packages\torch\cuda\__init__.py:180: UserWarning: cudaGetDeviceCount() returned cudaErrorNotSupported, likely using older driver or on CPU machine (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\c10\cuda\CUDAFunctions.cpp:88.)
+  [capture-periodic] freeze=5ms shot=131ms unfreeze=7ms saved=True
+  [ComfyUI] C:\Users\stduser\AppData\Local\Programs\comfy-env\.pixi\envs\motioncapture-nodes\Lib\site-packages\torch\cuda\__init__.py:180: UserWarning: cudaGetDeviceCount() returned cudaErrorNotSupported, likely using older driver or on CPU machine (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\c10\cuda\CUDAFunctions.cpp:88.)
   [ComfyUI]   return torch._C._cuda_getDeviceCount() > 0
   [ComfyUI] [worker:ComfyUI-MotionCapture] ERROR: Failed to import comfy_kitchen, Error: No module named 'comfy_kitchen', fp8 and fp4 support will not be available.
   [ComfyUI] [SubprocessWorker] worker started/confirmed
@@ -43,29 +43,31 @@ Capturing execution frames: apply_motion_on_character.json
   [ComfyUI] [SubprocessWorker] sending request via socket...
   [ComfyUI] [SubprocessWorker] call_id=1 sending call_method
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] DPVO not installed - only SimpleVO will be available
-  [ComfyUI] [05/13 08:08:05][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0801\portable-comfyui\ComfyUI_windows_portable\ComfyUI\input\smpl_params_example.npz
-  [ComfyUI] [05/13 08:08:06][INFO] Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0801\portable-comfyui\ComfyUI_windows_portable\ComfyUI\input\smpl_params_example.npz
+  [ComfyUI] [05/13 11:15:07][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1106\portable-comfyui\ComfyUI_windows_portable\ComfyUI\input\smpl_params_example.npz
+  [ComfyUI] [05/13 11:15:08][INFO] Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1106\portable-comfyui\ComfyUI_windows_portable\ComfyUI\input\smpl_params_example.npz
   [ComfyUI] [SubprocessWorker] got response: ok
-  [ComfyUI] [comfy-env] LoadSMPL done (4.18s): result: NodeOutput
-  [ComfyUI] [HY-Motion] NPZ to SMPL_PARAMS: loaded D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0801\portable-comfyui\ComfyUI_windows_portable\ComfyUI\input\smpl_params_example.npz
+  [ComfyUI] [comfy-env] LoadSMPL done (4.47s): result: NodeOutput
+  [ComfyUI] [HY-Motion] NPZ to SMPL_PARAMS: loaded D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1106\portable-comfyui\ComfyUI_windows_portable\ComfyUI\input\smpl_params_example.npz
   [ComfyUI] [HY-Motion]   keys: ['body_pose', 'betas', 'global_orient', 'transl', 'global_orient_incam', 'transl_incam', 'R_cam2world', 't_cam2world', 'K_fullimg', 'img_width', 'img_height']
   [ComfyUI] [HY-Motion] Input has 22 joints. Auto-padding to reach 52 joints (SMPL-H).
   [ComfyUI] [HY-Motion] Padded poses shape: torch.Size([1, 551, 52, 3])
   [ComfyUI] [HY-Motion] Auto-calculated duration: 18.37s (551 frames @ 30.0 FPS)
   [ComfyUI] [HY-Motion] Loading 3D body model for converter preview...
   [ComfyUI] [WoodenMesh] Loaded model: 24256 vertices, 52 joints
-  Frame 3 saved (frame_002.jpg, t=4.6s)
-  [capture-periodic] freeze=5ms shot=137ms unfreeze=5ms saved=True
-  [capture-loop] iter=50 t=6.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=6.4/16.0GB (40%) swap=0.2/2.9GB (6%) cpu=36% browser_rss=0.71GB
+  Frame 3 saved (frame_002.jpg, t=4.7s)
+  [capture-periodic] freeze=5ms shot=119ms unfreeze=14ms saved=True
+  [capture-loop] iter=50 t=6.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6 ram=6.5/16.0GB (41%) swap=0.2/2.9GB (6%) cpu=36% browser_rss=0.71GB
+  Frame 4 saved (frame_003.jpg, t=7.0s)
+  [capture-periodic] freeze=6ms shot=118ms unfreeze=5ms saved=True
   [ComfyUI] [HY-Motion] Successfully converted 551 frames (52 joints) from SMPL to HY-Motion format (Batch: 1).
   [ComfyUI] [HYMotionRetargetFBX] Retargeting batch 0/1 (Native In-Memory)...
   [ComfyUI] [Retarget] NPZ Detect: Keypoints are already animated (Travel=4.32m). Skipping Transl addition.
   [ComfyUI] Using full 52-joint 'poses' from NPZ...
-  [capture-loop] iter=100 t=12.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.8/16.0GB (36%) swap=0.2/2.9GB (6%) cpu=72% browser_rss=0.71GB
-  Frame 4 saved (frame_003.jpg, t=13.5s)
-  [capture-periodic] freeze=3ms shot=115ms unfreeze=5ms saved=True
-  [ComfyUI] [HY-Motion] Loading FBX for retargeting: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0801\portable-comfyui\ComfyUI_windows_portable\ComfyUI\input\3d/mixamo.fbx
+  [capture-loop] iter=100 t=12.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.9/16.0GB (37%) swap=0.2/2.9GB (6%) cpu=72% browser_rss=0.71GB
+  Frame 5 saved (frame_004.jpg, t=13.5s)
+  [capture-periodic] freeze=4ms shot=117ms unfreeze=6ms saved=True
+  [ComfyUI] [HY-Motion] Loading FBX for retargeting: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1106\portable-comfyui\ComfyUI_windows_portable\ComfyUI\input\3d/mixamo.fbx
   [ComfyUI] Using hardcoded bone mappings (no JSON file needed)
   [ComfyUI] [Retarget] load_bone_mapping: Found 62 matches via semantic names.
   [ComfyUI] [Retarget] Found target root via name 'hips': mixamorig:Hips
@@ -137,23 +139,23 @@ Capturing execution frames: apply_motion_on_character.json
   [ComfyUI] [Retarget] Identified Target Root for Translation: mixamorig:Hips
   [ComfyUI] [Retarget] Target rest hip pos: [  0.   104.27   1.55]
   [ComfyUI] [Retarget] Initial hip pos: [ 17.38 104.27  30.34]
-  [capture-loop] iter=150 t=18.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.8/16.0GB (36%) swap=0.2/2.9GB (6%) cpu=36% browser_rss=0.71GB
+  [capture-loop] iter=150 t=18.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.9/16.0GB (37%) swap=0.2/2.9GB (6%) cpu=40% browser_rss=0.70GB
   [ComfyUI] [Retarget] Configured FBX export with embedded materials
-  [ComfyUI] [Retarget] Saved FBX to: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0801\portable-comfyui\ComfyUI_windows_portable\ComfyUI\output\hymotion_retarget\retarget_20260513_080813421_ba1d349b_000.fbx
-  [ComfyUI] [HYMotionRetargetFBX] Batch 0 done: retarget_20260513_080813421_ba1d349b_000.fbx
+  [ComfyUI] [Retarget] Saved FBX to: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1106\portable-comfyui\ComfyUI_windows_portable\ComfyUI\output\hymotion_retarget\retarget_20260513_111515088_a7ef166f_000.fbx
+  [ComfyUI] [HYMotionRetargetFBX] Batch 0 done: retarget_20260513_111515088_a7ef166f_000.fbx
   [ComfyUI] [HYMotionRetargetFBX] Successfully retargeted 1 batch item(s)
-  [ComfyUI] Prompt executed in 18.82 seconds
+  [ComfyUI] Prompt executed in 22.21 seconds
   Node executed (2 total), capturing...
-  Frame 5 saved (frame_004.jpg, t=19.3s)
-  [capture-node] freeze=5ms shot=101ms unfreeze=0ms saved=True
-  Execution complete (t=19.3s)
+  Frame 6 saved (frame_005.jpg, t=22.7s)
+  [capture-node] freeze=6ms shot=1011ms unfreeze=0ms saved=True
+  Execution complete (t=22.7s)
   [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
   [3d-wait] Phase 1 exception after 60.0s: Page.wait_for_function: Timeout 60000ms exceeded.
   [3d-wait] Phase 2: iframes=0
   [3d-wait] Total 3D wait: 60.0s
-  Captured 5 unique frames over 79.43s
+  Captured 6 unique frames over 84.73s
   [debug] iframes: 0
   [timing] trigger_3d_previews: 0.0s
   Saved high-quality screenshot: apply_motion_on_character_executed.png
-  [timing] final_screenshot: 0.2s
-    Captured 6 video frames
+  [timing] final_screenshot: 0.3s
+    Captured 7 video frames
