@@ -7,34 +7,29 @@
     },
     {
       "file": "frame_001.jpg",
-      "time": 2.27,
+      "time": 2.31,
       "log": "Capturing execution frames: load_camera_traj.json\n  Frame 1 saved (frame_000.jpg, t=0.0s)\n  Validating workflow...\n  Queuing workflow for execution..."
     },
     {
       "file": "frame_002.jpg",
-      "time": 4.46,
-      "log": "Capturing execution frames: load_camera_traj.json\n  Frame 1 saved (frame_000.jpg, t=0.0s)\n  Validating workflow...\n  Queuing workflow for execution...\n  Frame 2 saved (frame_001.jpg, t=2.3s)\n  [capture-periodic] freeze=6ms shot=116ms unfreeze=5ms saved=True"
+      "time": 4.53,
+      "log": "Capturing execution frames: load_camera_traj.json\n  Frame 1 saved (frame_000.jpg, t=0.0s)\n  Validating workflow...\n  Queuing workflow for execution...\n  Frame 2 saved (frame_001.jpg, t=2.3s)\n  [capture-periodic] freeze=5ms shot=141ms unfreeze=5ms saved=True"
     },
     {
       "file": "frame_003.jpg",
-      "time": 8.85,
-      "log": "Capturing execution frames: load_camera_traj.json\n  Frame 1 saved (frame_000.jpg, t=0.0s)\n  Validating workflow...\n  Queuing workflow for execution...\n  Frame 2 saved (frame_001.jpg, t=2.3s)\n  [capture-periodic] freeze=6ms shot=116ms unfreeze=5ms saved=True\n  Frame 3 saved (frame_002.jpg, t=4.5s)\n  [capture-periodic] freeze=5ms shot=118ms unfreeze=7ms saved=True\n  [capture-loop] iter=50 t=6.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.5/16.0GB (34%) swap=0.4/2.9GB (14%) cpu=13% browser_rss=0.81GB"
+      "time": 6.83,
+      "log": "Capturing execution frames: load_camera_traj.json\n  Frame 1 saved (frame_000.jpg, t=0.0s)\n  Validating workflow...\n  Queuing workflow for execution...\n  Frame 2 saved (frame_001.jpg, t=2.3s)\n  [capture-periodic] freeze=5ms shot=141ms unfreeze=5ms saved=True\n  Frame 3 saved (frame_002.jpg, t=4.5s)\n  [capture-periodic] freeze=9ms shot=146ms unfreeze=8ms saved=True\n  [capture-loop] iter=50 t=6.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=13 ram=6.4/16.0GB (40%) swap=0.1/2.9GB (5%) cpu=41% browser_rss=0.88GB"
     },
     {
       "file": "frame_004.jpg",
-      "time": 13.16,
-      "log": "Capturing execution frames: load_camera_traj.json\n  Frame 1 saved (frame_000.jpg, t=0.0s)\n  Validating workflow...\n  Queuing workflow for execution...\n  Frame 2 saved (frame_001.jpg, t=2.3s)\n  [capture-periodic] freeze=6ms shot=116ms unfreeze=5ms saved=True\n  Frame 3 saved (frame_002.jpg, t=4.5s)\n  [capture-periodic] freeze=5ms shot=118ms unfreeze=7ms saved=True\n  [capture-loop] iter=50 t=6.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.5/16.0GB (34%) swap=0.4/2.9GB (14%) cpu=13% browser_rss=0.81GB\n  Frame 4 saved (frame_003.jpg, t=8.8s)\n  [capture-periodic] freeze=7ms shot=107ms unfreeze=4ms saved=True\n  [capture-loop] iter=100 t=12.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8 ram=5.6/16.0GB (35%) swap=0.4/2.9GB (14%) cpu=40% browser_rss=0.80GB"
+      "time": 44.14,
+      "log": "Capturing execution frames: load_camera_traj.json\n  Frame 1 saved (frame_000.jpg, t=0.0s)\n  Validating workflow...\n  Queuing workflow for execution...\n  Frame 2 saved (frame_001.jpg, t=2.3s)\n  [capture-periodic] freeze=5ms shot=141ms unfreeze=5ms saved=True\n  Frame 3 saved (frame_002.jpg, t=4.5s)\n  [capture-periodic] freeze=9ms shot=146ms unfreeze=8ms saved=True\n  [capture-loop] iter=50 t=6.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=13 ram=6.4/16.0GB (40%) swap=0.1/2.9GB (5%) cpu=41% browser_rss=0.88GB\n  Frame 4 saved (frame_003.jpg, t=6.8s)\n  [capture-periodic] freeze=5ms shot=149ms unfreeze=4ms saved=True\n  [capture-loop] iter=100 t=12.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6 ram=6.6/16.0GB (41%) swap=0.1/2.9GB (5%) cpu=89% browser_rss=0.76GB\n  [capture-loop] iter=150 t=18.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=10 ram=6.8/16.0GB (42%) swap=0.3/2.9GB (10%) cpu=98% browser_rss=0.72GB\n  [capture-loop] iter=200 t=24.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7 ram=6.4/16.0GB (40%) swap=0.3/2.9GB (10%) cpu=91% browser_rss=0.72GB\n  [capture-loop] iter=250 t=31.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6 ram=6.4/16.0GB (40%) swap=0.2/2.9GB (6%) cpu=86% browser_rss=0.71GB\n  [capture-loop] iter=300 t=37.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=16 ram=6.4/16.0GB (40%) swap=0.2/2.9GB (6%) cpu=81% browser_rss=0.71GB\n  [capture-loop] iter=350 t=43.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=15 ram=6.3/16.0GB (40%) swap=0.2/2.9GB (6%) cpu=80% browser_rss=0.71GB"
     },
     {
       "file": "frame_005.jpg",
-      "time": 45.2,
-      "log": "Capturing execution frames: load_camera_traj.json\n  Frame 1 saved (frame_000.jpg, t=0.0s)\n  Validating workflow...\n  Queuing workflow for execution...\n  Frame 2 saved (frame_001.jpg, t=2.3s)\n  [capture-periodic] freeze=6ms shot=116ms unfreeze=5ms saved=True\n  Frame 3 saved (frame_002.jpg, t=4.5s)\n  [capture-periodic] freeze=5ms shot=118ms unfreeze=7ms saved=True\n  [capture-loop] iter=50 t=6.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.5/16.0GB (34%) swap=0.4/2.9GB (14%) cpu=13% browser_rss=0.81GB\n  Frame 4 saved (frame_003.jpg, t=8.8s)\n  [capture-periodic] freeze=7ms shot=107ms unfreeze=4ms saved=True\n  [capture-loop] iter=100 t=12.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8 ram=5.6/16.0GB (35%) swap=0.4/2.9GB (14%) cpu=40% browser_rss=0.80GB\n  Frame 5 saved (frame_004.jpg, t=13.2s)\n  [capture-periodic] freeze=6ms shot=137ms unfreeze=5ms saved=True\n  [capture-loop] iter=150 t=18.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6 ram=5.6/16.0GB (35%) swap=0.4/2.9GB (14%) cpu=73% browser_rss=0.75GB\n  [capture-loop] iter=200 t=24.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8 ram=5.6/16.0GB (35%) swap=0.4/2.9GB (14%) cpu=77% browser_rss=0.75GB\n  [capture-loop] iter=250 t=30.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.8/16.0GB (36%) swap=0.4/2.9GB (14%) cpu=77% browser_rss=0.67GB\n  [capture-loop] iter=300 t=36.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.7/16.0GB (36%) swap=0.4/2.9GB (14%) cpu=79% browser_rss=0.67GB\n  [capture-loop] iter=350 t=42.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6 ram=5.7/16.0GB (36%) swap=0.4/2.9GB (14%) cpu=79% browser_rss=0.67GB"
-    },
-    {
-      "file": "frame_006.jpg",
-      "time": 47.58190703392029,
+      "time": 46.57404327392578,
       "log": "Final screenshot"
     }
   ],
-  "total_time": 45.36
+  "total_time": 44.31
 }
