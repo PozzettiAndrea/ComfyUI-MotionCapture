@@ -8,15 +8,11 @@
 [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
 [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
 [Console-warning] WARNING: Multiple instances of Three.js being imported.
-[Console-log] [CompareSMPLBVH] Loading Compare SMPL BVH extension
-[Console-log] [CompareSMPLBVH] Loading Compare SMPL BVH extension...
-[Console-log] [CompareSMPLBVH] Extension registered: comfy3d.comparesmplbvh
-[Console-log] [SMPLCameraViewer] Loading SMPL Camera Viewer extension
-[Console-log] [SMPLCameraViewer] Loading extension...
-[Console-log] [SMPLCameraViewer] Extension registered: comfy3d.smplcameraviewer
-[Console-log] [BVHViewer] Loading BVH Viewer extension
-[Console-log] [BVHViewer] Loading BVH viewer extension...
-[Console-log] [BVHViewer] Extension registered: comfy3d.bvhviewer
+[Console-log] [HY-Motion] app imported successfully: true
+[Console-warning] WARNING: Multiple instances of Three.js being imported.
+[Console-log] [FBXAnimationViewer] Loading FBX Animation Viewer extension
+[Console-log] [FBXAnimationViewer] Loading FBX Animation Viewer extension...
+[Console-log] [FBXAnimationViewer] Extension registered: comfy3d.fbxanimationviewer
 [Console-log] [FBX Preview] Auto-registering for all known FBX preview node types...
 [Console-log] [UniRig] Loading FBX mesh preview extension...
 [Console-log] [UniRig] Detected extension folder: ComfyUI-MotionCapture
@@ -33,13 +29,17 @@
 [Console-log] [UniRig Compare] Loading compare skeleton widget...
 [Console-log] [UniRig Compare] Detected extension folder: ComfyUI-MotionCapture
 [Console-log] [UniRig Compare] Compare skeleton widget registered
-[Console-log] [FBXAnimationViewer] Loading FBX Animation Viewer extension
-[Console-log] [FBXAnimationViewer] Loading FBX Animation Viewer extension...
-[Console-log] [FBXAnimationViewer] Extension registered: comfy3d.fbxanimationviewer
+[Console-log] [SMPLCameraViewer] Loading SMPL Camera Viewer extension
+[Console-log] [SMPLCameraViewer] Loading extension...
+[Console-log] [SMPLCameraViewer] Extension registered: comfy3d.smplcameraviewer
+[Console-log] [CompareSMPLBVH] Loading Compare SMPL BVH extension
+[Console-log] [CompareSMPLBVH] Loading Compare SMPL BVH extension...
+[Console-log] [CompareSMPLBVH] Extension registered: comfy3d.comparesmplbvh
+[Console-log] [BVHViewer] Loading BVH Viewer extension
+[Console-log] [BVHViewer] Loading BVH viewer extension...
+[Console-log] [BVHViewer] Extension registered: comfy3d.bvhviewer
 [Console-log] [SMPL] Loading SMPL Viewer extension
 [Console-log] [SMPLViewer] Extension registered: comfy3d.smplviewer
-[Console-log] [HY-Motion] app imported successfully: true
-[Console-warning] WARNING: Multiple instances of Three.js being imported.
 [Console-warning] [ComfyUI Notice] "extensions/core/widgetInputs.js" is an internal module, not part of the public API. Future updates may break this import.
 [Console-warning] [ComfyUI Notice] "scripts/utils.js" is an internal module, not part of the public API. Future updates may break this import.
 [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
@@ -53,11 +53,11 @@
 [Console-log] [SMPLCameraViewer] Registering SMPLCameraViewer node
 [Console-log] [HY-Motion] Creating Node: HYMotionRetargetFBX -1
 [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
-[Console-error] Error loading model: HttpError: fetch for "http://127.0.0.1:41886/api/view?type=output&subfolder=hymotion_retarget&filename=retarget_20260213_150512819_067dc21f_000.fbx" responded with 404: Not Found
-    at http://127.0.0.1:41886/assets/vendor-three-Br-dHl2j.js:3824:116006
+[Console-error] Error loading model: HttpError: fetch for "http://127.0.0.1:41893/api/view?type=output&subfolder=hymotion_retarget&filename=retarget_20260213_150512819_067dc21f_000.fbx" responded with 404: Not Found
+    at http://127.0.0.1:41893/assets/vendor-three-Br-dHl2j.js:3824:116006
 [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
-[Console-error] Error loading model: HttpError: fetch for "http://127.0.0.1:41886/api/view?type=output&subfolder=hymotion_retarget&filename=retarget_20260213_150512819_067dc21f_000.fbx" responded with 404: Not Found
-    at http://127.0.0.1:41886/assets/vendor-three-Br-dHl2j.js:3824:116006
+[Console-error] Error loading model: HttpError: fetch for "http://127.0.0.1:41893/api/view?type=output&subfolder=hymotion_retarget&filename=retarget_20260213_150512819_067dc21f_000.fbx" responded with 404: Not Found
+    at http://127.0.0.1:41893/assets/vendor-three-Br-dHl2j.js:3824:116006
 [Console-log] [comfy-test] graphToPrompt: 4 nodes, missing class_type: [], sample: {"inputs":{"file_path":"smpl_params_example.npz"},"class_type":"LoadSMPL","_meta":{"title":"Load SMPL Params"}}
 [Console-log] [SMPLCameraViewer] Video: smpl_camera_mesh_0001_ref.mp4 (fps=25)
 [Console-log] [SMPLCameraViewer] Loading mesh file: smpl_camera_mesh_0001.bin
