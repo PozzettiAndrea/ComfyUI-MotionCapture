@@ -1,52 +1,4 @@
 Capturing execution frames: smpl_to_bvh_pipeline.json
-  [ComfyUI] Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
-  [ComfyUI] Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
-  [ComfyUI] Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
-  [ComfyUI] handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
-  [ComfyUI] handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
-  [ComfyUI] handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
-  [ComfyUI] Traceback (most recent call last):
-  [ComfyUI] Traceback (most recent call last):
-  [ComfyUI] Traceback (most recent call last):
-  [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.10.11\x64\lib\asyncio\events.py", line 80, in _run
-  [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.10.11\x64\lib\asyncio\events.py", line 80, in _run
-  [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.10.11\x64\lib\asyncio\events.py", line 80, in _run
-  [ComfyUI]     self._context.run(self._callback, *self._args)
-  [ComfyUI]     self._context.run(self._callback, *self._args)
-  [ComfyUI]     self._context.run(self._callback, *self._args)
-  [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.10.11\x64\lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
-  [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.10.11\x64\lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
-  [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.10.11\x64\lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
-  [ComfyUI]     self._sock.shutdown(socket.SHUT_RDWR)
-  [ComfyUI]     self._sock.shutdown(socket.SHUT_RDWR)
-  [ComfyUI]     self._sock.shutdown(socket.SHUT_RDWR)
-  [ComfyUI] ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-  [ComfyUI] ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-  [ComfyUI] ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-  [ComfyUI] Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
-  [ComfyUI] Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
-  [ComfyUI] Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
-  [ComfyUI] handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
-  [ComfyUI] handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
-  [ComfyUI] handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
-  [ComfyUI] Traceback (most recent call last):
-  [ComfyUI] Traceback (most recent call last):
-  [ComfyUI] Traceback (most recent call last):
-  [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.10.11\x64\lib\asyncio\events.py", line 80, in _run
-  [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.10.11\x64\lib\asyncio\events.py", line 80, in _run
-  [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.10.11\x64\lib\asyncio\events.py", line 80, in _run
-  [ComfyUI]     self._context.run(self._callback, *self._args)
-  [ComfyUI]     self._context.run(self._callback, *self._args)
-  [ComfyUI]     self._context.run(self._callback, *self._args)
-  [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.10.11\x64\lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
-  [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.10.11\x64\lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
-  [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.10.11\x64\lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
-  [ComfyUI]     self._sock.shutdown(socket.SHUT_RDWR)
-  [ComfyUI]     self._sock.shutdown(socket.SHUT_RDWR)
-  [ComfyUI]     self._sock.shutdown(socket.SHUT_RDWR)
-  [ComfyUI] ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-  [ComfyUI] ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-  [ComfyUI] ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
   Frame 1 saved (frame_000.jpg, t=0.0s)
   Validating workflow...
   [ComfyUI] === /validate endpoint called ===
@@ -67,19 +19,19 @@ Capturing execution frames: smpl_to_bvh_pipeline.json
   [ComfyUI]   Node 10: SMPLtoBVH
   [ComfyUI]   Node 10: SMPLtoBVH
   [ComfyUI]   Node 10: SMPLtoBVH
-  [ComfyUI]     Inputs: {"npz_path": ["11", 0], "filename": "output/motion.bvh", "fps": 30, "scale": 1}
-  [ComfyUI]     Inputs: {"npz_path": ["11", 0], "filename": "output/motion.bvh", "fps": 30, "scale": 1}
-  [ComfyUI]     Inputs: {"npz_path": ["11", 0], "filename": "output/motion.bvh", "fps": 30, "scale": 1}
   Queuing workflow for execution...
+  [ComfyUI]     Inputs: {"npz_path": ["11", 0], "filename": "output/motion.bvh", "fps": 30, "scale": 1}
+  [ComfyUI]     Inputs: {"npz_path": ["11", 0], "filename": "output/motion.bvh", "fps": 30, "scale": 1}
+  [ComfyUI]     Inputs: {"npz_path": ["11", 0], "filename": "output/motion.bvh", "fps": 30, "scale": 1}
   [ComfyUI]   Node 11: LoadSMPL
   [ComfyUI]   Node 11: LoadSMPL
   [ComfyUI]   Node 11: LoadSMPL
   [ComfyUI]     Inputs: {"file_path": "smpl_params_tennis.npz"}
   [ComfyUI]     Inputs: {"file_path": "smpl_params_tennis.npz"}
   [ComfyUI]     Inputs: {"file_path": "smpl_params_tennis.npz"}
-  [ComfyUI] Generated prompt_id: 2458c0a9-a3c3-4666-870a-2ccb6b2d6436
-  [ComfyUI] Generated prompt_id: 2458c0a9-a3c3-4666-870a-2ccb6b2d6436
-  [ComfyUI] Generated prompt_id: 2458c0a9-a3c3-4666-870a-2ccb6b2d6436
+  [ComfyUI] Generated prompt_id: a4ae8ce9-e514-4bbf-b933-0f93380e5876
+  [ComfyUI] Generated prompt_id: a4ae8ce9-e514-4bbf-b933-0f93380e5876
+  [ComfyUI] Generated prompt_id: a4ae8ce9-e514-4bbf-b933-0f93380e5876
   [ComfyUI] Calling execution.validate_prompt()...
   [ComfyUI] Calling execution.validate_prompt()...
   [ComfyUI] Calling execution.validate_prompt()...
@@ -122,12 +74,12 @@ Capturing execution frames: smpl_to_bvh_pipeline.json
   [ComfyUI] [SubprocessWorker] call_id=5 sending call_method
   [ComfyUI] [SubprocessWorker] call_id=5 sending call_method
   [ComfyUI] [SubprocessWorker] call_id=5 sending call_method
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\input\smpl_params_tennis.npz
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\input\smpl_params_tennis.npz
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\input\smpl_params_tennis.npz
-  [ComfyUI] [05/15 07:41:53][INFO] Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\input\smpl_params_tennis.npz
-  [ComfyUI] [05/15 07:41:53][INFO] Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\input\smpl_params_tennis.npz
-  [ComfyUI] [05/15 07:41:53][INFO] Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\input\smpl_params_tennis.npz
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\input\smpl_params_tennis.npz
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\input\smpl_params_tennis.npz
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\input\smpl_params_tennis.npz
+  [ComfyUI] [05/15 11:32:37][INFO] Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\input\smpl_params_tennis.npz
+  [ComfyUI] [05/15 11:32:37][INFO] Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\input\smpl_params_tennis.npz
+  [ComfyUI] [05/15 11:32:37][INFO] Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\input\smpl_params_tennis.npz
   [ComfyUI] [SubprocessWorker] got response: ok
   [ComfyUI] [SubprocessWorker] got response: ok
   [ComfyUI] [SubprocessWorker] got response: ok
@@ -167,63 +119,63 @@ Capturing execution frames: smpl_to_bvh_pipeline.json
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Converting SMPL to BVH format...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Converting SMPL to BVH format...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Converting SMPL to BVH format...
-  [ComfyUI] [05/15 07:41:53][INFO] [SMPLtoBVH] Converting SMPL to BVH format...
-  [ComfyUI] [05/15 07:41:53][INFO] [SMPLtoBVH] Converting SMPL to BVH format...
-  [ComfyUI] [05/15 07:41:53][INFO] [SMPLtoBVH] Converting SMPL to BVH format...
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Loading SMPL parameters from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\input\smpl_params_tennis.npz
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Loading SMPL parameters from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\input\smpl_params_tennis.npz
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Loading SMPL parameters from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\input\smpl_params_tennis.npz
-  [ComfyUI] [05/15 07:41:53][INFO] [SMPLtoBVH] Loading SMPL parameters from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\input\smpl_params_tennis.npz
-  [ComfyUI] [05/15 07:41:53][INFO] [SMPLtoBVH] Loading SMPL parameters from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\input\smpl_params_tennis.npz
-  [ComfyUI] [05/15 07:41:53][INFO] [SMPLtoBVH] Loading SMPL parameters from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\input\smpl_params_tennis.npz
+  [ComfyUI] [05/15 11:32:37][INFO] [SMPLtoBVH] Converting SMPL to BVH format...
+  [ComfyUI] [05/15 11:32:37][INFO] [SMPLtoBVH] Converting SMPL to BVH format...
+  [ComfyUI] [05/15 11:32:37][INFO] [SMPLtoBVH] Converting SMPL to BVH format...
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Loading SMPL parameters from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\input\smpl_params_tennis.npz
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Loading SMPL parameters from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\input\smpl_params_tennis.npz
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Loading SMPL parameters from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\input\smpl_params_tennis.npz
+  [ComfyUI] [05/15 11:32:37][INFO] [SMPLtoBVH] Loading SMPL parameters from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\input\smpl_params_tennis.npz
+  [ComfyUI] [05/15 11:32:37][INFO] [SMPLtoBVH] Loading SMPL parameters from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\input\smpl_params_tennis.npz
+  [ComfyUI] [05/15 11:32:37][INFO] [SMPLtoBVH] Loading SMPL parameters from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\input\smpl_params_tennis.npz
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Detected 21-joint SMPL variant (63 parameters)
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Detected 21-joint SMPL variant (63 parameters)
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Detected 21-joint SMPL variant (63 parameters)
-  [ComfyUI] [05/15 07:41:53][INFO] [SMPLtoBVH] Detected 21-joint SMPL variant (63 parameters)
-  [ComfyUI] [05/15 07:41:53][INFO] [SMPLtoBVH] Detected 21-joint SMPL variant (63 parameters)
-  [ComfyUI] [05/15 07:41:53][INFO] [SMPLtoBVH] Detected 21-joint SMPL variant (63 parameters)
+  [ComfyUI] [05/15 11:32:37][INFO] [SMPLtoBVH] Detected 21-joint SMPL variant (63 parameters)
+  [ComfyUI] [05/15 11:32:37][INFO] [SMPLtoBVH] Detected 21-joint SMPL variant (63 parameters)
+  [ComfyUI] [05/15 11:32:37][INFO] [SMPLtoBVH] Detected 21-joint SMPL variant (63 parameters)
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Using 21-joint skeleton (GVHMR variant, no hands)
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Using 21-joint skeleton (GVHMR variant, no hands)
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Using 21-joint skeleton (GVHMR variant, no hands)
-  [ComfyUI] [05/15 07:41:53][INFO] [SMPLtoBVH] Using 21-joint skeleton (GVHMR variant, no hands)
-  [ComfyUI] [05/15 07:41:53][INFO] [SMPLtoBVH] Using 21-joint skeleton (GVHMR variant, no hands)
-  [ComfyUI] [05/15 07:41:53][INFO] [SMPLtoBVH] Using 21-joint skeleton (GVHMR variant, no hands)
+  [ComfyUI] [05/15 11:32:37][INFO] [SMPLtoBVH] Using 21-joint skeleton (GVHMR variant, no hands)
+  [ComfyUI] [05/15 11:32:37][INFO] [SMPLtoBVH] Using 21-joint skeleton (GVHMR variant, no hands)
+  [ComfyUI] [05/15 11:32:37][INFO] [SMPLtoBVH] Using 21-joint skeleton (GVHMR variant, no hands)
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Rotation ranges (degrees):
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Rotation ranges (degrees):
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Rotation ranges (degrees):
-  [ComfyUI] [05/15 07:41:54][INFO] [SMPLtoBVH] Rotation ranges (degrees):
-  [ComfyUI] [05/15 07:41:54][INFO] [SMPLtoBVH] Rotation ranges (degrees):
-  [ComfyUI] [05/15 07:41:54][INFO] [SMPLtoBVH] Rotation ranges (degrees):
+  [ComfyUI] [05/15 11:32:38][INFO] [SMPLtoBVH] Rotation ranges (degrees):
+  [ComfyUI] [05/15 11:32:38][INFO] [SMPLtoBVH] Rotation ranges (degrees):
+  [ComfyUI] [05/15 11:32:38][INFO] [SMPLtoBVH] Rotation ranges (degrees):
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   Z: [-174.0, 169.8]
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   Z: [-174.0, 169.8]
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   Z: [-174.0, 169.8]
-  [ComfyUI] [05/15 07:41:54][INFO]   Z: [-174.0, 169.8]
-  [ComfyUI] [05/15 07:41:54][INFO]   Z: [-174.0, 169.8]
-  [ComfyUI] [05/15 07:41:54][INFO]   Z: [-174.0, 169.8]
+  [ComfyUI] [05/15 11:32:38][INFO]   Z: [-174.0, 169.8]
+  [ComfyUI] [05/15 11:32:38][INFO]   Z: [-174.0, 169.8]
+  [ComfyUI] [05/15 11:32:38][INFO]   Z: [-174.0, 169.8]
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   X: [-73.5, 88.9]
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   X: [-73.5, 88.9]
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   X: [-73.5, 88.9]
-  [ComfyUI] [05/15 07:41:54][INFO]   X: [-73.5, 88.9]
-  [ComfyUI] [05/15 07:41:54][INFO]   X: [-73.5, 88.9]
-  [ComfyUI] [05/15 07:41:54][INFO]   X: [-73.5, 88.9]
+  [ComfyUI] [05/15 11:32:38][INFO]   X: [-73.5, 88.9]
+  [ComfyUI] [05/15 11:32:38][INFO]   X: [-73.5, 88.9]
+  [ComfyUI] [05/15 11:32:38][INFO]   X: [-73.5, 88.9]
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   Y: [-179.7, 177.9]
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   Y: [-179.7, 177.9]
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   Y: [-179.7, 177.9]
-  [ComfyUI] [05/15 07:41:54][INFO]   Y: [-179.7, 177.9]
-  [ComfyUI] [05/15 07:41:54][INFO]   Y: [-179.7, 177.9]
-  [ComfyUI] [05/15 07:41:54][INFO]   Y: [-179.7, 177.9]
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Converted 312 frames to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\output\output\motion.bvh
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Converted 312 frames to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\output\output\motion.bvh
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Converted 312 frames to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\output\output\motion.bvh
-  [ComfyUI] [05/15 07:41:54][INFO] [SMPLtoBVH] Converted 312 frames to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\output\output\motion.bvh
-  [ComfyUI] [05/15 07:41:54][INFO] [SMPLtoBVH] Converted 312 frames to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\output\output\motion.bvh
-  [ComfyUI] [05/15 07:41:54][INFO] [SMPLtoBVH] Converted 312 frames to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\output\output\motion.bvh
+  [ComfyUI] [05/15 11:32:38][INFO]   Y: [-179.7, 177.9]
+  [ComfyUI] [05/15 11:32:38][INFO]   Y: [-179.7, 177.9]
+  [ComfyUI] [05/15 11:32:38][INFO]   Y: [-179.7, 177.9]
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Converted 312 frames to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\output\output\motion.bvh
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Converted 312 frames to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\output\output\motion.bvh
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Converted 312 frames to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\output\output\motion.bvh
+  [ComfyUI] [05/15 11:32:38][INFO] [SMPLtoBVH] Converted 312 frames to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\output\output\motion.bvh
+  [ComfyUI] [05/15 11:32:38][INFO] [SMPLtoBVH] Converted 312 frames to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\output\output\motion.bvh
+  [ComfyUI] [05/15 11:32:38][INFO] [SMPLtoBVH] Converted 312 frames to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\output\output\motion.bvh
   [ComfyUI] [SubprocessWorker] got response: ok
   [ComfyUI] [SubprocessWorker] got response: ok
   [ComfyUI] [SubprocessWorker] got response: ok
-  [ComfyUI] [comfy-env] SMPLtoBVH done (0.60s): result: NodeOutput
-  [ComfyUI] [comfy-env] SMPLtoBVH done (0.60s): result: NodeOutput
-  [ComfyUI] [comfy-env] SMPLtoBVH done (0.60s): result: NodeOutput
+  [ComfyUI] [comfy-env] SMPLtoBVH done (1.08s): result: NodeOutput
+  [ComfyUI] [comfy-env] SMPLtoBVH done (1.08s): result: NodeOutput
+  [ComfyUI] [comfy-env] SMPLtoBVH done (1.08s): result: NodeOutput
   [ComfyUI] [comfy-env] Running BVHViewer: bvh_data: dict
   [ComfyUI] [comfy-env] Running BVHViewer: bvh_data: dict
   [ComfyUI] [comfy-env] Running BVHViewer: bvh_data: dict
@@ -275,33 +227,33 @@ Capturing execution frames: smpl_to_bvh_pipeline.json
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer] Loading BVH for visualization...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer] Loading BVH for visualization...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer] Loading BVH for visualization...
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer] Loading BVH for visualization...
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer] Loading BVH for visualization...
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer] Loading BVH for visualization...
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] BVH file path: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\output\output\motion.bvh
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] BVH file path: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\output\output\motion.bvh
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] BVH file path: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\output\output\motion.bvh
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] BVH file path: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\output\output\motion.bvh
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] BVH file path: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\output\output\motion.bvh
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] BVH file path: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-0735\ComfyUI\output\output\motion.bvh
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer] Loading BVH for visualization...
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer] Loading BVH for visualization...
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer] Loading BVH for visualization...
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] BVH file path: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\output\output\motion.bvh
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] BVH file path: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\output\output\motion.bvh
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] BVH file path: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\output\output\motion.bvh
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] BVH file path: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\output\output\motion.bvh
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] BVH file path: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\output\output\motion.bvh
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] BVH file path: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1125\ComfyUI\output\output\motion.bvh
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] Num frames: 312, FPS: 30
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] Num frames: 312, FPS: 30
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] Num frames: 312, FPS: 30
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] Num frames: 312, FPS: 30
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] Num frames: 312, FPS: 30
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] Num frames: 312, FPS: 30
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] Num frames: 312, FPS: 30
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] Num frames: 312, FPS: 30
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] Num frames: 312, FPS: 30
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] File exists: True
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] File exists: True
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] File exists: True
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] File exists: True
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] File exists: True
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] File exists: True
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] File exists: True
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] File exists: True
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] File exists: True
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] BVH content length: 214444 bytes
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] BVH content length: 214444 bytes
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] BVH content length: 214444 bytes
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] BVH content length: 214444 bytes
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] BVH content length: 214444 bytes
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] BVH content length: 214444 bytes
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] BVH content length: 214444 bytes
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] BVH content length: 214444 bytes
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] BVH content length: 214444 bytes
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] First 200 chars: HIERARCHY
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] First 200 chars: HIERARCHY
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] First 200 chars: HIERARCHY
@@ -329,9 +281,9 @@ Capturing execution frames: smpl_to_bvh_pipeline.json
   [ComfyUI]     CHANNE
   [ComfyUI]     CHANNE
   [ComfyUI]     CHANNE
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] First 200 chars: HIERARCHY
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] First 200 chars: HIERARCHY
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] First 200 chars: HIERARCHY
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] First 200 chars: HIERARCHY
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] First 200 chars: HIERARCHY
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] First 200 chars: HIERARCHY
   [ComfyUI] ROOT Pelvis
   [ComfyUI] ROOT Pelvis
   [ComfyUI] ROOT Pelvis
@@ -359,38 +311,38 @@ Capturing execution frames: smpl_to_bvh_pipeline.json
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] Stored bvh_content (214444 bytes) and bvh_info for frontend
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] Stored bvh_content (214444 bytes) and bvh_info for frontend
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] Stored bvh_content (214444 bytes) and bvh_info for frontend
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] Stored bvh_content (214444 bytes) and bvh_info for frontend
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] Stored bvh_content (214444 bytes) and bvh_info for frontend
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] Stored bvh_content (214444 bytes) and bvh_info for frontend
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] bvh_info: {'num_frames': 312, 'fps': 30, 'file_path': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-0735\\ComfyUI\\output\\output\\motion.bvh'}
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] bvh_info: {'num_frames': 312, 'fps': 30, 'file_path': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-0735\\ComfyUI\\output\\output\\motion.bvh'}
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] bvh_info: {'num_frames': 312, 'fps': 30, 'file_path': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-0735\\ComfyUI\\output\\output\\motion.bvh'}
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] bvh_info: {'num_frames': 312, 'fps': 30, 'file_path': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-0735\\ComfyUI\\output\\output\\motion.bvh'}
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] bvh_info: {'num_frames': 312, 'fps': 30, 'file_path': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-0735\\ComfyUI\\output\\output\\motion.bvh'}
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer DEBUG] bvh_info: {'num_frames': 312, 'fps': 30, 'file_path': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-0735\\ComfyUI\\output\\output\\motion.bvh'}
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] Stored bvh_content (214444 bytes) and bvh_info for frontend
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] Stored bvh_content (214444 bytes) and bvh_info for frontend
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] Stored bvh_content (214444 bytes) and bvh_info for frontend
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] bvh_info: {'num_frames': 312, 'fps': 30, 'file_path': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1125\\ComfyUI\\output\\output\\motion.bvh'}
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] bvh_info: {'num_frames': 312, 'fps': 30, 'file_path': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1125\\ComfyUI\\output\\output\\motion.bvh'}
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] bvh_info: {'num_frames': 312, 'fps': 30, 'file_path': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1125\\ComfyUI\\output\\output\\motion.bvh'}
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] bvh_info: {'num_frames': 312, 'fps': 30, 'file_path': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1125\\ComfyUI\\output\\output\\motion.bvh'}
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] bvh_info: {'num_frames': 312, 'fps': 30, 'file_path': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1125\\ComfyUI\\output\\output\\motion.bvh'}
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer DEBUG] bvh_info: {'num_frames': 312, 'fps': 30, 'file_path': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1125\\ComfyUI\\output\\output\\motion.bvh'}
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer] Loaded BVH with 312 frames
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer] Loaded BVH with 312 frames
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer] Loaded BVH with 312 frames
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer] Loaded BVH with 312 frames
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer] Loaded BVH with 312 frames
-  [ComfyUI] [05/15 07:41:54][INFO] [BVHViewer] Loaded BVH with 312 frames
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer] Loaded BVH with 312 frames
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer] Loaded BVH with 312 frames
+  [ComfyUI] [05/15 11:32:38][INFO] [BVHViewer] Loaded BVH with 312 frames
   [ComfyUI] [SubprocessWorker] got response: ok
   [ComfyUI] [SubprocessWorker] got response: ok
   [ComfyUI] [SubprocessWorker] got response: ok
   [ComfyUI] [comfy-env] BVHViewer done (0.20s): result: NodeOutput
   [ComfyUI] [comfy-env] BVHViewer done (0.20s): result: NodeOutput
   [ComfyUI] [comfy-env] BVHViewer done (0.20s): result: NodeOutput
-  [ComfyUI] Prompt executed in 0.88 seconds
-  [ComfyUI] Prompt executed in 0.88 seconds
-  [ComfyUI] Prompt executed in 0.88 seconds
+  [ComfyUI] Prompt executed in 1.35 seconds
+  [ComfyUI] Prompt executed in 1.35 seconds
+  [ComfyUI] Prompt executed in 1.35 seconds
   Node executed (1 total), capturing...
-  Frame 2 saved (frame_001.jpg, t=1.3s)
-  [capture-node] freeze=7ms shot=98ms unfreeze=0ms saved=True
-  Execution complete (t=1.3s)
-  Captured 2 unique frames over 1.45s
+  Frame 2 saved (frame_001.jpg, t=1.8s)
+  [capture-node] freeze=5ms shot=112ms unfreeze=0ms saved=True
+  Execution complete (t=1.8s)
+  Captured 2 unique frames over 1.96s
   [debug] iframes: 1
-  [debug]   iframe[0]: src=http://127.0.0.1:41897/extensions/ComfyUI-MotionCapture/viewer_bvh.html?v=177883, canvas=374x600, rafFrozen=True
+  [debug]   iframe[0]: src=http://127.0.0.1:41891/extensions/ComfyUI-MotionCapture/viewer_bvh.html?v=177884, canvas=374x600, rafFrozen=True
   [timing] trigger_3d_previews: 0.0s
   Saved high-quality screenshot: smpl_to_bvh_pipeline_executed.png
-  [timing] final_screenshot: 0.2s
+  [timing] final_screenshot: 0.1s
     Captured 3 video frames
