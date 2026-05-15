@@ -7,14 +7,14 @@
     },
     {
       "file": "frame_001.jpg",
-      "time": 1.31,
+      "time": 1.54,
       "log": "Capturing execution frames: smpl_to_bvh_pipeline.json\n  Frame 1 saved (frame_000.jpg, t=0.0s)\n  Validating workflow...\n  Queuing workflow for execution..."
     },
     {
       "file": "frame_002.jpg",
-      "time": 3.6306025981903076,
+      "time": 3.847043752670288,
       "log": "Final screenshot"
     }
   ],
-  "total_time": 1.44
+  "total_time": 1.66
 }
