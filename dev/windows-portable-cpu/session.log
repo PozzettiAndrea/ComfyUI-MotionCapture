@@ -1,4 +1,4 @@
-[00:00] Crash dump logging enabled: D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1156\dev\windows-portable-cpu\crash_dump.log
+[00:00] Crash dump logging enabled: D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1943\dev\windows-portable-cpu\crash_dump.log
 [00:00] 
 [00:00] [1/5] SYNTAX
 [00:00] ----------------------------------------
@@ -23,226 +23,226 @@ Setting up ComfyUI...
 [00:03]   Downloaded: 20%
 [00:04]   Downloaded: 30%
 [00:05]   Downloaded: 40%
-[00:06]   Downloaded: 50%
+[00:10]   Downloaded: 50%
 [00:11]   Downloaded: 60%
-[00:13]   Downloaded: 70%
-[00:14]   Downloaded: 80%
-[00:15]   Downloaded: 90%
-[00:16]   Downloaded: 100%
-[00:16] Downloaded to C:\Users\stduser\.comfy-test\cache\portable\ComfyUI_portable_v0.21.1.7z
-[00:16] Extracting to cache: C:\Users\stduser\.comfy-test\cache\portable\ComfyUI_portable_v0.21.1
-[00:16] Extracting ComfyUI_portable_v0.21.1.7z...
-[00:16] Using 7z: 7z
-[02:26] Extracted to C:\Users\stduser\.comfy-test\cache\portable\ComfyUI_portable_v0.21.1
-[02:26] Copying from cache to: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1156\portable-comfyui
+[00:12]   Downloaded: 70%
+[00:13]   Downloaded: 80%
+[00:14]   Downloaded: 90%
+[00:15]   Downloaded: 100%
+[00:15] Downloaded to C:\Users\stduser\.comfy-test\cache\portable\ComfyUI_portable_v0.21.1.7z
+[00:15] Extracting to cache: C:\Users\stduser\.comfy-test\cache\portable\ComfyUI_portable_v0.21.1
+[00:15] Extracting ComfyUI_portable_v0.21.1.7z...
+[00:15] Using 7z: 7z
+[02:23] Extracted to C:\Users\stduser\.comfy-test\cache\portable\ComfyUI_portable_v0.21.1
+[02:23] Copying from cache to: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1943\portable-comfyui
 [02:50] Installing uv into embedded Python...
-[02:50] Running: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1156\portable-comfyui\ComfyUI_windows_portable\python_embeded\python.exe -m pip install uv
-[02:59] Installing ComfyUI requirements...
-[02:59] Running: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1156\portable-comfyui\ComfyUI_windows_portable\python_embeded\python.exe -m uv pip install -r D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1156\portable-comfyui\ComfyUI_windows_portable\ComfyUI\requirements.txt
-[02:59] 
+[02:50] Running: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1943\portable-comfyui\ComfyUI_windows_portable\python_embeded\python.exe -m pip install uv
+[02:54] Installing ComfyUI requirements...
+[02:54] Running: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1943\portable-comfyui\ComfyUI_windows_portable\python_embeded\python.exe -m uv pip install -r D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1943\portable-comfyui\ComfyUI_windows_portable\ComfyUI\requirements.txt
+[02:54] 
 Installing custom node...
-[02:59] Copying ComfyUI-MotionCapture to custom_nodes/...
-[03:02] Installing node requirements...
-[03:02] Running: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1156\portable-comfyui\ComfyUI_windows_portable\python_embeded\python.exe -m pip install -r D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1156\portable-comfyui\ComfyUI_windows_portable\ComfyUI\custom_nodes\ComfyUI-MotionCapture\requirements.txt
-[03:18] 
+[02:54] Copying ComfyUI-MotionCapture to custom_nodes/...
+[02:55] Installing node requirements...
+[02:55] Running: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1943\portable-comfyui\ComfyUI_windows_portable\python_embeded\python.exe -m pip install -r D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1943\portable-comfyui\ComfyUI_windows_portable\ComfyUI\custom_nodes\ComfyUI-MotionCapture\requirements.txt
+[03:01] 
 Running install.py...
-[03:18] Running: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1156\portable-comfyui\ComfyUI_windows_portable\python_embeded\python.exe D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1156\portable-comfyui\ComfyUI_windows_portable\ComfyUI\custom_nodes\ComfyUI-MotionCapture\install.py
-[03:18]   
-[03:18]   Installing 3 node dependencies...
-[03:18]     Cloning ComfyUI-VideoHelperSuite...
-[03:20]     Installing requirements for ComfyUI-VideoHelperSuite...
-[03:23]     Cloning ComfyUI-CameraPack...
-[03:24]     Cloning ComfyUI-HyMotion...
-[03:27]     Installing requirements for ComfyUI-HyMotion...
-[03:34]     Running install.py for ComfyUI-HyMotion...
-[03:34]   Using uv for installation...
-[03:34]   Installing fbxsdkpy==2020.1.post2...
-[03:37]   Installing requirements from D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1156\portable-comfyui\ComfyUI_windows_portable\ComfyUI\custom_nodes\ComfyUI-HyMotion\requirements.txt...
-[03:37]   
-[03:37]   [requirements] Re-installing main package requirements...
-[03:37]     Installing requirements for ComfyUI-MotionCapture...
-[03:39]   [comfy-env] _discover: scanning D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1156\portable-comfyui\ComfyUI_windows_portable\ComfyUI\custom_nodes
-[03:39]   [comfy-env] _discover: ComfyUI-CameraPack: no comfy-env.toml found
-[03:39]   [comfy-env] _discover: ComfyUI-HyMotion: no comfy-env.toml found
-[03:39]   [comfy-env] _discover: ComfyUI-MotionCapture -> motioncapture-nodes (custom_nodes\ComfyUI-MotionCapture\nodes\comfy-env.toml)
-[03:39]   [comfy-env] _discover: ComfyUI-VideoHelperSuite: no comfy-env.toml found
-[03:39]   [comfy-env] Workspace: C:\Users\stduser\AppData\Local\Programs\comfy-env
-[03:39]   [comfy-env] ComfyUI: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1156\portable-comfyui\ComfyUI_windows_portable\ComfyUI
-[03:39]   [comfy-env] Found 1 node config(s):
-[03:39]     - motioncapture-nodes <- custom_nodes\ComfyUI-MotionCapture\nodes\comfy-env.toml (python=host)
-[03:39]   [comfy-env] Bootstrap interpreter has python 3.13 + torch 2.11.0 (cu130). Looking for cuda-only wheels matching cu130/torch2.11/cp313.
-[03:41]   [comfy-env] GPU: No GPU detected
-[03:41]   [comfy-env] Comfyui feature -> torch 2.11.0 from https://download.pytorch.org/whl/cu130 (CUDA 13.0 via bootstrap torch)
-[03:41]   [comfy-env] cuda-wheels: 2 package(s) need a matched (cuda, torch, python) combo: ['dpvo_cuda', 'torch-scatter']
-[03:41]   [comfy-env] cuda-wheels tier 1 (bootstrap): probing cu13.0/torch2.11/cp313
-[03:41]   [cuda-wheels] Looking up dpvo_cuda: cu130 torch2.11 cp313 win_amd64
-[03:42]   [cuda-wheels]   Found: dpvo_cuda-0.0.0+cu130torch2.11-cp313-cp313-win_amd64.whl
-[03:42]   [cuda-wheels] Looking up torch-scatter: cu130 torch2.11 cp313 win_amd64
-[03:42]   [cuda-wheels]   Found: torch_scatter-2.1.2+cu130torch2.11-cp313-cp313-win_amd64.whl
-[03:42]   [comfy-env] cuda-wheels combo: cu13.0/torch2.11 (bootstrap matches; per-node envs will pin to this)
-[03:42]   [cuda-wheels] Looking up dpvo_cuda: cu130 torch2.11 cp313 win_amd64
-[03:43]   [cuda-wheels]   Found: dpvo_cuda-0.0.0+cu130torch2.11-cp313-cp313-win_amd64.whl
-[03:43]   [cuda-wheels] Looking up torch-scatter: cu130 torch2.11 cp313 win_amd64
-[03:43]   [cuda-wheels]   Found: torch_scatter-2.1.2+cu130torch2.11-cp313-cp313-win_amd64.whl
-[03:43]   [comfy-env] motioncapture-nodes: cuda-wheels deferred for post-pixi install (dpvo_cuda, torch-scatter)
-[03:43]   Generated C:\Users\stduser\AppData\Local\Programs\comfy-env\pixi.toml
-[03:43]   [comfy-env] Installing 1 environment(s):
-[03:43]     - motioncapture-nodes (python=host, 40 pypi deps, 2 cuda wheels)
-[03:43]   [comfy-env] Running `pixi install -e motioncapture-nodes`...
-[04:13]      WARN Skipped running the post-link scripts because `run-post-link-scripts` = `false`
-[04:13]     	- Scripts/.librsvg-pre-unlink.bat
-[04:13]     To enable them, run:
-[04:13]     	pixi config set --local run-post-link-scripts insecure
-[04:13]     More info:
-[04:13]     	https://pixi.sh/latest/reference/pixi_configuration/#run-post-link-scripts
-[05:24]     The motioncapture-nodes environment has been installed.
-[05:24]   [comfy-env] motioncapture-nodes: installing cuda-wheels with --no-deps (dpvo_cuda, torch-scatter)
-[05:24]     Using Python 3.13.13 environment at: .pixi\envs\motioncapture-nodes
-[05:25]     Resolved 2 packages in 992ms
-[05:25]     Downloading dpvo-cuda (2.6MiB)
-[05:25]     Downloading torch-scatter (5.0MiB)
-[05:25]      Downloaded torch-scatter
-[05:25]      Downloaded dpvo-cuda
-[05:25]     Prepared 2 packages in 127ms
-[05:25]     Installed 2 packages in 33ms
-[05:25]      + dpvo-cuda==0.0.0+cu130torch2.11 (from https://github.com/PozzettiAndrea/cuda-wheels/releases/download/dpvo_cuda-latest/dpvo_cuda-0.0.0%2Bcu130torch2.11-cp313-cp313-win_amd64.whl)
-[05:25]      + torch-scatter==2.1.2+cu130torch2.11 (from https://github.com/PozzettiAndrea/cuda-wheels/releases/download/torch_scatter-latest/torch_scatter-2.1.2%2Bcu130torch2.11-cp313-cp313-win_amd64.whl)
-[05:25]   [comfy-env] Recorded install hash c36239ee3e9b -> C:\Users\stduser\AppData\Local\Programs\comfy-env\install.hash
-[05:25]   [comfy-env] Install log: C:\Users\stduser\AppData\Local\Programs\comfy-env\install.log
-[05:25]   
-[05:25]   Installation complete!
-[05:26] Installing 3 node dependency(ies)...
-[05:26]   ComfyUI-VideoHelperSuite from Kosinkadink/ComfyUI-VideoHelperSuite
-[05:26]   ComfyUI-VideoHelperSuite already exists, skipping...
-[05:26]   ComfyUI-CameraPack from PozzettiAndrea/ComfyUI-CameraPack
-[05:26]   ComfyUI-CameraPack already exists, skipping...
-[05:26]   ComfyUI-HyMotion from PozzettiAndrea/ComfyUI-HyMotion
-[05:26]   ComfyUI-HyMotion already exists, skipping...
-[05:26] Installing validation endpoint...
-[05:26]   Cloning PozzettiAndrea/ComfyUI-validate-endpoint...
-[05:26] Running: git clone --depth 1 https://x-access-token:***@github.com/PozzettiAndrea/ComfyUI-validate-endpoint.git D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1156\portable-comfyui\ComfyUI_windows_portable\ComfyUI\custom_nodes\ComfyUI-validate-endpoint
-[05:27] CUDA packages absent (will mock): dpvo_cuda, torch_scatter
-[05:27] [INSTALL] PASSED
-[05:27] 
-[05:27] [3/5] REGISTRATION
-[05:27] ----------------------------------------
-[05:27] 
+[03:01] Running: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1943\portable-comfyui\ComfyUI_windows_portable\python_embeded\python.exe D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1943\portable-comfyui\ComfyUI_windows_portable\ComfyUI\custom_nodes\ComfyUI-MotionCapture\install.py
+[03:01]   
+[03:01]   Installing 3 node dependencies...
+[03:01]     Cloning ComfyUI-VideoHelperSuite...
+[03:02]     Installing requirements for ComfyUI-VideoHelperSuite...
+[03:09]     Cloning ComfyUI-CameraPack...
+[03:10]     Cloning ComfyUI-HyMotion...
+[03:11]     Installing requirements for ComfyUI-HyMotion...
+[03:15]     Running install.py for ComfyUI-HyMotion...
+[03:15]   Using uv for installation...
+[03:15]   Installing fbxsdkpy==2020.1.post2...
+[03:17]   Installing requirements from D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1943\portable-comfyui\ComfyUI_windows_portable\ComfyUI\custom_nodes\ComfyUI-HyMotion\requirements.txt...
+[03:17]   
+[03:17]   [requirements] Re-installing main package requirements...
+[03:17]     Installing requirements for ComfyUI-MotionCapture...
+[03:19]   [comfy-env] _discover: scanning D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1943\portable-comfyui\ComfyUI_windows_portable\ComfyUI\custom_nodes
+[03:19]   [comfy-env] _discover: ComfyUI-CameraPack: no comfy-env.toml found
+[03:19]   [comfy-env] _discover: ComfyUI-HyMotion: no comfy-env.toml found
+[03:19]   [comfy-env] _discover: ComfyUI-MotionCapture -> motioncapture-nodes (custom_nodes\ComfyUI-MotionCapture\nodes\comfy-env.toml)
+[03:19]   [comfy-env] _discover: ComfyUI-VideoHelperSuite: no comfy-env.toml found
+[03:19]   [comfy-env] Workspace: C:\Users\stduser\AppData\Local\Programs\comfy-env
+[03:19]   [comfy-env] ComfyUI: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1943\portable-comfyui\ComfyUI_windows_portable\ComfyUI
+[03:19]   [comfy-env] Found 1 node config(s):
+[03:19]     - motioncapture-nodes <- custom_nodes\ComfyUI-MotionCapture\nodes\comfy-env.toml (python=host)
+[03:19]   [comfy-env] Bootstrap interpreter has python 3.13 + torch 2.11.0 (cu130). Looking for cuda-only wheels matching cu130/torch2.11/cp313.
+[03:21]   [comfy-env] GPU: No GPU detected
+[03:21]   [comfy-env] Comfyui feature -> torch 2.11.0 from https://download.pytorch.org/whl/cu130 (CUDA 13.0 via bootstrap torch)
+[03:21]   [comfy-env] cuda-wheels: 2 package(s) need a matched (cuda, torch, python) combo: ['dpvo_cuda', 'torch-scatter']
+[03:21]   [comfy-env] cuda-wheels tier 1 (bootstrap): probing cu13.0/torch2.11/cp313
+[03:21]   [cuda-wheels] Looking up dpvo_cuda: cu130 torch2.11 cp313 win_amd64
+[03:21]   [cuda-wheels]   Found: dpvo_cuda-0.0.0+cu130torch2.11-cp313-cp313-win_amd64.whl
+[03:21]   [cuda-wheels] Looking up torch-scatter: cu130 torch2.11 cp313 win_amd64
+[03:22]   [cuda-wheels]   Found: torch_scatter-2.1.2+cu130torch2.11-cp313-cp313-win_amd64.whl
+[03:22]   [comfy-env] cuda-wheels combo: cu13.0/torch2.11 (bootstrap matches; per-node envs will pin to this)
+[03:22]   [cuda-wheels] Looking up dpvo_cuda: cu130 torch2.11 cp313 win_amd64
+[03:22]   [cuda-wheels]   Found: dpvo_cuda-0.0.0+cu130torch2.11-cp313-cp313-win_amd64.whl
+[03:22]   [cuda-wheels] Looking up torch-scatter: cu130 torch2.11 cp313 win_amd64
+[03:23]   [cuda-wheels]   Found: torch_scatter-2.1.2+cu130torch2.11-cp313-cp313-win_amd64.whl
+[03:23]   [comfy-env] motioncapture-nodes: cuda-wheels deferred for post-pixi install (dpvo_cuda, torch-scatter)
+[03:23]   Generated C:\Users\stduser\AppData\Local\Programs\comfy-env\pixi.toml
+[03:23]   [comfy-env] Installing 1 environment(s):
+[03:23]     - motioncapture-nodes (python=host, 40 pypi deps, 2 cuda wheels)
+[03:23]   [comfy-env] Running `pixi install -e motioncapture-nodes`...
+[03:52]      WARN Skipped running the post-link scripts because `run-post-link-scripts` = `false`
+[03:52]     	- Scripts/.librsvg-pre-unlink.bat
+[03:52]     To enable them, run:
+[03:52]     	pixi config set --local run-post-link-scripts insecure
+[03:52]     More info:
+[03:52]     	https://pixi.sh/latest/reference/pixi_configuration/#run-post-link-scripts
+[04:54]     The motioncapture-nodes environment has been installed.
+[04:54]   [comfy-env] motioncapture-nodes: installing cuda-wheels with --no-deps (dpvo_cuda, torch-scatter)
+[04:54]     Using Python 3.13.13 environment at: .pixi\envs\motioncapture-nodes
+[04:54]     Resolved 2 packages in 333ms
+[04:55]     Downloading torch-scatter (5.0MiB)
+[04:55]     Downloading dpvo-cuda (2.6MiB)
+[04:55]      Downloaded torch-scatter
+[04:55]      Downloaded dpvo-cuda
+[04:55]     Prepared 2 packages in 622ms
+[04:55]     Installed 2 packages in 32ms
+[04:55]      + dpvo-cuda==0.0.0+cu130torch2.11 (from https://github.com/PozzettiAndrea/cuda-wheels/releases/download/dpvo_cuda-latest/dpvo_cuda-0.0.0%2Bcu130torch2.11-cp313-cp313-win_amd64.whl)
+[04:55]      + torch-scatter==2.1.2+cu130torch2.11 (from https://github.com/PozzettiAndrea/cuda-wheels/releases/download/torch_scatter-latest/torch_scatter-2.1.2%2Bcu130torch2.11-cp313-cp313-win_amd64.whl)
+[04:55]   [comfy-env] Recorded install hash c36239ee3e9b -> C:\Users\stduser\AppData\Local\Programs\comfy-env\install.hash
+[04:55]   [comfy-env] Install log: C:\Users\stduser\AppData\Local\Programs\comfy-env\install.log
+[04:55]   
+[04:55]   Installation complete!
+[04:56] Installing 3 node dependency(ies)...
+[04:56]   ComfyUI-VideoHelperSuite from Kosinkadink/ComfyUI-VideoHelperSuite
+[04:56]   ComfyUI-VideoHelperSuite already exists, skipping...
+[04:56]   ComfyUI-CameraPack from PozzettiAndrea/ComfyUI-CameraPack
+[04:56]   ComfyUI-CameraPack already exists, skipping...
+[04:56]   ComfyUI-HyMotion from PozzettiAndrea/ComfyUI-HyMotion
+[04:56]   ComfyUI-HyMotion already exists, skipping...
+[04:56] Installing validation endpoint...
+[04:56]   Cloning PozzettiAndrea/ComfyUI-validate-endpoint...
+[04:56] Running: git clone --depth 1 https://x-access-token:***@github.com/PozzettiAndrea/ComfyUI-validate-endpoint.git D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1943\portable-comfyui\ComfyUI_windows_portable\ComfyUI\custom_nodes\ComfyUI-validate-endpoint
+[04:57] CUDA packages absent (will mock): dpvo_cuda, torch_scatter
+[04:57] [INSTALL] PASSED
+[04:57] 
+[04:57] [3/5] REGISTRATION
+[04:57] ----------------------------------------
+[04:57] 
 [DEBUG] server=None, api=None
-[05:27] 
+[04:57] 
 Starting ComfyUI server...
-[05:27] Starting ComfyUI server on port 41895...
-[05:27] CUDA mock packages: dpvo_cuda, torch_scatter
-[05:27] Starting ComfyUI server on port 41895...
-[05:27] Server stdout/stderr -> D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1156\server.log
-[05:27] Waiting for server to be ready (timeout: 600s)...
-[05:27]   [ComfyUI:stdout] reader thread died: AttributeError("'NoneType' object has no attribute 'readline'")
-[05:27]   [ComfyUI:stderr] reader thread died: AttributeError("'NoneType' object has no attribute 'readline'")
-[06:01] Server responding, waiting for nodes to load...
-[06:21] Server is ready!
-[06:21] Checking for import errors in server logs...
-[06:21] No import errors detected
-[06:21] Found 802 registered nodes
-[06:22] [REGISTRATION] PASSED
-[06:22] 
-[06:22] [4/5] INSTANTIATION
-[06:22] ----------------------------------------
-[06:22] 
-[DEBUG] server=<comfy_test.comfyui.server.ComfyUIServer object at 0x000002BB07521E40>, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x000002BB0753E4D0>
-[06:22] Testing node constructors...
-[06:24] All 22 node(s) instantiated successfully!
-[06:24] [INSTANTIATION] PASSED
-[06:24] 
-[06:24] [5/5] EXECUTION
-[06:24] ----------------------------------------
-[06:24] 
-[DEBUG] server=<comfy_test.comfyui.server.ComfyUIServer object at 0x000002BB07521E40>, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x000002BB0753E4D0>
-[06:24] CPU runner - will execute 3 workflow(s)
-[06:24] Running 5 workflow(s) (all with videos)...
-[06:24] Installing screenshot dependencies (playwright, pillow)...
-[06:27]   Packages installed, downloading chromium browser...
-[06:43]   Screenshot dependencies installed successfully
-[06:44] Starting headless browser...
-[06:44]   Downloading Mesa llvmpipe for Windows...
-[06:49]   Copied opengl32.dll to Chromium dir
-[06:49]   Copied libgallium_wgl.dll to Chromium dir
-[06:49]   Using Mesa llvmpipe (desktop GL) -- multithreaded CPU rendering
-[06:50] Capturing execution frames: apply_motion_on_character.json
-[07:00]   Frame 1 saved (frame_000.jpg, t=0.0s)
-[07:00]   Validating workflow...
-[07:00]   Queuing workflow for execution...
-[07:02]   Frame 2 saved (frame_001.jpg, t=2.3s)
-[07:02]   [capture-periodic] freeze=3ms shot=117ms unfreeze=4ms saved=True
-[07:04]   Frame 3 saved (frame_002.jpg, t=4.5s)
-[07:04]   [capture-periodic] freeze=3ms shot=132ms unfreeze=4ms saved=True
-[07:06]   [capture-loop] iter=50 t=5.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=6.2/16.0GB (39%) swap=0.3/2.9GB (12%) cpu=36% browser_rss=0.72GB
-[07:11]   Frame 4 saved (frame_003.jpg, t=11.1s)
-[07:11]   [capture-periodic] freeze=3ms shot=114ms unfreeze=4ms saved=True
-[07:12]   [capture-loop] iter=100 t=12.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.8/16.0GB (36%) swap=0.3/2.9GB (12%) cpu=66% browser_rss=0.72GB
-[07:18]   [capture-loop] iter=150 t=17.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.8/16.0GB (36%) swap=0.3/2.9GB (12%) cpu=45% browser_rss=0.71GB
-[07:22]   Node executed (2 total), capturing...
-[07:23]   Frame 5 saved (frame_004.jpg, t=22.7s)
-[07:23]   [capture-node] freeze=4ms shot=124ms unfreeze=0ms saved=True
-[07:23]   Execution complete (t=22.7s)
-[07:23]   [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
-[08:23]   [3d-wait] Phase 1 exception after 60.0s: Page.wait_for_function: Timeout 60000ms exceeded.
-[08:23]   [3d-wait] Phase 2: iframes=0
-[08:23]   [3d-wait] Total 3D wait: 60.0s
-[08:23]   Captured 5 unique frames over 83.72s
-[08:23]   [debug] iframes: 0
-[08:23]   [timing] trigger_3d_previews: 0.0s
-[08:26]   Saved high-quality screenshot: apply_motion_on_character_executed.png
-[08:26]   [timing] final_screenshot: 0.3s
-[08:26]   [2/5] SKIPPED (not in cpu list) GVHMR.json
-[08:26]   [3/5] SKIPPED (not in cpu list) GVHMR_cameramotion.json
-[08:26] Capturing execution frames: load_camera_traj.json
-[08:33]   Frame 1 saved (frame_000.jpg, t=0.0s)
-[08:33]   Validating workflow...
-[08:33]   Queuing workflow for execution...
-[08:36]   Frame 2 saved (frame_001.jpg, t=2.3s)
-[08:36]   [capture-periodic] freeze=8ms shot=123ms unfreeze=3ms saved=True
-[08:38]   Frame 3 saved (frame_002.jpg, t=4.6s)
-[08:38]   [capture-periodic] freeze=4ms shot=102ms unfreeze=6ms saved=True
-[08:39]   [capture-loop] iter=50 t=6.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.8/16.0GB (36%) swap=0.5/2.9GB (16%) cpu=19% browser_rss=0.80GB
-[08:42]   Frame 4 saved (frame_003.jpg, t=8.9s)
-[08:42]   [capture-periodic] freeze=3ms shot=106ms unfreeze=5ms saved=True
-[08:44]   Frame 5 saved (frame_004.jpg, t=11.2s)
-[08:44]   [capture-periodic] freeze=10ms shot=135ms unfreeze=3ms saved=True
-[08:45]   [capture-loop] iter=100 t=11.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.9/16.0GB (37%) swap=0.5/2.9GB (16%) cpu=55% browser_rss=0.79GB
-[08:47]   Frame 6 saved (frame_005.jpg, t=13.4s)
-[08:47]   [capture-periodic] freeze=4ms shot=121ms unfreeze=10ms saved=True
-[08:51]   [capture-loop] iter=150 t=17.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.9/16.0GB (37%) swap=0.5/2.9GB (16%) cpu=84% browser_rss=0.74GB
-[08:57]   [capture-loop] iter=200 t=23.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6 ram=5.9/16.0GB (37%) swap=0.5/2.9GB (16%) cpu=83% browser_rss=0.74GB
-[09:03]   [capture-loop] iter=250 t=29.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=6.0/16.0GB (38%) swap=0.5/2.9GB (16%) cpu=77% browser_rss=0.67GB
-[09:09]   [capture-loop] iter=300 t=35.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=13 ram=6.0/16.0GB (37%) swap=0.5/2.9GB (16%) cpu=81% browser_rss=0.66GB
-[09:15]   [capture-loop] iter=350 t=41.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.9/16.0GB (37%) swap=0.5/2.9GB (16%) cpu=81% browser_rss=0.66GB
-[09:18]   Node executed (1 total), capturing...
-[09:18]   Frame 7 saved (frame_006.jpg, t=44.8s)
-[09:18]   [capture-node] freeze=3ms shot=141ms unfreeze=0ms saved=True
-[09:18]   Execution complete (t=44.8s)
-[09:18]   Captured 7 unique frames over 45.02s
-[09:18]   [debug] iframes: 1
-[09:18]   [debug]   iframe[0]: src=http://127.0.0.1:41895/extensions/ComfyUI-MotionCapture/viewer_smpl_camera.html?, canvas=413x343, rafFrozen=True
-[09:18]   [timing] trigger_3d_previews: 0.0s
-[09:20]   Saved high-quality screenshot: load_camera_traj_executed.png
-[09:20]   [timing] final_screenshot: 0.2s
-[09:21] Capturing execution frames: smpl_to_bvh_pipeline.json
-[09:27]   Frame 1 saved (frame_000.jpg, t=0.0s)
-[09:27]   Validating workflow...
-[09:27]   Queuing workflow for execution...
-[09:28]   Node executed (1 total), capturing...
-[09:28]   Frame 2 saved (frame_001.jpg, t=1.5s)
-[09:28]   [capture-node] freeze=7ms shot=92ms unfreeze=0ms saved=True
-[09:28]   Execution complete (t=1.5s)
-[09:28]   Captured 2 unique frames over 1.66s
-[09:28]   [debug] iframes: 1
-[09:28]   [debug]   iframe[0]: src=http://127.0.0.1:41895/extensions/ComfyUI-MotionCapture/viewer_bvh.html?v=177884, canvas=374x600, rafFrozen=True
-[09:28]   [timing] trigger_3d_previews: 0.0s
-[09:31]   Saved high-quality screenshot: smpl_to_bvh_pipeline_executed.png
-[09:31]   [timing] final_screenshot: 0.2s
-[09:31] Results saved to D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1156\dev\windows-portable-cpu\results.json
-[09:31] Model report: 11 files, 329.9 MB -> D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1156\dev\windows-portable-cpu\models.json
-[09:31] Saved: D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1156\dev\windows-portable-cpu\index.html
-[09:31] [EXECUTION] PASSED
-[09:31] 
+[04:57] Starting ComfyUI server on port 41897...
+[04:57] CUDA mock packages: dpvo_cuda, torch_scatter
+[04:57] Starting ComfyUI server on port 41897...
+[04:57] Server stdout/stderr -> D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1943\server.log
+[04:57] Waiting for server to be ready (timeout: 600s)...
+[04:57]   [ComfyUI:stdout] reader thread died: AttributeError("'NoneType' object has no attribute 'readline'")
+[04:57]   [ComfyUI:stderr] reader thread died: AttributeError("'NoneType' object has no attribute 'readline'")
+[05:23] Server responding, waiting for nodes to load...
+[05:43] Server is ready!
+[05:43] Checking for import errors in server logs...
+[05:43] No import errors detected
+[05:43] Found 802 registered nodes
+[05:43] [REGISTRATION] PASSED
+[05:43] 
+[05:43] [4/5] INSTANTIATION
+[05:43] ----------------------------------------
+[05:43] 
+[DEBUG] server=<comfy_test.comfyui.server.ComfyUIServer object at 0x0000018692B59940>, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x0000018692B5B4D0>
+[05:43] Testing node constructors...
+[05:47] All 22 node(s) instantiated successfully!
+[05:47] [INSTANTIATION] PASSED
+[05:47] 
+[05:47] [5/5] EXECUTION
+[05:47] ----------------------------------------
+[05:47] 
+[DEBUG] server=<comfy_test.comfyui.server.ComfyUIServer object at 0x0000018692B59940>, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x0000018692B5B4D0>
+[05:47] CPU runner - will execute 3 workflow(s)
+[05:47] Running 5 workflow(s) (all with videos)...
+[05:47] Installing screenshot dependencies (playwright, pillow)...
+[05:50]   Packages installed, downloading chromium browser...
+[06:05]   Screenshot dependencies installed successfully
+[06:06] Starting headless browser...
+[06:06]   Downloading Mesa llvmpipe for Windows...
+[06:11]   Copied opengl32.dll to Chromium dir
+[06:11]   Copied libgallium_wgl.dll to Chromium dir
+[06:11]   Using Mesa llvmpipe (desktop GL) -- multithreaded CPU rendering
+[06:12] Capturing execution frames: apply_motion_on_character.json
+[06:22]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[06:22]   Validating workflow...
+[06:22]   Queuing workflow for execution...
+[06:24]   Frame 2 saved (frame_001.jpg, t=2.3s)
+[06:24]   [capture-periodic] freeze=4ms shot=112ms unfreeze=6ms saved=True
+[06:26]   Frame 3 saved (frame_002.jpg, t=4.5s)
+[06:26]   [capture-periodic] freeze=4ms shot=122ms unfreeze=5ms saved=True
+[06:28]   [capture-loop] iter=50 t=6.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6 ram=6.5/16.0GB (40%) swap=0.3/2.9GB (12%) cpu=42% browser_rss=0.71GB
+[06:33]   Frame 4 saved (frame_003.jpg, t=11.1s)
+[06:33]   [capture-periodic] freeze=3ms shot=102ms unfreeze=5ms saved=True
+[06:34]   [capture-loop] iter=100 t=12.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.9/16.0GB (37%) swap=0.3/2.9GB (12%) cpu=62% browser_rss=0.71GB
+[06:35]   Frame 5 saved (frame_004.jpg, t=13.3s)
+[06:35]   [capture-periodic] freeze=5ms shot=98ms unfreeze=5ms saved=True
+[06:40]   [capture-loop] iter=150 t=18.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.9/16.0GB (37%) swap=0.3/2.9GB (12%) cpu=40% browser_rss=0.71GB
+[06:43]   Node executed (2 total), capturing...
+[06:43]   Frame 6 saved (frame_005.jpg, t=21.6s)
+[06:43]   [capture-node] freeze=6ms shot=116ms unfreeze=0ms saved=True
+[06:43]   Execution complete (t=21.6s)
+[06:43]   [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
+[07:43]   [3d-wait] Phase 1 exception after 60.0s: Page.wait_for_function: Timeout 60000ms exceeded.
+[07:43]   [3d-wait] Phase 2: iframes=0
+[07:43]   [3d-wait] Total 3D wait: 60.0s
+[07:43]   Captured 6 unique frames over 81.73s
+[07:43]   [debug] iframes: 0
+[07:43]   [timing] trigger_3d_previews: 0.0s
+[07:46]   Saved high-quality screenshot: apply_motion_on_character_executed.png
+[07:46]   [timing] final_screenshot: 0.2s
+[07:46]   [2/5] SKIPPED (not in cpu list) GVHMR.json
+[07:46]   [3/5] SKIPPED (not in cpu list) GVHMR_cameramotion.json
+[07:46] Capturing execution frames: load_camera_traj.json
+[07:53]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[07:53]   Validating workflow...
+[07:53]   Queuing workflow for execution...
+[07:55]   Frame 2 saved (frame_001.jpg, t=2.3s)
+[07:55]   [capture-periodic] freeze=7ms shot=129ms unfreeze=5ms saved=True
+[07:58]   Frame 3 saved (frame_002.jpg, t=4.5s)
+[07:58]   [capture-periodic] freeze=4ms shot=142ms unfreeze=5ms saved=True
+[07:59]   [capture-loop] iter=50 t=6.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=6.0/16.0GB (38%) swap=0.3/2.9GB (12%) cpu=21% browser_rss=0.81GB
+[08:00]   Frame 4 saved (frame_003.jpg, t=6.8s)
+[08:00]   [capture-periodic] freeze=5ms shot=118ms unfreeze=4ms saved=True
+[08:04]   Frame 5 saved (frame_004.jpg, t=11.2s)
+[08:04]   [capture-periodic] freeze=3ms shot=122ms unfreeze=3ms saved=True
+[08:05]   [capture-loop] iter=100 t=12.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=6.1/16.0GB (38%) swap=0.3/2.9GB (12%) cpu=50% browser_rss=0.79GB
+[08:11]   [capture-loop] iter=150 t=18.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=6.1/16.0GB (38%) swap=0.3/2.9GB (12%) cpu=79% browser_rss=0.75GB
+[08:17]   [capture-loop] iter=200 t=24.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6 ram=6.1/16.0GB (38%) swap=0.3/2.9GB (12%) cpu=80% browser_rss=0.74GB
+[08:23]   [capture-loop] iter=250 t=30.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=6.3/16.0GB (39%) swap=0.3/2.9GB (12%) cpu=79% browser_rss=0.67GB
+[08:29]   [capture-loop] iter=300 t=36.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8 ram=6.2/16.0GB (39%) swap=0.3/2.9GB (12%) cpu=83% browser_rss=0.67GB
+[08:36]   [capture-loop] iter=350 t=42.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=6.1/16.0GB (38%) swap=0.5/2.9GB (17%) cpu=84% browser_rss=0.66GB
+[08:41]   Node executed (1 total), capturing...
+[08:41]   Frame 6 saved (frame_005.jpg, t=48.3s)
+[08:41]   [capture-node] freeze=6ms shot=138ms unfreeze=0ms saved=True
+[08:41]   Execution complete (t=48.3s)
+[08:41]   Captured 6 unique frames over 48.45s
+[08:41]   [debug] iframes: 1
+[08:41]   [debug]   iframe[0]: src=http://127.0.0.1:41897/extensions/ComfyUI-MotionCapture/viewer_smpl_camera.html?, canvas=413x343, rafFrozen=True
+[08:41]   [timing] trigger_3d_previews: 0.0s
+[08:44]   Saved high-quality screenshot: load_camera_traj_executed.png
+[08:44]   [timing] final_screenshot: 0.2s
+[08:44] Capturing execution frames: smpl_to_bvh_pipeline.json
+[08:50]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[08:50]   Validating workflow...
+[08:50]   Queuing workflow for execution...
+[08:52]   Node executed (1 total), capturing...
+[08:53]   Frame 2 saved (frame_001.jpg, t=2.3s)
+[08:53]   [capture-node] freeze=7ms shot=95ms unfreeze=0ms saved=True
+[08:53]   Execution complete (t=2.3s)
+[08:53]   Captured 2 unique frames over 2.45s
+[08:53]   [debug] iframes: 1
+[08:53]   [debug]   iframe[0]: src=http://127.0.0.1:41897/extensions/ComfyUI-MotionCapture/viewer_bvh.html?v=177896, canvas=374x600, rafFrozen=True
+[08:53]   [timing] trigger_3d_previews: 0.0s
+[08:55]   Saved high-quality screenshot: smpl_to_bvh_pipeline_executed.png
+[08:55]   [timing] final_screenshot: 0.2s
+[08:55] Results saved to D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1943\dev\windows-portable-cpu\results.json
+[08:55] Model report: 11 files, 329.9 MB -> D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1943\dev\windows-portable-cpu\models.json
+[08:55] Saved: D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1943\dev\windows-portable-cpu\index.html
+[08:55] [EXECUTION] PASSED
+[08:55] 
 windows_portable: PASSED
-[09:31] Stopping ComfyUI server...
+[08:55] Stopping ComfyUI server...
