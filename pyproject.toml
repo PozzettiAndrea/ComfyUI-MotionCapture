@@ -1,6 +1,6 @@
 [project]
 name = "comfyui-motioncapture"
-description = "Motion Capture nodes for ComfyUI: SMPL data/retargeting using GVHMR"
+description = "Warning, uses experimental package `comfy-env` to attempt a one click isolated install. Will download and use pixi package manager. Motion Capture nodes for ComfyUI: SMPL data/retargeting using GVHMR"
 version = "0.1.18"
 license = {file = "LICENSE"}
 
