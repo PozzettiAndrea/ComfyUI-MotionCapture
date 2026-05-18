@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-05-11T12:17:06.089980+00:00",
+  "timestamp": "2026-05-18T16:09:49.596416+00:00",
   "platform": "windows",
   "hardware": {
-    "os": "Windows-11-10.0.26200-SP0",
-    "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel"
+    "os": "Windows-11-10.0.26100-SP0",
+    "cpu": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
   },
-  "commit_hash": "92b0fb4b0967e1e0cbdb689f723e2ebe448b163f",
-  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/25663902812",
+  "commit_hash": "5055f7e76c85a665092e874c3f94fdf0e99343ba",
+  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/26042399135",
   "success": true,
   "summary": {
     "total": 5,
@@ -24,37 +24,37 @@
     {
       "name": "GVHMR",
       "status": "pass",
-      "duration_seconds": 128.48,
+      "duration_seconds": 114.53,
       "error": null,
       "hardware": {
-        "os": "Windows-11-10.0.26200-SP0",
-        "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel"
+        "os": "Windows-11-10.0.26100-SP0",
+        "cpu": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
       },
       "resources": {
         "ram": {
-          "peak": 6.66,
-          "avg": 2.36
+          "peak": 6.8,
+          "avg": 2.54
         },
-        "total_ram_gb": 31.9,
-        "samples": 112
+        "total_ram_gb": 23.9,
+        "samples": 114
       }
     },
     {
       "name": "GVHMR_cameramotion",
       "status": "pass",
-      "duration_seconds": 91.04,
+      "duration_seconds": 80.14,
       "error": null,
       "hardware": {
-        "os": "Windows-11-10.0.26200-SP0",
-        "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel"
+        "os": "Windows-11-10.0.26100-SP0",
+        "cpu": "AMD64 Family 23 Model 113 Stepping 0, AuthenticAMD"
       },
       "resources": {
         "ram": {
-          "peak": 6.71,
-          "avg": 3.62
+          "peak": 8.87,
+          "avg": 4.14
         },
-        "total_ram_gb": 31.9,
-        "samples": 90
+        "total_ram_gb": 23.9,
+        "samples": 80
       }
     },
     {
