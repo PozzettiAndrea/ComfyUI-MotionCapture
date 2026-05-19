@@ -1,11 +1,11 @@
 [
   {
     "description": "",
-    "devtoolsFrontendUrl": "/devtools/inspector.html?ws=localhost:59141/devtools/page/5829FF71FF34521FB8127DAC58C34D1A",
-    "id": "5829FF71FF34521FB8127DAC58C34D1A",
+    "devtoolsFrontendUrl": "/devtools/inspector.html?ws=localhost:49340/devtools/page/57C46171531FD02360C4A19455DF587E",
+    "id": "57C46171531FD02360C4A19455DF587E",
     "title": "ComfyUI",
     "type": "page",
     "url": "file:///C:/Users/stduser/.comfy-test-cache/desktop/ComfyUI/resources/desktop-ui/index.html#/not-supported",
-    "webSocketDebuggerUrl": "ws://localhost:59141/devtools/page/5829FF71FF34521FB8127DAC58C34D1A"
+    "webSocketDebuggerUrl": "ws://localhost:49340/devtools/page/57C46171531FD02360C4A19455DF587E"
   }
 ]

@@ -1,0 +1,259 @@
+[2026-05-19 11:24:07.776] [info]  setup plugin alembic.autogenerate.schemas
+setup plugin alembic.autogenerate.tables
+
+[2026-05-19 11:24:07.778] [info]  setup plugin alembic.autogenerate.types
+setup plugin alembic.autogenerate.constraints
+setup plugin alembic.autogenerate.defaults
+setup plugin alembic.autogenerate.comments
+
+[2026-05-19 11:24:08.228] [info]  Adding extra search path custom_nodes C:\Users\stduser\Documents\ComfyUI\custom_nodes
+Adding extra search path download_model_base C:\Users\stduser\Documents\ComfyUI\models
+
+[2026-05-19 11:24:08.229] [info]  Adding extra search path custom_nodes C:\Users\stduser\.comfy-test-cache\desktop\ComfyUI\resources\ComfyUI\custom_nodes
+Setting output directory to: C:\Users\stduser\Documents\ComfyUI\output
+Setting input directory to: C:\Users\stduser\Documents\ComfyUI\input
+Setting user directory to: C:\Users\stduser\Documents\ComfyUI\user
+
+[2026-05-19 11:24:09.769] [info]  [START] Security scan
+[DONE] Security scan
+** ComfyUI startup time: 
+[2026-05-19 11:24:09.771] [info]  2026-05-19 11:24:09.769
+** Platform: Windows
+** Python version: 3.12.11 (main, Aug 18 2025, 19:17:54) [MSC v.1944 64 bit (AMD64)]
+** Python executable: C:\Users\stduser\Documents\ComfyUI\.venv\Scripts\python.exe
+** ComfyUI Path: C:\Users\stduser\.comfy-test-cache\desktop\ComfyUI\resources\ComfyUI
+** ComfyUI Base Folder Path: C:\Users\stduser\.comfy-test-cache\desktop\ComfyUI\resources\ComfyUI
+
+[2026-05-19 11:24:09.772] [info]  ** User directory: C:\Users\stduser\Documents\ComfyUI\user
+** ComfyUI-Manager config path: C:\Users\stduser\Documents\ComfyUI\user\__manager\config.ini
+** Log path: C:\Users\stduser\Documents\ComfyUI\user\comfyui.log
+
+[2026-05-19 11:24:10.885] [info]  [ComfyUI-Manager] Skipped fixing the 'comfyui-frontend-package' dependency because the ComfyUI is outdated.
+
+[2026-05-19 11:24:10.887] [info]  [PRE] ComfyUI-Manager
+
+[2026-05-19 11:24:11.215] [error] [comfy-env] comfyui-motioncapture: 1 isolation env(s):
+[2026-05-19 11:24:11.216] [error] 
+[comfy-env]   nodes -> C:\Users\stduser\Documents\ComfyUI\custom_nodes\comfyui-motioncapture\nodes
+[comfy-env] Workspace: C:\Users\stduser\AppData\Local\Programs\comfy-env
+[2026-05-19 11:24:11.218] [error] 
+[comfy-env]     env: C:\Users\stduser\AppData\Local\Programs\comfy-env\.pixi\envs\motioncapture-nodes  [OK]
+
+[2026-05-19 11:24:11.219] [error] [comfy-env] prestartup complete
+
+[2026-05-19 11:24:13.911] [info]  Found comfy_kitchen backend triton: {'available': False, 'disabled': True, 'unavailable_reason': "ImportError: No module named 'triton'", 'capabilities': []}
+
+[2026-05-19 11:24:13.913] [info]  Found comfy_kitchen backend cuda: {'available': False, 'disabled': True, 'unavailable_reason': 'CUDA not available on this system', 'capabilities': []}
+Found comfy_kitchen backend eager: {'available': True, 'disabled': False, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_mxfp8', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8', 'scaled_mm_mxfp8', 'scaled_mm_nvfp4']}
+
+[2026-05-19 11:24:13.918] [info]  Checkpoint files will always be loaded safely.
+
+[2026-05-19 11:24:13.933] [info]  Total VRAM 16379 MB, total RAM 16379 MB
+
+[2026-05-19 11:24:13.934] [info]  pytorch version: 2.10.0+cpu
+Set vram state to: DISABLED
+Device: cpu
+
+[2026-05-19 11:24:14.233] [info]  Using sub quadratic optimization for attention, if you have memory or speed issues try using: --use-split-cross-attention
+
+[2026-05-19 11:24:17.077] [info]  Python version: 3.12.11 (main, Aug 18 2025, 19:17:54) [MSC v.1944 64 bit (AMD64)]
+
+[2026-05-19 11:24:17.078] [info]  ComfyUI version: 0.21.1
+comfy-aimdo version: 0.3.0
+
+[2026-05-19 11:24:17.080] [info]  comfy-kitchen version: 0.2.8
+
+[2026-05-19 11:24:17.082] [info]  [Prompt Server] web root: C:\Users\stduser\.comfy-test-cache\desktop\ComfyUI\resources\ComfyUI\web_custom_versions\desktop_app
+
+[2026-05-19 11:24:17.084] [info]  Asset seeder disabled
+
+[2026-05-19 11:24:17.085] [info]  [START] ComfyUI-Manager
+
+[2026-05-19 11:24:17.242] [info]  [ComfyUI-Manager] Using GitPython backend
+
+[2026-05-19 11:24:17.302] [info]  [ComfyUI-Manager] network_mode: public
+
+[2026-05-19 11:24:17.307] [info]  [ComfyUI-Manager] The matrix sharing feature has been disabled because the `matrix-nio` dependency is not installed.
+	To use this feature, please run the following command:
+	C:\Users\stduser\Documents\ComfyUI\.venv\Scripts\python.exe -m pip install matrix-nio
+
+
+[2026-05-19 11:24:19.855] [info]  loading...
+calling register_nodes
+
+[2026-05-19 11:24:19.860] [error] [comfy-env] Version: 0.3.89
+[2026-05-19 11:24:19.861] [error] 
+
+[2026-05-19 11:24:20.600] [error] [comfy-env] register_nodes: comfyui-motioncapture
+[2026-05-19 11:24:20.601] [error] 
+
+[2026-05-19 11:24:20.604] [error] [comfy-env] ComfyUI source dir: C:\Users\stduser\.comfy-test-cache\desktop\ComfyUI\resources\ComfyUI
+[2026-05-19 11:24:20.605] [error] 
+
+[2026-05-19 11:24:20.607] [error] [comfy-env] Scanning nodes metadata (isolation root)...
+[2026-05-19 11:24:20.608] [error] 
+
+[2026-05-19 11:24:20.618] [error] [comfy-env] Cache hit for nodes: 22 nodes
+[2026-05-19 11:24:20.619] [error] 
+
+[2026-05-19 11:24:20.620] [error] [comfy-env] Scanned nodes root: 22 nodes (0.0s)
+[2026-05-19 11:24:20.621] [error] 
+
+[2026-05-19 11:24:20.622] [error] [comfy-env] Imported nodes root: 22 nodes (isolation)
+[2026-05-19 11:24:20.625] [error] 
+
+[2026-05-19 11:24:20.626] [error] [comfy-env] Registered 22 total nodes
+
+[2026-05-19 11:24:20.700] [info]  
+Import times for custom nodes:
+   0.0 seconds: C:\Users\stduser\.comfy-test-cache\desktop\ComfyUI\resources\ComfyUI\custom_nodes\websocket_image_save.py
+
+[2026-05-19 11:24:20.701] [info]     0.0 seconds: C:\Users\stduser\Documents\ComfyUI\custom_nodes\ComfyUI-CameraPack
+   0.1 seconds: C:\Users\stduser\Documents\ComfyUI\custom_nodes\ComfyUI-VideoHelperSuite
+   0.7 seconds: C:\Users\stduser\Documents\ComfyUI\custom_nodes\ComfyUI-HyMotion
+   0.8 seconds: C:\Users\stduser\Documents\ComfyUI\custom_nodes\comfyui-motioncapture
+
+
+[2026-05-19 11:24:20.705] [info]  Context impl SQLiteImpl.
+
+[2026-05-19 11:24:20.706] [info]  Will assume non-transactional DDL.
+
+[2026-05-19 11:24:20.713] [error] Failed to initialize database. Please ensure you have installed the latest requirements. If the error persists, please report this as in future the database will be required: Could not acquire lock on database 'C:/Users/stduser/Documents/ComfyUI/user/comfyui.db'. Another ComfyUI process may already be using it. Use --database-url to specify a separate database file.
+
+[2026-05-19 11:24:20.854] [info]  Starting server
+
+
+[2026-05-19 11:24:20.856] [info]  To see the GUI go to: http://127.0.0.1:8001
+
+[2026-05-19 11:24:22.727] [info]  [ComfyUI-Manager] The ComfyRegistry cache update is still in progress, so an outdated cache is being used.
+
+[2026-05-19 11:24:22.837] [info]  FETCH DATA from: C:\Users\stduser\Documents\ComfyUI\.venv\Lib\site-packages\comfyui_manager\custom-node-list.json
+[2026-05-19 11:24:22.863] [info]   [DONE]
+
+[2026-05-19 11:24:22.967] [info]  [DEPRECATION WARNING] Detected import of deprecated legacy API: /extensions/core/widgetInputs.js. This is likely caused by a custom node extension using outdated APIs. Please update your extensions or contact the extension author for an updated version.
+
+[2026-05-19 11:24:24.101] [error] Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "C:\Users\stduser\AppData\Roaming\uv\python\cpython-3.12.11-windows-x86_64-none\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Users\stduser\AppData\Roaming\uv\python\cpython-3.12.11-windows-x86_64-none\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+
+[2026-05-19 11:24:25.124] [info]  [ComfyUI-Manager] The ComfyRegistry cache update is still in progress, so an outdated cache is being used.
+
+[2026-05-19 11:24:25.260] [info]  FETCH DATA from: C:\Users\stduser\Documents\ComfyUI\.venv\Lib\site-packages\comfyui_manager\custom-node-list.json
+[2026-05-19 11:24:25.284] [info]   [DONE]
+
+[2026-05-19 11:24:56.324] [info]  got prompt
+
+[2026-05-19 11:24:56.363] [info]  [comfyui-motioncapture] python: C:\Users\stduser\AppData\Local\Programs\comfy-env\.pixi\envs\motioncapture-nodes\python.exe
+
+[2026-05-19 11:24:56.365] [info]  [comfyui-motioncapture] sys_path sent to worker: ['C:\\Users\\stduser\\.comfy-test-cache\\desktop\\ComfyUI\\resources\\ComfyUI', 'C:\\Users\\stduser\\Documents\\ComfyUI\\custom_nodes\\comfyui-motioncapture', 'C:\\Users\\stduser\\AppData\\Local\\Programs\\comfy-env\\.pixi\\envs\\motioncapture-nodes\\Lib\\site-packages', 'C:\\Users\\stduser\\Documents\\ComfyUI\\custom_nodes\\comfyui-motioncapture']
+
+[2026-05-19 11:25:00.384] [error] [worker:comfyui-motioncapture] ERROR: Failed to import comfy_kitchen, Error: No module named 'comfy_kitchen', fp8 and fp4 support will not be available.
+
+[2026-05-19 11:25:01.049] [error] [worker:comfyui-motioncapture] INFO: [GVHMRInference] DPVO not installed - only SimpleVO will be available
+
+[2026-05-19 11:25:01.059] [error] [05/19 11:25:01][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
+
+[2026-05-19 11:25:01.859] [error] [worker:comfyui-motioncapture] INFO: Selected: C:\Users\stduser\Documents\ComfyUI\input\smpl_params_tennis.npz
+
+[2026-05-19 11:25:01.864] [error] [05/19 11:25:01][INFO] Selected: C:\Users\stduser\Documents\ComfyUI\input\smpl_params_tennis.npz
+
+[2026-05-19 11:25:01.883] [error] [comfyui-motioncapture] Health check: ping (timeout=5.0s)...
+[2026-05-19 11:25:01.885] [error] 
+
+[2026-05-19 11:25:01.889] [error] [comfyui-motioncapture] Health check: ok
+[2026-05-19 11:25:01.890] [error] 
+
+[2026-05-19 11:25:01.984] [error] [worker:comfyui-motioncapture] INFO: [SMPLtoBVH] Converting SMPL to BVH format...
+[05/19 11:25:01][INFO] [SMPLtoBVH] Converting SMPL to BVH format...
+[worker:comfyui-motioncapture] INFO: [SMPLtoBVH] Loading SMPL parameters from: C:\Users\stduser\Documents\ComfyUI\input\smpl_params_tennis.npz
+[05/19 11:25:01][INFO] [SMPLtoBVH] Loading SMPL parameters from: C:\Users\stduser\Documents\ComfyUI\input\smpl_params_tennis.npz
+[worker:comfyui-motioncapture] INFO: [SMPLtoBVH] Detected 21-joint SMPL variant (63 parameters)
+[05/19 11:25:01][INFO] [SMPLtoBVH] Detected 21-joint SMPL variant (63 parameters)
+[worker:comfyui-motioncapture] INFO: [SMPLtoBVH] Using 21-joint skeleton (GVHMR variant, no hands)
+
+[2026-05-19 11:25:01.988] [error] [05/19 11:25:01][INFO] [SMPLtoBVH] Using 21-joint skeleton (GVHMR variant, no hands)
+
+[2026-05-19 11:25:02.704] [error] [worker:comfyui-motioncapture] INFO: [SMPLtoBVH] Rotation ranges (degrees):
+
+[2026-05-19 11:25:02.711] [error] [05/19 11:25:02][INFO] [SMPLtoBVH] Rotation ranges (degrees):
+
+[2026-05-19 11:25:02.712] [error] [worker:comfyui-motioncapture] INFO:   Z: [-174.0, 169.8]
+
+[2026-05-19 11:25:02.716] [error] [05/19 11:25:02][INFO]   Z: [-174.0, 169.8]
+
+[2026-05-19 11:25:02.717] [error] [worker:comfyui-motioncapture] INFO:   X: [-73.5, 88.9]
+
+[2026-05-19 11:25:02.721] [error] [05/19 11:25:02][INFO]   X: [-73.5, 88.9]
+
+[2026-05-19 11:25:02.723] [error] [worker:comfyui-motioncapture] INFO:   Y: [-179.7, 177.9]
+
+[2026-05-19 11:25:02.729] [error] [05/19 11:25:02][INFO]   Y: [-179.7, 177.9]
+
+[2026-05-19 11:25:02.763] [error] [worker:comfyui-motioncapture] INFO: [SMPLtoBVH] Converted 312 frames to C:\Users\stduser\Documents\ComfyUI\output\output\motion.bvh
+
+[2026-05-19 11:25:02.767] [error] [05/19 11:25:02][INFO] [SMPLtoBVH] Converted 312 frames to C:\Users\stduser\Documents\ComfyUI\output\output\motion.bvh
+
+[2026-05-19 11:25:02.823] [error] [comfyui-motioncapture] Health check: ping (timeout=5.0s)...
+[2026-05-19 11:25:02.825] [error] 
+[comfyui-motioncapture] Health check: ok
+
+[2026-05-19 11:25:02.923] [error] [worker:comfyui-motioncapture] INFO: [BVHViewer] Loading BVH for visualization...
+
+[2026-05-19 11:25:02.929] [error] [05/19 11:25:02][INFO] [BVHViewer] Loading BVH for visualization...
+
+[2026-05-19 11:25:02.931] [error] [worker:comfyui-motioncapture] INFO: [BVHViewer DEBUG] BVH file path: C:\Users\stduser\Documents\ComfyUI\output\output\motion.bvh
+
+[2026-05-19 11:25:02.935] [error] [05/19 11:25:02][INFO] [BVHViewer DEBUG] BVH file path: C:\Users\stduser\Documents\ComfyUI\output\output\motion.bvh
+
+[2026-05-19 11:25:02.937] [error] [worker:comfyui-motioncapture] INFO: [BVHViewer DEBUG] Num frames: 312, FPS: 30
+[2026-05-19 11:25:02.938] [error] 
+
+[2026-05-19 11:25:02.945] [error] [05/19 11:25:02][INFO] [BVHViewer DEBUG] Num frames: 312, FPS: 30
+
+[2026-05-19 11:25:02.946] [error] [worker:comfyui-motioncapture] INFO: [BVHViewer DEBUG] File exists: True
+
+[2026-05-19 11:25:02.950] [error] [05/19 11:25:02][INFO] [BVHViewer DEBUG] File exists: True
+
+[2026-05-19 11:25:02.951] [error] [worker:comfyui-motioncapture] INFO: [BVHViewer DEBUG] BVH content length: 214444 bytes
+[2026-05-19 11:25:02.954] [error] 
+
+[2026-05-19 11:25:02.961] [error] [05/19 11:25:02][INFO] [BVHViewer DEBUG] BVH content length: 214444 bytes
+[worker:comfyui-motioncapture] INFO: [BVHViewer DEBUG] First 200 chars: HIERARCHY
+ROOT Pelvis
+{
+  OFFSET 0.000000 0.000000 0.000000
+  CHANNELS 6 Xposition Yposition Zposition Zrotation Xrotation Yrotation
+  JOINT L_Hip
+  {
+    OFFSET 0.100000 -0.040000 0.000000
+    CHANNE
+
+[2026-05-19 11:25:02.964] [error] [05/19 11:25:02][INFO] [BVHViewer DEBUG] First 200 chars: HIERARCHY
+ROOT Pelvis
+{
+  OFFSET 0.000000 0.000000 0.000000
+  CHANNELS 6 Xposition Yposition Zposition Zrotation Xrotation Yrotation
+  JOINT L_Hip
+  {
+    OFFSET 0.100000 -0.040000 0.000000
+    CHANNE
+
+[2026-05-19 11:25:02.965] [error] [worker:comfyui-motioncapture] INFO: [BVHViewer DEBUG] Stored bvh_content (214444 bytes) and bvh_info for frontend
+
+[2026-05-19 11:25:02.969] [error] [05/19 11:25:02][INFO] [BVHViewer DEBUG] Stored bvh_content (214444 bytes) and bvh_info for frontend
+
+[2026-05-19 11:25:02.971] [error] [worker:comfyui-motioncapture] INFO: [BVHViewer DEBUG] bvh_info: {'num_frames': 312, 'fps': 30, 'file_path': 'C:\\Users\\stduser\\Documents\\ComfyUI\\output\\output\\motion.bvh'}
+
+[2026-05-19 11:25:02.987] [error] [05/19 11:25:02][INFO] [BVHViewer DEBUG] bvh_info: {'num_frames': 312, 'fps': 30, 'file_path': 'C:\\Users\\stduser\\Documents\\ComfyUI\\output\\output\\motion.bvh'}
+
+[2026-05-19 11:25:02.991] [error] [worker:comfyui-motioncapture] INFO: [BVHViewer] Loaded BVH with 312 frames
+
+[2026-05-19 11:25:02.994] [error] [05/19 11:25:02][INFO] [BVHViewer] Loaded BVH with 312 frames
+
+[2026-05-19 11:25:03.027] [info]  Prompt executed in 6.70 seconds
+
