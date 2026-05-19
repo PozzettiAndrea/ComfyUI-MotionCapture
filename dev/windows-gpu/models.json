@@ -1,13 +1,13 @@
 {
-  "models_dir": "C:\\workspaces\\MotionCapture-1801\\ComfyUI\\models",
+  "models_dir": "C:\\workspaces\\MotionCapture-1948\\ComfyUI\\models",
   "summary": {
     "total_files": 18,
-    "total_size_bytes": 6026981444,
+    "total_size_bytes": 6026981442,
     "total_size_human": "5.6 GB"
   },
   "folders": {
     "motion_capture": {
-      "total_size_bytes": 6026981444,
+      "total_size_bytes": 6026981442,
       "total_size_human": "5.6 GB",
       "source": {
         "type": "unknown"
@@ -79,11 +79,6 @@
           "size_human": "128.0 B"
         },
         {
-          "path": ".cache\\huggingface\\download\\hmr2.safetensors.metadata",
-          "size_bytes": 128,
-          "size_human": "128.0 B"
-        },
-        {
           "path": ".cache\\huggingface\\download\\vitpose.safetensors.metadata",
           "size_bytes": 128,
           "size_human": "128.0 B"
@@ -92,6 +87,11 @@
           "path": "dpvo\\.cache\\huggingface\\download\\dpvo.pth.metadata",
           "size_bytes": 128,
           "size_human": "128.0 B"
+        },
+        {
+          "path": ".cache\\huggingface\\download\\hmr2.safetensors.metadata",
+          "size_bytes": 126,
+          "size_human": "126.0 B"
         },
         {
           "path": ".cache\\huggingface\\.gitignore",
