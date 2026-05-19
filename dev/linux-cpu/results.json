@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-05-16T19:46:00.892620+00:00",
+  "timestamp": "2026-05-19T16:57:54.137531+00:00",
   "platform": "linux",
   "hardware": {
     "os": "Linux-6.17.0-1013-azure-x86_64-with-glibc2.39",
-    "cpu": "Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz"
+    "cpu": "AMD EPYC 7763 64-Core Processor"
   },
-  "commit_hash": "5055f7e76c85a665092e874c3f94fdf0e99343ba",
-  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/25971138011",
+  "commit_hash": "2e0ffb450a6d8f93f66af0d1c25fa3494637366c",
+  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/26108914854",
   "success": true,
   "summary": {
     "total": 5,
@@ -31,55 +31,55 @@
     {
       "name": "apply_motion_on_character",
       "status": "pass",
-      "duration_seconds": 23.46,
+      "duration_seconds": 85.28,
       "error": null,
       "hardware": {
         "os": "Linux-6.17.0-1013-azure-x86_64-with-glibc2.39",
-        "cpu": "Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz"
+        "cpu": "AMD EPYC 7763 64-Core Processor"
       },
       "resources": {
         "ram": {
-          "peak": 1.78,
-          "avg": 1.02
+          "peak": 1.82,
+          "avg": 1.12
         },
         "total_ram_gb": 15.6,
-        "samples": 24
+        "samples": 85
       }
     },
     {
       "name": "load_camera_traj",
       "status": "pass",
-      "duration_seconds": 41.92,
+      "duration_seconds": 44.7,
       "error": null,
       "hardware": {
         "os": "Linux-6.17.0-1013-azure-x86_64-with-glibc2.39",
-        "cpu": "Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz"
+        "cpu": "AMD EPYC 7763 64-Core Processor"
       },
       "resources": {
         "ram": {
           "peak": 1.5,
-          "avg": 1.35
+          "avg": 1.32
         },
         "total_ram_gb": 15.6,
-        "samples": 42
+        "samples": 45
       }
     },
     {
       "name": "smpl_to_bvh_pipeline",
       "status": "pass",
-      "duration_seconds": 10.77,
+      "duration_seconds": 9.28,
       "error": null,
       "hardware": {
         "os": "Linux-6.17.0-1013-azure-x86_64-with-glibc2.39",
-        "cpu": "Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz"
+        "cpu": "AMD EPYC 7763 64-Core Processor"
       },
       "resources": {
         "ram": {
-          "peak": 1.33,
-          "avg": 1.2
+          "peak": 1.32,
+          "avg": 1.32
         },
         "total_ram_gb": 15.6,
-        "samples": 11
+        "samples": 10
       }
     }
   ]
