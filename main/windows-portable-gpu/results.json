@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-05-11T02:22:18.692700+00:00",
+  "timestamp": "2026-05-18T17:31:30.374671+00:00",
   "platform": "windows_portable",
   "hardware": {
-    "os": "Windows-11-10.0.26200-SP0",
-    "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel"
+    "os": "Windows-11-10.0.26100-SP0",
+    "cpu": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD"
   },
-  "commit_hash": "11f03d936fcd52a68a3fda40942a21c89be2e06e",
-  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/25644123154",
+  "commit_hash": "5055f7e76c85a665092e874c3f94fdf0e99343ba",
+  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/26046624881",
   "success": true,
   "summary": {
     "total": 5,
@@ -24,37 +24,37 @@
     {
       "name": "GVHMR",
       "status": "pass",
-      "duration_seconds": 129.29,
+      "duration_seconds": 108.48,
       "error": null,
       "hardware": {
-        "os": "Windows-11-10.0.26200-SP0",
-        "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel"
+        "os": "Windows-11-10.0.26100-SP0",
+        "cpu": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD"
       },
       "resources": {
         "ram": {
-          "peak": 7.13,
-          "avg": 2.72
+          "peak": 7.23,
+          "avg": 2.4
         },
         "total_ram_gb": 31.9,
-        "samples": 128
+        "samples": 107
       }
     },
     {
       "name": "GVHMR_cameramotion",
       "status": "pass",
-      "duration_seconds": 113.23,
+      "duration_seconds": 65.86,
       "error": null,
       "hardware": {
-        "os": "Windows-11-10.0.26200-SP0",
-        "cpu": "Intel64 Family 6 Model 79 Stepping 1, GenuineIntel"
+        "os": "Windows-11-10.0.26100-SP0",
+        "cpu": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD"
       },
       "resources": {
         "ram": {
-          "peak": 8.61,
-          "avg": 3.98
+          "peak": 6.77,
+          "avg": 3.86
         },
         "total_ram_gb": 31.9,
-        "samples": 112
+        "samples": 65
       }
     },
     {

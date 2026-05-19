@@ -9,6 +9,9 @@
 [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
 [Console-warning] WARNING: Multiple instances of Three.js being imported.
 [Console-warning] WARNING: Multiple instances of Three.js being imported.
+[Console-log] [SMPLCameraViewer] Loading SMPL Camera Viewer extension
+[Console-log] [SMPLCameraViewer] Loading extension...
+[Console-log] [SMPLCameraViewer] Extension registered: comfy3d.smplcameraviewer
 [Console-log] [FBX Preview] Auto-registering for all known FBX preview node types...
 [Console-log] [UniRig] Loading FBX mesh preview extension...
 [Console-log] [UniRig] Detected extension folder: ComfyUI-MotionCapture
@@ -22,24 +25,21 @@
 [Console-log] [MotionCapture] Loading FBX mesh preview extension...
 [Console-log] [MotionCapture] Detected extension folder: ComfyUI-MotionCapture
 [Console-log] [MotionCapture] FBX mesh preview extension registered
+[Console-log] [UniRig Compare] Loading compare skeleton widget...
+[Console-log] [UniRig Compare] Detected extension folder: ComfyUI-MotionCapture
+[Console-log] [UniRig Compare] Compare skeleton widget registered
+[Console-log] [FBXAnimationViewer] Loading FBX Animation Viewer extension
+[Console-log] [FBXAnimationViewer] Loading FBX Animation Viewer extension...
+[Console-log] [FBXAnimationViewer] Extension registered: comfy3d.fbxanimationviewer
+[Console-log] [HY-Motion] app imported successfully: true
+[Console-log] [SMPL] Loading SMPL Viewer extension
+[Console-log] [SMPLViewer] Extension registered: comfy3d.smplviewer
 [Console-log] [CompareSMPLBVH] Loading Compare SMPL BVH extension
 [Console-log] [CompareSMPLBVH] Loading Compare SMPL BVH extension...
 [Console-log] [CompareSMPLBVH] Extension registered: comfy3d.comparesmplbvh
 [Console-log] [BVHViewer] Loading BVH Viewer extension
 [Console-log] [BVHViewer] Loading BVH viewer extension...
 [Console-log] [BVHViewer] Extension registered: comfy3d.bvhviewer
-[Console-log] [HY-Motion] app imported successfully: true
-[Console-log] [FBXAnimationViewer] Loading FBX Animation Viewer extension
-[Console-log] [FBXAnimationViewer] Loading FBX Animation Viewer extension...
-[Console-log] [FBXAnimationViewer] Extension registered: comfy3d.fbxanimationviewer
-[Console-log] [SMPLCameraViewer] Loading SMPL Camera Viewer extension
-[Console-log] [SMPLCameraViewer] Loading extension...
-[Console-log] [SMPLCameraViewer] Extension registered: comfy3d.smplcameraviewer
-[Console-log] [SMPL] Loading SMPL Viewer extension
-[Console-log] [SMPLViewer] Extension registered: comfy3d.smplviewer
-[Console-log] [UniRig Compare] Loading compare skeleton widget...
-[Console-log] [UniRig Compare] Detected extension folder: ComfyUI-MotionCapture
-[Console-log] [UniRig Compare] Compare skeleton widget registered
 [Console-warning] [ComfyUI Notice] "extensions/core/widgetInputs.js" is an internal module, not part of the public API. Future updates may break this import.
 [Console-warning] [ComfyUI Notice] "scripts/utils.js" is an internal module, not part of the public API. Future updates may break this import.
 [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
@@ -53,14 +53,14 @@
 [Console-log] [SMPLCameraViewer] Registering SMPLCameraViewer node
 [Console-log] [HY-Motion] Creating Node: HYMotionRetargetFBX -1
 [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
-[Console-error] Error loading model: HttpError: fetch for "http://127.0.0.1:41896/api/view?type=output&subfolder=hymotion_retarget&filename=retarget_20260213_150512819_067dc21f_000.fbx" responded with 404: Not Found
-    at http://127.0.0.1:41896/assets/vendor-three-Br-dHl2j.js:3824:116006
-[Console-warning] [.WebGL-0xc740a160c00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[Console-error] Error loading model: HttpError: fetch for "http://127.0.0.1:41899/api/view?type=output&subfolder=hymotion_retarget&filename=retarget_20260213_150512819_067dc21f_000.fbx" responded with 404: Not Found
+    at http://127.0.0.1:41899/assets/vendor-three-Br-dHl2j.js:3824:116006
+[Console-warning] [.WebGL-0x1d54048eb400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
 [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
-[Console-error] Error loading model: HttpError: fetch for "http://127.0.0.1:41896/api/view?type=output&subfolder=hymotion_retarget&filename=retarget_20260213_150512819_067dc21f_000.fbx" responded with 404: Not Found
-    at http://127.0.0.1:41896/assets/vendor-three-Br-dHl2j.js:3824:116006
-[Console-warning] [.WebGL-0xc740a160c00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
-[Console-warning] [.WebGL-0xc740a160c00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[Console-error] Error loading model: HttpError: fetch for "http://127.0.0.1:41899/api/view?type=output&subfolder=hymotion_retarget&filename=retarget_20260213_150512819_067dc21f_000.fbx" responded with 404: Not Found
+    at http://127.0.0.1:41899/assets/vendor-three-Br-dHl2j.js:3824:116006
+[Console-warning] [.WebGL-0x1d54048eb400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[Console-warning] [.WebGL-0x1d54048eb400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
 [Console-log] [comfy-test] graphToPrompt: 6 nodes, missing class_type: [], sample: {"inputs":{"npz_path":["2",0]},"class_type":"HYMotionNPZToSMPLParams","_meta":{"title":"HY-Motion NPZ to SMPL_PARAMS"}}
 [Console-log] [HY-Motion] Refreshing asset lists for all relevant nodes...
-[Console-warning] [.WebGL-0xc740a160c00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[Console-warning] [.WebGL-0x1d54048eb400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
