@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-19T23:37:15.730986+00:00",
+  "timestamp": "2026-05-20T00:41:52.046675+00:00",
   "platform": "linux",
   "hardware": {
     "os": "Linux-6.8.0-107-generic-x86_64-with-glibc2.35",
@@ -7,7 +7,7 @@
     "gpu": "NVIDIA GeForce RTX 3090"
   },
   "commit_hash": "2e0ffb450a6d8f93f66af0d1c25fa3494637366c",
-  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/26126347738",
+  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/26129336040",
   "success": true,
   "summary": {
     "total": 5,
@@ -18,7 +18,7 @@
     {
       "name": "GVHMR",
       "status": "pass",
-      "duration_seconds": 106.36,
+      "duration_seconds": 109.33,
       "error": null,
       "hardware": {
         "os": "Linux-6.8.0-107-generic-x86_64-with-glibc2.35",
@@ -27,21 +27,21 @@
       },
       "resources": {
         "ram": {
-          "peak": 8.68,
-          "avg": 2.98
+          "peak": 7.7,
+          "avg": 3.11
         },
         "total_ram_gb": 31.2,
-        "samples": 104,
+        "samples": 106,
         "vram": {
           "peak": 3.21,
-          "avg": 0.93
+          "avg": 0.9
         }
       }
     },
     {
       "name": "GVHMR_cameramotion",
       "status": "pass",
-      "duration_seconds": 68.96,
+      "duration_seconds": 76.32,
       "error": null,
       "hardware": {
         "os": "Linux-6.8.0-107-generic-x86_64-with-glibc2.35",
@@ -50,14 +50,14 @@
       },
       "resources": {
         "ram": {
-          "peak": 8.96,
-          "avg": 5.16
+          "peak": 7.02,
+          "avg": 5.29
         },
         "total_ram_gb": 31.2,
-        "samples": 67,
+        "samples": 75,
         "vram": {
           "peak": 3.21,
-          "avg": 1.73
+          "avg": 1.66
         }
       }
     },
