@@ -14,22 +14,22 @@ Capturing execution frames: GVHMR.json
   [ComfyUI]     Inputs: {"file": "tennis.mp4", "video-preview": ""}
   [ComfyUI]   Node 15: LoadVideo
   [ComfyUI]     Inputs: {"file": "tennis_mask.mp4", "video-preview": ""}
+  [ComfyUI] [comfy-env] SubprocessWorker: /tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/bin/python
   [ComfyUI]   Node 16: GVHMRInference
-  [ComfyUI] [comfy-env] SubprocessWorker: /root/.ce/.pixi/envs/motioncapture-nodes/bin/python
+  [ComfyUI] [comfy-env] env_vars: {'COMFYUI_BASE': '/workspaces/MotionCapture-2329/ComfyUI'}
   [ComfyUI]     Inputs: {"moving_camera": false, "focal_length_mm": 0, "bbox_scale": 1.2, "vo_method": "simple_vo", "vo_scale": 0.5, "vo_step": 8, "chunk_size": 32, "video": ["14", 0], "video_mask": ["15", 0], "config": ["2"
-  [ComfyUI] [comfy-env] env_vars: {'COMFYUI_BASE': '/workspaces/MotionCapture-2058/ComfyUI'}
-  [ComfyUI] Generated prompt_id: 3acd92ba-6c91-443c-b94f-2953fdd307f8
-  [ComfyUI] [ComfyUI-MotionCapture] python: /root/.ce/.pixi/envs/motioncapture-nodes/bin/python
+  [ComfyUI] [ComfyUI-MotionCapture] python: /tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/bin/python
+  [ComfyUI] Generated prompt_id: 50bd0006-a9fd-421d-a972-87fad41db39e
+  [ComfyUI] [ComfyUI-MotionCapture] sys_path sent to worker: ['/workspaces/MotionCapture-2329/ComfyUI', '/workspaces/MotionCapture-2329/ComfyUI/custom_nodes/ComfyUI-MotionCapture', '/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/site-packages', '/workspaces/MotionCapture-2329/ComfyUI/custom_nodes/ComfyUI-MotionCapture']
   [ComfyUI] Calling execution.validate_prompt()...
-  [ComfyUI] [ComfyUI-MotionCapture] sys_path sent to worker: ['/workspaces/MotionCapture-2058/ComfyUI', '/workspaces/MotionCapture-2058/ComfyUI/custom_nodes/ComfyUI-MotionCapture', '/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/site-packages', '/workspaces/MotionCapture-2058/ComfyUI/custom_nodes/ComfyUI-MotionCapture']
+  [ComfyUI] [SubprocessWorker] is_pixi=True, python=/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/bin/python
   [ComfyUI] Validation result: valid=True
-  [ComfyUI] [SubprocessWorker] is_pixi=True, python=/root/.ce/.pixi/envs/motioncapture-nodes/bin/python
+  [ComfyUI] [SubprocessWorker] launching cmd=['/tmp/comfytest-home/.pixi/bin/pixi', 'run', '--as-is', '--manifest-path', '/tmp/comfytest-home/.ce/envs/motioncapture-nodes/pixi.toml', '-e', 'default', 'python', '/tmp/comfyui_pvenv_h6u_61y2/persistent_worker.py', 'abstract://comfy_worker_0224fb5b9b3a']...
   [ComfyUI] === Validation PASSED ===
-  [ComfyUI] [SubprocessWorker] launching cmd=['/root/.pixi/bin/pixi', 'run', '--as-is', '--manifest-path', '/root/.ce/pixi.toml', '-e', 'motioncapture-nodes', 'python', '/tmp/comfyui_pvenv_msva5r81/persistent_worker.py', 'abstract://comfy_worker_27568c407c31']...
+  [ComfyUI] [SubprocessWorker] socket_addr=abstract://comfy_worker_0224fb5b9b3a (abstract, no filesystem path)
   [ComfyUI] got prompt
-  [ComfyUI] [SubprocessWorker] socket_addr=abstract://comfy_worker_27568c407c31 (abstract, no filesystem path)
   [ComfyUI] [comfy-env] Running LoadGVHMRModels: model_path_override: '', precision: 'auto', attention: 'auto', load_dpvo: False
-  [ComfyUI] [VRAM] Before LoadGVHMRModels: 302 / 24124 MB
+  [ComfyUI] [VRAM] Before LoadGVHMRModels: 825 / 24124 MB
   [ComfyUI] [SubprocessWorker] call_method: nodes.load_model.LoadGVHMRModels.EXECUTE_NORMALIZED
   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
   [ComfyUI] [worker:ComfyUI-MotionCapture] ERROR: Failed to import comfy_kitchen, Error: No module named 'comfy_kitchen', fp8 and fp4 support will not be available.
@@ -39,285 +39,307 @@ Capturing execution frames: GVHMR.json
   [ComfyUI] [SubprocessWorker] sending request via socket...
   [ComfyUI] [SubprocessWorker] call_id=1 sending call_method
   Frame 2 saved (frame_001.jpg, t=2.6s)
-  [capture-periodic] freeze=3ms shot=283ms unfreeze=5ms saved=True
+  [capture-periodic] freeze=4ms shot=242ms unfreeze=4ms saved=True
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] DPVO not installed - only SimpleVO will be available
-  [ComfyUI] [05/16 21:02:40][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
+  [ComfyUI] [05/19 23:34:29][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Checking GVHMR models...
-  [ComfyUI] [05/16 21:02:41][INFO] [LoadGVHMRModels] Checking GVHMR models...
+  [ComfyUI] [05/19 23:34:29][INFO] [LoadGVHMRModels] Checking GVHMR models...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloading gvhmr from HuggingFace...
-  [ComfyUI] [05/16 21:02:41][INFO] [LoadGVHMRModels] Downloading gvhmr from HuggingFace...
+  [ComfyUI] [05/19 23:34:30][INFO] [LoadGVHMRModels] Downloading gvhmr from HuggingFace...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Repository: apozz/motion-capture-safetensors
-  [ComfyUI] [05/16 21:02:41][INFO] [LoadGVHMRModels] Repository: apozz/motion-capture-safetensors
-  [ComfyUI] /root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/site-packages/huggingface_hub/utils/_validators.py:205: UserWarning: The `local_dir_use_symlinks` argument is deprecated and ignored in `hf_hub_download`. Downloading to a local directory does not use symlinks anymore.
+  [ComfyUI] [05/19 23:34:30][INFO] [LoadGVHMRModels] Repository: apozz/motion-capture-safetensors
+  [ComfyUI] /tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/site-packages/huggingface_hub/utils/_validators.py:205: UserWarning: The `local_dir_use_symlinks` argument is deprecated and ignored in `hf_hub_download`. Downloading to a local directory does not use symlinks anymore.
   [ComfyUI]   warnings.warn(
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/apozz/motion-capture-safetensors/resolve/main/gvhmr.safetensors "HTTP/1.1 302 Found"
-  [ComfyUI] [05/16 21:02:41][INFO] HTTP Request: HEAD https://huggingface.co/apozz/motion-capture-safetensors/resolve/main/gvhmr.safetensors "HTTP/1.1 302 Found"
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: GET https://huggingface.co/api/models/apozz/motion-capture-safetensors/xet-read-token/4d1ff1105aad31ef01d2aa2c1151a0317d267925 "HTTP/1.1 200 OK"
-  [ComfyUI] [05/16 21:02:42][INFO] HTTP Request: GET https://huggingface.co/api/models/apozz/motion-capture-safetensors/xet-read-token/4d1ff1105aad31ef01d2aa2c1151a0317d267925 "HTTP/1.1 200 OK"
-  [ComfyUI] 
-  Frame 3 saved (frame_002.jpg, t=4.9s)
-  [capture-periodic] freeze=4ms shot=231ms unfreeze=4ms saved=True
-  [capture-loop] iter=50 t=6.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=4.6/31.2GB (15%) swap=0.6/32.0GB (2%) cpu=4% browser_rss=0.90GB
-  [ComfyUI] gvhmr.safetensors:   0%|          | 0.00/163M [00:00<?, ?B/s]
-  [ComfyUI] gvhmr.safetensors:  41%|████      | 67.1M/163M [00:02<00:03, 26.6MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
-  [ComfyUI] 
-  [ComfyUI] gvhmr.safetensors: 100%|██████████| 163M/163M [00:02<00:00, 75.3MB/s] [SubprocessWorker] callback 'report_progress' from call_id=1
-  [ComfyUI] 
-  [ComfyUI] gvhmr.safetensors: 100%|██████████| 163M/163M [00:02<00:00, 61.4MB/s]
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloaded gvhmr to /workspaces/MotionCapture-2058/ComfyUI/models/motion_capture/gvhmr.safetensors
-  [ComfyUI] [05/16 21:02:44][INFO] [LoadGVHMRModels] Downloaded gvhmr to /workspaces/MotionCapture-2058/ComfyUI/models/motion_capture/gvhmr.safetensors
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloading vitpose from HuggingFace...
-  [ComfyUI] [05/16 21:02:44][INFO] [LoadGVHMRModels] Downloading vitpose from HuggingFace...
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Repository: apozz/motion-capture-safetensors
-  [ComfyUI] [05/16 21:02:44][INFO] [LoadGVHMRModels] Repository: apozz/motion-capture-safetensors
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/apozz/motion-capture-safetensors/resolve/main/vitpose.safetensors "HTTP/1.1 302 Found"
-  [ComfyUI] [05/16 21:02:44][INFO] HTTP Request: HEAD https://huggingface.co/apozz/motion-capture-safetensors/resolve/main/vitpose.safetensors "HTTP/1.1 302 Found"
+  [ComfyUI] [05/19 23:34:30][INFO] HTTP Request: HEAD https://huggingface.co/apozz/motion-capture-safetensors/resolve/main/gvhmr.safetensors "HTTP/1.1 302 Found"
   [ComfyUI] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
   [ComfyUI] [worker:ComfyUI-MotionCapture] WARNING: Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-  [ComfyUI] [05/16 21:02:44][WARNING] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  [ComfyUI] [05/19 23:34:30][WARNING] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: GET https://huggingface.co/api/models/apozz/motion-capture-safetensors/xet-read-token/4d1ff1105aad31ef01d2aa2c1151a0317d267925 "HTTP/1.1 200 OK"
+  [ComfyUI] [05/19 23:34:30][INFO] HTTP Request: GET https://huggingface.co/api/models/apozz/motion-capture-safetensors/xet-read-token/4d1ff1105aad31ef01d2aa2c1151a0317d267925 "HTTP/1.1 200 OK"
   [ComfyUI] 
-  Frame 4 saved (frame_003.jpg, t=7.3s)
-  [capture-periodic] freeze=3ms shot=225ms unfreeze=12ms saved=True
-  [ComfyUI] vitpose.safetensors:   0%|          | 0.00/2.55G [00:00<?, ?B/s]
-  [ComfyUI] vitpose.safetensors:   8%|▊         | 201M/2.55G [00:03<00:44, 53.3MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
-  Frame 5 saved (frame_004.jpg, t=11.9s)
-  [capture-periodic] freeze=3ms shot=239ms unfreeze=3ms saved=True
-  [capture-loop] iter=100 t=12.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.0/31.2GB (16%) swap=0.6/32.0GB (2%) cpu=5% browser_rss=0.89GB
+  Frame 3 saved (frame_002.jpg, t=5.0s)
+  [capture-periodic] freeze=4ms shot=226ms unfreeze=5ms saved=True
+  [capture-loop] iter=50 t=6.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.4/31.2GB (17%) swap=4.0/32.0GB (12%) cpu=5% browser_rss=0.90GB
+  [ComfyUI] gvhmr.safetensors:   0%|          | 0.00/163M [00:00<?, ?B/s]
+  [ComfyUI] gvhmr.safetensors:  15%|█▌        | 25.1M/163M [00:02<00:12, 11.0MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
   [ComfyUI] 
-  [ComfyUI] vitpose.safetensors:  13%|█▎        | 335M/2.55G [00:08<00:57, 38.5MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
-  Frame 6 saved (frame_005.jpg, t=16.5s)
-  [capture-periodic] freeze=3ms shot=236ms unfreeze=3ms saved=True
-  [capture-loop] iter=150 t=18.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.5/31.2GB (18%) swap=0.6/32.0GB (2%) cpu=5% browser_rss=0.89GB
-  [capture-loop] iter=200 t=24.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2 ram=6.2/31.2GB (20%) swap=0.6/32.0GB (2%) cpu=6% browser_rss=0.82GB
+  [ComfyUI] gvhmr.safetensors: 100%|██████████| 163M/163M [00:02<00:00, 68.5MB/s] [SubprocessWorker] callback 'report_progress' from call_id=1
   [ComfyUI] 
-  [ComfyUI] vitpose.safetensors:  47%|████▋     | 1.21G/2.55G [00:19<00:19, 67.5MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
-  [ComfyUI] 
-  [ComfyUI] vitpose.safetensors:  61%|██████    | 1.54G/2.55G [00:20<00:11, 86.3MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
-  [ComfyUI] 
-  [ComfyUI] vitpose.safetensors:  68%|██████▊   | 1.74G/2.55G [00:20<00:07, 106MB/s] [SubprocessWorker] callback 'report_progress' from call_id=1
-  [ComfyUI] 
-  [ComfyUI] vitpose.safetensors:  71%|███████   | 1.81G/2.55G [00:21<00:06, 112MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
-  Frame 7 saved (frame_006.jpg, t=27.9s)
-  [capture-periodic] freeze=3ms shot=248ms unfreeze=9ms saved=True
-  [ComfyUI] 
-  [ComfyUI] vitpose.safetensors:  79%|███████▉  | 2.01G/2.55G [00:21<00:03, 148MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
-  [ComfyUI] 
-  [ComfyUI] vitpose.safetensors: 100%|██████████| 2.55G/2.55G [00:22<00:00, 251MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
-  [ComfyUI] 
-  [ComfyUI] vitpose.safetensors: 100%|██████████| 2.55G/2.55G [00:22<00:00, 112MB/s]
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloaded vitpose to /workspaces/MotionCapture-2058/ComfyUI/models/motion_capture/vitpose.safetensors
-  [ComfyUI] [05/16 21:03:07][INFO] [LoadGVHMRModels] Downloaded vitpose to /workspaces/MotionCapture-2058/ComfyUI/models/motion_capture/vitpose.safetensors
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloading hmr2 from HuggingFace...
-  [ComfyUI] [05/16 21:03:07][INFO] [LoadGVHMRModels] Downloading hmr2 from HuggingFace...
+  [ComfyUI] gvhmr.safetensors: 100%|██████████| 163M/163M [00:02<00:00, 55.2MB/s]
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloaded gvhmr to /workspaces/MotionCapture-2329/ComfyUI/models/motion_capture/gvhmr.safetensors
+  [ComfyUI] [05/19 23:34:33][INFO] [LoadGVHMRModels] Downloaded gvhmr to /workspaces/MotionCapture-2329/ComfyUI/models/motion_capture/gvhmr.safetensors
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloading vitpose from HuggingFace...
+  [ComfyUI] [05/19 23:34:33][INFO] [LoadGVHMRModels] Downloading vitpose from HuggingFace...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Repository: apozz/motion-capture-safetensors
-  [ComfyUI] [05/16 21:03:07][INFO] [LoadGVHMRModels] Repository: apozz/motion-capture-safetensors
+  [ComfyUI] [05/19 23:34:33][INFO] [LoadGVHMRModels] Repository: apozz/motion-capture-safetensors
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/apozz/motion-capture-safetensors/resolve/main/vitpose.safetensors "HTTP/1.1 302 Found"
+  [ComfyUI] [05/19 23:34:33][INFO] HTTP Request: HEAD https://huggingface.co/apozz/motion-capture-safetensors/resolve/main/vitpose.safetensors "HTTP/1.1 302 Found"
+  [ComfyUI] 
+  Frame 4 saved (frame_003.jpg, t=7.4s)
+  [capture-periodic] freeze=3ms shot=231ms unfreeze=4ms saved=True
+  [ComfyUI] vitpose.safetensors:   0%|          | 0.00/2.55G [00:00<?, ?B/s]
+  [ComfyUI] vitpose.safetensors:   3%|▎         | 67.0M/2.55G [00:02<01:42, 24.2MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  Frame 5 saved (frame_004.jpg, t=12.1s)
+  [capture-periodic] freeze=3ms shot=248ms unfreeze=4ms saved=True
+  [capture-loop] iter=100 t=12.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.8/31.2GB (19%) swap=4.0/32.0GB (12%) cpu=6% browser_rss=0.89GB
+  [ComfyUI] 
+  [ComfyUI] vitpose.safetensors:  11%|█         | 268M/2.55G [00:07<00:59, 38.5MB/s] [SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 
+  [ComfyUI] vitpose.safetensors:  13%|█▎        | 335M/2.55G [00:07<00:43, 50.6MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 
+  [ComfyUI] vitpose.safetensors:  21%|██        | 536M/2.55G [00:09<00:27, 72.7MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  Frame 6 saved (frame_005.jpg, t=16.8s)
+  [capture-periodic] freeze=3ms shot=210ms unfreeze=5ms saved=True
+  [capture-loop] iter=150 t=18.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=6.1/31.2GB (20%) swap=4.0/32.0GB (12%) cpu=6% browser_rss=0.89GB
+  [ComfyUI] 
+  [ComfyUI] vitpose.safetensors:  24%|██▎       | 603M/2.55G [00:12<00:37, 51.7MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 
+  [ComfyUI] vitpose.safetensors:  26%|██▋       | 670M/2.55G [00:12<00:31, 60.0MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 
+  [ComfyUI] vitpose.safetensors:  32%|███▏      | 805M/2.55G [00:12<00:18, 92.3MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  Frame 7 saved (frame_006.jpg, t=21.3s)
+  [capture-periodic] freeze=3ms shot=232ms unfreeze=13ms saved=True
+  [ComfyUI] 
+  [ComfyUI] vitpose.safetensors:  37%|███▋      | 939M/2.55G [00:14<00:18, 86.0MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 
+  [ComfyUI] vitpose.safetensors:  42%|████▏     | 1.07G/2.55G [00:15<00:14, 104MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  Frame 8 saved (frame_007.jpg, t=23.7s)
+  [capture-periodic] freeze=3ms shot=230ms unfreeze=5ms saved=True
+  [capture-loop] iter=200 t=25.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3 ram=6.2/31.2GB (20%) swap=4.0/32.0GB (12%) cpu=7% browser_rss=0.82GB
+  [ComfyUI] 
+  [ComfyUI] vitpose.safetensors:  79%|███████▉  | 2.01G/2.55G [00:21<00:03, 137MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 
+  [ComfyUI] vitpose.safetensors: 100%|██████████| 2.55G/2.55G [00:22<00:00, 206MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 
+  [ComfyUI] vitpose.safetensors: 100%|██████████| 2.55G/2.55G [00:22<00:00, 113MB/s]
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloaded vitpose to /workspaces/MotionCapture-2329/ComfyUI/models/motion_capture/vitpose.safetensors
+  [ComfyUI] [05/19 23:34:56][INFO] [LoadGVHMRModels] Downloaded vitpose to /workspaces/MotionCapture-2329/ComfyUI/models/motion_capture/vitpose.safetensors
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloading hmr2 from HuggingFace...
+  [ComfyUI] [05/19 23:34:56][INFO] [LoadGVHMRModels] Downloading hmr2 from HuggingFace...
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Repository: apozz/motion-capture-safetensors
+  [ComfyUI] [05/19 23:34:56][INFO] [LoadGVHMRModels] Repository: apozz/motion-capture-safetensors
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/apozz/motion-capture-safetensors/resolve/main/hmr2.safetensors "HTTP/1.1 302 Found"
-  [ComfyUI] [05/16 21:03:07][INFO] HTTP Request: HEAD https://huggingface.co/apozz/motion-capture-safetensors/resolve/main/hmr2.safetensors "HTTP/1.1 302 Found"
+  [ComfyUI] [05/19 23:34:56][INFO] HTTP Request: HEAD https://huggingface.co/apozz/motion-capture-safetensors/resolve/main/hmr2.safetensors "HTTP/1.1 302 Found"
   [ComfyUI] 
-  Frame 8 saved (frame_007.jpg, t=30.3s)
-  [capture-periodic] freeze=4ms shot=241ms unfreeze=13ms saved=True
-  [capture-loop] iter=250 t=30.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=4.8/31.2GB (15%) swap=0.6/32.0GB (2%) cpu=6% browser_rss=0.83GB
+  Frame 9 saved (frame_008.jpg, t=30.6s)
+  [capture-periodic] freeze=3ms shot=239ms unfreeze=6ms saved=True
+  [capture-loop] iter=250 t=31.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.4/31.2GB (17%) swap=4.0/32.0GB (12%) cpu=5% browser_rss=0.82GB
   [ComfyUI] hmr2.safetensors:   0%|          | 0.00/2.71G [00:00<?, ?B/s]
-  [ComfyUI] hmr2.safetensors:   5%|▍         | 134M/2.71G [00:04<01:17, 33.4MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
-  Frame 9 saved (frame_008.jpg, t=35.0s)
-  [capture-periodic] freeze=9ms shot=272ms unfreeze=10ms saved=True
-  [capture-loop] iter=300 t=37.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.2/31.2GB (17%) swap=0.6/32.0GB (2%) cpu=6% browser_rss=0.82GB
-  [capture-loop] iter=350 t=43.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.9/31.2GB (19%) swap=0.6/32.0GB (2%) cpu=6% browser_rss=0.81GB
+  [ComfyUI] hmr2.safetensors:   2%|▏         | 50.3M/2.71G [00:02<02:00, 22.1MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  Frame 10 saved (frame_009.jpg, t=33.0s)
+  [capture-periodic] freeze=4ms shot=244ms unfreeze=4ms saved=True
   [ComfyUI] 
-  [ComfyUI] hmr2.safetensors:   5%|▍         | 134M/2.71G [00:14<01:17, 33.4MB/s]
-  [ComfyUI] hmr2.safetensors:  30%|██▉       | 805M/2.71G [00:17<00:39, 48.3MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
-  [capture-loop] iter=400 t=48.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.9/31.2GB (19%) swap=0.6/32.0GB (2%) cpu=6% browser_rss=0.82GB
+  [ComfyUI] hmr2.safetensors:   2%|▏         | 67.4M/2.71G [00:03<02:10, 20.2MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
   [ComfyUI] 
-  [ComfyUI] hmr2.safetensors:  42%|████▏     | 1.14G/2.71G [00:19<00:24, 65.4MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
-  Frame 10 saved (frame_009.jpg, t=48.9s)
-  [capture-periodic] freeze=3ms shot=252ms unfreeze=10ms saved=True
+  [ComfyUI] hmr2.safetensors:   9%|▉         | 256M/2.71G [00:04<00:27, 87.9MB/s] [SubprocessWorker] callback 'report_progress' from call_id=1
+  Frame 11 saved (frame_010.jpg, t=35.4s)
+  [capture-periodic] freeze=3ms shot=236ms unfreeze=5ms saved=True
+  [capture-loop] iter=300 t=37.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3 ram=5.9/31.2GB (19%) swap=4.0/32.0GB (12%) cpu=7% browser_rss=0.82GB
   [ComfyUI] 
-  [ComfyUI] hmr2.safetensors:  45%|████▍     | 1.21G/2.71G [00:20<00:22, 67.1MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
-  Frame 11 saved (frame_010.jpg, t=51.3s)
-  [capture-periodic] freeze=3ms shot=257ms unfreeze=4ms saved=True
+  [ComfyUI] hmr2.safetensors:  20%|█▉        | 537M/2.71G [00:08<00:28, 75.7MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
   [ComfyUI] 
-  [ComfyUI] hmr2.safetensors:  72%|███████▏  | 1.94G/2.71G [00:22<00:05, 134MB/s] [SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] hmr2.safetensors:  22%|██▏       | 604M/2.71G [00:08<00:25, 82.1MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
   [ComfyUI] 
-  [ComfyUI] hmr2.safetensors:  74%|███████▍  | 2.01G/2.71G [00:22<00:05, 139MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] hmr2.safetensors:  25%|██▍       | 671M/2.71G [00:09<00:27, 74.1MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  Frame 12 saved (frame_011.jpg, t=40.0s)
+  [capture-periodic] freeze=8ms shot=222ms unfreeze=3ms saved=True
+  [capture-loop] iter=350 t=43.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3 ram=6.0/31.2GB (19%) swap=4.0/32.0GB (12%) cpu=6% browser_rss=0.83GB
   [ComfyUI] 
-  [ComfyUI] hmr2.safetensors: 100%|██████████| 2.71G/2.71G [00:23<00:00, 250MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] hmr2.safetensors:  30%|██▉       | 805M/2.71G [00:16<00:50, 37.9MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  Frame 13 saved (frame_012.jpg, t=46.9s)
+  [capture-periodic] freeze=3ms shot=232ms unfreeze=3ms saved=True
   [ComfyUI] 
-  [ComfyUI] hmr2.safetensors: 100%|██████████| 2.71G/2.71G [00:23<00:00, 114MB/s]
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloaded hmr2 to /workspaces/MotionCapture-2058/ComfyUI/models/motion_capture/hmr2.safetensors
-  [ComfyUI] [05/16 21:03:31][INFO] [LoadGVHMRModels] Downloaded hmr2 to /workspaces/MotionCapture-2058/ComfyUI/models/motion_capture/hmr2.safetensors
+  [ComfyUI] hmr2.safetensors:  35%|███▍      | 939M/2.71G [00:18<00:38, 45.9MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [capture-loop] iter=400 t=49.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=6.3/31.2GB (20%) swap=4.0/32.0GB (12%) cpu=7% browser_rss=0.83GB
+  [ComfyUI] 
+  [ComfyUI] hmr2.safetensors:  40%|███▉      | 1.07G/2.71G [00:19<00:27, 58.6MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  Frame 14 saved (frame_013.jpg, t=49.2s)
+  [capture-periodic] freeze=10ms shot=259ms unfreeze=11ms saved=True
+  [ComfyUI] 
+  [ComfyUI] hmr2.safetensors:  45%|████▍     | 1.21G/2.71G [00:20<00:22, 65.9MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 
+  [ComfyUI] hmr2.safetensors:  57%|█████▋    | 1.54G/2.71G [00:21<00:10, 115MB/s] [SubprocessWorker] callback 'report_progress' from call_id=1
+  Frame 15 saved (frame_014.jpg, t=51.6s)
+  [ComfyUI] 
+  [capture-periodic] freeze=3ms shot=217ms unfreeze=14ms saved=True
+  [ComfyUI] hmr2.safetensors:  72%|███████▏  | 1.94G/2.71G [00:21<00:03, 207MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 
+  [ComfyUI] hmr2.safetensors:  79%|███████▉  | 2.15G/2.71G [00:22<00:02, 236MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 
+  [ComfyUI] hmr2.safetensors:  82%|████████▏ | 2.21G/2.71G [00:22<00:02, 239MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 
+  [ComfyUI] hmr2.safetensors:  84%|████████▍ | 2.28G/2.71G [00:22<00:01, 243MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 
+  [ComfyUI] hmr2.safetensors: 100%|██████████| 2.71G/2.71G [00:23<00:00, 401MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 
+  [ComfyUI] hmr2.safetensors: 100%|██████████| 2.71G/2.71G [00:24<00:00, 113MB/s]
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloaded hmr2 to /workspaces/MotionCapture-2329/ComfyUI/models/motion_capture/hmr2.safetensors
+  [ComfyUI] [05/19 23:35:20][INFO] [LoadGVHMRModels] Downloaded hmr2 to /workspaces/MotionCapture-2329/ComfyUI/models/motion_capture/hmr2.safetensors
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] SMPL_FEMALE.npz not found, downloading from HuggingFace...
-  [ComfyUI] [05/16 21:03:31][INFO] [LoadGVHMRModels] SMPL_FEMALE.npz not found, downloading from HuggingFace...
+  [ComfyUI] [05/19 23:35:20][INFO] [LoadGVHMRModels] SMPL_FEMALE.npz not found, downloading from HuggingFace...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloading SMPL_FEMALE.npz from HuggingFace...
-  [ComfyUI] [05/16 21:03:31][INFO] [LoadGVHMRModels] Downloading SMPL_FEMALE.npz from HuggingFace...
+  [ComfyUI] [05/19 23:35:20][INFO] [LoadGVHMRModels] Downloading SMPL_FEMALE.npz from HuggingFace...
+  Frame 16 saved (frame_015.jpg, t=54.0s)
+  [capture-periodic] freeze=3ms shot=238ms unfreeze=13ms saved=True
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPL/X_model_npz/SMPL_F_model.npz "HTTP/1.1 302 Found"
-  [ComfyUI] [05/16 21:03:31][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPL/X_model_npz/SMPL_F_model.npz "HTTP/1.1 302 Found"
-  Frame 12 saved (frame_011.jpg, t=53.7s)
-  [capture-periodic] freeze=3ms shot=234ms unfreeze=6ms saved=True
+  [ComfyUI] [05/19 23:35:20][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPL/X_model_npz/SMPL_F_model.npz "HTTP/1.1 302 Found"
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
-  [ComfyUI] [05/16 21:03:31][INFO] HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
+  [ComfyUI] [05/19 23:35:21][INFO] HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
   [ComfyUI] 
-  [capture-loop] iter=450 t=55.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=4.6/31.2GB (15%) swap=0.6/32.0GB (2%) cpu=7% browser_rss=0.82GB
+  [capture-loop] iter=450 t=55.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3 ram=5.4/31.2GB (17%) swap=4.0/32.0GB (12%) cpu=6% browser_rss=0.83GB
   [ComfyUI] 4_SMPLhub/SMPL/X_model_npz/SMPL_F_model.(…):   0%|          | 0.00/88.3M [00:00<?, ?B/s]
-  [ComfyUI] 4_SMPLhub/SMPL/X_model_npz/SMPL_F_model.(…): 100%|██████████| 88.3M/88.3M [00:01<00:00, 59.7MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 4_SMPLhub/SMPL/X_model_npz/SMPL_F_model.(…): 100%|██████████| 88.3M/88.3M [00:02<00:00, 31.9MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
   [ComfyUI] 
-  [ComfyUI] 4_SMPLhub/SMPL/X_model_npz/SMPL_F_model.(…): 100%|██████████| 88.3M/88.3M [00:01<00:00, 59.6MB/s]
+  [ComfyUI] 4_SMPLhub/SMPL/X_model_npz/SMPL_F_model.(…): 100%|██████████| 88.3M/88.3M [00:02<00:00, 31.9MB/s]
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloaded SMPL_FEMALE.npz
-  [ComfyUI] [05/16 21:03:33][INFO] [LoadGVHMRModels] Downloaded SMPL_FEMALE.npz
+  [ComfyUI] [05/19 23:35:23][INFO] [LoadGVHMRModels] Downloaded SMPL_FEMALE.npz
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] SMPL_MALE.npz not found, downloading from HuggingFace...
-  [ComfyUI] [05/16 21:03:33][INFO] [LoadGVHMRModels] SMPL_MALE.npz not found, downloading from HuggingFace...
+  [ComfyUI] [05/19 23:35:23][INFO] [LoadGVHMRModels] SMPL_MALE.npz not found, downloading from HuggingFace...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloading SMPL_MALE.npz from HuggingFace...
-  [ComfyUI] [05/16 21:03:33][INFO] [LoadGVHMRModels] Downloading SMPL_MALE.npz from HuggingFace...
+  [ComfyUI] [05/19 23:35:23][INFO] [LoadGVHMRModels] Downloading SMPL_MALE.npz from HuggingFace...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPL/X_model_npz/SMPL_M_model.npz "HTTP/1.1 302 Found"
-  [ComfyUI] [05/16 21:03:33][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPL/X_model_npz/SMPL_M_model.npz "HTTP/1.1 302 Found"
+  [ComfyUI] [05/19 23:35:24][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPL/X_model_npz/SMPL_M_model.npz "HTTP/1.1 302 Found"
   [ComfyUI] 
   [ComfyUI] 4_SMPLhub/SMPL/X_model_npz/SMPL_M_model.(…):   0%|          | 0.00/88.3M [00:00<?, ?B/s]
-  [ComfyUI] 4_SMPLhub/SMPL/X_model_npz/SMPL_M_model.(…): 100%|██████████| 88.3M/88.3M [00:01<00:00, 74.3MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 4_SMPLhub/SMPL/X_model_npz/SMPL_M_model.(…): 100%|██████████| 88.3M/88.3M [00:01<00:00, 50.4MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
   [ComfyUI] 
-  [ComfyUI] 4_SMPLhub/SMPL/X_model_npz/SMPL_M_model.(…): 100%|██████████| 88.3M/88.3M [00:01<00:00, 74.2MB/s]
+  [ComfyUI] 4_SMPLhub/SMPL/X_model_npz/SMPL_M_model.(…): 100%|██████████| 88.3M/88.3M [00:01<00:00, 50.4MB/s]
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloaded SMPL_MALE.npz
-  [ComfyUI] [05/16 21:03:34][INFO] [LoadGVHMRModels] Downloaded SMPL_MALE.npz
+  [ComfyUI] [05/19 23:35:25][INFO] [LoadGVHMRModels] Downloaded SMPL_MALE.npz
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] SMPL_NEUTRAL.npz not found, downloading from HuggingFace...
-  [ComfyUI] [05/16 21:03:34][INFO] [LoadGVHMRModels] SMPL_NEUTRAL.npz not found, downloading from HuggingFace...
+  [ComfyUI] [05/19 23:35:25][INFO] [LoadGVHMRModels] SMPL_NEUTRAL.npz not found, downloading from HuggingFace...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloading SMPL_NEUTRAL.npz from HuggingFace...
-  [ComfyUI] [05/16 21:03:34][INFO] [LoadGVHMRModels] Downloading SMPL_NEUTRAL.npz from HuggingFace...
+  [ComfyUI] [05/19 23:35:25][INFO] [LoadGVHMRModels] Downloading SMPL_NEUTRAL.npz from HuggingFace...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPL/X_model_npz/SMPL_N_model.npz "HTTP/1.1 302 Found"
-  [ComfyUI] [05/16 21:03:34][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPL/X_model_npz/SMPL_N_model.npz "HTTP/1.1 302 Found"
+  [ComfyUI] [05/19 23:35:25][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPL/X_model_npz/SMPL_N_model.npz "HTTP/1.1 302 Found"
   [ComfyUI] 
-  [ComfyUI] 4_SMPLhub/SMPL/X_model_npz/SMPL_N_model.(…):   0%|          | 0.00/88.3M [00:00<?, ?B/s]
-  [ComfyUI] 4_SMPLhub/SMPL/X_model_npz/SMPL_N_model.(…): 100%|██████████| 88.3M/88.3M [00:01<00:00, 72.6MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
-  [ComfyUI] 
-  [ComfyUI] 4_SMPLhub/SMPL/X_model_npz/SMPL_N_model.(…): 100%|██████████| 88.3M/88.3M [00:01<00:00, 72.6MB/s]
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloaded SMPL_NEUTRAL.npz
-  [ComfyUI] [05/16 21:03:36][INFO] [LoadGVHMRModels] Downloaded SMPL_NEUTRAL.npz
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] SMPLX_FEMALE.npz not found, downloading from HuggingFace...
-  [ComfyUI] [05/16 21:03:36][INFO] [LoadGVHMRModels] SMPLX_FEMALE.npz not found, downloading from HuggingFace...
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloading SMPLX_FEMALE.npz from HuggingFace...
-  [ComfyUI] [05/16 21:03:36][INFO] [LoadGVHMRModels] Downloading SMPLX_FEMALE.npz from HuggingFace...
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
-  [ComfyUI] [05/16 21:03:36][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
-  [ComfyUI] 
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz:   0%|          | 0.00/109M [00:00<?, ?B/s][worker:ComfyUI-MotionCapture]
+  [ComfyUI] 4_SMPLhub/SMPL/X_model_npz/SMPL_N_model.(…):   0%|          | 0.00/88.3M [00:00<?, ?B/s][worker:ComfyUI-MotionCapture]
   [ComfyUI] === WATCHDOG TICK 1 ===
-  [ComfyUI] [worker:ComfyUI-MotionCapture] Thread 0x0000722ae5057640 (most recent call first):
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 359 in wait
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 655 in wait
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/site-packages/tqdm/_monitor.py", line 60 in run
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1032 in _bootstrap
+  [ComfyUI] [worker:ComfyUI-MotionCapture] Thread 0x000073dcb27fc640 (most recent call first):
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 324 in wait
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 607 in wait
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/site-packages/tqdm/_monitor.py", line 60 in run
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 973 in _bootstrap
   [ComfyUI] 
-  [ComfyUI] Thread 0x0000722ae5858640 (most recent call first):
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 359 in wait
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 655 in wait
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/site-packages/tqdm/_monitor.py", line 60 in run
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1032 in _bootstrap
+  [ComfyUI] Thread 0x000073dcb2ffd640 (most recent call first):
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 324 in wait
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 607 in wait
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/site-packages/tqdm/_monitor.py", line 60 in run
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 973 in _bootstrap
   [ComfyUI] 
-  [ComfyUI] Thread 0x0000722ae6059640 (most recent call first):
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 359 in wait
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 655 in wait
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/site-packages/tqdm/_monitor.py", line 60 in run
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1032 in _bootstrap
+  [ComfyUI] Thread 0x000073dcb37fe640 (most recent call first):
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 324 in wait
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 607 in wait
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/site-packages/tqdm/_monitor.py", line 60 in run
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 973 in _bootstrap
   [ComfyUI] 
-  [ComfyUI] Thread 0x0000722ae685a640 (most recent call first):
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 359 in wait
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 655 in wait
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/site-packages/tqdm/_monitor.py", line 60 in run
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1032 in _bootstrap
+  [ComfyUI] Thread 0x000073dcb3fff640 (most recent call first):
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 324 in wait
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 607 in wait
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/site-packages/tqdm/_monitor.py", line 60 in run
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 973 in _bootstrap
   [ComfyUI] 
-  [ComfyUI] Thread 0x0000722ae705b640 (most recent call first):
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 359 in wait
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 655 in wait
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/site-packages/tqdm/_monitor.py", line 60 in run
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1032 in _bootstrap
+  [ComfyUI] Thread 0x000073dcdca8a640 (most recent call first):
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 324 in wait
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 607 in wait
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/site-packages/tqdm/_monitor.py", line 60 in run
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 973 in _bootstrap
   [ComfyUI] 
-  [ComfyUI] Thread 0x0000722ae785c640 (most recent call first):
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 359 in wait
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 655 in wait
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/site-packages/tqdm/_monitor.py", line 60 in run
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1032 in _bootstrap
+  [ComfyUI] Thread 0x000073dd3bed0640 (most recent call first):
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 324 in wait
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 607 in wait
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/site-packages/tqdm/_monitor.py", line 60 in run
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 973 in _bootstrap
   [ComfyUI] 
-  [ComfyUI] Thread 0x0000722b6c6d9640 (most recent call first):
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 359 in wait
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 655 in wait
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/site-packages/tqdm/_monitor.py", line 60 in run
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1032 in _bootstrap
+  [ComfyUI] Thread 0x000073e0788cf640 (most recent call first):
+  [ComfyUI]   File "/tmp/comfyui_pvenv_h6u_61y2/persistent_worker.py", line 106 in _vram_poller
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 953 in run
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 973 in _bootstrap
   [ComfyUI] 
-  [ComfyUI] Thread 0x0000722eaba2d640 (most recent call first):
-  [ComfyUI]   File "/tmp/comfyui_pvenv_msva5r81/persistent_worker.py", line 106 in _vram_poller
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1012 in run
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1032 in _bootstrap
+  [ComfyUI] Current thread 0x000073e0790d0640 (most recent call first):
+  [ComfyUI]   File "/tmp/comfyui_pvenv_h6u_61y2/persistent_worker.py", line 52 in _watchdog
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 953 in run
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/threading.py", line 973 in _bootstrap
   [ComfyUI] 
-  [ComfyUI] Current thread 0x0000722eac232640 (most recent call first):
-  [ComfyUI]   File "/tmp/comfyui_pvenv_msva5r81/persistent_worker.py", line 52 in _watchdog
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1012 in run
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1075 in _bootstrap_inner
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/threading.py", line 1032 in _bootstrap
-  [ComfyUI] 
-  [ComfyUI] Thread 0x0000722eac82d740 (most recent call first):
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/site-packages/huggingface_hub/file_download.py", line 558 in xet_get
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/site-packages/huggingface_hub/file_download.py", line 1842 in _download_to_tmp_and_move
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/site-packages/huggingface_hub/file_download.py", line 1427 in _hf_hub_download_to_local_dir
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/site-packages/huggingface_hub/file_download.py", line 976 in hf_hub_download
-  [ComfyUI]   File "/root/.ce/.pixi/envs/motioncapture-nodes/lib/python3.12/site-packages/huggingface_hub/utils/_validators.py", line 88 in _inner_fn
-  [ComfyUI]   File "/workspaces/MotionCapture-2058/ComfyUI/custom_nodes/ComfyUI-MotionCapture/nodes/load_model.py", line 154 in download_smpl_from_hf
-  [ComfyUI]   File "/workspaces/MotionCapture-2058/ComfyUI/custom_nodes/ComfyUI-MotionCapture/nodes/load_model.py", line 189 in check_smpl_models
-  [ComfyUI]   File "/workspaces/MotionCapture-2058/ComfyUI/custom_nodes/ComfyUI-MotionCapture/nodes/load_model.py", line 269 in execute
-  [ComfyUI]   File "/workspaces/MotionCapture-2058/ComfyUI/comfy_api/latest/_io.py", line 1833 in EXECUTE_NORMALIZED
-  [ComfyUI]   File "/tmp/comfyui_pvenv_msva5r81/persistent_worker.py", line 1762 in main
-  [ComfyUI]   File "/tmp/comfyui_pvenv_msva5r81/persistent_worker.py", line 1807 in <module>
+  [ComfyUI] Thread 0x000073e0796a6740 (most recent call first):
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 558 in xet_get
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 1842 in _download_to_tmp_and_move
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 1427 in _hf_hub_download_to_local_dir
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/site-packages/huggingface_hub/file_download.py", line 976 in hf_hub_download
+  [ComfyUI]   File "/tmp/comfytest-home/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.10/site-packages/huggingface_hub/utils/_validators.py", line 88 in _inner_fn
+  [ComfyUI]   File "/workspaces/MotionCapture-2329/ComfyUI/custom_nodes/ComfyUI-MotionCapture/nodes/load_model.py", line 154 in download_smpl_from_hf
+  [ComfyUI]   File "/workspaces/MotionCapture-2329/ComfyUI/custom_nodes/ComfyUI-MotionCapture/nodes/load_model.py", line 182 in check_smpl_models
+  [ComfyUI]   File "/workspaces/MotionCapture-2329/ComfyUI/custom_nodes/ComfyUI-MotionCapture/nodes/load_model.py", line 269 in execute
+  [ComfyUI]   File "/workspaces/MotionCapture-2329/ComfyUI/comfy_api/latest/_io.py", line 1833 in EXECUTE_NORMALIZED
+  [ComfyUI]   File "/tmp/comfyui_pvenv_h6u_61y2/persistent_worker.py", line 1762 in main
+  [ComfyUI]   File "/tmp/comfyui_pvenv_h6u_61y2/persistent_worker.py", line 1807 in <module>
   [ComfyUI] 
   [ComfyUI] [worker:ComfyUI-MotionCapture] === END ===
   [ComfyUI] 
   [ComfyUI] 
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 55.9MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 4_SMPLhub/SMPL/X_model_npz/SMPL_N_model.(…): 100%|██████████| 88.3M/88.3M [00:01<00:00, 65.4MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
   [ComfyUI] 
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 55.9MB/s]
+  [ComfyUI] 4_SMPLhub/SMPL/X_model_npz/SMPL_N_model.(…): 100%|██████████| 88.3M/88.3M [00:01<00:00, 65.4MB/s]
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloaded SMPL_NEUTRAL.npz
+  [ComfyUI] [05/19 23:35:27][INFO] [LoadGVHMRModels] Downloaded SMPL_NEUTRAL.npz
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] SMPLX_FEMALE.npz not found, downloading from HuggingFace...
+  [ComfyUI] [05/19 23:35:27][INFO] [LoadGVHMRModels] SMPLX_FEMALE.npz not found, downloading from HuggingFace...
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloading SMPLX_FEMALE.npz from HuggingFace...
+  [ComfyUI] [05/19 23:35:27][INFO] [LoadGVHMRModels] Downloading SMPLX_FEMALE.npz from HuggingFace...
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
+  [ComfyUI] [05/19 23:35:27][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
+  [ComfyUI] 
+  [capture-loop] iter=500 t=61.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3 ram=5.3/31.2GB (17%) swap=4.0/32.0GB (12%) cpu=3% browser_rss=0.82GB
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 61.3MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 61.0MB/s]
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloaded SMPLX_FEMALE.npz
-  [ComfyUI] [05/16 21:03:38][INFO] [LoadGVHMRModels] Downloaded SMPLX_FEMALE.npz
+  [ComfyUI] [05/19 23:35:29][INFO] [LoadGVHMRModels] Downloaded SMPLX_FEMALE.npz
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] SMPLX_MALE.npz not found, downloading from HuggingFace...
-  [ComfyUI] [05/16 21:03:38][INFO] [LoadGVHMRModels] SMPLX_MALE.npz not found, downloading from HuggingFace...
+  [ComfyUI] [05/19 23:35:29][INFO] [LoadGVHMRModels] SMPLX_MALE.npz not found, downloading from HuggingFace...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloading SMPLX_MALE.npz from HuggingFace...
-  [ComfyUI] [05/16 21:03:38][INFO] [LoadGVHMRModels] Downloading SMPLX_MALE.npz from HuggingFace...
+  [ComfyUI] [05/19 23:35:29][INFO] [LoadGVHMRModels] Downloading SMPLX_MALE.npz from HuggingFace...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
-  [ComfyUI] [05/16 21:03:38][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
+  [ComfyUI] [05/19 23:35:29][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
   [ComfyUI] 
-  [capture-loop] iter=500 t=61.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=4.5/31.2GB (15%) swap=0.6/32.0GB (2%) cpu=3% browser_rss=0.81GB
   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz:  62%|██████▏   | 67.1M/109M [00:01<00:00, 44.1MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 63.5MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
   [ComfyUI] 
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 71.1MB/s] [SubprocessWorker] callback 'report_progress' from call_id=1
-  [ComfyUI] 
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 63.8MB/s]
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 63.4MB/s]
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloaded SMPLX_MALE.npz
-  [ComfyUI] [05/16 21:03:40][INFO] [LoadGVHMRModels] Downloaded SMPLX_MALE.npz
+  [ComfyUI] [05/19 23:35:31][INFO] [LoadGVHMRModels] Downloaded SMPLX_MALE.npz
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] SMPLX_NEUTRAL.npz not found, downloading from HuggingFace...
-  [ComfyUI] [05/16 21:03:40][INFO] [LoadGVHMRModels] SMPLX_NEUTRAL.npz not found, downloading from HuggingFace...
+  [ComfyUI] [05/19 23:35:31][INFO] [LoadGVHMRModels] SMPLX_NEUTRAL.npz not found, downloading from HuggingFace...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloading SMPLX_NEUTRAL.npz from HuggingFace...
-  [ComfyUI] [05/16 21:03:40][INFO] [LoadGVHMRModels] Downloading SMPLX_NEUTRAL.npz from HuggingFace...
+  [ComfyUI] [05/19 23:35:31][INFO] [LoadGVHMRModels] Downloading SMPLX_NEUTRAL.npz from HuggingFace...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
-  [ComfyUI] [05/16 21:03:40][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
+  [ComfyUI] [05/19 23:35:31][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
   [ComfyUI] 
   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|██████████| 109M/109M [00:01<00:00, 64.4MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|██████████| 109M/109M [00:01<00:00, 58.2MB/s][SubprocessWorker] callback 'report_progress' from call_id=1
   [ComfyUI] 
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|██████████| 109M/109M [00:01<00:00, 64.3MB/s]
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|██████████| 109M/109M [00:01<00:00, 58.1MB/s]
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] Downloaded SMPLX_NEUTRAL.npz
-  [ComfyUI] [05/16 21:03:42][INFO] [LoadGVHMRModels] Downloaded SMPLX_NEUTRAL.npz
+  [ComfyUI] [05/19 23:35:33][INFO] [LoadGVHMRModels] Downloaded SMPLX_NEUTRAL.npz
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] SMPL body models found
-  [ComfyUI] [05/16 21:03:42][INFO] [LoadGVHMRModels] SMPL body models found
+  [ComfyUI] [05/19 23:35:33][INFO] [LoadGVHMRModels] SMPL body models found
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [LoadGVHMRModels] All models verified!
-  [ComfyUI] [05/16 21:03:42][INFO] [LoadGVHMRModels] All models verified!
+  [ComfyUI] [05/19 23:35:33][INFO] [LoadGVHMRModels] All models verified!
   [ComfyUI] [SubprocessWorker] got response: ok
-  [ComfyUI] [comfy-env] LoadGVHMRModels done (63.98s): result: NodeOutput
-  [ComfyUI] [VRAM] After LoadGVHMRModels: 563 / 24124 MB
+  [ComfyUI] [comfy-env] LoadGVHMRModels done (66.18s): result: NodeOutput
+  [ComfyUI] [VRAM] After LoadGVHMRModels: 1087 / 24124 MB
   [ComfyUI] [comfy-env] Running GVHMRInference: moving_camera: False, focal_length_mm: 0, bbox_scale: 1.2, vo_method: 'simple_vo', vo_scale: 0.5, vo_step: 8, chunk_size: 32, video: VideoFromFile, video_mask: VideoFromFile, config: dict
-  [ComfyUI] [VRAM] Before GVHMRInference: 563 / 24124 MB
+  [ComfyUI] [VRAM] Before GVHMRInference: 1087 / 24124 MB
   [ComfyUI] [SubprocessWorker] call_method: nodes.inference_node.GVHMRInference.EXECUTE_NORMALIZED
   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
   [ComfyUI] [ComfyUI-MotionCapture] Health check: ping (timeout=5.0s)...
@@ -328,313 +350,311 @@ Capturing execution frames: GVHMR.json
   [ComfyUI] [SubprocessWorker] sending request via socket...
   [ComfyUI] [SubprocessWorker] call_id=2 sending call_method
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: ============================================================
-  [ComfyUI] [05/16 21:03:42][INFO] ============================================================
+  [ComfyUI] [05/19 23:35:33][INFO] ============================================================
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Starting GVHMR inference with parameters:
-  [ComfyUI] [05/16 21:03:42][INFO] [GVHMRInference] Starting GVHMR inference with parameters:
+  [ComfyUI] [05/19 23:35:33][INFO] [GVHMRInference] Starting GVHMR inference with parameters:
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   video:           312 frames @ (812, 720)
-  [ComfyUI] [05/16 21:03:42][INFO]   video:           312 frames @ (812, 720)
+  [ComfyUI] [05/19 23:35:33][INFO]   video:           312 frames @ (812, 720)
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   video_mask:      312 frames @ (816, 720)
-  [ComfyUI] [05/16 21:03:42][INFO]   video_mask:      312 frames @ (816, 720)
+  [ComfyUI] [05/19 23:35:33][INFO]   video_mask:      312 frames @ (816, 720)
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   moving_camera:   False
-  [ComfyUI] [05/16 21:03:42][INFO]   moving_camera:   False
+  [ComfyUI] [05/19 23:35:33][INFO]   moving_camera:   False
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   focal_length_mm: 0
-  [ComfyUI] [05/16 21:03:42][INFO]   focal_length_mm: 0
+  [ComfyUI] [05/19 23:35:33][INFO]   focal_length_mm: 0
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   bbox_scale:      1.2
-  [ComfyUI] [05/16 21:03:42][INFO]   bbox_scale:      1.2
+  [ComfyUI] [05/19 23:35:33][INFO]   bbox_scale:      1.2
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   vo_method:       simple_vo
-  [ComfyUI] [05/16 21:03:42][INFO]   vo_method:       simple_vo
+  [ComfyUI] [05/19 23:35:33][INFO]   vo_method:       simple_vo
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   vo_scale:        0.5
-  [ComfyUI] [05/16 21:03:42][INFO]   vo_scale:        0.5
+  [ComfyUI] [05/19 23:35:33][INFO]   vo_scale:        0.5
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   vo_step:         8
-  [ComfyUI] [05/16 21:03:42][INFO]   vo_step:         8
+  [ComfyUI] [05/19 23:35:33][INFO]   vo_step:         8
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   intrinsics:      None
-  [ComfyUI] [05/16 21:03:42][INFO]   intrinsics:      None
+  [ComfyUI] [05/19 23:35:33][INFO]   intrinsics:      None
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   chunk_size:      32
-  [ComfyUI] [05/16 21:03:42][INFO]   chunk_size:      32
+  [ComfyUI] [05/19 23:35:33][INFO]   chunk_size:      32
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   config keys:     ['models_dir', 'gvhmr_path', 'vitpose_path', 'hmr2_path', 'body_models_path', 'precision', 'attention', 'dpvo_dir']
-  [ComfyUI] [05/16 21:03:42][INFO]   config keys:     ['models_dir', 'gvhmr_path', 'vitpose_path', 'hmr2_path', 'body_models_path', 'precision', 'attention', 'dpvo_dir']
+  [ComfyUI] [05/19 23:35:33][INFO]   config keys:     ['models_dir', 'gvhmr_path', 'vitpose_path', 'hmr2_path', 'body_models_path', 'precision', 'attention', 'dpvo_dir']
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   dpvo_dir:
-  [ComfyUI] [05/16 21:03:42][INFO]   dpvo_dir:
+  [ComfyUI] [05/19 23:35:33][INFO]   dpvo_dir:
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: ============================================================
-  [ComfyUI] [05/16 21:03:42][INFO] ============================================================
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] Start of run_inference: RSS=1029 MB, GPU=0 MB
-  [ComfyUI] [05/16 21:03:42][INFO] [Memory] Start of run_inference: RSS=1029 MB, GPU=0 MB
+  [ComfyUI] [05/19 23:35:33][INFO] ============================================================
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] Start of run_inference: RSS=1010 MB, GPU=0 MB
+  [ComfyUI] [05/19 23:35:33][INFO] [Memory] Start of run_inference: RSS=1010 MB, GPU=0 MB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: working around nvidia conv3d memory bug.
-  [ComfyUI] [05/16 21:03:42][INFO] working around nvidia conv3d memory bug.
+  [ComfyUI] [05/19 23:35:33][INFO] working around nvidia conv3d memory bug.
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Using pytorch attention
-  [ComfyUI] [05/16 21:03:42][INFO] Using pytorch attention
+  [ComfyUI] [05/19 23:35:33][INFO] Using pytorch attention
   [ComfyUI] [worker:ComfyUI-MotionCapture] WARNING: No comfy kitchen, using old apply_rope functions.
-  [ComfyUI] [05/16 21:03:42][WARNING] No comfy kitchen, using old apply_rope functions.
-  Frame 13 saved (frame_012.jpg, t=65.1s)
-  [capture-periodic] freeze=3ms shot=235ms unfreeze=8ms saved=True
-  [capture-loop] iter=550 t=67.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3 ram=4.6/31.2GB (15%) swap=0.6/32.0GB (2%) cpu=5% browser_rss=0.82GB
+  [ComfyUI] [05/19 23:35:33][WARNING] No comfy kitchen, using old apply_rope functions.
+  [capture-loop] iter=550 t=67.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3 ram=5.3/31.2GB (17%) swap=4.0/32.0GB (12%) cpu=5% browser_rss=0.83GB
+  Frame 17 saved (frame_016.jpg, t=67.8s)
+  [capture-periodic] freeze=3ms shot=233ms unfreeze=4ms saved=True
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Loading GVHMR models...
-  [ComfyUI] [05/16 21:03:49][INFO] [GVHMRInference] Loading GVHMR models...
+  [ComfyUI] [05/19 23:35:38][INFO] [GVHMRInference] Loading GVHMR models...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Precision: torch.bfloat16
-  [ComfyUI] [05/16 21:03:49][INFO] [GVHMRInference] Precision: torch.bfloat16
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Loading GVHMR from /workspaces/MotionCapture-2058/ComfyUI/models/motion_capture/gvhmr.safetensors...
-  [ComfyUI] [05/16 21:03:49][INFO] [GVHMRInference] Loading GVHMR from /workspaces/MotionCapture-2058/ComfyUI/models/motion_capture/gvhmr.safetensors...
+  [ComfyUI] [05/19 23:35:38][INFO] [GVHMRInference] Precision: torch.bfloat16
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Loading GVHMR from /workspaces/MotionCapture-2329/ComfyUI/models/motion_capture/gvhmr.safetensors...
+  [ComfyUI] [05/19 23:35:38][INFO] [GVHMRInference] Loading GVHMR from /workspaces/MotionCapture-2329/ComfyUI/models/motion_capture/gvhmr.safetensors...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [EnDecoder] Use MM_V1_AMASS_LOCAL_BEDLAM_CAM for statistics!
-  [ComfyUI] [05/16 21:03:49][INFO] [EnDecoder] Use MM_V1_AMASS_LOCAL_BEDLAM_CAM for statistics!
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [PL-Trainer] Loading ckpt type: /workspaces/MotionCapture-2058/ComfyUI/models/motion_capture/gvhmr.safetensors
-  [ComfyUI] [05/16 21:03:50][INFO] [PL-Trainer] Loading ckpt type: /workspaces/MotionCapture-2058/ComfyUI/models/motion_capture/gvhmr.safetensors
+  [ComfyUI] [05/19 23:35:38][INFO] [EnDecoder] Use MM_V1_AMASS_LOCAL_BEDLAM_CAM for statistics!
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [PL-Trainer] Loading ckpt type: /workspaces/MotionCapture-2329/ComfyUI/models/motion_capture/gvhmr.safetensors
+  [ComfyUI] [05/19 23:35:39][INFO] [PL-Trainer] Loading ckpt type: /workspaces/MotionCapture-2329/ComfyUI/models/motion_capture/gvhmr.safetensors
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Initializing ViTPose extractor...
-  [ComfyUI] [05/16 21:03:50][INFO] [GVHMRInference] Initializing ViTPose extractor...
-  [capture-loop] iter=600 t=73.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.1/31.2GB (16%) swap=0.6/32.0GB (2%) cpu=5% browser_rss=0.81GB
+  [ComfyUI] [05/19 23:35:40][INFO] [GVHMRInference] Initializing ViTPose extractor...
+  [capture-loop] iter=600 t=73.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.5/31.2GB (18%) swap=4.0/32.0GB (12%) cpu=4% browser_rss=0.82GB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Initializing feature extractor...
-  [ComfyUI] [05/16 21:03:51][INFO] [GVHMRInference] Initializing feature extractor...
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After all models loaded: RSS=6221 MB, GPU=0 MB
-  [ComfyUI] [05/16 21:03:52][INFO] [Memory] After all models loaded: RSS=6221 MB, GPU=0 MB
+  [ComfyUI] [05/19 23:35:41][INFO] [GVHMRInference] Initializing feature extractor...
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After all models loaded: RSS=6181 MB, GPU=0 MB
+  [ComfyUI] [05/19 23:35:42][INFO] [Memory] After all models loaded: RSS=6181 MB, GPU=0 MB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] All models loaded successfully!
-  [ComfyUI] [05/16 21:03:52][INFO] [GVHMRInference] All models loaded successfully!
+  [ComfyUI] [05/19 23:35:42][INFO] [GVHMRInference] All models loaded successfully!
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Video: 312 frames @ 812x720
-  [ComfyUI] [05/16 21:03:52][INFO] [GVHMRInference] Video: 312 frames @ 812x720
+  [ComfyUI] [05/19 23:35:42][INFO] [GVHMRInference] Video: 312 frames @ 812x720
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Mask: 312 frames @ 816x720
-  [ComfyUI] [05/16 21:03:52][INFO] [GVHMRInference] Mask: 312 frames @ 816x720
+  [ComfyUI] [05/19 23:35:42][INFO] [GVHMRInference] Mask: 312 frames @ 816x720
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Processing 312 frames, static_camera=True
-  [ComfyUI] [05/16 21:03:52][INFO] [GVHMRInference] Processing 312 frames, static_camera=True
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] Start of prepare_data_from_videos: RSS=6222 MB, GPU=0 MB
-  [ComfyUI] [05/16 21:03:52][INFO] [Memory] Start of prepare_data_from_videos: RSS=6222 MB, GPU=0 MB
+  [ComfyUI] [05/19 23:35:42][INFO] [GVHMRInference] Processing 312 frames, static_camera=True
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] Start of prepare_data_from_videos: RSS=6181 MB, GPU=0 MB
+  [ComfyUI] [05/19 23:35:42][INFO] [Memory] Start of prepare_data_from_videos: RSS=6181 MB, GPU=0 MB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Phase 1: Extracting bounding boxes from mask video...
-  [ComfyUI] [05/16 21:03:52][INFO] [GVHMRInference] Phase 1: Extracting bounding boxes from mask video...
+  [ComfyUI] [05/19 23:35:42][INFO] [GVHMRInference] Phase 1: Extracting bounding boxes from mask video...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Extracted 312 bounding boxes
-  [ComfyUI] [05/16 21:03:55][INFO] [GVHMRInference] Extracted 312 bounding boxes
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After bbox extraction from mask video: RSS=6234 MB, GPU=0 MB
-  [ComfyUI] [05/16 21:03:55][INFO] [Memory] After bbox extraction from mask video: RSS=6234 MB, GPU=0 MB
+  [ComfyUI] [05/19 23:35:43][INFO] [GVHMRInference] Extracted 312 bounding boxes
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After bbox extraction from mask video: RSS=6191 MB, GPU=0 MB
+  [ComfyUI] [05/19 23:35:43][INFO] [Memory] After bbox extraction from mask video: RSS=6191 MB, GPU=0 MB
   [ComfyUI] [worker:ComfyUI-MotionCapture] WARNING: [GVHMRInference] Mask resolution (816x720) != video resolution (812x720). Scaling bboxes.
-  [ComfyUI] [05/16 21:03:55][WARNING] [GVHMRInference] Mask resolution (816x720) != video resolution (812x720). Scaling bboxes.
+  [ComfyUI] [05/19 23:35:43][WARNING] [GVHMRInference] Mask resolution (816x720) != video resolution (812x720). Scaling bboxes.
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] bboxes_xyxy: torch.Size([312, 4]), bbx_xys: torch.Size([312, 3])
-  [ComfyUI] [05/16 21:03:55][INFO] [GVHMRInference] bboxes_xyxy: torch.Size([312, 4]), bbx_xys: torch.Size([312, 3])
+  [ComfyUI] [05/19 23:35:43][INFO] [GVHMRInference] bboxes_xyxy: torch.Size([312, 4]), bbx_xys: torch.Size([312, 3])
   [ComfyUI] [SubprocessWorker] callback 'request_vram_budget' from call_id=2
-  [ComfyUI] [comfy-env] VRAM request: 1.27GB, free before eviction: 24.71GB
-  [ComfyUI] [comfy-env] VRAM after eviction: 24.71GB
+  [ComfyUI] [comfy-env] VRAM request: 1.27GB, free before eviction: 24.16GB
+  [ComfyUI] [comfy-env] VRAM after eviction: 24.16GB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Requested to load VitPoseModel
-  [ComfyUI] [05/16 21:03:55][INFO] Requested to load VitPoseModel
-  [ComfyUI] [worker:ComfyUI-MotionCapture] [VRAM] +750MB (now 750MB) reserved=768MB peak=750MB
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: loaded completely; 22342.05 MB usable, 1214.91 MB loaded, full load: True
-  [ComfyUI] [05/16 21:03:55][INFO] loaded completely; 22342.05 MB usable, 1214.91 MB loaded, full load: True
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] ViTPose on GPU: RSS=3816 MB, GPU=1215 MB
-  [ComfyUI] [05/16 21:03:55][INFO] [Memory] ViTPose on GPU: RSS=3816 MB, GPU=1215 MB
+  [ComfyUI] [05/19 23:35:43][INFO] Requested to load VitPoseModel
+  [ComfyUI] [worker:ComfyUI-MotionCapture] [VRAM] +700MB (now 700MB) reserved=704MB peak=700MB
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: loaded completely; 21818.67 MB usable, 1214.91 MB loaded, full load: True
+  [ComfyUI] [05/19 23:35:43][INFO] loaded completely; 21818.67 MB usable, 1214.91 MB loaded, full load: True
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] ViTPose on GPU: RSS=3775 MB, GPU=1215 MB
+  [ComfyUI] [05/19 23:35:43][INFO] [Memory] ViTPose on GPU: RSS=3775 MB, GPU=1215 MB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Pass 1/2 (ViTPose): 312 frames in chunks of 32...
-  [ComfyUI] [05/16 21:03:55][INFO] [GVHMRInference] Pass 1/2 (ViTPose): 312 frames in chunks of 32...
+  [ComfyUI] [05/19 23:35:43][INFO] [GVHMRInference] Pass 1/2 (ViTPose): 312 frames in chunks of 32...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] ViTPose chunk [0:32] (32 frames)
-  [ComfyUI] [05/16 21:03:55][INFO] [GVHMRInference] ViTPose chunk [0:32] (32 frames)
+  [ComfyUI] [05/19 23:35:43][INFO] [GVHMRInference] ViTPose chunk [0:32] (32 frames)
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
-  [ComfyUI] [worker:ComfyUI-MotionCapture] [VRAM] +495MB (now 1246MB) reserved=1376MB peak=1268MB
+  [ComfyUI] [worker:ComfyUI-MotionCapture] [VRAM] +527MB (now 1228MB) reserved=1376MB peak=1283MB
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [0:32]: RSS=3980 MB, GPU=1225 MB
-  [ComfyUI] [05/16 21:03:56][INFO] [Memory] After ViTPose chunk [0:32]: RSS=3980 MB, GPU=1225 MB
-  Frame 14 saved (frame_013.jpg, t=78.8s)
-  [capture-periodic] freeze=11ms shot=234ms unfreeze=3ms saved=True
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [0:32]: RSS=3930 MB, GPU=1225 MB
+  [ComfyUI] [05/19 23:35:44][INFO] [Memory] After ViTPose chunk [0:32]: RSS=3930 MB, GPU=1225 MB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] ViTPose chunk [32:64] (32 frames)
-  [ComfyUI] [05/16 21:03:56][INFO] [GVHMRInference] ViTPose chunk [32:64] (32 frames)
-  [capture-loop] iter=650 t=79.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3 ram=7.1/31.2GB (23%) swap=0.6/32.0GB (2%) cpu=7% browser_rss=0.82GB
+  [ComfyUI] [05/19 23:35:44][INFO] [GVHMRInference] ViTPose chunk [32:64] (32 frames)
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [32:64]: RSS=4010 MB, GPU=1225 MB
-  [ComfyUI] [05/16 21:03:57][INFO] [Memory] After ViTPose chunk [32:64]: RSS=4010 MB, GPU=1225 MB
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [32:64]: RSS=4002 MB, GPU=1225 MB
+  [ComfyUI] [05/19 23:35:45][INFO] [Memory] After ViTPose chunk [32:64]: RSS=4002 MB, GPU=1225 MB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] ViTPose chunk [64:96] (32 frames)
-  [ComfyUI] [05/16 21:03:57][INFO] [GVHMRInference] ViTPose chunk [64:96] (32 frames)
+  [ComfyUI] [05/19 23:35:45][INFO] [GVHMRInference] ViTPose chunk [64:96] (32 frames)
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
+  Frame 18 saved (frame_017.jpg, t=79.3s)
+  [capture-periodic] freeze=4ms shot=239ms unfreeze=3ms saved=True
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
+  [capture-loop] iter=650 t=79.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=8.0/31.2GB (26%) swap=4.0/32.0GB (12%) cpu=9% browser_rss=0.83GB
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [64:96]: RSS=4034 MB, GPU=1225 MB
-  [ComfyUI] [05/16 21:03:58][INFO] [Memory] After ViTPose chunk [64:96]: RSS=4034 MB, GPU=1225 MB
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [64:96]: RSS=4050 MB, GPU=1225 MB
+  [ComfyUI] [05/19 23:35:46][INFO] [Memory] After ViTPose chunk [64:96]: RSS=4050 MB, GPU=1225 MB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] ViTPose chunk [96:128] (32 frames)
-  [ComfyUI] [05/16 21:03:58][INFO] [GVHMRInference] ViTPose chunk [96:128] (32 frames)
-  [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
-  Frame 15 saved (frame_014.jpg, t=81.2s)
-  [capture-periodic] freeze=3ms shot=217ms unfreeze=4ms saved=True
+  [ComfyUI] [05/19 23:35:46][INFO] [GVHMRInference] ViTPose chunk [96:128] (32 frames)
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [96:128]: RSS=4058 MB, GPU=1225 MB
-  [ComfyUI] [05/16 21:03:59][INFO] [Memory] After ViTPose chunk [96:128]: RSS=4058 MB, GPU=1225 MB
+  [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [96:128]: RSS=4122 MB, GPU=1225 MB
+  [ComfyUI] [05/19 23:35:47][INFO] [Memory] After ViTPose chunk [96:128]: RSS=4122 MB, GPU=1225 MB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] ViTPose chunk [128:160] (32 frames)
-  [ComfyUI] [05/16 21:03:59][INFO] [GVHMRInference] ViTPose chunk [128:160] (32 frames)
+  [ComfyUI] [05/19 23:35:47][INFO] [GVHMRInference] ViTPose chunk [128:160] (32 frames)
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [128:160]: RSS=4082 MB, GPU=1225 MB
-  [ComfyUI] [05/16 21:04:00][INFO] [Memory] After ViTPose chunk [128:160]: RSS=4082 MB, GPU=1225 MB
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [128:160]: RSS=4146 MB, GPU=1225 MB
+  [ComfyUI] [05/19 23:35:48][INFO] [Memory] After ViTPose chunk [128:160]: RSS=4146 MB, GPU=1225 MB
+  Frame 19 saved (frame_018.jpg, t=81.7s)
+  [capture-periodic] freeze=11ms shot=239ms unfreeze=12ms saved=True
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] ViTPose chunk [160:192] (32 frames)
-  [ComfyUI] [05/16 21:04:00][INFO] [GVHMRInference] ViTPose chunk [160:192] (32 frames)
+  [ComfyUI] [05/19 23:35:48][INFO] [GVHMRInference] ViTPose chunk [160:192] (32 frames)
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [160:192]: RSS=4106 MB, GPU=1225 MB
-  [ComfyUI] [05/16 21:04:01][INFO] [Memory] After ViTPose chunk [160:192]: RSS=4106 MB, GPU=1225 MB
-  Frame 16 saved (frame_015.jpg, t=83.5s)
-  [capture-periodic] freeze=3ms shot=244ms unfreeze=4ms saved=True
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [160:192]: RSS=4170 MB, GPU=1225 MB
+  [ComfyUI] [05/19 23:35:49][INFO] [Memory] After ViTPose chunk [160:192]: RSS=4170 MB, GPU=1225 MB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] ViTPose chunk [192:224] (32 frames)
-  [ComfyUI] [05/16 21:04:01][INFO] [GVHMRInference] ViTPose chunk [192:224] (32 frames)
+  [ComfyUI] [05/19 23:35:49][INFO] [GVHMRInference] ViTPose chunk [192:224] (32 frames)
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [192:224]: RSS=4130 MB, GPU=1225 MB
-  [ComfyUI] [05/16 21:04:02][INFO] [Memory] After ViTPose chunk [192:224]: RSS=4130 MB, GPU=1225 MB
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [192:224]: RSS=4194 MB, GPU=1225 MB
+  [ComfyUI] [05/19 23:35:50][INFO] [Memory] After ViTPose chunk [192:224]: RSS=4194 MB, GPU=1225 MB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] ViTPose chunk [224:256] (32 frames)
-  [ComfyUI] [05/16 21:04:02][INFO] [GVHMRInference] ViTPose chunk [224:256] (32 frames)
+  [ComfyUI] [05/19 23:35:50][INFO] [GVHMRInference] ViTPose chunk [224:256] (32 frames)
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
-  [capture-loop] iter=700 t=85.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=9 ram=7.3/31.2GB (23%) swap=0.6/32.0GB (2%) cpu=8% browser_rss=0.82GB
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [224:256]: RSS=4154 MB, GPU=1225 MB
-  [ComfyUI] [05/16 21:04:03][INFO] [Memory] After ViTPose chunk [224:256]: RSS=4154 MB, GPU=1225 MB
+  Frame 20 saved (frame_019.jpg, t=84.1s)
+  [capture-periodic] freeze=3ms shot=249ms unfreeze=6ms saved=True
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [224:256]: RSS=4218 MB, GPU=1225 MB
+  [ComfyUI] [05/19 23:35:51][INFO] [Memory] After ViTPose chunk [224:256]: RSS=4218 MB, GPU=1225 MB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] ViTPose chunk [256:288] (32 frames)
-  [ComfyUI] [05/16 21:04:03][INFO] [GVHMRInference] ViTPose chunk [256:288] (32 frames)
-  [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
-  Frame 17 saved (frame_016.jpg, t=85.9s)
-  [capture-periodic] freeze=2ms shot=236ms unfreeze=12ms saved=True
+  [ComfyUI] [05/19 23:35:51][INFO] [GVHMRInference] ViTPose chunk [256:288] (32 frames)
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [256:288]: RSS=4178 MB, GPU=1225 MB
-  [ComfyUI] [05/16 21:04:04][INFO] [Memory] After ViTPose chunk [256:288]: RSS=4178 MB, GPU=1225 MB
+  [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [256:288]: RSS=4242 MB, GPU=1225 MB
+  [ComfyUI] [05/19 23:35:51][INFO] [Memory] After ViTPose chunk [256:288]: RSS=4242 MB, GPU=1225 MB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] ViTPose chunk [288:312] (24 frames)
-  [ComfyUI] [05/16 21:04:04][INFO] [GVHMRInference] ViTPose chunk [288:312] (24 frames)
+  [ComfyUI] [05/19 23:35:52][INFO] [GVHMRInference] ViTPose chunk [288:312] (24 frames)
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [288:312]: RSS=4196 MB, GPU=1225 MB
-  [ComfyUI] [05/16 21:04:05][INFO] [Memory] After ViTPose chunk [288:312]: RSS=4196 MB, GPU=1225 MB
+  [capture-loop] iter=700 t=85.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=10 ram=8.1/31.2GB (26%) swap=4.0/32.0GB (12%) cpu=7% browser_rss=0.83GB
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After ViTPose chunk [288:312]: RSS=4242 MB, GPU=1225 MB
+  [ComfyUI] [05/19 23:35:52][INFO] [Memory] After ViTPose chunk [288:312]: RSS=4242 MB, GPU=1225 MB
   [ComfyUI] [SubprocessWorker] callback 'request_vram_budget' from call_id=2
-  [ComfyUI] [comfy-env] VRAM request: 1.34GB, free before eviction: 23.28GB
-  [ComfyUI] [comfy-env] VRAM after eviction: 23.28GB
+  [ComfyUI] [comfy-env] VRAM request: 1.34GB, free before eviction: 22.73GB
+  [ComfyUI] [comfy-env] VRAM after eviction: 22.73GB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Requested to load HMR2
-  [ComfyUI] [05/16 21:04:05][INFO] Requested to load HMR2
-  [ComfyUI] [worker:ComfyUI-MotionCapture] [VRAM] +265MB (now 1512MB) reserved=1536MB peak=1512MB
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: loaded completely; 21035.54 MB usable, 1278.33 MB loaded, full load: True
-  [ComfyUI] [05/16 21:04:05][INFO] loaded completely; 21035.54 MB usable, 1278.33 MB loaded, full load: True
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] HMR2 on GPU: RSS=4196 MB, GPU=2503 MB
-  [ComfyUI] [05/16 21:04:05][INFO] [Memory] HMR2 on GPU: RSS=4196 MB, GPU=2503 MB
+  [ComfyUI] [05/19 23:35:52][INFO] Requested to load HMR2
+  [ComfyUI] [worker:ComfyUI-MotionCapture] [VRAM] +258MB (now 1487MB) reserved=1504MB peak=1487MB
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: loaded completely; 20512.17 MB usable, 1278.33 MB loaded, full load: True
+  [ComfyUI] [05/19 23:35:52][INFO] loaded completely; 20512.17 MB usable, 1278.33 MB loaded, full load: True
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] HMR2 on GPU: RSS=4242 MB, GPU=2503 MB
+  [ComfyUI] [05/19 23:35:52][INFO] [Memory] HMR2 on GPU: RSS=4242 MB, GPU=2503 MB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Pass 2/2 (HMR2): 10 chunks...
-  [ComfyUI] [05/16 21:04:05][INFO] [GVHMRInference] Pass 2/2 (HMR2): 10 chunks...
+  [ComfyUI] [05/19 23:35:52][INFO] [GVHMRInference] Pass 2/2 (HMR2): 10 chunks...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] HMR2 chunk 1/10
-  [ComfyUI] [05/16 21:04:05][INFO] [GVHMRInference] HMR2 chunk 1/10
+  [ComfyUI] [05/19 23:35:52][INFO] [GVHMRInference] HMR2 chunk 1/10
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] HMR2 chunk 2/10
-  [ComfyUI] [05/16 21:04:05][INFO] [GVHMRInference] HMR2 chunk 2/10
+  [ComfyUI] [05/19 23:35:53][INFO] [GVHMRInference] HMR2 chunk 2/10
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] HMR2 chunk 3/10
-  [ComfyUI] [05/16 21:04:06][INFO] [GVHMRInference] HMR2 chunk 3/10
+  [ComfyUI] [05/19 23:35:53][INFO] [GVHMRInference] HMR2 chunk 3/10
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
-  Frame 18 saved (frame_017.jpg, t=88.3s)
-  [capture-periodic] freeze=8ms shot=219ms unfreeze=14ms saved=True
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] HMR2 chunk 4/10
-  [ComfyUI] [05/16 21:04:06][INFO] [GVHMRInference] HMR2 chunk 4/10
-  [ComfyUI] [worker:ComfyUI-MotionCapture] [VRAM] +991MB (now 2503MB) reserved=2592MB peak=2528MB
+  [ComfyUI] [05/19 23:35:53][INFO] [GVHMRInference] HMR2 chunk 4/10
+  [ComfyUI] [worker:ComfyUI-MotionCapture] [VRAM] +1016MB (now 2503MB) reserved=2592MB peak=2532MB
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] HMR2 chunk 5/10
-  [ComfyUI] [05/16 21:04:06][INFO] [GVHMRInference] HMR2 chunk 5/10
+  [ComfyUI] [05/19 23:35:54][INFO] [GVHMRInference] HMR2 chunk 5/10
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] HMR2 chunk 6/10
-  [ComfyUI] [05/16 21:04:07][INFO] [GVHMRInference] HMR2 chunk 6/10
+  [ComfyUI] [05/19 23:35:54][INFO] [GVHMRInference] HMR2 chunk 6/10
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] HMR2 chunk 7/10
-  [ComfyUI] [05/16 21:04:07][INFO] [GVHMRInference] HMR2 chunk 7/10
+  [ComfyUI] [05/19 23:35:55][INFO] [GVHMRInference] HMR2 chunk 7/10
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] HMR2 chunk 8/10
-  [ComfyUI] [05/16 21:04:07][INFO] [GVHMRInference] HMR2 chunk 8/10
+  [ComfyUI] [05/19 23:35:55][INFO] [GVHMRInference] HMR2 chunk 8/10
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] HMR2 chunk 9/10
-  [ComfyUI] [05/16 21:04:08][INFO] [GVHMRInference] HMR2 chunk 9/10
+  [ComfyUI] [05/19 23:35:55][INFO] [GVHMRInference] HMR2 chunk 9/10
+  Frame 21 saved (frame_020.jpg, t=88.8s)
+  [capture-periodic] freeze=5ms shot=249ms unfreeze=3ms saved=True
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] HMR2 chunk 10/10
-  [ComfyUI] [05/16 21:04:08][INFO] [GVHMRInference] HMR2 chunk 10/10
+  [ComfyUI] [05/19 23:35:56][INFO] [GVHMRInference] HMR2 chunk 10/10
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=2
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After HMR2 pass: RSS=4201 MB, GPU=2503 MB
-  [ComfyUI] [05/16 21:04:09][INFO] [Memory] After HMR2 pass: RSS=4201 MB, GPU=2503 MB
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After HMR2 pass: RSS=4246 MB, GPU=2503 MB
+  [ComfyUI] [05/19 23:35:56][INFO] [Memory] After HMR2 pass: RSS=4246 MB, GPU=2503 MB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] ViTPose complete: kp2d=torch.Size([312, 17, 3]) dtype=torch.float32
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference] ViTPose complete: kp2d=torch.Size([312, 17, 3]) dtype=torch.float32
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference] ViTPose complete: kp2d=torch.Size([312, 17, 3]) dtype=torch.float32
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] HMR2 complete: f_imgseq=torch.Size([312, 1024]) dtype=torch.bfloat16
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference] HMR2 complete: f_imgseq=torch.Size([312, 1024]) dtype=torch.bfloat16
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After all chunks processed: RSS=4201 MB, GPU=2503 MB
-  [ComfyUI] [05/16 21:04:09][INFO] [Memory] After all chunks processed: RSS=4201 MB, GPU=2503 MB
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Features offloaded to disk: /tmp/f_imgseq_bmn8lj4a.safetensors
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference] Features offloaded to disk: /tmp/f_imgseq_bmn8lj4a.safetensors
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference] HMR2 complete: f_imgseq=torch.Size([312, 1024]) dtype=torch.bfloat16
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After all chunks processed: RSS=4246 MB, GPU=2503 MB
+  [ComfyUI] [05/19 23:35:57][INFO] [Memory] After all chunks processed: RSS=4246 MB, GPU=2503 MB
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Features offloaded to disk: /tmp/f_imgseq_zmjonu1f.safetensors
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference] Features offloaded to disk: /tmp/f_imgseq_zmjonu1f.safetensors
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Auto-estimating camera intrinsics (53 deg FOV)
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference] Auto-estimating camera intrinsics (53 deg FOV)
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference] Auto-estimating camera intrinsics (53 deg FOV)
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Camera mode: STATIC (vo_method=simple_vo)
-  [capture-loop] iter=750 t=91.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3 ram=7.3/31.2GB (23%) swap=0.6/32.0GB (2%) cpu=7% browser_rss=0.83GB
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference] Camera mode: STATIC (vo_method=simple_vo)
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference] Camera mode: STATIC (vo_method=simple_vo)
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] R_w2c: torch.Size([312, 3, 3]), t_w2c: None
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference] R_w2c: torch.Size([312, 3, 3]), t_w2c: None
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference] R_w2c: torch.Size([312, 3, 3]), t_w2c: None
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] cam_angvel: torch.Size([312, 6])
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference] cam_angvel: torch.Size([312, 6])
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference] cam_angvel: torch.Size([312, 6])
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] === Data dict summary ===
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference] === Data dict summary ===
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference] === Data dict summary ===
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference]   length: torch.Size([]) dtype=torch.int64
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference]   length: torch.Size([]) dtype=torch.int64
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference]   length: torch.Size([]) dtype=torch.int64
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference]   bbx_xys: torch.Size([312, 3]) dtype=torch.float32
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference]   bbx_xys: torch.Size([312, 3]) dtype=torch.float32
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference]   bbx_xys: torch.Size([312, 3]) dtype=torch.float32
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference]   kp2d: torch.Size([312, 17, 3]) dtype=torch.float32
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference]   kp2d: torch.Size([312, 17, 3]) dtype=torch.float32
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference]   kp2d: torch.Size([312, 17, 3]) dtype=torch.float32
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference]   K_fullimg: torch.Size([312, 3, 3]) dtype=torch.float32
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference]   K_fullimg: torch.Size([312, 3, 3]) dtype=torch.float32
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference]   K_fullimg: torch.Size([312, 3, 3]) dtype=torch.float32
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference]   cam_angvel: torch.Size([312, 6]) dtype=torch.float32
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference]   cam_angvel: torch.Size([312, 6]) dtype=torch.float32
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference]   cam_angvel: torch.Size([312, 6]) dtype=torch.float32
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference]   f_imgseq: None
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference]   f_imgseq: None
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference]   f_imgseq_path: str = /tmp/f_imgseq_bmn8lj4a.safetensors
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference]   f_imgseq_path: str = /tmp/f_imgseq_bmn8lj4a.safetensors
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] End of prepare_data_from_videos: RSS=4201 MB, GPU=2503 MB
-  [ComfyUI] [05/16 21:04:09][INFO] [Memory] End of prepare_data_from_videos: RSS=4201 MB, GPU=2503 MB
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference]   f_imgseq: None
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference]   f_imgseq_path: str = /tmp/f_imgseq_zmjonu1f.safetensors
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference]   f_imgseq_path: str = /tmp/f_imgseq_zmjonu1f.safetensors
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] End of prepare_data_from_videos: RSS=4247 MB, GPU=2503 MB
+  [ComfyUI] [05/19 23:35:57][INFO] [Memory] End of prepare_data_from_videos: RSS=4247 MB, GPU=2503 MB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Reloading features from disk...
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference] Reloading features from disk...
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference] Reloading features from disk...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Features reloaded from disk
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference] Features reloaded from disk
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference] Features reloaded from disk
   [ComfyUI] [SubprocessWorker] callback 'request_vram_budget' from call_id=2
-  [ComfyUI] [comfy-env] VRAM request: 0.08GB, free before eviction: 21.97GB
-  [ComfyUI] [comfy-env] VRAM after eviction: 21.97GB
+  [ComfyUI] [comfy-env] VRAM request: 0.08GB, free before eviction: 21.42GB
+  [ComfyUI] [comfy-env] VRAM after eviction: 21.42GB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Requested to load DemoPL
-  [ComfyUI] [05/16 21:04:09][INFO] Requested to load DemoPL
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: loaded completely; 19756.74 MB usable, 77.90 MB loaded, full load: True
-  [ComfyUI] [05/16 21:04:09][INFO] loaded completely; 19756.74 MB usable, 77.90 MB loaded, full load: True
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] Before GVHMR predict: RSS=4201 MB, GPU=2593 MB
-  [ComfyUI] [05/16 21:04:09][INFO] [Memory] Before GVHMR predict: RSS=4201 MB, GPU=2593 MB
+  [ComfyUI] [05/19 23:35:57][INFO] Requested to load DemoPL
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: loaded completely; 19233.37 MB usable, 77.90 MB loaded, full load: True
+  [ComfyUI] [05/19 23:35:57][INFO] loaded completely; 19233.37 MB usable, 77.90 MB loaded, full load: True
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] Before GVHMR predict: RSS=4247 MB, GPU=2593 MB
+  [ComfyUI] [05/19 23:35:57][INFO] [Memory] Before GVHMR predict: RSS=4247 MB, GPU=2593 MB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Running GVHMR model (static_cam=True)...
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference] Running GVHMR model (static_cam=True)...
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference] Running GVHMR model (static_cam=True)...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] === Pre-predict data shapes ===
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference] === Pre-predict data shapes ===
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference] === Pre-predict data shapes ===
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference]   data[length]: torch.Size([]) dtype=torch.int64 device=cpu
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference]   data[length]: torch.Size([]) dtype=torch.int64 device=cpu
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference]   data[length]: torch.Size([]) dtype=torch.int64 device=cpu
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference]   data[bbx_xys]: torch.Size([312, 3]) dtype=torch.float32 device=cpu
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference]   data[bbx_xys]: torch.Size([312, 3]) dtype=torch.float32 device=cpu
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference]   data[bbx_xys]: torch.Size([312, 3]) dtype=torch.float32 device=cpu
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference]   data[kp2d]: torch.Size([312, 17, 3]) dtype=torch.float32 device=cpu
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference]   data[kp2d]: torch.Size([312, 17, 3]) dtype=torch.float32 device=cpu
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference]   data[kp2d]: torch.Size([312, 17, 3]) dtype=torch.float32 device=cpu
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference]   data[K_fullimg]: torch.Size([312, 3, 3]) dtype=torch.float32 device=cpu
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference]   data[K_fullimg]: torch.Size([312, 3, 3]) dtype=torch.float32 device=cpu
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference]   data[K_fullimg]: torch.Size([312, 3, 3]) dtype=torch.float32 device=cpu
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference]   data[cam_angvel]: torch.Size([312, 6]) dtype=torch.float32 device=cpu
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference]   data[cam_angvel]: torch.Size([312, 6]) dtype=torch.float32 device=cpu
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference]   data[cam_angvel]: torch.Size([312, 6]) dtype=torch.float32 device=cpu
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference]   data[f_imgseq]: torch.Size([312, 1024]) dtype=torch.bfloat16 device=cpu
-  [ComfyUI] [05/16 21:04:09][INFO] [GVHMRInference]   data[f_imgseq]: torch.Size([312, 1024]) dtype=torch.bfloat16 device=cpu
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After GVHMR predict: RSS=4290 MB, GPU=2593 MB
-  [ComfyUI] [05/16 21:04:10][INFO] [Memory] After GVHMR predict: RSS=4290 MB, GPU=2593 MB
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Saved SMPL params to: /workspaces/MotionCapture-2058/ComfyUI/output/smpl_params_0001.npz
-  [ComfyUI] [05/16 21:04:10][INFO] [GVHMRInference] Saved SMPL params to: /workspaces/MotionCapture-2058/ComfyUI/output/smpl_params_0001.npz
+  [ComfyUI] [05/19 23:35:57][INFO] [GVHMRInference]   data[f_imgseq]: torch.Size([312, 1024]) dtype=torch.bfloat16 device=cpu
+  Frame 22 saved (frame_021.jpg, t=91.2s)
+  [capture-periodic] freeze=3ms shot=251ms unfreeze=3ms saved=True
+  [capture-loop] iter=750 t=92.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=8.4/31.2GB (27%) swap=4.0/32.0GB (12%) cpu=6% browser_rss=0.84GB
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] After GVHMR predict: RSS=4332 MB, GPU=2593 MB
+  [ComfyUI] [05/19 23:35:58][INFO] [Memory] After GVHMR predict: RSS=4332 MB, GPU=2593 MB
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Saved SMPL params to: /workspaces/MotionCapture-2329/ComfyUI/output/smpl_params_0001.npz
+  [ComfyUI] [05/19 23:35:58][INFO] [GVHMRInference] Saved SMPL params to: /workspaces/MotionCapture-2329/ComfyUI/output/smpl_params_0001.npz
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] Inference complete!
-  [ComfyUI] [05/16 21:04:10][INFO] [GVHMRInference] Inference complete!
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] Final (before return): RSS=4290 MB, GPU=2593 MB
-  [ComfyUI] [05/16 21:04:11][INFO] [Memory] Final (before return): RSS=4290 MB, GPU=2593 MB
+  [ComfyUI] [05/19 23:35:58][INFO] [GVHMRInference] Inference complete!
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [Memory] Final (before return): RSS=4332 MB, GPU=2593 MB
+  [ComfyUI] [05/19 23:35:59][INFO] [Memory] Final (before return): RSS=4332 MB, GPU=2593 MB
   [ComfyUI] [SubprocessWorker] got response: ok
   [ComfyUI] [comfy-env] Created 3 model patchers: ['VitPoseModel_1', 'HMR2_2', 'DemoPL_3']
-  Frame 19 saved (frame_018.jpg, t=93.0s)
-  [ComfyUI] [comfy-env] GVHMRInference done (28.92s): result: NodeOutput
-  [capture-periodic] freeze=3ms shot=244ms unfreeze=4ms saved=True
-  [ComfyUI] [VRAM] After GVHMRInference: 3271 / 24124 MB
+  [ComfyUI] [comfy-env] GVHMRInference done (25.88s): result: NodeOutput
+  [ComfyUI] [VRAM] After GVHMRInference: 3795 / 24124 MB
   [ComfyUI] [VRAM] Loaded: SubprocessModel (89 MB), SubprocessModel (1278 MB), SubprocessModel (1215 MB)
-  [ComfyUI] [comfy-env] Running SMPLViewer: npz_path: '/workspaces/MotionCapture-2058/ComfyUI/output/smpl_param..., frame_skip: 1, mesh_color: '#4a9eff'
-  [ComfyUI] [VRAM] Before SMPLViewer: 3271 / 24124 MB
+  [ComfyUI] [comfy-env] Running SMPLViewer: npz_path: '/workspaces/MotionCapture-2329/ComfyUI/output/smpl_param..., frame_skip: 1, mesh_color: '#4a9eff'
+  [ComfyUI] [VRAM] Before SMPLViewer: 3795 / 24124 MB
   [ComfyUI] [VRAM] Loaded: SubprocessModel (89 MB), SubprocessModel (1278 MB), SubprocessModel (1215 MB)
   [ComfyUI] [SubprocessWorker] call_method: nodes.viewer_node.SMPLViewer.EXECUTE_NORMALIZED
   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
@@ -646,30 +666,30 @@ Capturing execution frames: GVHMR.json
   [ComfyUI] [SubprocessWorker] sending request via socket...
   [ComfyUI] [SubprocessWorker] call_id=3 sending call_method
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLViewer] Generating 3D mesh data for visualization...
-  [ComfyUI] [05/16 21:04:11][INFO] [SMPLViewer] Generating 3D mesh data for visualization...
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLViewer] Loading SMPL parameters from: /workspaces/MotionCapture-2058/ComfyUI/output/smpl_params_0001.npz
-  [ComfyUI] [05/16 21:04:11][INFO] [SMPLViewer] Loading SMPL parameters from: /workspaces/MotionCapture-2058/ComfyUI/output/smpl_params_0001.npz
+  [ComfyUI] [05/19 23:35:59][INFO] [SMPLViewer] Generating 3D mesh data for visualization...
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLViewer] Loading SMPL parameters from: /workspaces/MotionCapture-2329/ComfyUI/output/smpl_params_0001.npz
+  [ComfyUI] [05/19 23:35:59][INFO] [SMPLViewer] Loading SMPL parameters from: /workspaces/MotionCapture-2329/ComfyUI/output/smpl_params_0001.npz
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLViewer] Processing 312 frames (skip=1)
-  [ComfyUI] [05/16 21:04:11][INFO] [SMPLViewer] Processing 312 frames (skip=1)
-  Frame 20 saved (frame_019.jpg, t=95.4s)
-  [capture-periodic] freeze=3ms shot=229ms unfreeze=3ms saved=True
+  [ComfyUI] [05/19 23:35:59][INFO] [SMPLViewer] Processing 312 frames (skip=1)
+  Frame 23 saved (frame_022.jpg, t=93.5s)
+  [capture-periodic] freeze=3ms shot=237ms unfreeze=6ms saved=True
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLViewer] Generated mesh: 312 frames, 6890 vertices, 13776 faces
-  [ComfyUI] [05/16 21:04:14][INFO] [SMPLViewer] Generated mesh: 312 frames, 6890 vertices, 13776 faces
+  [ComfyUI] [05/19 23:36:02][INFO] [SMPLViewer] Generated mesh: 312 frames, 6890 vertices, 13776 faces
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLViewer] Wrote smpl_mesh_0001.bin (24.8 MB)
-  [ComfyUI] [05/16 21:04:14][INFO] [SMPLViewer] Wrote smpl_mesh_0001.bin (24.8 MB)
+  [ComfyUI] [05/19 23:36:02][INFO] [SMPLViewer] Wrote smpl_mesh_0001.bin (24.8 MB)
   [ComfyUI] [SubprocessWorker] got response: ok
-  Node executed (1 total), capturing...
   [ComfyUI] [comfy-env] Created 1 model patchers: ['SMPLX_4']
-  [ComfyUI] [comfy-env] SMPLViewer done (2.97s): result: NodeOutput
-  [ComfyUI] [VRAM] After SMPLViewer: 3335 / 24124 MB
+  [ComfyUI] [comfy-env] SMPLViewer done (3.00s): result: NodeOutput
+  [ComfyUI] [VRAM] After SMPLViewer: 3859 / 24124 MB
   [ComfyUI] [VRAM] Loaded: SubprocessModel (65 MB), SubprocessModel (89 MB), SubprocessModel (1278 MB), SubprocessModel (1215 MB)
-  [ComfyUI] Prompt executed in 95.90 seconds
-  Frame 21 saved (frame_020.jpg, t=96.5s)
-  [capture-node] freeze=4ms shot=272ms unfreeze=415ms saved=True
-  Execution complete (t=97.4s)
-  Captured 21 unique frames over 97.37s
+  [ComfyUI] Prompt executed in 95.08 seconds
+  Node executed (1 total), capturing...
+  Frame 24 saved (frame_023.jpg, t=95.7s)
+  [capture-node] freeze=4ms shot=619ms unfreeze=4ms saved=True
+  Execution complete (t=96.5s)
+  Captured 24 unique frames over 96.56s
   [debug] iframes: 0
   [timing] trigger_3d_previews: 0.0s
   Saved high-quality screenshot: GVHMR_executed.png
   [timing] final_screenshot: 0.5s
-    Captured 22 video frames
+    Captured 25 video frames
