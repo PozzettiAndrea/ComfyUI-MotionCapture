@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-05-19T16:49:09.834356+00:00",
+  "timestamp": "2026-05-25T19:31:24.851830+00:00",
   "platform": "windows",
   "hardware": {
     "os": "Windows-10-10.0.26100-SP0",
-    "cpu": "AMD64 Family 25 Model 17 Stepping 1, AuthenticAMD"
+    "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
   },
   "commit_hash": "2e0ffb450a6d8f93f66af0d1c25fa3494637366c",
-  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/26108918214",
+  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/26416322296",
   "success": true,
   "summary": {
     "total": 5,
@@ -17,19 +17,19 @@
     {
       "name": "apply_motion_on_character",
       "status": "pass",
-      "duration_seconds": 89.89,
+      "duration_seconds": 37.83,
       "error": null,
       "hardware": {
         "os": "Windows-10-10.0.26100-SP0",
-        "cpu": "AMD64 Family 25 Model 17 Stepping 1, AuthenticAMD"
+        "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
       },
       "resources": {
         "ram": {
-          "peak": 1.54,
-          "avg": 0.87
+          "peak": 1.6,
+          "avg": 0.9
         },
         "total_ram_gb": 16.0,
-        "samples": 90
+        "samples": 38
       }
     },
     {
@@ -49,37 +49,37 @@
     {
       "name": "load_camera_traj",
       "status": "pass",
-      "duration_seconds": 56.14,
+      "duration_seconds": 49.88,
       "error": null,
       "hardware": {
         "os": "Windows-10-10.0.26100-SP0",
-        "cpu": "AMD64 Family 25 Model 17 Stepping 1, AuthenticAMD"
+        "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
       },
       "resources": {
         "ram": {
-          "peak": 1.18,
-          "avg": 0.98
+          "peak": 1.27,
+          "avg": 1.07
         },
         "total_ram_gb": 16.0,
-        "samples": 56
+        "samples": 50
       }
     },
     {
       "name": "smpl_to_bvh_pipeline",
       "status": "pass",
-      "duration_seconds": 10.72,
+      "duration_seconds": 21.45,
       "error": null,
       "hardware": {
         "os": "Windows-10-10.0.26100-SP0",
-        "cpu": "AMD64 Family 25 Model 17 Stepping 1, AuthenticAMD"
+        "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
       },
       "resources": {
         "ram": {
-          "peak": 0.84,
-          "avg": 0.83
+          "peak": 0.9,
+          "avg": 0.89
         },
         "total_ram_gb": 16.0,
-        "samples": 11
+        "samples": 22
       }
     }
   ]

@@ -1,40 +1,42 @@
+  [ComfyUI] [32m[INFO][0m Using RAM pressure cache.
 Capturing execution frames: apply_motion_on_character.json
-  [ComfyUI] [DEPRECATION WARNING] Detected import of deprecated legacy API: /extensions/core/widgetInputs.js. This is likely caused by a custom node extension using outdated APIs. Please update your extensions or contact the extension author for an updated version.
+  [ComfyUI] [32m[INFO][0m Using RAM pressure cache.
+  [ComfyUI] [1m[33m[WARNING][0m [DEPRECATION WARNING] Detected import of deprecated legacy API: /extensions/core/widgetInputs.js. This is likely caused by a custom node extension using outdated APIs. Please update your extensions or contact the extension author for an updated version.
   Frame 1 saved (frame_000.jpg, t=0.0s)
   Validating workflow...
-  [ComfyUI] === /validate endpoint called ===
-  [ComfyUI] Received JSON with keys: ['prompt']
-  [ComfyUI] Prompt has 6 nodes
-  [ComfyUI]   Node 1: HYMotionNPZToSMPLParams
-  [ComfyUI]     Inputs: {"npz_path": ["2", 0]}
-  [ComfyUI]   Node 2: LoadSMPL
-  [ComfyUI]     Inputs: {"file_path": "smpl_params_example.npz"}
+  [ComfyUI] [32m[INFO][0m === /validate endpoint called ===
+  [ComfyUI] [32m[INFO][0m Received JSON with keys: ['prompt']
+  [ComfyUI] [32m[INFO][0m Prompt has 6 nodes
+  [ComfyUI] [32m[INFO][0m   Node 1: HYMotionNPZToSMPLParams
+  [ComfyUI] [32m[INFO][0m     Inputs: {"npz_path": ["2", 0]}
+  [ComfyUI] [32m[INFO][0m   Node 2: LoadSMPL
   Queuing workflow for execution...
-  [ComfyUI]   Node 3: HYMotionSMPLToData
-  [ComfyUI]     Inputs: {"text": "", "duration": 0, "smpl_params": ["1", 0]}
-  [ComfyUI]   Node 4: HYMotionRetargetFBX
-  [ComfyUI]     Inputs: {"target_fbx": ["9", 0], "output_dir": "hymotion_retarget", "filename_prefix": "retarget", "mapping_file": "", "yaw_offset": 0, "neutral_fingers": true, "unique_names": true, "in_place": false, "in_pl
-  [ComfyUI]   Node 6: Preview3D
-  [ComfyUI]     Inputs: {"model_file": ["4", 0], "image": ""}
-  [ComfyUI]   Node 9: PrimitiveString
-  [ComfyUI]     Inputs: {"value": "3d/mixamo.fbx"}
-  [ComfyUI] Generated prompt_id: c6dd568e-96e0-421f-99fb-eca51d540f18
-  [ComfyUI] Calling execution.validate_prompt()...
-  [ComfyUI] Validation result: valid=True
-  [ComfyUI] === Validation PASSED ===
-  [ComfyUI] got prompt
+  [ComfyUI] [32m[INFO][0m     Inputs: {"file_path": "smpl_params_example.npz"}
+  [ComfyUI] [32m[INFO][0m   Node 3: HYMotionSMPLToData
+  [ComfyUI] [32m[INFO][0m     Inputs: {"text": "", "duration": 0, "smpl_params": ["1", 0]}
+  [ComfyUI] [32m[INFO][0m   Node 4: HYMotionRetargetFBX
+  [ComfyUI] [32m[INFO][0m     Inputs: {"target_fbx": ["9", 0], "output_dir": "hymotion_retarget", "filename_prefix": "retarget", "mapping_file": "", "yaw_offset": 0, "neutral_fingers": true, "unique_names": true, "in_place": false, "in_pl
+  [ComfyUI] [32m[INFO][0m   Node 6: Preview3D
+  [ComfyUI] [32m[INFO][0m     Inputs: {"model_file": ["4", 0], "image": ""}
+  [ComfyUI] [32m[INFO][0m   Node 9: PrimitiveString
+  [ComfyUI] [32m[INFO][0m     Inputs: {"value": "3d/mixamo.fbx"}
+  [ComfyUI] [32m[INFO][0m Generated prompt_id: fcc8ecea-9b4f-40ae-8f2f-5538677ca790
+  [ComfyUI] [32m[INFO][0m Calling execution.validate_prompt()...
+  [ComfyUI] [32m[INFO][0m Validation result: valid=True
+  [ComfyUI] [32m[INFO][0m === Validation PASSED ===
+  [ComfyUI] [32m[INFO][0m got prompt
   [ComfyUI] [comfy-env] Running LoadSMPL: file_path: 'smpl_params_example.npz'
   [ComfyUI] [comfy-env] SubprocessWorker: C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\python.exe
-  [ComfyUI] [comfy-env] env_vars: {'COMFYUI_BASE': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1642\\ComfyUI'}
+  [ComfyUI] [comfy-env] env_vars: {'COMFYUI_BASE': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1924\\ComfyUI'}
   [ComfyUI] [SubprocessWorker] call_method: nodes.load_smpl_node.LoadSMPLParams.EXECUTE_NORMALIZED
   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
-  [ComfyUI] [comfy-env] default: Library/bin has 236 DLLs
+  [ComfyUI] [comfy-env] default: Library/bin has 237 DLLs
   [ComfyUI] [ComfyUI-MotionCapture] python: C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\python.exe
-  [ComfyUI] [ComfyUI-MotionCapture] sys_path sent to worker: ['D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1642\\ComfyUI', 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1642\\ComfyUI\\custom_nodes\\ComfyUI-MotionCapture', 'C:\\Users\\stduser\\AppData\\Local\\Programs\\comfy-env\\envs\\motioncapture-nodes\\.pixi\\envs\\default\\Lib\\site-packages', 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1642\\ComfyUI\\custom_nodes\\ComfyUI-MotionCapture']
+  [ComfyUI] [ComfyUI-MotionCapture] sys_path sent to worker: ['D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1924\\ComfyUI', 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1924\\ComfyUI\\custom_nodes\\ComfyUI-MotionCapture', 'C:\\Users\\stduser\\AppData\\Local\\Programs\\comfy-env\\envs\\motioncapture-nodes\\.pixi\\envs\\default\\Lib\\site-packages', 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1924\\ComfyUI\\custom_nodes\\ComfyUI-MotionCapture']
   [ComfyUI] [SubprocessWorker] is_pixi=True, python=C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\python.exe
-  [ComfyUI] [SubprocessWorker] launching cmd=['C:\\Users\\stduser\\.pixi\\bin\\pixi.exe', 'run', '--as-is', '--manifest-path', 'C:\\Users\\stduser\\AppData\\Local\\Programs\\comfy-env\\envs\\motioncapture-nodes\\pixi.toml', '-e', 'default', 'python', 'C:\\Users\\stduser\\AppData\\Local\\Temp\\comfyui_pvenv_mn64ccxs\\persistent_worker.py', 'tcp://127.0.0.1:56015']...
+  [ComfyUI] [SubprocessWorker] launching cmd=['C:\\Users\\stduser\\.pixi\\bin\\pixi.exe', 'run', '--as-is', '--manifest-path', 'C:\\Users\\stduser\\AppData\\Local\\Programs\\comfy-env\\envs\\motioncapture-nodes\\pixi.toml', '-e', 'default', 'python', 'C:\\Users\\stduser\\AppData\\Local\\Temp\\comfyui_pvenv_a987ozku\\persistent_worker.py', 'tcp://127.0.0.1:61413']...
   Frame 2 saved (frame_001.jpg, t=2.3s)
-  [capture-periodic] freeze=5ms shot=115ms unfreeze=6ms saved=True
+  [capture-periodic] freeze=4ms shot=106ms unfreeze=4ms saved=True
   [ComfyUI] [worker:ComfyUI-MotionCapture] ERROR: Failed to import comfy_kitchen, Error: No module named 'comfy_kitchen', fp8 and fp4 support will not be available.
   [ComfyUI] [SubprocessWorker] worker started/confirmed
   [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
@@ -42,12 +44,12 @@ Capturing execution frames: apply_motion_on_character.json
   [ComfyUI] [SubprocessWorker] sending request via socket...
   [ComfyUI] [SubprocessWorker] call_id=1 sending call_method
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] DPVO not installed - only SimpleVO will be available
-  [ComfyUI] [05/19 16:46:44][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\input\smpl_params_example.npz
-  [ComfyUI] [05/19 16:46:44][INFO] Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\input\smpl_params_example.npz
+  [ComfyUI] [05/25 19:29:47][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\input\smpl_params_example.npz
+  [ComfyUI] [05/25 19:29:47][INFO] Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\input\smpl_params_example.npz
   [ComfyUI] [SubprocessWorker] got response: ok
-  [ComfyUI] [comfy-env] LoadSMPL done (3.69s): result: NodeOutput
-  [ComfyUI] [HY-Motion] NPZ to SMPL_PARAMS: loaded D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\input\smpl_params_example.npz
+  [ComfyUI] [comfy-env] LoadSMPL done (3.64s): result: NodeOutput
+  [ComfyUI] [HY-Motion] NPZ to SMPL_PARAMS: loaded D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\input\smpl_params_example.npz
   [ComfyUI] [HY-Motion]   keys: ['body_pose', 'betas', 'global_orient', 'transl', 'global_orient_incam', 'transl_incam', 'R_cam2world', 't_cam2world', 'K_fullimg', 'img_width', 'img_height']
   [ComfyUI] [HY-Motion] Input has 22 joints. Auto-padding to reach 52 joints (SMPL-H).
   [ComfyUI] [HY-Motion] Padded poses shape: torch.Size([1, 551, 52, 3])
@@ -55,16 +57,16 @@ Capturing execution frames: apply_motion_on_character.json
   [ComfyUI] [HY-Motion] Loading 3D body model for converter preview...
   [ComfyUI] [WoodenMesh] Loaded model: 24256 vertices, 52 joints
   Frame 3 saved (frame_002.jpg, t=4.5s)
-  [capture-periodic] freeze=5ms shot=122ms unfreeze=6ms saved=True
-  [capture-loop] iter=50 t=6.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8 ram=5.5/16.0GB (34%) swap=0.2/2.9GB (6%) cpu=46% browser_rss=0.72GB
+  [capture-periodic] freeze=11ms shot=133ms unfreeze=20ms saved=True
+  [capture-loop] iter=50 t=6.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.4/16.0GB (34%) swap=0.2/2.9GB (6%) cpu=45% browser_rss=0.73GB
   [ComfyUI] [HY-Motion] Successfully converted 551 frames (52 joints) from SMPL to HY-Motion format (Batch: 1).
   [ComfyUI] [HYMotionRetargetFBX] Retargeting batch 0/1 (Native In-Memory)...
   [ComfyUI] [Retarget] NPZ Detect: Keypoints are already animated (Travel=4.32m). Skipping Transl addition.
   [ComfyUI] Using full 52-joint 'poses' from NPZ...
-  Frame 4 saved (frame_003.jpg, t=11.1s)
-  [capture-periodic] freeze=4ms shot=114ms unfreeze=9ms saved=True
-  [capture-loop] iter=100 t=12.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=4.9/16.0GB (31%) swap=0.2/2.9GB (6%) cpu=56% browser_rss=0.72GB
-  [ComfyUI] [HY-Motion] Loading FBX for retargeting: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\input\3d/mixamo.fbx
+  [capture-loop] iter=100 t=12.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=4.9/16.0GB (31%) swap=0.2/2.9GB (6%) cpu=82% browser_rss=0.73GB
+  Frame 4 saved (frame_003.jpg, t=13.2s)
+  [capture-periodic] freeze=2ms shot=103ms unfreeze=3ms saved=True
+  [ComfyUI] [HY-Motion] Loading FBX for retargeting: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\input\3d/mixamo.fbx
   [ComfyUI] Using hardcoded bone mappings (no JSON file needed)
   [ComfyUI] [Retarget] load_bone_mapping: Found 62 matches via semantic names.
   [ComfyUI] [Retarget] Found target root via name 'hips': mixamorig:Hips
@@ -133,25 +135,29 @@ Capturing execution frames: apply_motion_on_character.json
   [ComfyUI] [INFO] Height Check - Source: 165.49cm, Target: 155.78cm
   [ComfyUI] [INFO] Final Retargeting Scale: 94.1349
   [ComfyUI] [Retarget] Computed Alignment Matrix (Euler XYZ): [-1.76378096  0.03494695  1.13493838]
+  [capture-loop] iter=150 t=18.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=4.9/16.0GB (31%) swap=0.2/2.9GB (6%) cpu=42% browser_rss=0.72GB
   [ComfyUI] [Retarget] Identified Target Root for Translation: mixamorig:Hips
   [ComfyUI] [Retarget] Target rest hip pos: [  0.   104.27   1.55]
   [ComfyUI] [Retarget] Initial hip pos: [ 17.38 104.27  30.34]
   [ComfyUI] [Retarget] Configured FBX export with embedded materials
-  [ComfyUI] [Retarget] Saved FBX to: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\output\hymotion_retarget\retarget_20260519_164651061_9d37efc3_000.fbx
-  [ComfyUI] [HYMotionRetargetFBX] Batch 0 done: retarget_20260519_164651061_9d37efc3_000.fbx
+  [ComfyUI] [Retarget] Saved FBX to: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\output\hymotion_retarget\retarget_20260525_192955326_e16ae28b_000.fbx
+  [ComfyUI] [HYMotionRetargetFBX] Batch 0 done: retarget_20260525_192955326_e16ae28b_000.fbx
   [ComfyUI] [HYMotionRetargetFBX] Successfully retargeted 1 batch item(s)
-  [ComfyUI] Prompt executed in 17.79 seconds
+  [ComfyUI] [32m[INFO][0m [32mPrompt executed in 22.60 seconds[0m
+  Node executed (1 total), capturing...
+  Frame 5 saved (frame_004.jpg, t=22.9s)
+  [capture-node] freeze=4ms shot=98ms unfreeze=5ms saved=True
   Node executed (2 total), capturing...
-  Frame 5 saved (frame_004.jpg, t=18.2s)
-  [capture-node] freeze=5ms shot=102ms unfreeze=0ms saved=True
-  Execution complete (t=18.2s)
+  Frame 6 saved (frame_005.jpg, t=24.2s)
+  [capture-node] freeze=1036ms shot=102ms unfreeze=0ms saved=True
+  Execution complete (t=24.2s)
   [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
-  [3d-wait] Phase 1 exception after 60.0s: Page.wait_for_function: Timeout 60000ms exceeded.
+  [3d-wait] Phase 1 done in 0.0s
   [3d-wait] Phase 2: iframes=0
-  [3d-wait] Total 3D wait: 60.0s
-  Captured 5 unique frames over 78.4s
+  [3d-wait] Total 3D wait: 0.0s
+  Captured 6 unique frames over 25.39s
   [debug] iframes: 0
   [timing] trigger_3d_previews: 0.0s
   Saved high-quality screenshot: apply_motion_on_character_executed.png
-  [timing] final_screenshot: 0.2s
-    Captured 6 video frames
+  [timing] final_screenshot: 1.0s
+    Captured 7 video frames

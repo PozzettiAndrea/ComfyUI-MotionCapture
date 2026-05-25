@@ -1,4 +1,4 @@
-[00:00] Crash dump logging enabled: D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1642\dev\windows-cpu\crash_dump.log
+[00:00] Crash dump logging enabled: D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1924\dev\windows-cpu\crash_dump.log
 [00:00] 
 [00:00] [1/5] SYNTAX
 [00:00] ----------------------------------------
@@ -16,728 +16,772 @@
 [DEBUG] server=None, api=None
 [00:00] 
 Setting up ComfyUI...
-[00:00] Creating virtual environment at D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\.venv...
-[00:00] Running: uv venv D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\.venv --python 3.12
-[00:01] torch_version='2.10.0' -> pinning torch==2.10.0 torchvision==0.25.0 torchaudio==2.10.0
-[00:01] Cloning ComfyUI (latest) to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI...
-[00:01] Running: git clone --depth 1 https://github.com/comfyanonymous/ComfyUI.git D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI
-[00:02] Pinning torch family from https://download.pytorch.org/whl/cpu: torch==2.10.0 torchvision==0.25.0 torchaudio==2.10.0
-[00:02] Running: uv pip install --python D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\.venv\Scripts\python.exe --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple --index-strategy unsafe-best-match torch==2.10.0 torchvision==0.25.0 torchaudio==2.10.0
-[00:24] Installing ComfyUI requirements into D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\.venv...
-[00:24]     comfyui-frontend-package==1.43.18
-[00:24]     comfyui-workflow-templates==0.9.77
-[00:24]     comfyui-embedded-docs==0.5.0
-[00:24]     torch
-[00:24]     torchsde
-[00:24]     torchvision
-[00:24]     torchaudio
-[00:24]     numpy>=1.25.0
-[00:24]     einops
-[00:24]     transformers>=4.50.3
-[00:24]     tokenizers>=0.13.3
-[00:24]     sentencepiece
-[00:24]     safetensors>=0.4.2
-[00:24]     aiohttp>=3.11.8
-[00:24]     yarl>=1.18.0
-[00:24]     pyyaml
-[00:24]     Pillow
-[00:24]     scipy
-[00:24]     tqdm
-[00:24]     psutil
-[00:24]     alembic
-[00:24]     SQLAlchemy>=2.0.0
-[00:24]     filelock
-[00:24]     av>=14.2.0
-[00:24]     comfy-kitchen>=0.2.8
-[00:24]     comfy-aimdo==0.3.0
-[00:24]     requests
-[00:24]     simpleeval>=1.0.0
-[00:24]     blake3
-[00:24]     
-[00:24]     #non essential dependencies:
-[00:24]     kornia>=0.7.1
-[00:24]     spandrel
-[00:24]     pydantic~=2.0
-[00:24]     pydantic-settings~=2.0
-[00:24]     PyOpenGL
-[00:24]     glfw
-[00:24] Running: uv pip install --python D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\.venv\Scripts\python.exe --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple --index-strategy unsafe-best-match -r D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\requirements.txt
-[00:56] 
+[00:00] Creating virtual environment at D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\.venv...
+[00:00] Running: uv venv D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\.venv --python 3.13
+[00:06] torch_version='2.10.0' -> pinning torch==2.10.0 torchvision==0.25.0 torchaudio==2.10.0
+[00:06] Cloning ComfyUI (latest) to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI...
+[00:06] Running: git clone --depth 1 https://github.com/comfyanonymous/ComfyUI.git D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI
+[00:07] Pinning torch family from https://download.pytorch.org/whl/cpu: torch==2.10.0 torchvision==0.25.0 torchaudio==2.10.0
+[00:07] Running: uv pip install --python D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\.venv\Scripts\python.exe --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple --index-strategy unsafe-best-match torch==2.10.0 torchvision==0.25.0 torchaudio==2.10.0
+[00:35] Installing ComfyUI requirements into D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\.venv...
+[00:35]     comfyui-frontend-package==1.44.19
+[00:35]     comfyui-workflow-templates==0.9.82
+[00:35]     comfyui-embedded-docs==0.5.1
+[00:35]     torch
+[00:35]     torchsde
+[00:35]     torchvision
+[00:35]     torchaudio
+[00:35]     numpy>=1.25.0
+[00:35]     einops
+[00:35]     transformers>=4.50.3
+[00:35]     tokenizers>=0.13.3
+[00:35]     sentencepiece
+[00:35]     safetensors>=0.4.2
+[00:35]     aiohttp>=3.11.8
+[00:35]     yarl>=1.18.0
+[00:35]     pyyaml
+[00:35]     Pillow
+[00:35]     scipy
+[00:35]     tqdm
+[00:35]     psutil
+[00:35]     alembic
+[00:35]     SQLAlchemy>=2.0.0
+[00:35]     filelock
+[00:35]     av>=14.2.0
+[00:35]     comfy-kitchen>=0.2.8
+[00:35]     comfy-aimdo==0.4.5
+[00:35]     requests
+[00:35]     simpleeval>=1.0.0
+[00:35]     blake3
+[00:35]     
+[00:35]     #non essential dependencies:
+[00:35]     kornia>=0.7.1
+[00:35]     spandrel
+[00:35]     pydantic~=2.0
+[00:35]     pydantic-settings~=2.0
+[00:35]     PyOpenGL
+[00:35]     glfw
+[00:35] Running: uv pip install --python D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\.venv\Scripts\python.exe --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple --index-strategy unsafe-best-match -r D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\requirements.txt
+[01:03] 
 Installing custom node...
-[00:56] Copying ComfyUI-MotionCapture to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\custom_nodes\ComfyUI-MotionCapture...
-[00:56] Installing node requirements...
-[00:56]     comfy-env==0.4.1
-[00:56]     comfy-3d-viewers==0.2.44
-[00:56] Running: uv pip install --python D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\.venv\Scripts\python.exe --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple --index-strategy unsafe-best-match -r D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\custom_nodes\ComfyUI-MotionCapture\requirements.txt
-[00:58] 
+[01:03] Copying ComfyUI-MotionCapture to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\custom_nodes\ComfyUI-MotionCapture...
+[01:03] Installing node requirements...
+[01:03]     comfy-env==0.4.1
+[01:03]     comfy-3d-viewers==0.2.44
+[01:03] Running: uv pip install --python D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\.venv\Scripts\python.exe --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple --index-strategy unsafe-best-match -r D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\custom_nodes\ComfyUI-MotionCapture\requirements.txt
+[01:04] 
 Running install.py...
-[00:58] Running: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\.venv\Scripts\python.exe D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\custom_nodes\ComfyUI-MotionCapture\install.py
-[01:00]   
-[01:00]   Installing 3 node dependencies...
-[01:00]     Cloning ComfyUI-VideoHelperSuite...
-[01:00]     Installing requirements for ComfyUI-VideoHelperSuite...
-[01:02]     Cloning ComfyUI-CameraPack...
-[01:02]     Cloning ComfyUI-HyMotion...
-[01:03]     Installing requirements for ComfyUI-HyMotion...
-[01:07]     Running install.py for ComfyUI-HyMotion...
-[01:07]   Using uv for installation...
-[01:07]   Installing fbxsdkpy==2020.1.post2...
-[01:09]   Installing requirements from D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\custom_nodes\ComfyUI-HyMotion\requirements.txt...
-[01:09]   
-[01:09]   [requirements] Re-installing main package requirements...
-[01:09]     Installing requirements for ComfyUI-MotionCapture...
-[01:11]   [comfy-env] _discover: scanning D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\custom_nodes
-[01:11]   [comfy-env] _discover: ComfyUI-CameraPack: no comfy-env.toml found
-[01:11]   [comfy-env] _discover: ComfyUI-HyMotion: no comfy-env.toml found
-[01:11]   [comfy-env] _discover: ComfyUI-MotionCapture -> motioncapture-nodes (custom_nodes\ComfyUI-MotionCapture\nodes\comfy-env.toml)
-[01:11]   [comfy-env] _discover: ComfyUI-VideoHelperSuite: no comfy-env.toml found
-[01:11]   [comfy-env] Workspace: C:\Users\stduser\AppData\Local\Programs\comfy-env
-[01:11]   [comfy-env] ComfyUI: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI
-[01:11]   [comfy-env] Found 1 node config(s):
-[01:11]     - motioncapture-nodes <- custom_nodes\ComfyUI-MotionCapture\nodes\comfy-env.toml (python=host)
-[01:11]   [comfy-env] Bootstrap interpreter has python 3.12 + torch 2.10.0 (cpu). Looking for cuda-only wheels matching cpu/torch2.10/cp312.
-[01:16]   [comfy-env] GPU: No GPU detected
-[01:16]   [comfy-env] No CUDA detected -- pinning comfyui torch to CPU index
-[01:16]   [comfy-env] Writing 1 per-env manifest(s):
-[01:16]     - motioncapture-nodes: C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\pixi.toml
-[01:16]   [comfy-env] Installing 1 environment(s):
-[01:16]     - motioncapture-nodes (python=host, 40 pypi deps, 2 cuda wheels)
-[01:16]   [comfy-env] Running `pixi install --manifest-path C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\pixi.toml` ...
-[01:45]      WARN Skipped running the post-link scripts because `run-post-link-scripts` = `false`
-[01:45]     	- Scripts/.librsvg-pre-unlink.bat
-[01:45]     To enable them, run:
-[01:45]     	pixi config set --local run-post-link-scripts insecure
-[01:45]     More info:
-[01:45]     	https://pixi.sh/latest/reference/pixi_configuration/#run-post-link-scripts
-[02:23]     The default environment has been installed.
-[02:23]   [comfy-env] Recorded install hash 10b5dbf889c1 -> C:\Users\stduser\AppData\Local\Programs\comfy-env\install.hash
-[02:23]   [comfy-env] Install log: C:\Users\stduser\AppData\Local\Programs\comfy-env\install.log
-[02:23]   
-[02:23]   Installation complete!
-[02:23] Installing 3 node dependency(ies)...
-[02:23]   ComfyUI-VideoHelperSuite from Kosinkadink/ComfyUI-VideoHelperSuite
-[02:23]   ComfyUI-VideoHelperSuite already exists, skipping...
-[02:23]   ComfyUI-CameraPack from PozzettiAndrea/ComfyUI-CameraPack
-[02:23]   ComfyUI-CameraPack already exists, skipping...
-[02:23]   ComfyUI-HyMotion from PozzettiAndrea/ComfyUI-HyMotion
-[02:23]   ComfyUI-HyMotion already exists, skipping...
-[02:23] Installing validation endpoint...
-[02:23]   Cloning PozzettiAndrea/ComfyUI-validate-endpoint...
-[02:23] Running: git clone --depth 1 https://x-access-token:***@github.com/PozzettiAndrea/ComfyUI-validate-endpoint.git D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\custom_nodes\ComfyUI-validate-endpoint
-[02:24] CUDA packages absent (will mock): dpvo_cuda, torch_scatter
-[02:25] [INSTALL] PASSED
-[02:25] 
-[02:25] [3/5] REGISTRATION
-[02:25] ----------------------------------------
-[02:25] 
+[01:04] Running: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\.venv\Scripts\python.exe D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\custom_nodes\ComfyUI-MotionCapture\install.py
+[01:08]   
+[01:08]   Installing 3 node dependencies...
+[01:08]     Cloning ComfyUI-VideoHelperSuite...
+[01:08]     Installing requirements for ComfyUI-VideoHelperSuite...
+[01:09]     Cloning ComfyUI-CameraPack...
+[01:09]     Cloning ComfyUI-HyMotion...
+[01:10]     Installing requirements for ComfyUI-HyMotion...
+[01:15]     Running install.py for ComfyUI-HyMotion...
+[01:15]   Using uv for installation...
+[01:15]   Installing fbxsdkpy==2020.1.post2...
+[01:17]   Installing requirements from D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\custom_nodes\ComfyUI-HyMotion\requirements.txt...
+[01:18]   
+[01:18]   [requirements] Re-installing main package requirements...
+[01:18]     Installing requirements for ComfyUI-MotionCapture...
+[01:20]   [comfy-env] _discover: scanning D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\custom_nodes
+[01:20]   [comfy-env] _discover: ComfyUI-CameraPack: no comfy-env.toml found
+[01:20]   [comfy-env] _discover: ComfyUI-HyMotion: no comfy-env.toml found
+[01:20]   [comfy-env] _discover: ComfyUI-MotionCapture -> motioncapture-nodes (custom_nodes\ComfyUI-MotionCapture\nodes\comfy-env.toml)
+[01:20]   [comfy-env] _discover: ComfyUI-VideoHelperSuite: no comfy-env.toml found
+[01:20]   [comfy-env] Workspace: C:\Users\stduser\AppData\Local\Programs\comfy-env
+[01:20]   [comfy-env] ComfyUI: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI
+[01:20]   [comfy-env] Found 1 node config(s):
+[01:20]     - motioncapture-nodes <- custom_nodes\ComfyUI-MotionCapture\nodes\comfy-env.toml (python=host)
+[01:20]   [comfy-env] Bootstrap interpreter has python 3.13 + torch 2.10.0 (cpu). Looking for cuda-only wheels matching cpu/torch2.10/cp313.
+[01:25]   [comfy-env] GPU: No GPU detected
+[01:25]   [comfy-env] No CUDA detected -- pinning comfyui torch to CPU index
+[01:25]   [comfy-env] Writing 1 per-env manifest(s):
+[01:25]     - motioncapture-nodes: C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\pixi.toml
+[01:25]   [comfy-env] Installing 1 environment(s):
+[01:25]     - motioncapture-nodes (python=host, 40 pypi deps, 2 cuda wheels)
+[01:25]   [comfy-env] Running `pixi install --manifest-path C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\pixi.toml` ...
+[02:14]      WARN Skipped running the post-link scripts because `run-post-link-scripts` = `false`
+[02:14]     	- Scripts/.librsvg-pre-unlink.bat
+[02:14]     To enable them, run:
+[02:14]     	pixi config set --local run-post-link-scripts insecure
+[02:14]     More info:
+[02:14]     	https://pixi.sh/latest/reference/pixi_configuration/#run-post-link-scripts
+[03:21]     The default environment has been installed.
+[03:21]   [comfy-env] Recorded install hash 10b5dbf889c1 -> C:\Users\stduser\AppData\Local\Programs\comfy-env\install.hash
+[03:21]   [comfy-env] Install log: C:\Users\stduser\AppData\Local\Programs\comfy-env\install.log
+[03:21]   
+[03:21]   Installation complete!
+[03:21] Installing 3 node dependency(ies)...
+[03:21]   ComfyUI-VideoHelperSuite from Kosinkadink/ComfyUI-VideoHelperSuite
+[03:21]   ComfyUI-VideoHelperSuite already exists, skipping...
+[03:21]   ComfyUI-CameraPack from PozzettiAndrea/ComfyUI-CameraPack
+[03:21]   ComfyUI-CameraPack already exists, skipping...
+[03:21]   ComfyUI-HyMotion from PozzettiAndrea/ComfyUI-HyMotion
+[03:21]   ComfyUI-HyMotion already exists, skipping...
+[03:21] Installing validation endpoint...
+[03:21]   Cloning PozzettiAndrea/ComfyUI-validate-endpoint...
+[03:21] Running: git clone --depth 1 https://x-access-token:***@github.com/PozzettiAndrea/ComfyUI-validate-endpoint.git D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\custom_nodes\ComfyUI-validate-endpoint
+[03:22] CUDA packages absent (will mock): dpvo_cuda, torch_scatter
+[03:22] [INSTALL] PASSED
+[03:22] 
+[03:22] [3/5] REGISTRATION
+[03:22] ----------------------------------------
+[03:22] 
 [DEBUG] server=None, api=None
-[02:25] 
+[03:22] 
 Starting ComfyUI server...
-[02:25] Starting ComfyUI server on port 41889...
-[02:25] CUDA mock packages: dpvo_cuda, torch_scatter
-[02:25] Starting ComfyUI server on port 41889...
-[02:25] Waiting for server to be ready (timeout: 600s)...
-[02:27]   [ComfyUI] setup plugin alembic.autogenerate.schemas
-[02:27]   [ComfyUI] setup plugin alembic.autogenerate.tables
-[02:27]   [ComfyUI] setup plugin alembic.autogenerate.types
-[02:27]   [ComfyUI] setup plugin alembic.autogenerate.constraints
-[02:27]   [ComfyUI] setup plugin alembic.autogenerate.defaults
-[02:27]   [ComfyUI] setup plugin alembic.autogenerate.comments
-[02:28]   [ComfyUI] [comfy-env] ComfyUI-MotionCapture: 1 isolation env(s):
-[02:28]   [ComfyUI] [comfy-env]   nodes -> D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\custom_nodes\ComfyUI-MotionCapture\nodes
-[02:28]   [ComfyUI] [comfy-env] Workspace: C:\Users\stduser\AppData\Local\Programs\comfy-env
-[02:28]   [ComfyUI] [comfy-env]     env: C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default  [OK]
-[02:28]   [ComfyUI] [comfy-env] prestartup complete
-[02:28]   [ComfyUI] 
-[02:28]   [ComfyUI] Prestartup times for custom nodes:
-[02:28]   [ComfyUI]    0.2 seconds: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\custom_nodes\ComfyUI-MotionCapture
-[02:28]   [ComfyUI] 
-[02:34]   [ComfyUI] Found comfy_kitchen backend cuda: {'available': False, 'disabled': True, 'unavailable_reason': 'CUDA not available on this system', 'capabilities': []}
-[02:34]   [ComfyUI] Found comfy_kitchen backend triton: {'available': False, 'disabled': True, 'unavailable_reason': "ImportError: No module named 'triton'", 'capabilities': []}
-[02:34]   [ComfyUI] Found comfy_kitchen backend eager: {'available': True, 'disabled': False, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_mxfp8', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8', 'scaled_mm_mxfp8', 'scaled_mm_nvfp4']}
-[02:34]   [ComfyUI] Checkpoint files will always be loaded safely.
-[02:34]   [ComfyUI] Total VRAM 16379 MB, total RAM 16379 MB
-[02:34]   [ComfyUI] pytorch version: 2.10.0+cpu
-[02:34]   [ComfyUI] Set vram state to: DISABLED
-[02:34]   [ComfyUI] Device: cpu
-[02:35]   [ComfyUI] Using sub quadratic optimization for attention, if you have memory or speed issues try using: --use-split-cross-attention
-[02:43]   [ComfyUI] Python version: 3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]
-[02:43]   [ComfyUI] ComfyUI version: 0.21.1
-[02:43]   [ComfyUI] comfy-aimdo version: 0.3.0
-[02:43]   [ComfyUI] comfy-kitchen version: 0.2.8
-[02:43]   [ComfyUI] ****** User settings have been changed to be stored on the server instead of browser storage. ******
-[02:43]   [ComfyUI] ****** For multi-user setups add the --multi-user CLI argument to enable multiple user profiles. ******
-[02:43]   [ComfyUI] comfyui-frontend-package version: 1.43.18
-[02:43]   [ComfyUI] comfyui-workflow-templates version: 0.9.77
-[02:43]   [ComfyUI] comfyui-embedded-docs version: 0.5.0
-[02:43]   [ComfyUI] comfy-kitchen version: 0.2.8
-[02:43]   [ComfyUI] comfy-aimdo version: 0.3.0
-[02:43]   [ComfyUI] [Prompt Server] web root: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\.venv\Lib\site-packages\comfyui_frontend_package\static
-[02:43]   [ComfyUI] Asset seeder disabled
-[02:51]   [ComfyUI] generated new fontManager
-[02:52]   [ComfyUI] loading...
-[02:52]   [ComfyUI] calling register_nodes
-[02:52]   [ComfyUI] [comfy-env] Version: 0.4.1
-[02:52]   [ComfyUI] [comfy-env] register_nodes: ComfyUI-MotionCapture
-[02:52]   [ComfyUI] [comfy-env] ComfyUI source dir: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI
-[02:52]   [ComfyUI] [comfy-env] Found 1 isolation env(s)
-[02:52]   [ComfyUI] [comfy-env] Scanning nodes metadata (isolation root)...
-[02:52]   [ComfyUI] [comfy-env] default: Library/bin has 236 DLLs
-[02:52]   [ComfyUI] [comfy-env] Metadata scan: C:\Users\stduser\.pixi\bin\pixi.exe run --as-is --manifest-path C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\pixi.toml -e default python C:\Users\stduser\AppData\Local\Temp\comfy_meta_eptubndd.py D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\custom_nodes\ComfyUI-MotionCapture nodes C:\Users\stduser\AppData\Local\Temp\comfy_meta_out_h01x6qe0.pkl
-[02:52]   [ComfyUI] [comfy-env] Scan env PATH for nodes:
-[02:52]   [ComfyUI] [comfy-env]   [0] C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default
-[02:52]   [ComfyUI] [comfy-env]   [1] C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Library\bin
-[02:52]   [ComfyUI] [comfy-env]   [2] C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Scripts
-[02:52]   [ComfyUI] [comfy-env]   [3] C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\site-packages\bpy
-[02:52]   [ComfyUI] [comfy-env]   [4] C:\Windows\System32
-[02:52]   [ComfyUI] [comfy-env]   [5] C:\Windows
-[02:52]   [ComfyUI] [comfy-env]   [6] C:\Windows\System32\Wbem
-[03:00]   [ComfyUI] [comfy-env] Metadata scan stderr for nodes:
-[03:00]   [ComfyUI] [comfy-env]   [meta-scan] importing nodes from D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\custom_nodes\ComfyUI-MotionCapture
-[03:00]   [ComfyUI] [comfy-env]   [05/19 16:45:38][ERROR] Failed to import comfy_kitchen, Error: No module named 'comfy_kitchen', fp8 and fp4 support will not be available.
-[03:00]   [ComfyUI] [comfy-env]   [05/19 16:45:38][INFO] Checkpoint files will always be loaded safely.
-[03:00]   [ComfyUI] [comfy-env]   D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\custom_nodes\ComfyUI-MotionCapture\nodes\motion_utils\matrix.py:1064: SyntaxWarning: invalid escape sequence '\*'
-[03:00]   [ComfyUI] [comfy-env]     Combine two set of 3D rotations together using \**\* operator. The shape needs to be
-[03:00]   [ComfyUI] [comfy-env]   [05/19 16:45:39][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
-[03:00]   [ComfyUI] [comfy-env]   [meta-scan] import OK
-[03:00]   [ComfyUI] [comfy-env] Scanned nodes: 22 nodes (7.5s)
-[03:00]   [ComfyUI] [comfy-env] Scanned nodes root: 22 nodes (7.5s)
-[03:00]   [ComfyUI] [comfy-env] Imported nodes root: 22 nodes (isolation)
-[03:00]   [ComfyUI] [comfy-env] Registered 22 total nodes
-[03:00]   [ComfyUI] 
-[03:00]   [ComfyUI] Import times for custom nodes:
-[03:00]   [ComfyUI]    0.0 seconds: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\custom_nodes\websocket_image_save.py
-[03:00]   [ComfyUI]    0.0 seconds: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\custom_nodes\ComfyUI-validate-endpoint
-[03:00]   [ComfyUI]    0.0 seconds: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\custom_nodes\ComfyUI-CameraPack
-[03:00]   [ComfyUI]    0.1 seconds: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\custom_nodes\ComfyUI-VideoHelperSuite
-[03:00]   [ComfyUI]    4.8 seconds: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\custom_nodes\ComfyUI-HyMotion
-[03:00]   [ComfyUI]    8.1 seconds: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\custom_nodes\ComfyUI-MotionCapture
-[03:00]   [ComfyUI] 
-[03:00]   [ComfyUI] Context impl SQLiteImpl.
-[03:00]   [ComfyUI] Will assume non-transactional DDL.
-[03:00]   [ComfyUI] Context impl SQLiteImpl.
-[03:00]   [ComfyUI] Will assume non-transactional DDL.
-[03:00]   [ComfyUI] Running upgrade  -> 0001_assets, Initial assets schema
-[03:00]   [ComfyUI] Revision ID: 0001_assets
-[03:00]   [ComfyUI] Revises: None
-[03:00]   [ComfyUI] Create Date: 2025-12-10 00:00:00
-[03:00]   [ComfyUI] Running upgrade 0001_assets -> 0002_merge_to_asset_references, Merge AssetInfo and AssetCacheState into unified asset_references table.
-[03:00]   [ComfyUI] Running upgrade 0002_merge_to_asset_references -> 0003_add_metadata_job_id, Add system_metadata and job_id columns to asset_references.
-[03:00]   [ComfyUI] Change preview_id FK from assets.id to asset_references.id.
-[03:00]   [ComfyUI] Database upgraded from None to 0003_add_metadata_job_id
-[03:00]   [ComfyUI] Starting server
-[03:00]   [ComfyUI] 
-[03:00]   [ComfyUI] To see the GUI go to: http://127.0.0.1:41889
-[03:01] Server responding, waiting for nodes to load...
-[03:21] Server is ready!
-[03:21] Checking for import errors in server logs...
-[03:21] No import errors detected
-[03:21] Found 809 registered nodes
-[03:21] [REGISTRATION] PASSED
-[03:21] 
-[03:21] [4/5] INSTANTIATION
-[03:21] ----------------------------------------
-[03:21] 
-[DEBUG] server=<comfy_test.comfyui.server.ComfyUIServer object at 0x000001BA666A6190>, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x000001BA666B7450>
-[03:21] Testing node constructors...
-[03:23] All 22 node(s) instantiated successfully!
-[03:23] [INSTANTIATION] PASSED
-[03:23] 
-[03:23] [5/5] EXECUTION
-[03:23] ----------------------------------------
-[03:23] 
-[DEBUG] server=<comfy_test.comfyui.server.ComfyUIServer object at 0x000001BA666A6190>, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x000001BA666B7450>
-[03:23] CPU runner - will execute 3 workflow(s)
-[03:23] Running 5 workflow(s) (all with videos)...
-[03:23] Installing screenshot dependencies (playwright, pillow)...
-[03:25]   Packages installed, downloading chromium browser...
-[03:43]   Screenshot dependencies installed successfully
-[03:44] Starting headless browser...
-[03:44]   Downloading Mesa llvmpipe for Windows...
-[03:50]   Copied opengl32.dll to Chromium dir
-[03:50]   Copied libgallium_wgl.dll to Chromium dir
-[03:50]   Using Mesa llvmpipe (desktop GL) -- multithreaded CPU rendering
-[03:51] Capturing execution frames: apply_motion_on_character.json
-[03:52]   [ComfyUI] [DEPRECATION WARNING] Detected import of deprecated legacy API: /extensions/core/widgetInputs.js. This is likely caused by a custom node extension using outdated APIs. Please update your extensions or contact the extension author for an updated version.
-[04:00]   Frame 1 saved (frame_000.jpg, t=0.0s)
-[04:00]   Validating workflow...
-[04:00]   [ComfyUI] === /validate endpoint called ===
-[04:00]   [ComfyUI] Received JSON with keys: ['prompt']
-[04:00]   [ComfyUI] Prompt has 6 nodes
-[04:00]   [ComfyUI]   Node 1: HYMotionNPZToSMPLParams
-[04:00]   [ComfyUI]     Inputs: {"npz_path": ["2", 0]}
-[04:00]   [ComfyUI]   Node 2: LoadSMPL
-[04:00]   [ComfyUI]     Inputs: {"file_path": "smpl_params_example.npz"}
-[04:00]   [ComfyUI]   Node 3: HYMotionSMPLToData
-[04:00]   Queuing workflow for execution...
-[04:00]   [ComfyUI]     Inputs: {"text": "", "duration": 0, "smpl_params": ["1", 0]}
-[04:00]   [ComfyUI]   Node 4: HYMotionRetargetFBX
-[04:00]   [ComfyUI]     Inputs: {"target_fbx": ["9", 0], "output_dir": "hymotion_retarget", "filename_prefix": "retarget", "mapping_file": "", "yaw_offset": 0, "neutral_fingers": true, "unique_names": true, "in_place": false, "in_pl
-[04:00]   [ComfyUI]   Node 6: Preview3D
-[04:00]   [ComfyUI]     Inputs: {"model_file": ["4", 0], "image": ""}
-[04:00]   [ComfyUI]   Node 9: PrimitiveString
-[04:00]   [ComfyUI]     Inputs: {"value": "3d/mixamo.fbx"}
-[04:00]   [ComfyUI] Generated prompt_id: c6dd568e-96e0-421f-99fb-eca51d540f18
-[04:00]   [ComfyUI] Calling execution.validate_prompt()...
-[04:00]   [ComfyUI] Validation result: valid=True
-[04:00]   [ComfyUI] === Validation PASSED ===
-[04:00]   [ComfyUI] got prompt
-[04:00]   [ComfyUI] [comfy-env] Running LoadSMPL: file_path: 'smpl_params_example.npz'
-[04:00]   [ComfyUI] [comfy-env] SubprocessWorker: C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\python.exe
-[04:00]   [ComfyUI] [comfy-env] env_vars: {'COMFYUI_BASE': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1642\\ComfyUI'}
-[04:00]   [ComfyUI] [SubprocessWorker] call_method: nodes.load_smpl_node.LoadSMPLParams.EXECUTE_NORMALIZED
-[04:00]   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
-[04:00]   [ComfyUI] [comfy-env] default: Library/bin has 236 DLLs
-[04:00]   [ComfyUI] [ComfyUI-MotionCapture] python: C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\python.exe
-[04:00]   [ComfyUI] [ComfyUI-MotionCapture] sys_path sent to worker: ['D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1642\\ComfyUI', 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1642\\ComfyUI\\custom_nodes\\ComfyUI-MotionCapture', 'C:\\Users\\stduser\\AppData\\Local\\Programs\\comfy-env\\envs\\motioncapture-nodes\\.pixi\\envs\\default\\Lib\\site-packages', 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1642\\ComfyUI\\custom_nodes\\ComfyUI-MotionCapture']
-[04:00]   [ComfyUI] [SubprocessWorker] is_pixi=True, python=C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\python.exe
-[04:00]   [ComfyUI] [SubprocessWorker] launching cmd=['C:\\Users\\stduser\\.pixi\\bin\\pixi.exe', 'run', '--as-is', '--manifest-path', 'C:\\Users\\stduser\\AppData\\Local\\Programs\\comfy-env\\envs\\motioncapture-nodes\\pixi.toml', '-e', 'default', 'python', 'C:\\Users\\stduser\\AppData\\Local\\Temp\\comfyui_pvenv_mn64ccxs\\persistent_worker.py', 'tcp://127.0.0.1:56015']...
-[04:02]   Frame 2 saved (frame_001.jpg, t=2.3s)
-[04:02]   [capture-periodic] freeze=5ms shot=115ms unfreeze=6ms saved=True
-[04:03]   [ComfyUI] [worker:ComfyUI-MotionCapture] ERROR: Failed to import comfy_kitchen, Error: No module named 'comfy_kitchen', fp8 and fp4 support will not be available.
-[04:03]   [ComfyUI] [SubprocessWorker] worker started/confirmed
-[04:03]   [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
-[04:03]   [ComfyUI] [SubprocessWorker] created 0 shm blocks
-[04:03]   [ComfyUI] [SubprocessWorker] sending request via socket...
-[04:03]   [ComfyUI] [SubprocessWorker] call_id=1 sending call_method
-[04:03]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] DPVO not installed - only SimpleVO will be available
-[04:03]   [ComfyUI] [05/19 16:46:44][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
-[04:04]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\input\smpl_params_example.npz
-[04:04]   [ComfyUI] [05/19 16:46:44][INFO] Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\input\smpl_params_example.npz
-[04:04]   [ComfyUI] [SubprocessWorker] got response: ok
-[04:04]   [ComfyUI] [comfy-env] LoadSMPL done (3.69s): result: NodeOutput
-[04:04]   [ComfyUI] [HY-Motion] NPZ to SMPL_PARAMS: loaded D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\input\smpl_params_example.npz
-[04:04]   [ComfyUI] [HY-Motion]   keys: ['body_pose', 'betas', 'global_orient', 'transl', 'global_orient_incam', 'transl_incam', 'R_cam2world', 't_cam2world', 'K_fullimg', 'img_width', 'img_height']
-[04:04]   [ComfyUI] [HY-Motion] Input has 22 joints. Auto-padding to reach 52 joints (SMPL-H).
-[04:04]   [ComfyUI] [HY-Motion] Padded poses shape: torch.Size([1, 551, 52, 3])
-[04:04]   [ComfyUI] [HY-Motion] Auto-calculated duration: 18.37s (551 frames @ 30.0 FPS)
-[04:04]   [ComfyUI] [HY-Motion] Loading 3D body model for converter preview...
-[04:04]   [ComfyUI] [WoodenMesh] Loaded model: 24256 vertices, 52 joints
-[04:04]   Frame 3 saved (frame_002.jpg, t=4.5s)
-[04:04]   [capture-periodic] freeze=5ms shot=122ms unfreeze=6ms saved=True
-[04:06]   [capture-loop] iter=50 t=6.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8 ram=5.5/16.0GB (34%) swap=0.2/2.9GB (6%) cpu=46% browser_rss=0.72GB
-[04:10]   [ComfyUI] [HY-Motion] Successfully converted 551 frames (52 joints) from SMPL to HY-Motion format (Batch: 1).
-[04:10]   [ComfyUI] [HYMotionRetargetFBX] Retargeting batch 0/1 (Native In-Memory)...
-[04:10]   [ComfyUI] [Retarget] NPZ Detect: Keypoints are already animated (Travel=4.32m). Skipping Transl addition.
-[04:10]   [ComfyUI] Using full 52-joint 'poses' from NPZ...
-[04:11]   Frame 4 saved (frame_003.jpg, t=11.1s)
-[04:11]   [capture-periodic] freeze=4ms shot=114ms unfreeze=9ms saved=True
-[04:12]   [capture-loop] iter=100 t=12.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=4.9/16.0GB (31%) swap=0.2/2.9GB (6%) cpu=56% browser_rss=0.72GB
-[04:14]   [ComfyUI] [HY-Motion] Loading FBX for retargeting: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\input\3d/mixamo.fbx
-[04:14]   [ComfyUI] Using hardcoded bone mappings (no JSON file needed)
-[04:14]   [ComfyUI] [Retarget] load_bone_mapping: Found 62 matches via semantic names.
-[04:14]   [ComfyUI] [Retarget] Found target root via name 'hips': mixamorig:Hips
-[04:14]   [ComfyUI] [Retarget] Starting Structural BFS Matching from Pelvis -> mixamorig:Hips...
-[04:14]   [ComfyUI] [Retarget] Structural BFS Matching complete. Total matches: 62
-[04:14]   [ComfyUI] [Retarget] Final load_bone_mapping: Found 62 total matches.
-[04:14]   [ComfyUI] Retargeting Animation...
-[04:14]   [ComfyUI] [Retarget] Applying Neutral Finger pre-pass (Source)...
-[04:14]   [ComfyUI] 
-[04:14]   [ComfyUI] [Retarget] Bone Mapping Results:
-[04:14]   [ComfyUI]   Total: 52 bones mapped
-[04:14]   [ComfyUI]   - Head -> mixamorig:Head
-[04:14]   [ComfyUI]   - Pelvis -> mixamorig:Hips
-[04:14]   [ComfyUI]   - L_Shoulder -> mixamorig:LeftArm
-[04:14]   [ComfyUI]   - L_Ankle -> mixamorig:LeftFoot
-[04:14]   [ComfyUI]   - L_Elbow -> mixamorig:LeftForeArm
-[04:14]   [ComfyUI]   - L_Wrist -> mixamorig:LeftHand
-[04:14]   [ComfyUI]   - L_Index1 -> mixamorig:LeftHandIndex1
-[04:14]   [ComfyUI]   - L_Index2 -> mixamorig:LeftHandIndex2
-[04:14]   [ComfyUI]   - L_Index3 -> mixamorig:LeftHandIndex3
-[04:14]   [ComfyUI]   - L_Middle1 -> mixamorig:LeftHandMiddle1
-[04:14]   [ComfyUI]   - L_Middle2 -> mixamorig:LeftHandMiddle2
-[04:14]   [ComfyUI]   - L_Middle3 -> mixamorig:LeftHandMiddle3
-[04:14]   [ComfyUI]   - L_Pinky1 -> mixamorig:LeftHandPinky1
-[04:14]   [ComfyUI]   - L_Pinky2 -> mixamorig:LeftHandPinky2
-[04:14]   [ComfyUI]   - L_Pinky3 -> mixamorig:LeftHandPinky3
-[04:14]   [ComfyUI]   - L_Ring1 -> mixamorig:LeftHandRing1
-[04:14]   [ComfyUI]   - L_Ring2 -> mixamorig:LeftHandRing2
-[04:14]   [ComfyUI]   - L_Ring3 -> mixamorig:LeftHandRing3
-[04:14]   [ComfyUI]   - L_Thumb1 -> mixamorig:LeftHandThumb1
-[04:14]   [ComfyUI]   - L_Thumb2 -> mixamorig:LeftHandThumb2
-[04:14]   [ComfyUI]   - L_Thumb3 -> mixamorig:LeftHandThumb3
-[04:14]   [ComfyUI]   - L_Knee -> mixamorig:LeftLeg
-[04:14]   [ComfyUI]   - L_Collar -> mixamorig:LeftShoulder
-[04:14]   [ComfyUI]   - L_Foot -> mixamorig:LeftToeBase
-[04:14]   [ComfyUI]   - L_Hip -> mixamorig:LeftUpLeg
-[04:14]   [ComfyUI]   - Neck -> mixamorig:Neck
-[04:14]   [ComfyUI]   - R_Shoulder -> mixamorig:RightArm
-[04:14]   [ComfyUI]   - R_Ankle -> mixamorig:RightFoot
-[04:14]   [ComfyUI]   - R_Elbow -> mixamorig:RightForeArm
-[04:14]   [ComfyUI]   - R_Wrist -> mixamorig:RightHand
-[04:14]   [ComfyUI]   - R_Index1 -> mixamorig:RightHandIndex1
-[04:14]   [ComfyUI]   - R_Index2 -> mixamorig:RightHandIndex2
-[04:14]   [ComfyUI]   - R_Index3 -> mixamorig:RightHandIndex3
-[04:14]   [ComfyUI]   - R_Middle1 -> mixamorig:RightHandMiddle1
-[04:14]   [ComfyUI]   - R_Middle2 -> mixamorig:RightHandMiddle2
-[04:14]   [ComfyUI]   - R_Middle3 -> mixamorig:RightHandMiddle3
-[04:14]   [ComfyUI]   - R_Pinky1 -> mixamorig:RightHandPinky1
-[04:14]   [ComfyUI]   - R_Pinky2 -> mixamorig:RightHandPinky2
-[04:14]   [ComfyUI]   - R_Pinky3 -> mixamorig:RightHandPinky3
-[04:14]   [ComfyUI]   - R_Ring1 -> mixamorig:RightHandRing1
-[04:14]   [ComfyUI]   - R_Ring2 -> mixamorig:RightHandRing2
-[04:14]   [ComfyUI]   - R_Ring3 -> mixamorig:RightHandRing3
-[04:14]   [ComfyUI]   - R_Thumb1 -> mixamorig:RightHandThumb1
-[04:14]   [ComfyUI]   - R_Thumb2 -> mixamorig:RightHandThumb2
-[04:14]   [ComfyUI]   - R_Thumb3 -> mixamorig:RightHandThumb3
-[04:14]   [ComfyUI]   - R_Knee -> mixamorig:RightLeg
-[04:14]   [ComfyUI]   - R_Collar -> mixamorig:RightShoulder
-[04:14]   [ComfyUI]   - R_Foot -> mixamorig:RightToeBase
-[04:14]   [ComfyUI]   - R_Hip -> mixamorig:RightUpLeg
-[04:14]   [ComfyUI]   - Spine1 -> mixamorig:Spine
-[04:14]   [ComfyUI]   - Spine2 -> mixamorig:Spine1
-[04:14]   [ComfyUI]   - Spine3 -> mixamorig:Spine2
-[04:14]   [ComfyUI] [Retarget] Using Automatic Base Scale: 100.0000 (Meters to CM)
-[04:14]   [ComfyUI] [Retarget] Applying Auto-Stride: Final Scale 94.1349 (Anatomical Ratio 0.9413)
-[04:14]   [ComfyUI] [INFO] Height Check - Source: 165.49cm, Target: 155.78cm
-[04:14]   [ComfyUI] [INFO] Final Retargeting Scale: 94.1349
-[04:14]   [ComfyUI] [Retarget] Computed Alignment Matrix (Euler XYZ): [-1.76378096  0.03494695  1.13493838]
-[04:15]   [ComfyUI] [Retarget] Identified Target Root for Translation: mixamorig:Hips
-[04:15]   [ComfyUI] [Retarget] Target rest hip pos: [  0.   104.27   1.55]
-[04:15]   [ComfyUI] [Retarget] Initial hip pos: [ 17.38 104.27  30.34]
-[04:18]   [ComfyUI] [Retarget] Configured FBX export with embedded materials
-[04:18]   [ComfyUI] [Retarget] Saved FBX to: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\output\hymotion_retarget\retarget_20260519_164651061_9d37efc3_000.fbx
-[04:18]   [ComfyUI] [HYMotionRetargetFBX] Batch 0 done: retarget_20260519_164651061_9d37efc3_000.fbx
-[04:18]   [ComfyUI] [HYMotionRetargetFBX] Successfully retargeted 1 batch item(s)
-[04:18]   [ComfyUI] Prompt executed in 17.79 seconds
-[04:18]   Node executed (2 total), capturing...
-[04:18]   Frame 5 saved (frame_004.jpg, t=18.2s)
-[04:18]   [capture-node] freeze=5ms shot=102ms unfreeze=0ms saved=True
-[04:18]   Execution complete (t=18.2s)
-[04:18]   [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
-[05:18]   [3d-wait] Phase 1 exception after 60.0s: Page.wait_for_function: Timeout 60000ms exceeded.
-[05:18]   [3d-wait] Phase 2: iframes=0
-[05:18]   [3d-wait] Total 3D wait: 60.0s
-[05:18]   Captured 5 unique frames over 78.4s
-[05:18]   [debug] iframes: 0
-[05:18]   [timing] trigger_3d_previews: 0.0s
-[05:20]   Saved high-quality screenshot: apply_motion_on_character_executed.png
-[05:20]   [timing] final_screenshot: 0.2s
-[05:21]   [2/5] SKIPPED (not in cpu list) GVHMR.json
-[05:21]   [3/5] SKIPPED (not in cpu list) GVHMR_cameramotion.json
-[05:21] Capturing execution frames: load_camera_traj.json
-[05:25]   [ComfyUI] Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
-[05:25]   [ComfyUI] handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
-[05:25]   [ComfyUI] Traceback (most recent call last):
-[05:25]   [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\events.py", line 88, in _run
-[05:25]   [ComfyUI]     self._context.run(self._callback, *self._args)
-[05:25]   [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
-[05:25]   [ComfyUI]     self._sock.shutdown(socket.SHUT_RDWR)
-[05:25]   [ComfyUI] ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-[05:25]   [ComfyUI] Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
-[05:25]   [ComfyUI] handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
-[05:25]   [ComfyUI] Traceback (most recent call last):
-[05:25]   [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\events.py", line 88, in _run
-[05:25]   [ComfyUI]     self._context.run(self._callback, *self._args)
-[05:25]   [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
-[05:25]   [ComfyUI]     self._sock.shutdown(socket.SHUT_RDWR)
-[05:25]   [ComfyUI] ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-[05:28]   Frame 1 saved (frame_000.jpg, t=0.0s)
-[05:28]   Validating workflow...
-[05:28]   [ComfyUI] === /validate endpoint called ===
-[05:28]   [ComfyUI] Received JSON with keys: ['prompt']
-[05:28]   [ComfyUI] Prompt has 4 nodes
-[05:28]   [ComfyUI]   Node 2: LoadSMPL
-[05:28]   [ComfyUI]     Inputs: {"file_path": "smpl_params_example.npz"}
-[05:28]   [ComfyUI]   Node 3: LoadCameraTrajectory
-[05:28]   [ComfyUI]     Inputs: {"file_path": "camera_trajectory_example.npz"}
-[05:28]   [ComfyUI]   Node 6: LoadVideo
-[05:28]   [ComfyUI]     Inputs: {"file": "dancing.mp4", "video-preview": ""}
-[05:28]   [ComfyUI]   Node 8: SMPLCameraViewer
-[05:28]   Queuing workflow for execution...
-[05:28]   [ComfyUI]     Inputs: {"npz_path": ["2", 0], "camera_npz_path": ["3", 0], "mesh_color": 1, "smpl_camera_viewer": "", "video": ["6", 0]}
-[05:28]   [ComfyUI] Generated prompt_id: aff72888-90a7-489b-902d-366753741974
-[05:28]   [ComfyUI] Calling execution.validate_prompt()...
-[05:28]   [ComfyUI] Validation result: valid=True
-[05:28]   [ComfyUI] === Validation PASSED ===
-[05:28]   [ComfyUI] got prompt
-[05:28]   [ComfyUI] [comfy-env] Running LoadCameraTrajectory: file_path: 'camera_trajectory_example.npz'
-[05:28]   [ComfyUI] [SubprocessWorker] call_method: nodes.load_camera_trajectory_node.LoadCameraTrajectory.EXECUTE_NORMALIZED
-[05:28]   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
-[05:28]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ping (timeout=5.0s)...
-[05:28]   [ComfyUI] [ComfyUI-MotionCapture] Health check: failed
-[05:28]   [ComfyUI] [ComfyUI-MotionCapture] Socket unhealthy, restarting worker...
-[05:28]   [ComfyUI] [comfy-env] default: Library/bin has 236 DLLs
-[05:28]   [ComfyUI] [ComfyUI-MotionCapture] python: C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\python.exe
-[05:28]   [ComfyUI] [ComfyUI-MotionCapture] sys_path sent to worker: ['D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1642\\ComfyUI', 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1642\\ComfyUI\\custom_nodes\\ComfyUI-MotionCapture', 'C:\\Users\\stduser\\AppData\\Local\\Programs\\comfy-env\\envs\\motioncapture-nodes\\.pixi\\envs\\default\\Lib\\site-packages', 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1642\\ComfyUI\\custom_nodes\\ComfyUI-MotionCapture']
-[05:28]   [ComfyUI] [SubprocessWorker] is_pixi=True, python=C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\python.exe
-[05:28]   [ComfyUI] [SubprocessWorker] launching cmd=['C:\\Users\\stduser\\.pixi\\bin\\pixi.exe', 'run', '--as-is', '--manifest-path', 'C:\\Users\\stduser\\AppData\\Local\\Programs\\comfy-env\\envs\\motioncapture-nodes\\pixi.toml', '-e', 'default', 'python', 'C:\\Users\\stduser\\AppData\\Local\\Temp\\comfyui_pvenv_mn64ccxs\\persistent_worker.py', 'tcp://127.0.0.1:64486']...
-[05:30]   Frame 2 saved (frame_001.jpg, t=2.3s)
-[05:30]   [capture-periodic] freeze=5ms shot=127ms unfreeze=4ms saved=True
-[05:30]   [ComfyUI] [worker:ComfyUI-MotionCapture] ERROR: Failed to import comfy_kitchen, Error: No module named 'comfy_kitchen', fp8 and fp4 support will not be available.
-[05:31]   [ComfyUI] [SubprocessWorker] worker started/confirmed
-[05:31]   [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
-[05:31]   [ComfyUI] [SubprocessWorker] created 0 shm blocks
-[05:31]   [ComfyUI] [SubprocessWorker] sending request via socket...
-[05:31]   [ComfyUI] [SubprocessWorker] call_id=2 sending call_method
-[05:31]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] DPVO not installed - only SimpleVO will be available
-[05:31]   [ComfyUI] [05/19 16:48:12][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
-[05:32]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\input\camera_trajectory_example.npz
-[05:32]   [ComfyUI] [05/19 16:48:12][INFO] Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\input\camera_trajectory_example.npz
-[05:32]   [ComfyUI] [SubprocessWorker] got response: ok
-[05:32]   [ComfyUI] [comfy-env] LoadCameraTrajectory done (3.99s): result: NodeOutput
-[05:32]   [ComfyUI] [comfy-env] Running LoadSMPL: file_path: 'smpl_params_example.npz'
-[05:32]   [ComfyUI] [SubprocessWorker] call_method: nodes.load_smpl_node.LoadSMPLParams.EXECUTE_NORMALIZED
-[05:32]   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
-[05:32]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ping (timeout=5.0s)...
-[05:32]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ok
-[05:32]   [ComfyUI] [SubprocessWorker] worker started/confirmed
-[05:32]   [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
-[05:32]   [ComfyUI] [SubprocessWorker] created 0 shm blocks
-[05:32]   [ComfyUI] [SubprocessWorker] sending request via socket...
-[05:32]   [ComfyUI] [SubprocessWorker] call_id=3 sending call_method
-[05:32]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\input\smpl_params_example.npz
-[05:32]   [ComfyUI] [05/19 16:48:12][INFO] Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\input\smpl_params_example.npz
-[05:32]   [ComfyUI] [SubprocessWorker] got response: ok
-[05:32]   [ComfyUI] [comfy-env] LoadSMPL done (0.07s): result: NodeOutput
-[05:32]   [ComfyUI] [comfy-env] Running SMPLCameraViewer: npz_path: 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\Moti..., camera_npz_path: 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\Moti..., mesh_color: '1', video: VideoFromFile
-[05:32]   [ComfyUI] [SubprocessWorker] call_method: nodes.smpl_camera_viewer_node.SMPLCameraViewer.EXECUTE_NORMALIZED
-[05:32]   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
-[05:32]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ping (timeout=5.0s)...
-[05:32]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ok
-[05:32]   [ComfyUI] [SubprocessWorker] worker started/confirmed
-[05:32]   [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
-[05:32]   [ComfyUI] [SubprocessWorker] created 1 shm blocks
-[05:32]   [ComfyUI] [SubprocessWorker] sending request via socket...
-[05:32]   [ComfyUI] [SubprocessWorker] call_id=4 sending call_method
-[05:32]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Generating 3D mesh + camera data...
-[05:32]   [ComfyUI] [05/19 16:48:13][INFO] [SMPLCameraViewer] Generating 3D mesh + camera data...
-[05:32]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Found incam params for through-camera rendering
-[05:32]   [ComfyUI] [05/19 16:48:13][INFO] [SMPLCameraViewer] Found incam params for through-camera rendering
-[05:32]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Processing 551 frames
-[05:32]   [ComfyUI] [05/19 16:48:13][INFO] [SMPLCameraViewer] Processing 551 frames
-[05:32]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Loaded camera trajectory (new format) from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\input\camera_trajectory_example.npz
-[05:32]   [ComfyUI] [05/19 16:48:13][INFO] [SMPLCameraViewer] Loaded camera trajectory (new format) from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\input\camera_trajectory_example.npz
-[05:32]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Video: 575 frames (SMPL: 551)
-[05:32]   [ComfyUI] [05/19 16:48:13][INFO] [SMPLCameraViewer] Video: 575 frames (SMPL: 551)
-[05:32]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] SMPLX models not found, downloading from HuggingFace...
-[05:32]   [ComfyUI] [05/19 16:48:13][INFO] [SMPLCameraViewer] SMPLX models not found, downloading from HuggingFace...
-[05:32]   Frame 3 saved (frame_002.jpg, t=4.5s)
-[05:32]   [capture-periodic] freeze=6ms shot=128ms unfreeze=7ms saved=True
-[05:33]   [ComfyUI] C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\site-packages\huggingface_hub\utils\_validators.py:205: UserWarning: The `local_dir_use_symlinks` argument is deprecated and ignored in `hf_hub_download`. Downloading to a local directory does not use symlinks anymore.
-[05:33]   [ComfyUI]   warnings.warn(
-[05:34]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
-[05:34]   [ComfyUI] [05/19 16:48:14][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
-[05:34]   [ComfyUI] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-[05:34]   [ComfyUI] [worker:ComfyUI-MotionCapture] WARNING: Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-[05:34]   [ComfyUI] [05/19 16:48:14][WARNING] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-[05:34]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
-[05:34]   [ComfyUI] [05/19 16:48:14][INFO] HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
-[05:34]   [ComfyUI] 
-[05:34]   [capture-loop] iter=50 t=6.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=10 ram=4.8/16.0GB (30%) swap=0.4/2.9GB (13%) cpu=17% browser_rss=0.78GB
-[05:36]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
-[05:36]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:02<00:00, 48.5MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
-[05:36]   [ComfyUI] 
-[05:36]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:02<00:00, 48.4MB/s]
-[05:36]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_FEMALE.npz
-[05:36]   [ComfyUI] [05/19 16:48:17][INFO] [SMPLCameraViewer] Downloaded SMPLX_FEMALE.npz
-[05:36]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
-[05:36]   [ComfyUI] [05/19 16:48:17][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
-[05:36]   [ComfyUI] 
-[05:37]   Frame 4 saved (frame_003.jpg, t=8.9s)
-[05:37]   [capture-periodic] freeze=4ms shot=117ms unfreeze=4ms saved=True
-[05:38]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
-[05:38]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz:  62%|██████▏   | 67.1M/109M [00:01<00:01, 38.3MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
-[05:38]   [ComfyUI] 
-[05:38]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 61.0MB/s] [SubprocessWorker] callback 'report_progress' from call_id=4
-[05:38]   [ComfyUI] 
-[05:38]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 54.9MB/s]
-[05:38]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_MALE.npz
-[05:38]   [ComfyUI] [05/19 16:48:19][INFO] [SMPLCameraViewer] Downloaded SMPLX_MALE.npz
-[05:38]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
-[05:38]   [ComfyUI] [05/19 16:48:19][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
-[05:38]   [ComfyUI] 
-[05:39]   Frame 5 saved (frame_004.jpg, t=11.1s)
-[05:39]   [capture-periodic] freeze=3ms shot=117ms unfreeze=7ms saved=True
-[05:40]   [capture-loop] iter=100 t=12.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6 ram=4.9/16.0GB (31%) swap=0.4/2.9GB (13%) cpu=50% browser_rss=0.75GB
-[05:40]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
-[05:40]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz:  24%|██▍       | 26.4M/109M [00:02<00:06, 13.2MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
-[05:40]   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=4
-[05:40]   [ComfyUI] 
-[05:40]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|██████████| 109M/109M [00:02<00:00, 52.3MB/s]
-[05:40]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_NEUTRAL.npz
-[05:40]   [ComfyUI] [05/19 16:48:21][INFO] [SMPLCameraViewer] Downloaded SMPLX_NEUTRAL.npz
-[05:41]   Frame 6 saved (frame_005.jpg, t=13.3s)
-[05:41]   [capture-periodic] freeze=5ms shot=130ms unfreeze=5ms saved=True
-[05:46]   [capture-loop] iter=150 t=18.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6 ram=4.9/16.0GB (31%) swap=0.4/2.9GB (13%) cpu=74% browser_rss=0.72GB
-[05:52]   [capture-loop] iter=200 t=24.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=18 ram=4.9/16.0GB (31%) swap=0.4/2.9GB (13%) cpu=80% browser_rss=0.68GB
-[05:58]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Generated mesh: 551 frames, 6890 vertices, 13776 faces
-[05:58]   [ComfyUI] [05/19 16:48:39][INFO] [SMPLCameraViewer] Generated mesh: 551 frames, 6890 vertices, 13776 faces
-[05:58]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Refining camera via Procrustes alignment of vertices...
-[05:58]   [ComfyUI] [05/19 16:48:39][INFO] [SMPLCameraViewer] Refining camera via Procrustes alignment of vertices...
-[05:58]   [capture-loop] iter=250 t=30.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8 ram=5.0/16.0GB (31%) swap=0.4/2.9GB (13%) cpu=77% browser_rss=0.66GB
-[05:58]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.61152977  1.8134848  -4.3272085 ]
-[05:58]   [ComfyUI] [05/19 16:48:39][INFO] [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.61152977  1.8134848  -4.3272085 ]
-[05:58]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Camera refined via Procrustes alignment
-[05:58]   [ComfyUI] [05/19 16:48:39][INFO] [SMPLCameraViewer] Camera refined via Procrustes alignment
-[05:58]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Wrote 551 incam vertex frames
-[05:58]   [ComfyUI] [05/19 16:48:39][INFO] [SMPLCameraViewer] Wrote 551 incam vertex frames
-[05:58]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Wrote smpl_camera_mesh_0001.bin (87.1 MB), has_camera=True
-[05:58]   [ComfyUI] [05/19 16:48:39][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001.bin (87.1 MB), has_camera=True
-[05:59]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Encoding 551 frames as all-intra H.264...
-[05:59]   [ComfyUI] [05/19 16:48:39][INFO] [SMPLCameraViewer] Encoding 551 frames as all-intra H.264...
-[06:04]   [capture-loop] iter=300 t=36.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=9 ram=5.1/16.0GB (32%) swap=0.4/2.9GB (13%) cpu=81% browser_rss=0.66GB
-[06:11]   [capture-loop] iter=350 t=43.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6 ram=5.1/16.0GB (32%) swap=0.4/2.9GB (13%) cpu=78% browser_rss=0.66GB
-[06:15]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Wrote smpl_camera_mesh_0001_ref.mp4 (17.3 MB, 551 frames, all-intra)
-[06:15]   [ComfyUI] [05/19 16:48:55][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001_ref.mp4 (17.3 MB, 551 frames, all-intra)
-[06:15]   [ComfyUI] [SubprocessWorker] got response: ok
-[06:15]   [ComfyUI] [comfy-env] SMPLCameraViewer done (42.91s): result: NodeOutput
-[06:15]   [ComfyUI] Prompt executed in 46.98 seconds
-[06:15]   Node executed (1 total), capturing...
-[06:15]   Frame 7 saved (frame_006.jpg, t=47.4s)
-[06:15]   [capture-node] freeze=6ms shot=122ms unfreeze=0ms saved=True
-[06:15]   Execution complete (t=47.4s)
-[06:15]   Captured 7 unique frames over 47.56s
-[06:15]   [debug] iframes: 1
-[06:15]   [debug]   iframe[0]: src=http://127.0.0.1:41889/extensions/ComfyUI-MotionCapture/viewer_smpl_camera.html?, canvas=413x343, rafFrozen=True
-[06:15]   [timing] trigger_3d_previews: 0.0s
-[06:15]   [ComfyUI] Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
-[06:15]   [ComfyUI] handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
-[06:15]   [ComfyUI] Traceback (most recent call last):
-[06:15]   [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\events.py", line 88, in _run
-[06:15]   [ComfyUI]     self._context.run(self._callback, *self._args)
-[06:15]   [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
-[06:15]   [ComfyUI]     self._sock.shutdown(socket.SHUT_RDWR)
-[06:15]   [ComfyUI] ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-[06:17]   Saved high-quality screenshot: load_camera_traj_executed.png
-[06:17]   [timing] final_screenshot: 0.2s
-[06:18] Capturing execution frames: smpl_to_bvh_pipeline.json
-[06:20]   [ComfyUI] Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
-[06:20]   [ComfyUI] handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
-[06:20]   [ComfyUI] Traceback (most recent call last):
-[06:20]   [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\events.py", line 88, in _run
-[06:20]   [ComfyUI]     self._context.run(self._callback, *self._args)
-[06:20]   [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.12.10\x64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
-[06:20]   [ComfyUI]     self._sock.shutdown(socket.SHUT_RDWR)
-[06:20]   [ComfyUI] ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
-[06:24]   Frame 1 saved (frame_000.jpg, t=0.0s)
-[06:24]   Validating workflow...
-[06:24]   [ComfyUI] === /validate endpoint called ===
-[06:24]   [ComfyUI] Received JSON with keys: ['prompt']
-[06:24]   [ComfyUI] Prompt has 3 nodes
-[06:24]   [ComfyUI]   Node 3: BVHViewer
-[06:24]   [ComfyUI]     Inputs: {"bvh_viewer": "", "bvh_data": ["10", 0]}
-[06:24]   [ComfyUI]   Node 10: SMPLtoBVH
-[06:24]   [ComfyUI]     Inputs: {"npz_path": ["11", 0], "filename": "output/motion.bvh", "fps": 30, "scale": 1}
-[06:24]   Queuing workflow for execution...
-[06:24]   [ComfyUI]   Node 11: LoadSMPL
-[06:24]   [ComfyUI]     Inputs: {"file_path": "smpl_params_tennis.npz"}
-[06:24]   [ComfyUI] Generated prompt_id: 5b77f229-7ff3-4f40-8258-ceb2e5ff8410
-[06:24]   [ComfyUI] Calling execution.validate_prompt()...
-[06:24]   [ComfyUI] Validation result: valid=True
-[06:24]   [ComfyUI] === Validation PASSED ===
-[06:24]   [ComfyUI] got prompt
-[06:24]   [ComfyUI] [comfy-env] Running LoadSMPL: file_path: 'smpl_params_tennis.npz'
-[06:24]   [ComfyUI] [SubprocessWorker] call_method: nodes.load_smpl_node.LoadSMPLParams.EXECUTE_NORMALIZED
-[06:24]   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
-[06:24]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ping (timeout=5.0s)...
-[06:24]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ok
-[06:24]   [ComfyUI] [SubprocessWorker] worker started/confirmed
-[06:24]   [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
-[06:24]   [ComfyUI] [SubprocessWorker] created 0 shm blocks
-[06:24]   [ComfyUI] [SubprocessWorker] sending request via socket...
-[06:24]   [ComfyUI] [SubprocessWorker] call_id=5 sending call_method
-[06:24]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\input\smpl_params_tennis.npz
-[06:24]   [ComfyUI] [05/19 16:49:05][INFO] Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\input\smpl_params_tennis.npz
-[06:24]   [ComfyUI] [SubprocessWorker] got response: ok
-[06:24]   [ComfyUI] [comfy-env] LoadSMPL done (0.19s): result: NodeOutput
-[06:24]   [ComfyUI] [comfy-env] Running SMPLtoBVH: npz_path: 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\Moti..., filename: 'output/motion.bvh', fps: 30, scale: 1.0
-[06:24]   [ComfyUI] [SubprocessWorker] call_method: nodes.smpl_to_bvh_node.SMPLtoBVH.EXECUTE_NORMALIZED
-[06:24]   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
-[06:24]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ping (timeout=5.0s)...
-[06:24]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ok
-[06:24]   [ComfyUI] [SubprocessWorker] worker started/confirmed
-[06:24]   [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
-[06:24]   [ComfyUI] [SubprocessWorker] created 0 shm blocks
-[06:24]   [ComfyUI] [SubprocessWorker] sending request via socket...
-[06:24]   [ComfyUI] [SubprocessWorker] call_id=6 sending call_method
-[06:24]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Converting SMPL to BVH format...
-[06:24]   [ComfyUI] [05/19 16:49:05][INFO] [SMPLtoBVH] Converting SMPL to BVH format...
-[06:24]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Loading SMPL parameters from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\input\smpl_params_tennis.npz
-[06:24]   [ComfyUI] [05/19 16:49:05][INFO] [SMPLtoBVH] Loading SMPL parameters from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\input\smpl_params_tennis.npz
-[06:24]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Detected 21-joint SMPL variant (63 parameters)
-[06:24]   [ComfyUI] [05/19 16:49:05][INFO] [SMPLtoBVH] Detected 21-joint SMPL variant (63 parameters)
-[06:24]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Using 21-joint skeleton (GVHMR variant, no hands)
-[06:24]   [ComfyUI] [05/19 16:49:05][INFO] [SMPLtoBVH] Using 21-joint skeleton (GVHMR variant, no hands)
-[06:25]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Rotation ranges (degrees):
-[06:25]   [ComfyUI] [05/19 16:49:06][INFO] [SMPLtoBVH] Rotation ranges (degrees):
-[06:25]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   Z: [-174.0, 169.8]
-[06:25]   [ComfyUI] [05/19 16:49:06][INFO]   Z: [-174.0, 169.8]
-[06:25]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   X: [-73.5, 88.9]
-[06:25]   [ComfyUI] [05/19 16:49:06][INFO]   X: [-73.5, 88.9]
-[06:25]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   Y: [-179.7, 177.9]
-[06:25]   [ComfyUI] [05/19 16:49:06][INFO]   Y: [-179.7, 177.9]
-[06:25]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Converted 312 frames to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\output\output\motion.bvh
-[06:25]   [ComfyUI] [05/19 16:49:06][INFO] [SMPLtoBVH] Converted 312 frames to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\output\output\motion.bvh
+[03:22] Starting ComfyUI server on port 41886...
+[03:22] CUDA mock packages: dpvo_cuda, torch_scatter
+[03:22] Starting ComfyUI server on port 41886...
+[03:22] Waiting for server to be ready (timeout: 600s)...
+[03:25]   [ComfyUI] [32m[INFO][0m setup plugin alembic.autogenerate.schemas
+[03:25]   [ComfyUI] [32m[INFO][0m setup plugin alembic.autogenerate.tables
+[03:25]   [ComfyUI] [32m[INFO][0m setup plugin alembic.autogenerate.types
+[03:25]   [ComfyUI] [32m[INFO][0m setup plugin alembic.autogenerate.constraints
+[03:25]   [ComfyUI] [32m[INFO][0m setup plugin alembic.autogenerate.defaults
+[03:25]   [ComfyUI] [32m[INFO][0m setup plugin alembic.autogenerate.comments
+[03:25]   [ComfyUI] [comfy-env] ComfyUI-MotionCapture: 1 isolation env(s):
+[03:25]   [ComfyUI] [comfy-env]   nodes -> D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\custom_nodes\ComfyUI-MotionCapture\nodes
+[03:25]   [ComfyUI] [comfy-env] Workspace: C:\Users\stduser\AppData\Local\Programs\comfy-env
+[03:25]   [ComfyUI] [comfy-env]     env: C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default  [OK]
+[03:25]   [ComfyUI] [comfy-env] prestartup complete
+[03:25]   [ComfyUI] [32m[INFO][0m
+[03:25]   [ComfyUI] Prestartup times for custom nodes:
+[03:25]   [ComfyUI] [32m[INFO][0m    0.3 seconds: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\custom_nodes\ComfyUI-MotionCapture
+[03:25]   [ComfyUI] [32m[INFO][0m
+[03:31]   [ComfyUI] [32m[INFO][0m Found comfy_kitchen backend eager: {'available': True, 'disabled': False, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_mxfp8', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_mxfp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8', 'scaled_mm_mxfp8', 'scaled_mm_nvfp4']}
+[03:31]   [ComfyUI] [32m[INFO][0m Found comfy_kitchen backend cuda: {'available': False, 'disabled': True, 'unavailable_reason': 'CUDA not available on this system', 'capabilities': []}
+[03:31]   [ComfyUI] [32m[INFO][0m Found comfy_kitchen backend triton: {'available': False, 'disabled': True, 'unavailable_reason': "ImportError: No module named 'triton'", 'capabilities': []}
+[03:31]   [ComfyUI] [32m[INFO][0m Checkpoint files will always be loaded safely.
+[03:31]   [ComfyUI] [32m[INFO][0m Total VRAM 16379 MB, total RAM 16379 MB
+[03:31]   [ComfyUI] [32m[INFO][0m pytorch version: 2.10.0+cpu
+[03:31]   [ComfyUI] [32m[INFO][0m Set vram state to: DISABLED
+[03:31]   [ComfyUI] [32m[INFO][0m Device: cpu
+[03:33]   [ComfyUI] [32m[INFO][0m Using sub quadratic optimization for attention, if you have memory or speed issues try using: --use-split-cross-attention
+[03:41]   [ComfyUI] [32m[INFO][0m Python version: 3.13.13 (tags/v3.13.13:01104ce, Apr  7 2026, 19:25:48) [MSC v.1944 64 bit (AMD64)]
+[03:41]   [ComfyUI] [32m[INFO][0m ComfyUI version: 0.22.0
+[03:41]   [ComfyUI] [32m[INFO][0m comfy-aimdo version: 0.4.5
+[03:41]   [ComfyUI] [32m[INFO][0m comfy-kitchen version: 0.2.8
+[03:41]   [ComfyUI] [1m[33m[WARNING][0m ****** User settings have been changed to be stored on the server instead of browser storage. ******
+[03:41]   [ComfyUI] [1m[33m[WARNING][0m ****** For multi-user setups add the --multi-user CLI argument to enable multiple user profiles. ******
+[03:41]   [ComfyUI] [32m[INFO][0m comfyui-frontend-package version: 1.44.19
+[03:41]   [ComfyUI] [32m[INFO][0m comfyui-workflow-templates version: 0.9.82
+[03:41]   [ComfyUI] [32m[INFO][0m comfyui-embedded-docs version: 0.5.1
+[03:41]   [ComfyUI] [32m[INFO][0m comfy-kitchen version: 0.2.8
+[03:41]   [ComfyUI] [32m[INFO][0m comfy-aimdo version: 0.4.5
+[03:41]   [ComfyUI] [32m[INFO][0m [Prompt Server] web root: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\.venv\Lib\site-packages\comfyui_frontend_package\static
+[03:41]   [ComfyUI] [32m[INFO][0m Asset seeder disabled
+[03:51]   [ComfyUI] [1m[33m[WARNING][0m Matplotlib is building the font cache; this may take a moment.
+[03:59]   [ComfyUI] [32m[INFO][0m generated new fontManager
+[04:00]   [ComfyUI] [32m[INFO][0m loading...
+[04:00]   [ComfyUI] [32m[INFO][0m calling register_nodes
+[04:00]   [ComfyUI] [comfy-env] Version: 0.4.1
+[04:00]   [ComfyUI] [comfy-env] register_nodes: ComfyUI-MotionCapture
+[04:00]   [ComfyUI] [comfy-env] ComfyUI source dir: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI
+[04:00]   [ComfyUI] [comfy-env] Found 1 isolation env(s)
+[04:00]   [ComfyUI] [comfy-env] Scanning nodes metadata (isolation root)...
+[04:00]   [ComfyUI] [comfy-env] default: Library/bin has 237 DLLs
+[04:00]   [ComfyUI] [comfy-env] Metadata scan: C:\Users\stduser\.pixi\bin\pixi.exe run --as-is --manifest-path C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\pixi.toml -e default python C:\Users\stduser\AppData\Local\Temp\comfy_meta_32o8jec4.py D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\custom_nodes\ComfyUI-MotionCapture nodes C:\Users\stduser\AppData\Local\Temp\comfy_meta_out_g99erjro.pkl
+[04:00]   [ComfyUI] [comfy-env] Scan env PATH for nodes:
+[04:00]   [ComfyUI] [comfy-env]   [0] C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default
+[04:00]   [ComfyUI] [comfy-env]   [1] C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Library\bin
+[04:00]   [ComfyUI] [comfy-env]   [2] C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Scripts
+[04:00]   [ComfyUI] [comfy-env]   [3] C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\site-packages\bpy
+[04:00]   [ComfyUI] [comfy-env]   [4] C:\Windows\System32
+[04:00]   [ComfyUI] [comfy-env]   [5] C:\Windows
+[04:00]   [ComfyUI] [comfy-env]   [6] C:\Windows\System32\Wbem
+[04:10]   [ComfyUI] [comfy-env] Metadata scan stderr for nodes:
+[04:10]   [ComfyUI] [comfy-env]   [meta-scan] importing nodes from D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\custom_nodes\ComfyUI-MotionCapture
+[04:10]   [ComfyUI] [comfy-env]   [05/25 19:28:42][ERROR] Failed to import comfy_kitchen, Error: No module named 'comfy_kitchen', fp8 and fp4 support will not be available.
+[04:10]   [ComfyUI] [comfy-env]   [05/25 19:28:43][INFO] Checkpoint files will always be loaded safely.
+[04:10]   [ComfyUI] [comfy-env]   D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\custom_nodes\ComfyUI-MotionCapture\nodes\motion_utils\matrix.py:1064: SyntaxWarning: invalid escape sequence '\*'
+[04:10]   [ComfyUI] [comfy-env]     Combine two set of 3D rotations together using \**\* operator. The shape needs to be
+[04:10]   [ComfyUI] [comfy-env]   [05/25 19:28:43][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
+[04:10]   [ComfyUI] [comfy-env]   [meta-scan] import OK
+[04:10]   [ComfyUI] [comfy-env] Scanned nodes: 22 nodes (9.7s)
+[04:10]   [ComfyUI] [comfy-env] Scanned nodes root: 22 nodes (9.7s)
+[04:10]   [ComfyUI] [comfy-env] Imported nodes root: 22 nodes (isolation)
+[04:10]   [ComfyUI] [comfy-env] Registered 22 total nodes
+[04:10]   [ComfyUI] [32m[INFO][0m
+[04:10]   [ComfyUI] Import times for custom nodes:
+[04:10]   [ComfyUI] [32m[INFO][0m    0.0 seconds: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\custom_nodes\websocket_image_save.py
+[04:10]   [ComfyUI] [32m[INFO][0m    0.0 seconds: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\custom_nodes\ComfyUI-validate-endpoint
+[04:10]   [ComfyUI] [32m[INFO][0m    0.0 seconds: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\custom_nodes\ComfyUI-CameraPack
+[04:10]   [ComfyUI] [32m[INFO][0m    0.1 seconds: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\custom_nodes\ComfyUI-VideoHelperSuite
+[04:10]   [ComfyUI] [32m[INFO][0m   10.5 seconds: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\custom_nodes\ComfyUI-MotionCapture
+[04:10]   [ComfyUI] [32m[INFO][0m   15.4 seconds: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\custom_nodes\ComfyUI-HyMotion
+[04:10]   [ComfyUI] [32m[INFO][0m
+[04:11]   [ComfyUI] [32m[INFO][0m Context impl SQLiteImpl.
+[04:11]   [ComfyUI] [32m[INFO][0m Will assume non-transactional DDL.
+[04:11]   [ComfyUI] [32m[INFO][0m Context impl SQLiteImpl.
+[04:11]   [ComfyUI] [32m[INFO][0m Will assume non-transactional DDL.
+[04:11]   [ComfyUI] [32m[INFO][0m Running upgrade  -> 0001_assets, Initial assets schema
+[04:11]   [ComfyUI] Revision ID: 0001_assets
+[04:11]   [ComfyUI] Revises: None
+[04:11]   [ComfyUI] Create Date: 2025-12-10 00:00:00
+[04:11]   [ComfyUI] [32m[INFO][0m Running upgrade 0001_assets -> 0002_merge_to_asset_references, Merge AssetInfo and AssetCacheState into unified asset_references table.
+[04:11]   [ComfyUI] [32m[INFO][0m Running upgrade 0002_merge_to_asset_references -> 0003_add_metadata_job_id, Add system_metadata and job_id columns to asset_references.
+[04:11]   [ComfyUI] Change preview_id FK from assets.id to asset_references.id.
+[04:11]   [ComfyUI] [32m[INFO][0m Database upgraded from None to 0003_add_metadata_job_id
+[04:11]   [ComfyUI] [32m[INFO][0m Using RAM pressure cache.
+[04:11]   [ComfyUI] [32m[INFO][0m Starting server
+[04:11]   [ComfyUI] 
+[04:11]   [ComfyUI] [32m[INFO][0m To see the GUI go to: http://127.0.0.1:41886
+[04:12] Server responding, waiting for nodes to load...
+[04:32] Server is ready!
+[04:32] Checking for import errors in server logs...
+[04:32] No import errors detected
+[04:32] Found 821 registered nodes
+[04:32] [REGISTRATION] PASSED
+[04:32] 
+[04:32] [4/5] INSTANTIATION
+[04:32] ----------------------------------------
+[04:32] 
+[DEBUG] server=<comfy_test.comfyui.server.ComfyUIServer object at 0x0000018444F72290>, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x0000018444F9C910>
+[04:32] Testing node constructors...
+[04:34] All 22 node(s) instantiated successfully!
+[04:34] [INSTANTIATION] PASSED
+[04:34] 
+[04:34] [5/5] EXECUTION
+[04:34] ----------------------------------------
+[04:34] 
+[DEBUG] server=<comfy_test.comfyui.server.ComfyUIServer object at 0x0000018444F72290>, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x0000018444F9C910>
+[04:34] CPU runner - will execute 3 workflow(s)
+[04:34] Running 5 workflow(s) (all with videos)...
+[04:34] Installing screenshot dependencies (playwright, pillow)...
+[04:35]   Packages installed, downloading chromium browser...
+[04:52]   Screenshot dependencies installed successfully
+[04:53] Starting headless browser...
+[04:53]   Downloading Mesa llvmpipe for Windows...
+[04:58]   Copied opengl32.dll to Chromium dir
+[04:58]   Copied libgallium_wgl.dll to Chromium dir
+[04:59]   Using Mesa llvmpipe (desktop GL) -- multithreaded CPU rendering
+[04:59]   [ComfyUI] [32m[INFO][0m Using RAM pressure cache.
+[04:59] Capturing execution frames: apply_motion_on_character.json
+[04:59]   [ComfyUI] [32m[INFO][0m Using RAM pressure cache.
+[05:01]   [ComfyUI] [1m[33m[WARNING][0m [DEPRECATION WARNING] Detected import of deprecated legacy API: /extensions/core/widgetInputs.js. This is likely caused by a custom node extension using outdated APIs. Please update your extensions or contact the extension author for an updated version.
+[05:09]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[05:09]   Validating workflow...
+[05:09]   [ComfyUI] [32m[INFO][0m === /validate endpoint called ===
+[05:09]   [ComfyUI] [32m[INFO][0m Received JSON with keys: ['prompt']
+[05:09]   [ComfyUI] [32m[INFO][0m Prompt has 6 nodes
+[05:09]   [ComfyUI] [32m[INFO][0m   Node 1: HYMotionNPZToSMPLParams
+[05:09]   [ComfyUI] [32m[INFO][0m     Inputs: {"npz_path": ["2", 0]}
+[05:09]   [ComfyUI] [32m[INFO][0m   Node 2: LoadSMPL
+[05:09]   [ComfyUI] [32m[INFO][0m     Inputs: {"file_path": "smpl_params_example.npz"}
+[05:09]   Queuing workflow for execution...
+[05:09]   [ComfyUI] [32m[INFO][0m   Node 3: HYMotionSMPLToData
+[05:09]   [ComfyUI] [32m[INFO][0m     Inputs: {"text": "", "duration": 0, "smpl_params": ["1", 0]}
+[05:09]   [ComfyUI] [32m[INFO][0m   Node 4: HYMotionRetargetFBX
+[05:09]   [ComfyUI] [32m[INFO][0m     Inputs: {"target_fbx": ["9", 0], "output_dir": "hymotion_retarget", "filename_prefix": "retarget", "mapping_file": "", "yaw_offset": 0, "neutral_fingers": true, "unique_names": true, "in_place": false, "in_pl
+[05:09]   [ComfyUI] [32m[INFO][0m   Node 6: Preview3D
+[05:09]   [ComfyUI] [32m[INFO][0m     Inputs: {"model_file": ["4", 0], "image": ""}
+[05:09]   [ComfyUI] [32m[INFO][0m   Node 9: PrimitiveString
+[05:09]   [ComfyUI] [32m[INFO][0m     Inputs: {"value": "3d/mixamo.fbx"}
+[05:09]   [ComfyUI] [32m[INFO][0m Generated prompt_id: fcc8ecea-9b4f-40ae-8f2f-5538677ca790
+[05:09]   [ComfyUI] [32m[INFO][0m Calling execution.validate_prompt()...
+[05:09]   [ComfyUI] [32m[INFO][0m Validation result: valid=True
+[05:09]   [ComfyUI] [32m[INFO][0m === Validation PASSED ===
+[05:09]   [ComfyUI] [32m[INFO][0m got prompt
+[05:09]   [ComfyUI] [comfy-env] Running LoadSMPL: file_path: 'smpl_params_example.npz'
+[05:09]   [ComfyUI] [comfy-env] SubprocessWorker: C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\python.exe
+[05:09]   [ComfyUI] [comfy-env] env_vars: {'COMFYUI_BASE': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1924\\ComfyUI'}
+[05:09]   [ComfyUI] [SubprocessWorker] call_method: nodes.load_smpl_node.LoadSMPLParams.EXECUTE_NORMALIZED
+[05:09]   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
+[05:09]   [ComfyUI] [comfy-env] default: Library/bin has 237 DLLs
+[05:09]   [ComfyUI] [ComfyUI-MotionCapture] python: C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\python.exe
+[05:09]   [ComfyUI] [ComfyUI-MotionCapture] sys_path sent to worker: ['D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1924\\ComfyUI', 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1924\\ComfyUI\\custom_nodes\\ComfyUI-MotionCapture', 'C:\\Users\\stduser\\AppData\\Local\\Programs\\comfy-env\\envs\\motioncapture-nodes\\.pixi\\envs\\default\\Lib\\site-packages', 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1924\\ComfyUI\\custom_nodes\\ComfyUI-MotionCapture']
+[05:09]   [ComfyUI] [SubprocessWorker] is_pixi=True, python=C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\python.exe
+[05:09]   [ComfyUI] [SubprocessWorker] launching cmd=['C:\\Users\\stduser\\.pixi\\bin\\pixi.exe', 'run', '--as-is', '--manifest-path', 'C:\\Users\\stduser\\AppData\\Local\\Programs\\comfy-env\\envs\\motioncapture-nodes\\pixi.toml', '-e', 'default', 'python', 'C:\\Users\\stduser\\AppData\\Local\\Temp\\comfyui_pvenv_a987ozku\\persistent_worker.py', 'tcp://127.0.0.1:61413']...
+[05:11]   Frame 2 saved (frame_001.jpg, t=2.3s)
+[05:11]   [capture-periodic] freeze=4ms shot=106ms unfreeze=4ms saved=True
+[05:11]   [ComfyUI] [worker:ComfyUI-MotionCapture] ERROR: Failed to import comfy_kitchen, Error: No module named 'comfy_kitchen', fp8 and fp4 support will not be available.
+[05:11]   [ComfyUI] [SubprocessWorker] worker started/confirmed
+[05:11]   [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
+[05:11]   [ComfyUI] [SubprocessWorker] created 0 shm blocks
+[05:11]   [ComfyUI] [SubprocessWorker] sending request via socket...
+[05:11]   [ComfyUI] [SubprocessWorker] call_id=1 sending call_method
+[05:12]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] DPVO not installed - only SimpleVO will be available
+[05:12]   [ComfyUI] [05/25 19:29:47][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
+[05:12]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\input\smpl_params_example.npz
+[05:12]   [ComfyUI] [05/25 19:29:47][INFO] Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\input\smpl_params_example.npz
+[05:12]   [ComfyUI] [SubprocessWorker] got response: ok
+[05:12]   [ComfyUI] [comfy-env] LoadSMPL done (3.64s): result: NodeOutput
+[05:12]   [ComfyUI] [HY-Motion] NPZ to SMPL_PARAMS: loaded D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\input\smpl_params_example.npz
+[05:12]   [ComfyUI] [HY-Motion]   keys: ['body_pose', 'betas', 'global_orient', 'transl', 'global_orient_incam', 'transl_incam', 'R_cam2world', 't_cam2world', 'K_fullimg', 'img_width', 'img_height']
+[05:12]   [ComfyUI] [HY-Motion] Input has 22 joints. Auto-padding to reach 52 joints (SMPL-H).
+[05:12]   [ComfyUI] [HY-Motion] Padded poses shape: torch.Size([1, 551, 52, 3])
+[05:12]   [ComfyUI] [HY-Motion] Auto-calculated duration: 18.37s (551 frames @ 30.0 FPS)
+[05:12]   [ComfyUI] [HY-Motion] Loading 3D body model for converter preview...
+[05:12]   [ComfyUI] [WoodenMesh] Loaded model: 24256 vertices, 52 joints
+[05:13]   Frame 3 saved (frame_002.jpg, t=4.5s)
+[05:13]   [capture-periodic] freeze=11ms shot=133ms unfreeze=20ms saved=True
+[05:15]   [capture-loop] iter=50 t=6.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.4/16.0GB (34%) swap=0.2/2.9GB (6%) cpu=45% browser_rss=0.73GB
+[05:20]   [ComfyUI] [HY-Motion] Successfully converted 551 frames (52 joints) from SMPL to HY-Motion format (Batch: 1).
+[05:20]   [ComfyUI] [HYMotionRetargetFBX] Retargeting batch 0/1 (Native In-Memory)...
+[05:20]   [ComfyUI] [Retarget] NPZ Detect: Keypoints are already animated (Travel=4.32m). Skipping Transl addition.
+[05:20]   [ComfyUI] Using full 52-joint 'poses' from NPZ...
+[05:21]   [capture-loop] iter=100 t=12.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=4.9/16.0GB (31%) swap=0.2/2.9GB (6%) cpu=82% browser_rss=0.73GB
+[05:22]   Frame 4 saved (frame_003.jpg, t=13.2s)
+[05:22]   [capture-periodic] freeze=2ms shot=103ms unfreeze=3ms saved=True
+[05:26]   [ComfyUI] [HY-Motion] Loading FBX for retargeting: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\input\3d/mixamo.fbx
+[05:26]   [ComfyUI] Using hardcoded bone mappings (no JSON file needed)
+[05:26]   [ComfyUI] [Retarget] load_bone_mapping: Found 62 matches via semantic names.
+[05:26]   [ComfyUI] [Retarget] Found target root via name 'hips': mixamorig:Hips
+[05:26]   [ComfyUI] [Retarget] Starting Structural BFS Matching from Pelvis -> mixamorig:Hips...
+[05:26]   [ComfyUI] [Retarget] Structural BFS Matching complete. Total matches: 62
+[05:26]   [ComfyUI] [Retarget] Final load_bone_mapping: Found 62 total matches.
+[05:26]   [ComfyUI] Retargeting Animation...
+[05:26]   [ComfyUI] [Retarget] Applying Neutral Finger pre-pass (Source)...
+[05:26]   [ComfyUI] 
+[05:26]   [ComfyUI] [Retarget] Bone Mapping Results:
+[05:26]   [ComfyUI]   Total: 52 bones mapped
+[05:26]   [ComfyUI]   - Head -> mixamorig:Head
+[05:26]   [ComfyUI]   - Pelvis -> mixamorig:Hips
+[05:26]   [ComfyUI]   - L_Shoulder -> mixamorig:LeftArm
+[05:26]   [ComfyUI]   - L_Ankle -> mixamorig:LeftFoot
+[05:26]   [ComfyUI]   - L_Elbow -> mixamorig:LeftForeArm
+[05:26]   [ComfyUI]   - L_Wrist -> mixamorig:LeftHand
+[05:26]   [ComfyUI]   - L_Index1 -> mixamorig:LeftHandIndex1
+[05:26]   [ComfyUI]   - L_Index2 -> mixamorig:LeftHandIndex2
+[05:26]   [ComfyUI]   - L_Index3 -> mixamorig:LeftHandIndex3
+[05:26]   [ComfyUI]   - L_Middle1 -> mixamorig:LeftHandMiddle1
+[05:26]   [ComfyUI]   - L_Middle2 -> mixamorig:LeftHandMiddle2
+[05:26]   [ComfyUI]   - L_Middle3 -> mixamorig:LeftHandMiddle3
+[05:26]   [ComfyUI]   - L_Pinky1 -> mixamorig:LeftHandPinky1
+[05:26]   [ComfyUI]   - L_Pinky2 -> mixamorig:LeftHandPinky2
+[05:26]   [ComfyUI]   - L_Pinky3 -> mixamorig:LeftHandPinky3
+[05:26]   [ComfyUI]   - L_Ring1 -> mixamorig:LeftHandRing1
+[05:26]   [ComfyUI]   - L_Ring2 -> mixamorig:LeftHandRing2
+[05:26]   [ComfyUI]   - L_Ring3 -> mixamorig:LeftHandRing3
+[05:26]   [ComfyUI]   - L_Thumb1 -> mixamorig:LeftHandThumb1
+[05:26]   [ComfyUI]   - L_Thumb2 -> mixamorig:LeftHandThumb2
+[05:26]   [ComfyUI]   - L_Thumb3 -> mixamorig:LeftHandThumb3
+[05:26]   [ComfyUI]   - L_Knee -> mixamorig:LeftLeg
+[05:26]   [ComfyUI]   - L_Collar -> mixamorig:LeftShoulder
+[05:26]   [ComfyUI]   - L_Foot -> mixamorig:LeftToeBase
+[05:26]   [ComfyUI]   - L_Hip -> mixamorig:LeftUpLeg
+[05:26]   [ComfyUI]   - Neck -> mixamorig:Neck
+[05:26]   [ComfyUI]   - R_Shoulder -> mixamorig:RightArm
+[05:26]   [ComfyUI]   - R_Ankle -> mixamorig:RightFoot
+[05:26]   [ComfyUI]   - R_Elbow -> mixamorig:RightForeArm
+[05:26]   [ComfyUI]   - R_Wrist -> mixamorig:RightHand
+[05:26]   [ComfyUI]   - R_Index1 -> mixamorig:RightHandIndex1
+[05:26]   [ComfyUI]   - R_Index2 -> mixamorig:RightHandIndex2
+[05:26]   [ComfyUI]   - R_Index3 -> mixamorig:RightHandIndex3
+[05:26]   [ComfyUI]   - R_Middle1 -> mixamorig:RightHandMiddle1
+[05:26]   [ComfyUI]   - R_Middle2 -> mixamorig:RightHandMiddle2
+[05:26]   [ComfyUI]   - R_Middle3 -> mixamorig:RightHandMiddle3
+[05:26]   [ComfyUI]   - R_Pinky1 -> mixamorig:RightHandPinky1
+[05:26]   [ComfyUI]   - R_Pinky2 -> mixamorig:RightHandPinky2
+[05:26]   [ComfyUI]   - R_Pinky3 -> mixamorig:RightHandPinky3
+[05:26]   [ComfyUI]   - R_Ring1 -> mixamorig:RightHandRing1
+[05:26]   [ComfyUI]   - R_Ring2 -> mixamorig:RightHandRing2
+[05:26]   [ComfyUI]   - R_Ring3 -> mixamorig:RightHandRing3
+[05:26]   [ComfyUI]   - R_Thumb1 -> mixamorig:RightHandThumb1
+[05:26]   [ComfyUI]   - R_Thumb2 -> mixamorig:RightHandThumb2
+[05:26]   [ComfyUI]   - R_Thumb3 -> mixamorig:RightHandThumb3
+[05:26]   [ComfyUI]   - R_Knee -> mixamorig:RightLeg
+[05:26]   [ComfyUI]   - R_Collar -> mixamorig:RightShoulder
+[05:26]   [ComfyUI]   - R_Foot -> mixamorig:RightToeBase
+[05:26]   [ComfyUI]   - R_Hip -> mixamorig:RightUpLeg
+[05:26]   [ComfyUI]   - Spine1 -> mixamorig:Spine
+[05:26]   [ComfyUI]   - Spine2 -> mixamorig:Spine1
+[05:26]   [ComfyUI]   - Spine3 -> mixamorig:Spine2
+[05:26]   [ComfyUI] [Retarget] Using Automatic Base Scale: 100.0000 (Meters to CM)
+[05:26]   [ComfyUI] [Retarget] Applying Auto-Stride: Final Scale 94.1349 (Anatomical Ratio 0.9413)
+[05:26]   [ComfyUI] [INFO] Height Check - Source: 165.49cm, Target: 155.78cm
+[05:26]   [ComfyUI] [INFO] Final Retargeting Scale: 94.1349
+[05:26]   [ComfyUI] [Retarget] Computed Alignment Matrix (Euler XYZ): [-1.76378096  0.03494695  1.13493838]
+[05:27]   [capture-loop] iter=150 t=18.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=4.9/16.0GB (31%) swap=0.2/2.9GB (6%) cpu=42% browser_rss=0.72GB
+[05:27]   [ComfyUI] [Retarget] Identified Target Root for Translation: mixamorig:Hips
+[05:27]   [ComfyUI] [Retarget] Target rest hip pos: [  0.   104.27   1.55]
+[05:27]   [ComfyUI] [Retarget] Initial hip pos: [ 17.38 104.27  30.34]
+[05:31]   [ComfyUI] [Retarget] Configured FBX export with embedded materials
+[05:31]   [ComfyUI] [Retarget] Saved FBX to: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\output\hymotion_retarget\retarget_20260525_192955326_e16ae28b_000.fbx
+[05:31]   [ComfyUI] [HYMotionRetargetFBX] Batch 0 done: retarget_20260525_192955326_e16ae28b_000.fbx
+[05:31]   [ComfyUI] [HYMotionRetargetFBX] Successfully retargeted 1 batch item(s)
+[05:31]   [ComfyUI] [32m[INFO][0m [32mPrompt executed in 22.60 seconds[0m
+[05:31]   Node executed (1 total), capturing...
+[05:32]   Frame 5 saved (frame_004.jpg, t=22.9s)
+[05:32]   [capture-node] freeze=4ms shot=98ms unfreeze=5ms saved=True
+[05:33]   Node executed (2 total), capturing...
+[05:34]   Frame 6 saved (frame_005.jpg, t=24.2s)
+[05:34]   [capture-node] freeze=1036ms shot=102ms unfreeze=0ms saved=True
+[05:34]   Execution complete (t=24.2s)
+[05:34]   [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
+[05:34]   [3d-wait] Phase 1 done in 0.0s
+[05:34]   [3d-wait] Phase 2: iframes=0
+[05:34]   [3d-wait] Total 3D wait: 0.0s
+[05:34]   Captured 6 unique frames over 25.39s
+[05:34]   [debug] iframes: 0
+[05:34]   [timing] trigger_3d_previews: 0.0s
+[05:37]   Saved high-quality screenshot: apply_motion_on_character_executed.png
+[05:37]   [timing] final_screenshot: 1.0s
+[05:37]   [ComfyUI] [32m[INFO][0m Using RAM pressure cache.
+[05:37]   [2/5] SKIPPED (not in cpu list) GVHMR.json
+[05:37]   [3/5] SKIPPED (not in cpu list) GVHMR_cameramotion.json
+[05:37]   [ComfyUI] [32m[INFO][0m Using RAM pressure cache.
+[05:38]   [ComfyUI] [32m[INFO][0m Using RAM pressure cache.
+[05:38] Capturing execution frames: load_camera_traj.json
+[05:38]   [ComfyUI] [32m[INFO][0m Using RAM pressure cache.
+[05:41]   [ComfyUI] [1m[31m[ERROR][0m Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+[05:41]   [ComfyUI] handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+[05:41]   [ComfyUI] Traceback (most recent call last):
+[05:41]   [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.13.13\x64\Lib\asyncio\events.py", line 89, in _run
+[05:41]   [ComfyUI]     self._context.run(self._callback, *self._args)
+[05:41]   [ComfyUI]     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[05:41]   [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.13.13\x64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+[05:41]   [ComfyUI]     self._sock.shutdown(socket.SHUT_RDWR)
+[05:41]   [ComfyUI]     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+[05:41]   [ComfyUI] ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+[05:41]   [ComfyUI] [1m[31m[ERROR][0m Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+[05:41]   [ComfyUI] handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+[05:41]   [ComfyUI] Traceback (most recent call last):
+[05:41]   [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.13.13\x64\Lib\asyncio\events.py", line 89, in _run
+[05:41]   [ComfyUI]     self._context.run(self._callback, *self._args)
+[05:41]   [ComfyUI]     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[05:41]   [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.13.13\x64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+[05:41]   [ComfyUI]     self._sock.shutdown(socket.SHUT_RDWR)
+[05:41]   [ComfyUI]     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+[05:41]   [ComfyUI] ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+[05:44]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[05:44]   Validating workflow...
+[05:44]   [ComfyUI] [32m[INFO][0m === /validate endpoint called ===
+[05:44]   [ComfyUI] [32m[INFO][0m Received JSON with keys: ['prompt']
+[05:44]   [ComfyUI] [32m[INFO][0m Prompt has 4 nodes
+[05:44]   [ComfyUI] [32m[INFO][0m   Node 2: LoadSMPL
+[05:44]   [ComfyUI] [32m[INFO][0m     Inputs: {"file_path": "smpl_params_example.npz"}
+[05:44]   [ComfyUI] [32m[INFO][0m   Node 3: LoadCameraTrajectory
+[05:44]   [ComfyUI] [32m[INFO][0m     Inputs: {"file_path": "camera_trajectory_example.npz"}
+[05:44]   [ComfyUI] [32m[INFO][0m   Node 6: LoadVideo
+[05:44]   [ComfyUI] [32m[INFO][0m     Inputs: {"file": "dancing.mp4", "video-preview": ""}
+[05:44]   Queuing workflow for execution...
+[05:44]   [ComfyUI] [32m[INFO][0m   Node 8: SMPLCameraViewer
+[05:44]   [ComfyUI] [32m[INFO][0m     Inputs: {"npz_path": ["2", 0], "camera_npz_path": ["3", 0], "mesh_color": 1, "smpl_camera_viewer": "", "video": ["6", 0]}
+[05:44]   [ComfyUI] [32m[INFO][0m Generated prompt_id: 64a856cd-6b8d-4139-ba2d-ef6221a38eb3
+[05:44]   [ComfyUI] [32m[INFO][0m Calling execution.validate_prompt()...
+[05:44]   [ComfyUI] [32m[INFO][0m Validation result: valid=True
+[05:44]   [ComfyUI] [32m[INFO][0m === Validation PASSED ===
+[05:44]   [ComfyUI] [32m[INFO][0m got prompt
+[05:44]   [ComfyUI] [comfy-env] Running LoadCameraTrajectory: file_path: 'camera_trajectory_example.npz'
+[05:44]   [ComfyUI] [SubprocessWorker] call_method: nodes.load_camera_trajectory_node.LoadCameraTrajectory.EXECUTE_NORMALIZED
+[05:44]   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
+[05:44]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ping (timeout=5.0s)...
+[05:44]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ok
+[05:44]   [ComfyUI] [SubprocessWorker] worker started/confirmed
+[05:44]   [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
+[05:44]   [ComfyUI] [SubprocessWorker] created 0 shm blocks
+[05:44]   [ComfyUI] [SubprocessWorker] sending request via socket...
+[05:44]   [ComfyUI] [SubprocessWorker] call_id=2 sending call_method
+[05:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\input\camera_trajectory_example.npz
+[05:45]   [ComfyUI] [05/25 19:30:19][INFO] Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\input\camera_trajectory_example.npz
+[05:45]   [ComfyUI] [SubprocessWorker] got response: ok
+[05:45]   [ComfyUI] [comfy-env] LoadCameraTrajectory done (0.21s): result: NodeOutput
+[05:45]   [ComfyUI] [comfy-env] Running LoadSMPL: file_path: 'smpl_params_example.npz'
+[05:45]   [ComfyUI] [SubprocessWorker] call_method: nodes.load_smpl_node.LoadSMPLParams.EXECUTE_NORMALIZED
+[05:45]   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
+[05:45]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ping (timeout=5.0s)...
+[05:45]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ok
+[05:45]   [ComfyUI] [SubprocessWorker] worker started/confirmed
+[05:45]   [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
+[05:45]   [ComfyUI] [SubprocessWorker] created 0 shm blocks
+[05:45]   [ComfyUI] [SubprocessWorker] sending request via socket...
+[05:45]   [ComfyUI] [SubprocessWorker] call_id=3 sending call_method
+[05:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\input\smpl_params_example.npz
+[05:45]   [ComfyUI] [05/25 19:30:20][INFO] Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\input\smpl_params_example.npz
+[05:45]   [ComfyUI] [SubprocessWorker] got response: ok
+[05:45]   [ComfyUI] [comfy-env] LoadSMPL done (0.17s): result: NodeOutput
+[05:45]   [ComfyUI] [comfy-env] Running SMPLCameraViewer: npz_path: 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\Moti..., camera_npz_path: 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\Moti..., mesh_color: '1', video: VideoFromFile
+[05:45]   [ComfyUI] [SubprocessWorker] call_method: nodes.smpl_camera_viewer_node.SMPLCameraViewer.EXECUTE_NORMALIZED
+[05:45]   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
+[05:45]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ping (timeout=5.0s)...
+[05:45]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ok
+[05:45]   [ComfyUI] [SubprocessWorker] worker started/confirmed
+[05:45]   [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
+[05:45]   [ComfyUI] [SubprocessWorker] created 1 shm blocks
+[05:45]   [ComfyUI] [SubprocessWorker] sending request via socket...
+[05:45]   [ComfyUI] [SubprocessWorker] call_id=4 sending call_method
+[05:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Generating 3D mesh + camera data...
+[05:45]   [ComfyUI] [05/25 19:30:20][INFO] [SMPLCameraViewer] Generating 3D mesh + camera data...
+[05:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Found incam params for through-camera rendering
+[05:45]   [ComfyUI] [05/25 19:30:20][INFO] [SMPLCameraViewer] Found incam params for through-camera rendering
+[05:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Processing 551 frames
+[05:45]   [ComfyUI] [05/25 19:30:20][INFO] [SMPLCameraViewer] Processing 551 frames
+[05:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Loaded camera trajectory (new format) from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\input\camera_trajectory_example.npz
+[05:45]   [ComfyUI] [05/25 19:30:20][INFO] [SMPLCameraViewer] Loaded camera trajectory (new format) from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\input\camera_trajectory_example.npz
+[05:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Video: 575 frames (SMPL: 551)
+[05:45]   [ComfyUI] [05/25 19:30:20][INFO] [SMPLCameraViewer] Video: 575 frames (SMPL: 551)
+[05:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] SMPLX models not found, downloading from HuggingFace...
+[05:45]   [ComfyUI] [05/25 19:30:20][INFO] [SMPLCameraViewer] SMPLX models not found, downloading from HuggingFace...
+[05:46]   [ComfyUI] C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\site-packages\huggingface_hub\utils\_validators.py:205: UserWarning: The `local_dir_use_symlinks` argument is deprecated and ignored in `hf_hub_download`. Downloading to a local directory does not use symlinks anymore.
+[05:46]   [ComfyUI]   warnings.warn(
+[05:47]   Frame 2 saved (frame_001.jpg, t=2.3s)
+[05:47]   [capture-periodic] freeze=5ms shot=125ms unfreeze=5ms saved=True
+[05:47]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
+[05:47]   [ComfyUI] [05/25 19:30:22][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
+[05:47]   [ComfyUI] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[05:47]   [ComfyUI] [worker:ComfyUI-MotionCapture] WARNING: Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[05:47]   [ComfyUI] [05/25 19:30:22][WARNING] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[05:48]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
+[05:48]   [ComfyUI] [05/25 19:30:22][INFO] HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
+[05:48]   [ComfyUI] 
+[05:49]   Frame 3 saved (frame_002.jpg, t=4.5s)
+[05:49]   [capture-periodic] freeze=3ms shot=112ms unfreeze=4ms saved=True
+[05:50]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
+[05:50]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:02<00:00, 50.5MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
+[05:50]   [ComfyUI] 
+[05:50]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:02<00:00, 50.5MB/s]
+[05:50]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_FEMALE.npz
+[05:50]   [ComfyUI] [05/25 19:30:25][INFO] [SMPLCameraViewer] Downloaded SMPLX_FEMALE.npz
+[05:50]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
+[05:50]   [ComfyUI] [05/25 19:30:25][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
+[05:50]   [ComfyUI] 
+[05:50]   [capture-loop] iter=50 t=5.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3 ram=5.0/16.0GB (31%) swap=0.2/2.9GB (6%) cpu=41% browser_rss=0.80GB
+[05:51]   Frame 4 saved (frame_003.jpg, t=6.7s)
+[05:51]   [capture-periodic] freeze=2ms shot=98ms unfreeze=3ms saved=True
+[05:52]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
+[05:52]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 60.0MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
+[05:52]   [ComfyUI] 
+[05:52]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 59.9MB/s]
+[05:52]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_MALE.npz
+[05:52]   [ComfyUI] [05/25 19:30:27][INFO] [SMPLCameraViewer] Downloaded SMPLX_MALE.npz
+[05:52]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
+[05:52]   [ComfyUI] [05/25 19:30:27][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
+[05:52]   [ComfyUI] 
+[05:54]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
+[05:54]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz:  62%|██████▏   | 67.3M/109M [00:02<00:01, 33.6MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
+[05:54]   [ComfyUI] [SubprocessWorker] callback 'report_progress' from call_id=4
+[05:54]   [ComfyUI] 
+[05:54]   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|██████████| 109M/109M [00:02<00:00, 53.7MB/s]
+[05:54]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_NEUTRAL.npz
+[05:54]   [ComfyUI] [05/25 19:30:29][INFO] [SMPLCameraViewer] Downloaded SMPLX_NEUTRAL.npz
+[05:55]   Frame 5 saved (frame_004.jpg, t=11.1s)
+[05:55]   [capture-periodic] freeze=8ms shot=130ms unfreeze=4ms saved=True
+[05:56]   [capture-loop] iter=100 t=11.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.1/16.0GB (32%) swap=0.2/2.9GB (6%) cpu=45% browser_rss=0.79GB
+[06:02]   [capture-loop] iter=150 t=17.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4 ram=5.0/16.0GB (32%) swap=0.2/2.9GB (6%) cpu=74% browser_rss=0.72GB
+[06:08]   [capture-loop] iter=200 t=23.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.1/16.0GB (32%) swap=0.2/2.9GB (6%) cpu=74% browser_rss=0.72GB
+[06:09]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Generated mesh: 551 frames, 6890 vertices, 13776 faces
+[06:09]   [ComfyUI] [05/25 19:30:44][INFO] [SMPLCameraViewer] Generated mesh: 551 frames, 6890 vertices, 13776 faces
+[06:09]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Refining camera via Procrustes alignment of vertices...
+[06:09]   [ComfyUI] [05/25 19:30:44][INFO] [SMPLCameraViewer] Refining camera via Procrustes alignment of vertices...
+[06:09]   [ComfyUI] [worker:ComfyUI-MotionCapture]
+[06:09]   [ComfyUI] === WATCHDOG TICK 1 ===
+[06:09]   [ComfyUI] [worker:ComfyUI-MotionCapture] Thread 0x00001a20 (most recent call first):
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\threading.py", line 363 in wait
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\threading.py", line 660 in wait
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\site-packages\tqdm\_monitor.py", line 60 in run
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\threading.py", line 1044 in _bootstrap_inner
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\threading.py", line 1015 in _bootstrap
+[06:09]   [ComfyUI] 
+[06:09]   [ComfyUI] Thread 0x000007a0 (most recent call first):
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\threading.py", line 363 in wait
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\threading.py", line 660 in wait
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\site-packages\tqdm\_monitor.py", line 60 in run
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\threading.py", line 1044 in _bootstrap_inner
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\threading.py", line 1015 in _bootstrap
+[06:09]   [ComfyUI] 
+[06:09]   [ComfyUI] Thread 0x000010c4 (most recent call first):
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\threading.py", line 363 in wait
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\threading.py", line 660 in wait
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\site-packages\tqdm\_monitor.py", line 60 in run
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\threading.py", line 1044 in _bootstrap_inner
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\threading.py", line 1015 in _bootstrap
+[06:09]   [ComfyUI] 
+[06:09]   [ComfyUI] Current thread 0x00001338 (most recent call first):
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Temp\comfyui_pvenv_a987ozku\persistent_worker.py", line 52 in _watchdog
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\threading.py", line 995 in run
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\threading.py", line 1044 in _bootstrap_inner
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\threading.py", line 1015 in _bootstrap
+[06:09]   [ComfyUI] 
+[06:09]   [ComfyUI] Thread 0x00001e64 (most recent call first):
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Programs\comfy-env\envs\motioncapture-nodes\.pixi\envs\default\Lib\site-packages\numpy\_core\_methods.py", line 132 in _mean
+[06:09]   [ComfyUI]   File "D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\custom_nodes\ComfyUI-MotionCapture\nodes\smpl_camera_viewer_node.py", line 287 in execute
+[06:09]   [ComfyUI]   File "D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\comfy_api\latest\_io.py", line 1833 in EXECUTE_NORMALIZED
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Temp\comfyui_pvenv_a987ozku\persistent_worker.py", line 1762 in main
+[06:09]   [ComfyUI]   File "C:\Users\stduser\AppData\Local\Temp\comfyui_pvenv_a987ozku\persistent_worker.py", line 1807 in <module>
+[06:09]   [ComfyUI] 
+[06:09]   [ComfyUI] [worker:ComfyUI-MotionCapture] === END ===
+[06:09]   [ComfyUI] 
+[06:09]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.61152977  1.8134848  -4.3272085 ]
+[06:09]   [ComfyUI] [05/25 19:30:44][INFO] [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.61152977  1.8134848  -4.3272085 ]
+[06:09]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Camera refined via Procrustes alignment
+[06:09]   [ComfyUI] [05/25 19:30:44][INFO] [SMPLCameraViewer] Camera refined via Procrustes alignment
+[06:09]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Wrote 551 incam vertex frames
+[06:09]   [ComfyUI] [05/25 19:30:44][INFO] [SMPLCameraViewer] Wrote 551 incam vertex frames
+[06:09]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Wrote smpl_camera_mesh_0001.bin (87.1 MB), has_camera=True
+[06:09]   [ComfyUI] [05/25 19:30:44][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001.bin (87.1 MB), has_camera=True
+[06:09]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Encoding 551 frames as all-intra H.264...
+[06:09]   [ComfyUI] [05/25 19:30:44][INFO] [SMPLCameraViewer] Encoding 551 frames as all-intra H.264...
+[06:13]   [capture-loop] iter=250 t=29.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=5.2/16.0GB (33%) swap=0.2/2.9GB (6%) cpu=82% browser_rss=0.71GB
+[06:19]   [capture-loop] iter=300 t=35.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=14 ram=5.2/16.0GB (32%) swap=0.2/2.9GB (6%) cpu=77% browser_rss=0.71GB
+[06:25]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Wrote smpl_camera_mesh_0001_ref.mp4 (17.3 MB, 551 frames, all-intra)
+[06:25]   [ComfyUI] [05/25 19:31:00][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001_ref.mp4 (17.3 MB, 551 frames, all-intra)
 [06:25]   [ComfyUI] [SubprocessWorker] got response: ok
-[06:25]   [ComfyUI] [comfy-env] SMPLtoBVH done (1.21s): result: NodeOutput
-[06:25]   [ComfyUI] [comfy-env] Running BVHViewer: bvh_data: dict
-[06:25]   [ComfyUI] [SubprocessWorker] call_method: nodes.bvh_viewer_node.BVHViewer.EXECUTE_NORMALIZED
-[06:25]   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
-[06:25]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ping (timeout=5.0s)...
-[06:25]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ok
-[06:25]   [ComfyUI] [SubprocessWorker] worker started/confirmed
-[06:25]   [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
-[06:25]   [ComfyUI] [SubprocessWorker] created 0 shm blocks
-[06:25]   [ComfyUI] [SubprocessWorker] sending request via socket...
-[06:25]   [ComfyUI] [SubprocessWorker] call_id=7 sending call_method
-[06:25]   [ComfyUI] [worker:ComfyUI-MotionCapture] [comfy-env] _from_shm got dict with keys: ['__type__', 'strategy', 'manager_path', 'storage_key', 'storage_size']
-[06:25]   [ComfyUI] [worker:ComfyUI-MotionCapture] [comfy-env] DESERIALIZE TensorRef: tensor_size=[312, 22, 3]
-[06:25]   [ComfyUI] [worker:ComfyUI-MotionCapture] [comfy-env] DESERIALIZED tensor shape: torch.Size([312, 22, 3])
-[06:25]   [ComfyUI] [worker:ComfyUI-MotionCapture] [comfy-env] _from_shm got dict with keys: ['__type__', 'strategy', 'manager_path', 'storage_key', 'storage_size']
-[06:25]   [ComfyUI] [worker:ComfyUI-MotionCapture] [comfy-env] DESERIALIZE TensorRef: tensor_size=[312, 3]
-[06:25]   [ComfyUI] [worker:ComfyUI-MotionCapture] [comfy-env] DESERIALIZED tensor shape: torch.Size([312, 3])
-[06:26]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer] Loading BVH for visualization...
-[06:26]   [ComfyUI] [05/19 16:49:06][INFO] [BVHViewer] Loading BVH for visualization...
-[06:26]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] BVH file path: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\output\output\motion.bvh
-[06:26]   [ComfyUI] [05/19 16:49:06][INFO] [BVHViewer DEBUG] BVH file path: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1642\ComfyUI\output\output\motion.bvh
-[06:26]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] Num frames: 312, FPS: 30
-[06:26]   [ComfyUI] [05/19 16:49:06][INFO] [BVHViewer DEBUG] Num frames: 312, FPS: 30
-[06:26]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] File exists: True
-[06:26]   [ComfyUI] [05/19 16:49:06][INFO] [BVHViewer DEBUG] File exists: True
-[06:26]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] BVH content length: 214444 bytes
-[06:26]   [ComfyUI] [05/19 16:49:06][INFO] [BVHViewer DEBUG] BVH content length: 214444 bytes
-[06:26]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] First 200 chars: HIERARCHY
-[06:26]   [ComfyUI] ROOT Pelvis
-[06:26]   [ComfyUI] {
-[06:26]   [ComfyUI]   OFFSET 0.000000 0.000000 0.000000
-[06:26]   [ComfyUI]   CHANNELS 6 Xposition Yposition Zposition Zrotation Xrotation Yrotation
-[06:26]   [ComfyUI]   JOINT L_Hip
-[06:26]   [ComfyUI]   {
-[06:26]   [ComfyUI]     OFFSET 0.100000 -0.040000 0.000000
-[06:26]   [ComfyUI]     CHANNE
-[06:26]   [ComfyUI] [05/19 16:49:06][INFO] [BVHViewer DEBUG] First 200 chars: HIERARCHY
-[06:26]   [ComfyUI] ROOT Pelvis
-[06:26]   [ComfyUI] {
-[06:26]   [ComfyUI]   OFFSET 0.000000 0.000000 0.000000
-[06:26]   [ComfyUI]   CHANNELS 6 Xposition Yposition Zposition Zrotation Xrotation Yrotation
-[06:26]   [ComfyUI]   JOINT L_Hip
-[06:26]   [ComfyUI]   {
-[06:26]   [ComfyUI]     OFFSET 0.100000 -0.040000 0.000000
-[06:26]   [ComfyUI]     CHANNE
-[06:26]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] Stored bvh_content (214444 bytes) and bvh_info for frontend
-[06:26]   [ComfyUI] [05/19 16:49:06][INFO] [BVHViewer DEBUG] Stored bvh_content (214444 bytes) and bvh_info for frontend
-[06:26]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] bvh_info: {'num_frames': 312, 'fps': 30, 'file_path': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1642\\ComfyUI\\output\\output\\motion.bvh'}
-[06:26]   [ComfyUI] [05/19 16:49:06][INFO] [BVHViewer DEBUG] bvh_info: {'num_frames': 312, 'fps': 30, 'file_path': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1642\\ComfyUI\\output\\output\\motion.bvh'}
-[06:26]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer] Loaded BVH with 312 frames
-[06:26]   [ComfyUI] [05/19 16:49:06][INFO] [BVHViewer] Loaded BVH with 312 frames
-[06:26]   [ComfyUI] [SubprocessWorker] got response: ok
-[06:26]   [ComfyUI] [comfy-env] BVHViewer done (0.41s): result: NodeOutput
-[06:26]   [ComfyUI] Prompt executed in 1.82 seconds
-[06:26]   Node executed (1 total), capturing...
-[06:26]   Frame 2 saved (frame_001.jpg, t=2.3s)
-[06:26]   [capture-node] freeze=9ms shot=112ms unfreeze=0ms saved=True
-[06:26]   Execution complete (t=2.3s)
-[06:26]   Captured 2 unique frames over 2.45s
-[06:26]   [debug] iframes: 1
-[06:26]   [debug]   iframe[0]: src=http://127.0.0.1:41889/extensions/ComfyUI-MotionCapture/viewer_bvh.html?v=177920, canvas=374x600, rafFrozen=True
-[06:26]   [timing] trigger_3d_previews: 0.0s
-[06:28]   Saved high-quality screenshot: smpl_to_bvh_pipeline_executed.png
-[06:28]   [timing] final_screenshot: 0.2s
-[06:29] Results saved to D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1642\dev\windows-cpu\results.json
-[06:29] Model report: 3 files, 311.2 MB -> D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1642\dev\windows-cpu\models.json
-[06:29] Saved: D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1642\dev\windows-cpu\index.html
-[06:29] [EXECUTION] PASSED
-[06:29] 
+[06:25]   [ComfyUI] [comfy-env] SMPLCameraViewer done (39.89s): result: NodeOutput
+[06:25]   [ComfyUI] [32m[INFO][0m [32mPrompt executed in 40.29 seconds[0m
+[06:25]   Node executed (1 total), capturing...
+[06:25]   [ComfyUI] [1m[31m[ERROR][0m Exception in callback _ProactorBasePipeTransport._call_connection_lost()
+[06:25]   [ComfyUI] handle: <Handle _ProactorBasePipeTransport._call_connection_lost()>
+[06:25]   [ComfyUI] Traceback (most recent call last):
+[06:25]   [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.13.13\x64\Lib\asyncio\events.py", line 89, in _run
+[06:25]   [ComfyUI]     self._context.run(self._callback, *self._args)
+[06:25]   [ComfyUI]     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[06:25]   [ComfyUI]   File "C:\hostedtoolcache\windows\Python\3.13.13\x64\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+[06:25]   [ComfyUI]     self._sock.shutdown(socket.SHUT_RDWR)
+[06:25]   [ComfyUI]     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+[06:25]   [ComfyUI] ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+[06:25]   Frame 6 saved (frame_005.jpg, t=40.7s)
+[06:25]   [capture-node] freeze=6ms shot=119ms unfreeze=0ms saved=True
+[06:25]   Execution complete (t=40.7s)
+[06:25]   Captured 6 unique frames over 40.89s
+[06:25]   [debug] iframes: 1
+[06:25]   [debug]   iframe[0]: src=http://127.0.0.1:41886/extensions/ComfyUI-MotionCapture/viewer_smpl_camera.html?, canvas=413x343, rafFrozen=True
+[06:25]   [timing] trigger_3d_previews: 0.0s
+[06:27]   Saved high-quality screenshot: load_camera_traj_executed.png
+[06:27]   [timing] final_screenshot: 0.2s
+[06:28]   [ComfyUI] [32m[INFO][0m Using RAM pressure cache.
+[06:28]   [ComfyUI] [32m[INFO][0m Using RAM pressure cache.
+[06:28] Capturing execution frames: smpl_to_bvh_pipeline.json
+[06:28]   [ComfyUI] [32m[INFO][0m Using RAM pressure cache.
+[06:34]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[06:34]   Validating workflow...
+[06:34]   [ComfyUI] [32m[INFO][0m === /validate endpoint called ===
+[06:34]   [ComfyUI] [32m[INFO][0m Received JSON with keys: ['prompt']
+[06:34]   [ComfyUI] [32m[INFO][0m Prompt has 3 nodes
+[06:34]   [ComfyUI] [32m[INFO][0m   Node 3: BVHViewer
+[06:34]   [ComfyUI] [32m[INFO][0m     Inputs: {"bvh_viewer": "", "bvh_data": ["10", 0]}
+[06:34]   [ComfyUI] [32m[INFO][0m   Node 10: SMPLtoBVH
+[06:34]   [ComfyUI] [32m[INFO][0m     Inputs: {"npz_path": ["11", 0], "filename": "output/motion.bvh", "fps": 30, "scale": 1}
+[06:34]   Queuing workflow for execution...
+[06:34]   [ComfyUI] [32m[INFO][0m   Node 11: LoadSMPL
+[06:34]   [ComfyUI] [32m[INFO][0m     Inputs: {"file_path": "smpl_params_tennis.npz"}
+[06:34]   [ComfyUI] [32m[INFO][0m Generated prompt_id: 30bdee2d-e785-4522-a1b2-e24844dcf11d
+[06:34]   [ComfyUI] [32m[INFO][0m Calling execution.validate_prompt()...
+[06:34]   [ComfyUI] [32m[INFO][0m Validation result: valid=True
+[06:34]   [ComfyUI] [32m[INFO][0m === Validation PASSED ===
+[06:34]   [ComfyUI] [32m[INFO][0m got prompt
+[06:34]   [ComfyUI] [comfy-env] Running LoadSMPL: file_path: 'smpl_params_tennis.npz'
+[06:34]   [ComfyUI] [SubprocessWorker] call_method: nodes.load_smpl_node.LoadSMPLParams.EXECUTE_NORMALIZED
+[06:34]   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
+[06:34]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ping (timeout=5.0s)...
+[06:34]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ok
+[06:34]   [ComfyUI] [SubprocessWorker] worker started/confirmed
+[06:34]   [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
+[06:34]   [ComfyUI] [SubprocessWorker] created 0 shm blocks
+[06:34]   [ComfyUI] [SubprocessWorker] sending request via socket...
+[06:34]   [ComfyUI] [SubprocessWorker] call_id=5 sending call_method
+[06:36]   Frame 2 saved (frame_001.jpg, t=2.3s)
+[06:36]   [capture-periodic] freeze=5ms shot=95ms unfreeze=4ms saved=True
+[06:38]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\input\smpl_params_tennis.npz
+[06:38]   [ComfyUI] [05/25 19:31:12][INFO] Selected: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\input\smpl_params_tennis.npz
+[06:38]   [ComfyUI] [SubprocessWorker] got response: ok
+[06:38]   [ComfyUI] [comfy-env] LoadSMPL done (4.01s): result: NodeOutput
+[06:38]   [ComfyUI] [comfy-env] Running SMPLtoBVH: npz_path: 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\Moti..., filename: 'output/motion.bvh', fps: 30, scale: 1.0
+[06:38]   [ComfyUI] [SubprocessWorker] call_method: nodes.smpl_to_bvh_node.SMPLtoBVH.EXECUTE_NORMALIZED
+[06:38]   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
+[06:38]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ping (timeout=5.0s)...
+[06:38]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ok
+[06:38]   [ComfyUI] [SubprocessWorker] worker started/confirmed
+[06:38]   [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
+[06:38]   [ComfyUI] [SubprocessWorker] created 0 shm blocks
+[06:38]   [ComfyUI] [SubprocessWorker] sending request via socket...
+[06:38]   [ComfyUI] [SubprocessWorker] call_id=6 sending call_method
+[06:39]   Frame 3 saved (frame_002.jpg, t=4.4s)
+[06:39]   [capture-periodic] freeze=3ms shot=88ms unfreeze=4ms saved=True
+[06:40]   [capture-loop] iter=50 t=5.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3 ram=4.9/16.0GB (30%) swap=0.3/2.9GB (12%) cpu=48% browser_rss=0.83GB
+[06:41]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Converting SMPL to BVH format...
+[06:41]   [ComfyUI] [05/25 19:31:16][INFO] [SMPLtoBVH] Converting SMPL to BVH format...
+[06:41]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Loading SMPL parameters from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\input\smpl_params_tennis.npz
+[06:42]   [ComfyUI] [05/25 19:31:16][INFO] [SMPLtoBVH] Loading SMPL parameters from: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\input\smpl_params_tennis.npz
+[06:42]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Detected 21-joint SMPL variant (63 parameters)
+[06:42]   [ComfyUI] [05/25 19:31:17][INFO] [SMPLtoBVH] Detected 21-joint SMPL variant (63 parameters)
+[06:42]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Using 21-joint skeleton (GVHMR variant, no hands)
+[06:42]   [ComfyUI] [05/25 19:31:17][INFO] [SMPLtoBVH] Using 21-joint skeleton (GVHMR variant, no hands)
+[06:43]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Rotation ranges (degrees):
+[06:43]   [ComfyUI] [05/25 19:31:17][INFO] [SMPLtoBVH] Rotation ranges (degrees):
+[06:43]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   Z: [-174.0, 169.8]
+[06:43]   [ComfyUI] [05/25 19:31:18][INFO]   Z: [-174.0, 169.8]
+[06:43]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   X: [-73.5, 88.9]
+[06:44]   [ComfyUI] [05/25 19:31:18][INFO]   X: [-73.5, 88.9]
+[06:44]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO:   Y: [-179.7, 177.9]
+[06:44]   [ComfyUI] [05/25 19:31:19][INFO]   Y: [-179.7, 177.9]
+[06:44]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLtoBVH] Converted 312 frames to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\output\output\motion.bvh
+[06:45]   [ComfyUI] [05/25 19:31:19][INFO] [SMPLtoBVH] Converted 312 frames to D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\output\output\motion.bvh
+[06:45]   [ComfyUI] [SubprocessWorker] got response: ok
+[06:45]   [ComfyUI] [comfy-env] SMPLtoBVH done (7.01s): result: NodeOutput
+[06:45]   [ComfyUI] [comfy-env] Running BVHViewer: bvh_data: dict
+[06:45]   [ComfyUI] [SubprocessWorker] call_method: nodes.bvh_viewer_node.BVHViewer.EXECUTE_NORMALIZED
+[06:45]   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
+[06:45]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ping (timeout=5.0s)...
+[06:45]   [ComfyUI] [ComfyUI-MotionCapture] Health check: ok
+[06:45]   [ComfyUI] [SubprocessWorker] worker started/confirmed
+[06:45]   [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
+[06:45]   [ComfyUI] [SubprocessWorker] created 0 shm blocks
+[06:45]   [ComfyUI] [SubprocessWorker] sending request via socket...
+[06:45]   [ComfyUI] [SubprocessWorker] call_id=7 sending call_method
+[06:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] [comfy-env] _from_shm got dict with keys: ['__type__', 'strategy', 'manager_path', 'storage_key', 'storage_size']
+[06:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] [comfy-env] DESERIALIZE TensorRef: tensor_size=[312, 22, 3]
+[06:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] [comfy-env] DESERIALIZED tensor shape: torch.Size([312, 22, 3])
+[06:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] [comfy-env] _from_shm got dict with keys: ['__type__', 'strategy', 'manager_path', 'storage_key', 'storage_size']
+[06:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] [comfy-env] DESERIALIZE TensorRef: tensor_size=[312, 3]
+[06:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] [comfy-env] DESERIALIZED tensor shape: torch.Size([312, 3])
+[06:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer] Loading BVH for visualization...
+[06:45]   [ComfyUI] [05/25 19:31:20][INFO] [BVHViewer] Loading BVH for visualization...
+[06:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] BVH file path: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\output\output\motion.bvh
+[06:45]   [ComfyUI] [05/25 19:31:20][INFO] [BVHViewer DEBUG] BVH file path: D:\a\comfy-gpu-ci\comfy-gpu-ci\test_workspaces\MotionCapture-1924\ComfyUI\output\output\motion.bvh
+[06:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] Num frames: 312, FPS: 30
+[06:45]   [ComfyUI] [05/25 19:31:20][INFO] [BVHViewer DEBUG] Num frames: 312, FPS: 30
+[06:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] File exists: True
+[06:45]   [ComfyUI] [05/25 19:31:20][INFO] [BVHViewer DEBUG] File exists: True
+[06:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] BVH content length: 214444 bytes
+[06:45]   [capture-loop] iter=100 t=11.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7 ram=4.8/16.0GB (30%) swap=0.3/2.9GB (12%) cpu=33% browser_rss=0.75GB
+[06:45]   [ComfyUI] [05/25 19:31:20][INFO] [BVHViewer DEBUG] BVH content length: 214444 bytes
+[06:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] First 200 chars: HIERARCHY
+[06:45]   [ComfyUI] ROOT Pelvis
+[06:45]   [ComfyUI] {
+[06:45]   [ComfyUI]   OFFSET 0.000000 0.000000 0.000000
+[06:45]   [ComfyUI]   CHANNELS 6 Xposition Yposition Zposition Zrotation Xrotation Yrotation
+[06:45]   [ComfyUI]   JOINT L_Hip
+[06:45]   [ComfyUI]   {
+[06:45]   [ComfyUI]     OFFSET 0.100000 -0.040000 0.000000
+[06:45]   [ComfyUI]     CHANNE
+[06:45]   [ComfyUI] [05/25 19:31:20][INFO] [BVHViewer DEBUG] First 200 chars: HIERARCHY
+[06:45]   [ComfyUI] ROOT Pelvis
+[06:45]   [ComfyUI] {
+[06:45]   [ComfyUI]   OFFSET 0.000000 0.000000 0.000000
+[06:45]   [ComfyUI]   CHANNELS 6 Xposition Yposition Zposition Zrotation Xrotation Yrotation
+[06:45]   [ComfyUI]   JOINT L_Hip
+[06:45]   [ComfyUI]   {
+[06:45]   [ComfyUI]     OFFSET 0.100000 -0.040000 0.000000
+[06:45]   [ComfyUI]     CHANNE
+[06:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] Stored bvh_content (214444 bytes) and bvh_info for frontend
+[06:45]   [ComfyUI] [05/25 19:31:20][INFO] [BVHViewer DEBUG] Stored bvh_content (214444 bytes) and bvh_info for frontend
+[06:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer DEBUG] bvh_info: {'num_frames': 312, 'fps': 30, 'file_path': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1924\\ComfyUI\\output\\output\\motion.bvh'}
+[06:45]   [ComfyUI] [05/25 19:31:20][INFO] [BVHViewer DEBUG] bvh_info: {'num_frames': 312, 'fps': 30, 'file_path': 'D:\\a\\comfy-gpu-ci\\comfy-gpu-ci\\test_workspaces\\MotionCapture-1924\\ComfyUI\\output\\output\\motion.bvh'}
+[06:45]   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [BVHViewer] Loaded BVH with 312 frames
+[06:45]   [ComfyUI] [05/25 19:31:20][INFO] [BVHViewer] Loaded BVH with 312 frames
+[06:45]   [ComfyUI] [SubprocessWorker] got response: ok
+[06:45]   [ComfyUI] [comfy-env] BVHViewer done (0.22s): result: NodeOutput
+[06:45]   [ComfyUI] [32m[INFO][0m [32mPrompt executed in 11.26 seconds[0m
+[06:47]   Node executed (1 total), capturing...
+[06:47]   Frame 4 saved (frame_003.jpg, t=13.0s)
+[06:47]   [capture-node] freeze=5ms shot=92ms unfreeze=0ms saved=True
+[06:47]   Execution complete (t=13.0s)
+[06:47]   Captured 4 unique frames over 13.15s
+[06:47]   [debug] iframes: 1
+[06:47]   [debug]   iframe[0]: src=http://127.0.0.1:41886/extensions/ComfyUI-MotionCapture/viewer_bvh.html?v=177973, canvas=374x600, rafFrozen=True
+[06:47]   [timing] trigger_3d_previews: 0.0s
+[06:49]   Saved high-quality screenshot: smpl_to_bvh_pipeline_executed.png
+[06:49]   [timing] final_screenshot: 0.2s
+[06:49]   [ComfyUI] [32m[INFO][0m Using RAM pressure cache.
+[06:49] Results saved to D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1924\dev\windows-cpu\results.json
+[06:50] Model report: 3 files, 311.2 MB -> D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1924\dev\windows-cpu\models.json
+[06:50] Saved: D:\a\comfy-gpu-ci\comfy-gpu-ci\comfy-test-logs\MotionCapture-1924\dev\windows-cpu\index.html
+[06:50] [EXECUTION] PASSED
+[06:50] 
 windows: PASSED
-[06:29] Stopping ComfyUI server...
+[06:50] Stopping ComfyUI server...
