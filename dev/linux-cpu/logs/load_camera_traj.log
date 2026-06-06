@@ -19,13 +19,13 @@ Capturing execution frames: load_camera_traj.json
   [ComfyUI] [32m[INFO][0m     Inputs: {"file_path": "smpl_params_example.npz"}
   [ComfyUI] [32m[INFO][0m     Inputs: {"file_path": "smpl_params_example.npz"}
   [ComfyUI] [32m[INFO][0m     Inputs: {"file_path": "smpl_params_example.npz"}
-  [ComfyUI] [32m[INFO][0m   Node 3: LoadCameraTrajectory
-  [ComfyUI] [32m[INFO][0m   Node 3: LoadCameraTrajectory
-  [ComfyUI] [32m[INFO][0m   Node 3: LoadCameraTrajectory
-  [ComfyUI] [32m[INFO][0m     Inputs: {"file_path": "camera_trajectory_example.npz"}
-  [ComfyUI] [32m[INFO][0m     Inputs: {"file_path": "camera_trajectory_example.npz"}
-  [ComfyUI] [32m[INFO][0m     Inputs: {"file_path": "camera_trajectory_example.npz"}
   Queuing workflow for execution...
+  [ComfyUI] [32m[INFO][0m   Node 3: LoadCameraTrajectory
+  [ComfyUI] [32m[INFO][0m   Node 3: LoadCameraTrajectory
+  [ComfyUI] [32m[INFO][0m   Node 3: LoadCameraTrajectory
+  [ComfyUI] [32m[INFO][0m     Inputs: {"file_path": "camera_trajectory_example.npz"}
+  [ComfyUI] [32m[INFO][0m     Inputs: {"file_path": "camera_trajectory_example.npz"}
+  [ComfyUI] [32m[INFO][0m     Inputs: {"file_path": "camera_trajectory_example.npz"}
   [ComfyUI] [32m[INFO][0m   Node 6: LoadVideo
   [ComfyUI] [32m[INFO][0m   Node 6: LoadVideo
   [ComfyUI] [32m[INFO][0m   Node 6: LoadVideo
@@ -38,9 +38,9 @@ Capturing execution frames: load_camera_traj.json
   [ComfyUI] [32m[INFO][0m     Inputs: {"npz_path": ["2", 0], "camera_npz_path": ["3", 0], "mesh_color": 1, "smpl_camera_viewer": "", "video": ["6", 0]}
   [ComfyUI] [32m[INFO][0m     Inputs: {"npz_path": ["2", 0], "camera_npz_path": ["3", 0], "mesh_color": 1, "smpl_camera_viewer": "", "video": ["6", 0]}
   [ComfyUI] [32m[INFO][0m     Inputs: {"npz_path": ["2", 0], "camera_npz_path": ["3", 0], "mesh_color": 1, "smpl_camera_viewer": "", "video": ["6", 0]}
-  [ComfyUI] [32m[INFO][0m Generated prompt_id: 46a40d5b-d669-4fea-9ad7-af0822af8a8f
-  [ComfyUI] [32m[INFO][0m Generated prompt_id: 46a40d5b-d669-4fea-9ad7-af0822af8a8f
-  [ComfyUI] [32m[INFO][0m Generated prompt_id: 46a40d5b-d669-4fea-9ad7-af0822af8a8f
+  [ComfyUI] [32m[INFO][0m Generated prompt_id: d33365ba-1d67-4244-8ce9-838459e14f61
+  [ComfyUI] [32m[INFO][0m Generated prompt_id: d33365ba-1d67-4244-8ce9-838459e14f61
+  [ComfyUI] [32m[INFO][0m Generated prompt_id: d33365ba-1d67-4244-8ce9-838459e14f61
   [ComfyUI] [32m[INFO][0m Calling execution.validate_prompt()...
   [ComfyUI] [32m[INFO][0m Calling execution.validate_prompt()...
   [ComfyUI] [32m[INFO][0m Calling execution.validate_prompt()...
@@ -65,9 +65,33 @@ Capturing execution frames: load_camera_traj.json
   [ComfyUI] [ComfyUI-MotionCapture] Health check: ping (timeout=5.0s)...
   [ComfyUI] [ComfyUI-MotionCapture] Health check: ping (timeout=5.0s)...
   [ComfyUI] [ComfyUI-MotionCapture] Health check: ping (timeout=5.0s)...
-  [ComfyUI] [ComfyUI-MotionCapture] Health check: ok
-  [ComfyUI] [ComfyUI-MotionCapture] Health check: ok
-  [ComfyUI] [ComfyUI-MotionCapture] Health check: ok
+  [ComfyUI] [ComfyUI-MotionCapture] Health check: failed
+  [ComfyUI] [ComfyUI-MotionCapture] Health check: failed
+  [ComfyUI] [ComfyUI-MotionCapture] Health check: failed
+  [ComfyUI] [ComfyUI-MotionCapture] Socket unhealthy, restarting worker...
+  [ComfyUI] [ComfyUI-MotionCapture] Socket unhealthy, restarting worker...
+  [ComfyUI] [ComfyUI-MotionCapture] Socket unhealthy, restarting worker...
+  [ComfyUI] [ComfyUI-MotionCapture] python: /home/runner/.ce/envs/motioncapture-nodes/.pixi/envs/default/bin/python
+  [ComfyUI] [ComfyUI-MotionCapture] python: /home/runner/.ce/envs/motioncapture-nodes/.pixi/envs/default/bin/python
+  [ComfyUI] [ComfyUI-MotionCapture] python: /home/runner/.ce/envs/motioncapture-nodes/.pixi/envs/default/bin/python
+  [ComfyUI] [ComfyUI-MotionCapture] sys_path sent to worker: ['/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI', '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/custom_nodes/ComfyUI-MotionCapture', '/home/runner/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.13/site-packages', '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/custom_nodes/ComfyUI-MotionCapture']
+  [ComfyUI] [ComfyUI-MotionCapture] sys_path sent to worker: ['/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI', '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/custom_nodes/ComfyUI-MotionCapture', '/home/runner/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.13/site-packages', '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/custom_nodes/ComfyUI-MotionCapture']
+  [ComfyUI] [ComfyUI-MotionCapture] sys_path sent to worker: ['/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI', '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/custom_nodes/ComfyUI-MotionCapture', '/home/runner/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.13/site-packages', '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/custom_nodes/ComfyUI-MotionCapture']
+  [ComfyUI] [SubprocessWorker] is_pixi=True, python=/home/runner/.ce/envs/motioncapture-nodes/.pixi/envs/default/bin/python
+  [ComfyUI] [SubprocessWorker] is_pixi=True, python=/home/runner/.ce/envs/motioncapture-nodes/.pixi/envs/default/bin/python
+  [ComfyUI] [SubprocessWorker] is_pixi=True, python=/home/runner/.ce/envs/motioncapture-nodes/.pixi/envs/default/bin/python
+  [ComfyUI] [SubprocessWorker] launching cmd=['/home/runner/.pixi/bin/pixi', 'run', '--as-is', '--manifest-path', '/home/runner/.ce/envs/motioncapture-nodes/pixi.toml', '-e', 'default', 'python', '/tmp/comfyui_pvenv__yk8wnd9/persistent_worker.py', 'abstract://comfy_worker_2fb7d475ea19']...
+  [ComfyUI] [SubprocessWorker] launching cmd=['/home/runner/.pixi/bin/pixi', 'run', '--as-is', '--manifest-path', '/home/runner/.ce/envs/motioncapture-nodes/pixi.toml', '-e', 'default', 'python', '/tmp/comfyui_pvenv__yk8wnd9/persistent_worker.py', 'abstract://comfy_worker_2fb7d475ea19']...
+  [ComfyUI] [SubprocessWorker] launching cmd=['/home/runner/.pixi/bin/pixi', 'run', '--as-is', '--manifest-path', '/home/runner/.ce/envs/motioncapture-nodes/pixi.toml', '-e', 'default', 'python', '/tmp/comfyui_pvenv__yk8wnd9/persistent_worker.py', 'abstract://comfy_worker_2fb7d475ea19']...
+  [ComfyUI] [SubprocessWorker] socket_addr=abstract://comfy_worker_2fb7d475ea19 (abstract, no filesystem path)
+  [ComfyUI] [SubprocessWorker] socket_addr=abstract://comfy_worker_2fb7d475ea19 (abstract, no filesystem path)
+  [ComfyUI] [SubprocessWorker] socket_addr=abstract://comfy_worker_2fb7d475ea19 (abstract, no filesystem path)
+  [ComfyUI] [worker:ComfyUI-MotionCapture] ERROR: Failed to import comfy_kitchen, Error: No module named 'comfy_kitchen', fp8 and fp4 support will not be available.
+  [ComfyUI] [worker:ComfyUI-MotionCapture] ERROR: Failed to import comfy_kitchen, Error: No module named 'comfy_kitchen', fp8 and fp4 support will not be available.
+  [ComfyUI] [worker:ComfyUI-MotionCapture] ERROR: Failed to import comfy_kitchen, Error: No module named 'comfy_kitchen', fp8 and fp4 support will not be available.
+  [ComfyUI] [worker:ComfyUI-MotionCapture] WARNING: comfy_kitchen does not support stochastic FP8 rounding, please update comfy_kitchen.
+  [ComfyUI] [worker:ComfyUI-MotionCapture] WARNING: comfy_kitchen does not support stochastic FP8 rounding, please update comfy_kitchen.
+  [ComfyUI] [worker:ComfyUI-MotionCapture] WARNING: comfy_kitchen does not support stochastic FP8 rounding, please update comfy_kitchen.
   [ComfyUI] [SubprocessWorker] worker started/confirmed
   [ComfyUI] [SubprocessWorker] worker started/confirmed
   [ComfyUI] [SubprocessWorker] worker started/confirmed
@@ -83,18 +107,24 @@ Capturing execution frames: load_camera_traj.json
   [ComfyUI] [SubprocessWorker] call_id=2 sending call_method
   [ComfyUI] [SubprocessWorker] call_id=2 sending call_method
   [ComfyUI] [SubprocessWorker] call_id=2 sending call_method
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2334/ComfyUI/input/camera_trajectory_example.npz
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2334/ComfyUI/input/camera_trajectory_example.npz
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2334/ComfyUI/input/camera_trajectory_example.npz
-  [ComfyUI] [06/06 23:36:53][INFO] Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2334/ComfyUI/input/camera_trajectory_example.npz
-  [ComfyUI] [06/06 23:36:53][INFO] Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2334/ComfyUI/input/camera_trajectory_example.npz
-  [ComfyUI] [06/06 23:36:53][INFO] Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2334/ComfyUI/input/camera_trajectory_example.npz
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] DPVO not installed - only SimpleVO will be available
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] DPVO not installed - only SimpleVO will be available
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [GVHMRInference] DPVO not installed - only SimpleVO will be available
+  [ComfyUI] [06/06 23:44:39][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
+  [ComfyUI] [06/06 23:44:39][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
+  [ComfyUI] [06/06 23:44:39][INFO] [GVHMRInference] DPVO not installed - only SimpleVO will be available
+  [ComfyUI] [06/06 23:44:39][INFO] Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/input/camera_trajectory_example.npz
+  [ComfyUI] [06/06 23:44:39][INFO] Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/input/camera_trajectory_example.npz
+  [ComfyUI] [06/06 23:44:39][INFO] Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/input/camera_trajectory_example.npz
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/input/camera_trajectory_example.npz
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/input/camera_trajectory_example.npz
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/input/camera_trajectory_example.npz
   [ComfyUI] [SubprocessWorker] got response: ok
   [ComfyUI] [SubprocessWorker] got response: ok
   [ComfyUI] [SubprocessWorker] got response: ok
-  [ComfyUI] [comfy-env] LoadCameraTrajectory done (0.01s): result: NodeOutput
-  [ComfyUI] [comfy-env] LoadCameraTrajectory done (0.01s): result: NodeOutput
-  [ComfyUI] [comfy-env] LoadCameraTrajectory done (0.01s): result: NodeOutput
+  [ComfyUI] [comfy-env] LoadCameraTrajectory done (1.60s): result: NodeOutput
+  [ComfyUI] [comfy-env] LoadCameraTrajectory done (1.60s): result: NodeOutput
+  [ComfyUI] [comfy-env] LoadCameraTrajectory done (1.60s): result: NodeOutput
   [ComfyUI] [comfy-env] Running LoadSMPL: file_path: 'smpl_params_example.npz'
   [ComfyUI] [comfy-env] Running LoadSMPL: file_path: 'smpl_params_example.npz'
   [ComfyUI] [comfy-env] Running LoadSMPL: file_path: 'smpl_params_example.npz'
@@ -125,18 +155,18 @@ Capturing execution frames: load_camera_traj.json
   [ComfyUI] [SubprocessWorker] call_id=3 sending call_method
   [ComfyUI] [SubprocessWorker] call_id=3 sending call_method
   [ComfyUI] [SubprocessWorker] call_id=3 sending call_method
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2334/ComfyUI/input/smpl_params_example.npz
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2334/ComfyUI/input/smpl_params_example.npz
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2334/ComfyUI/input/smpl_params_example.npz
-  [ComfyUI] [06/06 23:36:53][INFO] Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2334/ComfyUI/input/smpl_params_example.npz
-  [ComfyUI] [06/06 23:36:53][INFO] Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2334/ComfyUI/input/smpl_params_example.npz
-  [ComfyUI] [06/06 23:36:53][INFO] Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2334/ComfyUI/input/smpl_params_example.npz
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/input/smpl_params_example.npz
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/input/smpl_params_example.npz
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/input/smpl_params_example.npz
+  [ComfyUI] [06/06 23:44:39][INFO] Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/input/smpl_params_example.npz
+  [ComfyUI] [06/06 23:44:39][INFO] Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/input/smpl_params_example.npz
+  [ComfyUI] [06/06 23:44:39][INFO] Selected: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/input/smpl_params_example.npz
   [ComfyUI] [SubprocessWorker] got response: ok
   [ComfyUI] [SubprocessWorker] got response: ok
   [ComfyUI] [SubprocessWorker] got response: ok
-  [ComfyUI] [comfy-env] LoadSMPL done (0.01s): result: NodeOutput
-  [ComfyUI] [comfy-env] LoadSMPL done (0.01s): result: NodeOutput
-  [ComfyUI] [comfy-env] LoadSMPL done (0.01s): result: NodeOutput
+  [ComfyUI] [comfy-env] LoadSMPL done (0.06s): result: NodeOutput
+  [ComfyUI] [comfy-env] LoadSMPL done (0.06s): result: NodeOutput
+  [ComfyUI] [comfy-env] LoadSMPL done (0.06s): result: NodeOutput
   [ComfyUI] [comfy-env] Running SMPLCameraViewer: npz_path: '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspa..., camera_npz_path: '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspa..., mesh_color: '1', video: VideoFromFile
   [ComfyUI] [comfy-env] Running SMPLCameraViewer: npz_path: '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspa..., camera_npz_path: '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspa..., mesh_color: '1', video: VideoFromFile
   [ComfyUI] [comfy-env] Running SMPLCameraViewer: npz_path: '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspa..., camera_npz_path: '/home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspa..., mesh_color: '1', video: VideoFromFile
@@ -170,223 +200,225 @@ Capturing execution frames: load_camera_traj.json
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Generating 3D mesh + camera data...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Generating 3D mesh + camera data...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Generating 3D mesh + camera data...
-  [ComfyUI] [06/06 23:36:53][INFO] [SMPLCameraViewer] Generating 3D mesh + camera data...
-  [ComfyUI] [06/06 23:36:53][INFO] [SMPLCameraViewer] Generating 3D mesh + camera data...
-  [ComfyUI] [06/06 23:36:53][INFO] [SMPLCameraViewer] Generating 3D mesh + camera data...
+  [ComfyUI] [06/06 23:44:39][INFO] [SMPLCameraViewer] Generating 3D mesh + camera data...
+  [ComfyUI] [06/06 23:44:39][INFO] [SMPLCameraViewer] Generating 3D mesh + camera data...
+  [ComfyUI] [06/06 23:44:39][INFO] [SMPLCameraViewer] Generating 3D mesh + camera data...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Found incam params for through-camera rendering
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Found incam params for through-camera rendering
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Found incam params for through-camera rendering
-  [ComfyUI] [06/06 23:36:53][INFO] [SMPLCameraViewer] Found incam params for through-camera rendering
-  [ComfyUI] [06/06 23:36:53][INFO] [SMPLCameraViewer] Found incam params for through-camera rendering
-  [ComfyUI] [06/06 23:36:53][INFO] [SMPLCameraViewer] Found incam params for through-camera rendering
+  [ComfyUI] [06/06 23:44:39][INFO] [SMPLCameraViewer] Found incam params for through-camera rendering
+  [ComfyUI] [06/06 23:44:39][INFO] [SMPLCameraViewer] Found incam params for through-camera rendering
+  [ComfyUI] [06/06 23:44:39][INFO] [SMPLCameraViewer] Found incam params for through-camera rendering
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Processing 551 frames
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Processing 551 frames
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Processing 551 frames
-  [ComfyUI] [06/06 23:36:53][INFO] [SMPLCameraViewer] Processing 551 frames
-  [ComfyUI] [06/06 23:36:53][INFO] [SMPLCameraViewer] Processing 551 frames
-  [ComfyUI] [06/06 23:36:53][INFO] [SMPLCameraViewer] Processing 551 frames
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Loaded camera trajectory (new format) from: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2334/ComfyUI/input/camera_trajectory_example.npz
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Loaded camera trajectory (new format) from: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2334/ComfyUI/input/camera_trajectory_example.npz
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Loaded camera trajectory (new format) from: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2334/ComfyUI/input/camera_trajectory_example.npz
-  [ComfyUI] [06/06 23:36:53][INFO] [SMPLCameraViewer] Loaded camera trajectory (new format) from: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2334/ComfyUI/input/camera_trajectory_example.npz
-  [ComfyUI] [06/06 23:36:53][INFO] [SMPLCameraViewer] Loaded camera trajectory (new format) from: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2334/ComfyUI/input/camera_trajectory_example.npz
-  [ComfyUI] [06/06 23:36:53][INFO] [SMPLCameraViewer] Loaded camera trajectory (new format) from: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2334/ComfyUI/input/camera_trajectory_example.npz
+  [ComfyUI] [06/06 23:44:39][INFO] [SMPLCameraViewer] Processing 551 frames
+  [ComfyUI] [06/06 23:44:39][INFO] [SMPLCameraViewer] Processing 551 frames
+  [ComfyUI] [06/06 23:44:39][INFO] [SMPLCameraViewer] Processing 551 frames
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Loaded camera trajectory (new format) from: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/input/camera_trajectory_example.npz
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Loaded camera trajectory (new format) from: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/input/camera_trajectory_example.npz
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Loaded camera trajectory (new format) from: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/input/camera_trajectory_example.npz
+  [ComfyUI] [06/06 23:44:39][INFO] [SMPLCameraViewer] Loaded camera trajectory (new format) from: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/input/camera_trajectory_example.npz
+  [ComfyUI] [06/06 23:44:39][INFO] [SMPLCameraViewer] Loaded camera trajectory (new format) from: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/input/camera_trajectory_example.npz
+  [ComfyUI] [06/06 23:44:39][INFO] [SMPLCameraViewer] Loaded camera trajectory (new format) from: /home/runner/work/comfy-gpu-ci/comfy-gpu-ci/test_workspaces/MotionCapture-2341/ComfyUI/input/camera_trajectory_example.npz
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Video: 575 frames (SMPL: 551)
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Video: 575 frames (SMPL: 551)
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Video: 575 frames (SMPL: 551)
-  [ComfyUI] [06/06 23:36:53][INFO] [SMPLCameraViewer] Video: 575 frames (SMPL: 551)
-  [ComfyUI] [06/06 23:36:53][INFO] [SMPLCameraViewer] Video: 575 frames (SMPL: 551)
-  [ComfyUI] [06/06 23:36:53][INFO] [SMPLCameraViewer] Video: 575 frames (SMPL: 551)
+  [ComfyUI] [06/06 23:44:39][INFO] [SMPLCameraViewer] Video: 575 frames (SMPL: 551)
+  [ComfyUI] [06/06 23:44:39][INFO] [SMPLCameraViewer] Video: 575 frames (SMPL: 551)
+  [ComfyUI] [06/06 23:44:39][INFO] [SMPLCameraViewer] Video: 575 frames (SMPL: 551)
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] SMPLX models not found, downloading from HuggingFace...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] SMPLX models not found, downloading from HuggingFace...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] SMPLX models not found, downloading from HuggingFace...
-  [ComfyUI] [06/06 23:36:53][INFO] [SMPLCameraViewer] SMPLX models not found, downloading from HuggingFace...
-  [ComfyUI] [06/06 23:36:53][INFO] [SMPLCameraViewer] SMPLX models not found, downloading from HuggingFace...
-  [ComfyUI] [06/06 23:36:53][INFO] [SMPLCameraViewer] SMPLX models not found, downloading from HuggingFace...
-  [ComfyUI] /home/runner/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.12/site-packages/huggingface_hub/utils/_validators.py:205: UserWarning: The `local_dir_use_symlinks` argument is deprecated and ignored in `hf_hub_download`. Downloading to a local directory does not use symlinks anymore.
-  [ComfyUI] /home/runner/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.12/site-packages/huggingface_hub/utils/_validators.py:205: UserWarning: The `local_dir_use_symlinks` argument is deprecated and ignored in `hf_hub_download`. Downloading to a local directory does not use symlinks anymore.
-  [ComfyUI] /home/runner/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.12/site-packages/huggingface_hub/utils/_validators.py:205: UserWarning: The `local_dir_use_symlinks` argument is deprecated and ignored in `hf_hub_download`. Downloading to a local directory does not use symlinks anymore.
+  [ComfyUI] [06/06 23:44:39][INFO] [SMPLCameraViewer] SMPLX models not found, downloading from HuggingFace...
+  [ComfyUI] [06/06 23:44:39][INFO] [SMPLCameraViewer] SMPLX models not found, downloading from HuggingFace...
+  [ComfyUI] [06/06 23:44:39][INFO] [SMPLCameraViewer] SMPLX models not found, downloading from HuggingFace...
+  [ComfyUI] /home/runner/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.13/site-packages/huggingface_hub/utils/_validators.py:205: UserWarning: The `local_dir_use_symlinks` argument is deprecated and ignored in `hf_hub_download`. Downloading to a local directory does not use symlinks anymore.
+  [ComfyUI] /home/runner/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.13/site-packages/huggingface_hub/utils/_validators.py:205: UserWarning: The `local_dir_use_symlinks` argument is deprecated and ignored in `hf_hub_download`. Downloading to a local directory does not use symlinks anymore.
+  [ComfyUI] /home/runner/.ce/envs/motioncapture-nodes/.pixi/envs/default/lib/python3.13/site-packages/huggingface_hub/utils/_validators.py:205: UserWarning: The `local_dir_use_symlinks` argument is deprecated and ignored in `hf_hub_download`. Downloading to a local directory does not use symlinks anymore.
   [ComfyUI]   warnings.warn(
   [ComfyUI]   warnings.warn(
   [ComfyUI]   warnings.warn(
+  Frame 2 saved (frame_001.jpg, t=2.4s)
+  [capture-periodic] freeze=2ms shot=98ms unfreeze=2ms saved=True
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
-  [ComfyUI] [06/06 23:36:53][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
-  [ComfyUI] [06/06 23:36:53][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
-  [ComfyUI] [06/06 23:36:53][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
+  [ComfyUI] [06/06 23:44:40][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
+  [ComfyUI] [06/06 23:44:40][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
+  [ComfyUI] [06/06 23:44:40][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz "HTTP/1.1 302 Found"
   [ComfyUI] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
   [ComfyUI] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
   [ComfyUI] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
   [ComfyUI] [worker:ComfyUI-MotionCapture] WARNING: Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
   [ComfyUI] [worker:ComfyUI-MotionCapture] WARNING: Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
   [ComfyUI] [worker:ComfyUI-MotionCapture] WARNING: Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-  [ComfyUI] [06/06 23:36:53][WARNING] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-  [ComfyUI] [06/06 23:36:53][WARNING] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
-  [ComfyUI] [06/06 23:36:53][WARNING] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  [ComfyUI] [06/06 23:44:40][WARNING] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  [ComfyUI] [06/06 23:44:40][WARNING] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  [ComfyUI] [06/06 23:44:40][WARNING] Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
-  [ComfyUI] [06/06 23:36:53][INFO] HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
-  [ComfyUI] [06/06 23:36:53][INFO] HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
-  [ComfyUI] [06/06 23:36:53][INFO] HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
+  [ComfyUI] [06/06 23:44:40][INFO] HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
+  [ComfyUI] [06/06 23:44:40][INFO] HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
+  [ComfyUI] [06/06 23:44:40][INFO] HTTP Request: GET https://huggingface.co/api/models/lithiumice/models_hub/xet-read-token/363972831b553e4f5b62d11d509e98830d930c97 "HTTP/1.1 200 OK"
   [ComfyUI] 
   [ComfyUI] 
   [ComfyUI] 
-  Frame 2 saved (frame_001.jpg, t=2.2s)
-  [capture-periodic] freeze=3ms shot=102ms unfreeze=3ms saved=True
+  Frame 3 saved (frame_002.jpg, t=4.6s)
+  [capture-periodic] freeze=5ms shot=93ms unfreeze=2ms saved=True
   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:02<00:00, 42.5MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:02<00:00, 42.5MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:02<00:00, 42.5MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:02<00:00, 43.3MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:02<00:00, 43.3MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:02<00:00, 43.3MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
   [ComfyUI] 
   [ComfyUI] 
   [ComfyUI] 
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:02<00:00, 42.5MB/s]
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:02<00:00, 42.5MB/s]
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:02<00:00, 42.5MB/s]
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:02<00:00, 39.6MB/s]
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:02<00:00, 39.6MB/s]
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_FEMALE.npz: 100%|██████████| 109M/109M [00:02<00:00, 39.6MB/s]
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_FEMALE.npz
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_FEMALE.npz
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_FEMALE.npz
-  [ComfyUI] [06/06 23:36:56][INFO] [SMPLCameraViewer] Downloaded SMPLX_FEMALE.npz
-  [ComfyUI] [06/06 23:36:56][INFO] [SMPLCameraViewer] Downloaded SMPLX_FEMALE.npz
-  [ComfyUI] [06/06 23:36:56][INFO] [SMPLCameraViewer] Downloaded SMPLX_FEMALE.npz
+  [ComfyUI] [06/06 23:44:43][INFO] [SMPLCameraViewer] Downloaded SMPLX_FEMALE.npz
+  [ComfyUI] [06/06 23:44:43][INFO] [SMPLCameraViewer] Downloaded SMPLX_FEMALE.npz
+  [ComfyUI] [06/06 23:44:43][INFO] [SMPLCameraViewer] Downloaded SMPLX_FEMALE.npz
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
-  [ComfyUI] [06/06 23:36:56][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
-  [ComfyUI] [06/06 23:36:56][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
-  [ComfyUI] [06/06 23:36:56][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
+  [ComfyUI] [06/06 23:44:43][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
+  [ComfyUI] [06/06 23:44:43][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
+  [ComfyUI] [06/06 23:44:43][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz "HTTP/1.1 302 Found"
   [ComfyUI] 
   [ComfyUI] 
   [ComfyUI] 
-  Frame 3 saved (frame_002.jpg, t=4.4s)
-  [capture-periodic] freeze=2ms shot=117ms unfreeze=3ms saved=True
+  [capture-loop] iter=50 t=5.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2 ram=2.5/15.6GB (16%) swap=0.0/3.0GB (0%) cpu=9% browser_rss=1.12GB
   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz:  62%|██████▏   | 67.1M/109M [00:01<00:00, 44.5MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz:  62%|██████▏   | 67.1M/109M [00:01<00:00, 44.5MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz:  62%|██████▏   | 67.1M/109M [00:01<00:00, 44.5MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 108MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 108MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 108MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
+  Frame 4 saved (frame_003.jpg, t=6.8s)
+  [capture-periodic] freeze=2ms shot=86ms unfreeze=2ms saved=True
   [ComfyUI] 
   [ComfyUI] 
   [ComfyUI] 
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 62.4MB/s] [SubprocessWorker] callback 'report_progress' from call_id=4
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 62.4MB/s] [SubprocessWorker] callback 'report_progress' from call_id=4
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 62.4MB/s] [SubprocessWorker] callback 'report_progress' from call_id=4
-  [ComfyUI] 
-  [ComfyUI] 
-  [ComfyUI] 
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 58.0MB/s]
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 58.0MB/s]
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 58.0MB/s]
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 77.1MB/s]
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 77.1MB/s]
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_MALE.npz: 100%|██████████| 109M/109M [00:01<00:00, 77.1MB/s]
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_MALE.npz
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_MALE.npz
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_MALE.npz
-  [ComfyUI] [06/06 23:36:58][INFO] [SMPLCameraViewer] Downloaded SMPLX_MALE.npz
-  [ComfyUI] [06/06 23:36:58][INFO] [SMPLCameraViewer] Downloaded SMPLX_MALE.npz
-  [ComfyUI] [06/06 23:36:58][INFO] [SMPLCameraViewer] Downloaded SMPLX_MALE.npz
+  [ComfyUI] [06/06 23:44:44][INFO] [SMPLCameraViewer] Downloaded SMPLX_MALE.npz
+  [ComfyUI] [06/06 23:44:44][INFO] [SMPLCameraViewer] Downloaded SMPLX_MALE.npz
+  [ComfyUI] [06/06 23:44:44][INFO] [SMPLCameraViewer] Downloaded SMPLX_MALE.npz
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
-  [ComfyUI] [06/06 23:36:58][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
-  [ComfyUI] [06/06 23:36:58][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
-  [ComfyUI] [06/06 23:36:58][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
+  [ComfyUI] [06/06 23:44:44][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
+  [ComfyUI] [06/06 23:44:44][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
+  [ComfyUI] [06/06 23:44:44][INFO] HTTP Request: HEAD https://huggingface.co/lithiumice/models_hub/resolve/main/4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz "HTTP/1.1 302 Found"
   [ComfyUI] 
   [ComfyUI] 
   [ComfyUI] 
-  [capture-loop] iter=50 t=5.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2 ram=2.6/15.6GB (17%) swap=0.0/3.0GB (0%) cpu=31% browser_rss=1.22GB
-  Frame 4 saved (frame_003.jpg, t=6.6s)
-  [capture-periodic] freeze=3ms shot=111ms unfreeze=3ms saved=True
   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
   [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz:   0%|          | 0.00/109M [00:00<?, ?B/s]
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|██████████| 109M/109M [00:01<00:00, 80.5MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|██████████| 109M/109M [00:01<00:00, 80.5MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|██████████| 109M/109M [00:01<00:00, 80.5MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz:  62%|██████▏   | 67.3M/109M [00:00<00:00, 133MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz:  62%|██████▏   | 67.3M/109M [00:00<00:00, 133MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz:  62%|██████▏   | 67.3M/109M [00:00<00:00, 133MB/s][SubprocessWorker] callback 'report_progress' from call_id=4
   [ComfyUI] 
   [ComfyUI] 
   [ComfyUI] 
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|██████████| 109M/109M [00:01<00:00, 80.4MB/s]
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|██████████| 109M/109M [00:01<00:00, 80.4MB/s]
-  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|██████████| 109M/109M [00:01<00:00, 80.4MB/s]
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|██████████| 109M/109M [00:01<00:00, 104MB/s] [SubprocessWorker] callback 'report_progress' from call_id=4
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|██████████| 109M/109M [00:01<00:00, 104MB/s] [SubprocessWorker] callback 'report_progress' from call_id=4
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|██████████| 109M/109M [00:01<00:00, 104MB/s] [SubprocessWorker] callback 'report_progress' from call_id=4
+  [ComfyUI] 
+  [ComfyUI] 
+  [ComfyUI] 
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|██████████| 109M/109M [00:01<00:00, 64.4MB/s]
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|██████████| 109M/109M [00:01<00:00, 64.4MB/s]
+  [ComfyUI] 4_SMPLhub/SMPLX/X_npz/SMPLX_NEUTRAL.npz: 100%|██████████| 109M/109M [00:01<00:00, 64.4MB/s]
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_NEUTRAL.npz
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_NEUTRAL.npz
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Downloaded SMPLX_NEUTRAL.npz
-  [ComfyUI] [06/06 23:36:59][INFO] [SMPLCameraViewer] Downloaded SMPLX_NEUTRAL.npz
-  [ComfyUI] [06/06 23:36:59][INFO] [SMPLCameraViewer] Downloaded SMPLX_NEUTRAL.npz
-  [ComfyUI] [06/06 23:36:59][INFO] [SMPLCameraViewer] Downloaded SMPLX_NEUTRAL.npz
-  [capture-loop] iter=100 t=11.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3 ram=2.6/15.6GB (17%) swap=0.0/3.0GB (0%) cpu=47% browser_rss=1.05GB
-  [capture-loop] iter=150 t=17.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5 ram=2.6/15.6GB (17%) swap=0.0/3.0GB (0%) cpu=49% browser_rss=1.02GB
+  [ComfyUI] [06/06 23:44:46][INFO] [SMPLCameraViewer] Downloaded SMPLX_NEUTRAL.npz
+  [ComfyUI] [06/06 23:44:46][INFO] [SMPLCameraViewer] Downloaded SMPLX_NEUTRAL.npz
+  [ComfyUI] [06/06 23:44:46][INFO] [SMPLCameraViewer] Downloaded SMPLX_NEUTRAL.npz
+  Frame 5 saved (frame_004.jpg, t=9.2s)
+  [capture-periodic] freeze=2ms shot=82ms unfreeze=2ms saved=True
+  [capture-loop] iter=100 t=11.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3 ram=2.7/15.6GB (17%) swap=0.0/3.0GB (0%) cpu=36% browser_rss=1.11GB
+  [capture-loop] iter=150 t=17.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2 ram=2.6/15.6GB (17%) swap=0.0/3.0GB (0%) cpu=46% browser_rss=1.07GB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Generated mesh: 551 frames, 6890 vertices, 13776 faces
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Generated mesh: 551 frames, 6890 vertices, 13776 faces
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Generated mesh: 551 frames, 6890 vertices, 13776 faces
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Generated mesh: 551 frames, 6890 vertices, 13776 faces
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Generated mesh: 551 frames, 6890 vertices, 13776 faces
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Generated mesh: 551 frames, 6890 vertices, 13776 faces
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Generated mesh: 551 frames, 6890 vertices, 13776 faces
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Generated mesh: 551 frames, 6890 vertices, 13776 faces
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Generated mesh: 551 frames, 6890 vertices, 13776 faces
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Refining camera via Procrustes alignment of vertices...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Refining camera via Procrustes alignment of vertices...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Refining camera via Procrustes alignment of vertices...
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Refining camera via Procrustes alignment of vertices...
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Refining camera via Procrustes alignment of vertices...
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Refining camera via Procrustes alignment of vertices...
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.61153036  1.813485   -4.3272085 ]
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.61153036  1.813485   -4.3272085 ]
-  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.61153036  1.813485   -4.3272085 ]
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.61153036  1.813485   -4.3272085 ]
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.61153036  1.813485   -4.3272085 ]
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.61153036  1.813485   -4.3272085 ]
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Refining camera via Procrustes alignment of vertices...
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Refining camera via Procrustes alignment of vertices...
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Refining camera via Procrustes alignment of vertices...
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.61153036  1.8134842  -4.3272085 ]
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.61153036  1.8134842  -4.3272085 ]
+  [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.61153036  1.8134842  -4.3272085 ]
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.61153036  1.8134842  -4.3272085 ]
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.61153036  1.8134842  -4.3272085 ]
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Frame 0 camera pos: old=[-0.60348064  2.5567207  -4.2858214 ], new=[-0.61153036  1.8134842  -4.3272085 ]
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Camera refined via Procrustes alignment
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Camera refined via Procrustes alignment
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Camera refined via Procrustes alignment
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Camera refined via Procrustes alignment
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Camera refined via Procrustes alignment
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Camera refined via Procrustes alignment
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Camera refined via Procrustes alignment
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Camera refined via Procrustes alignment
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Camera refined via Procrustes alignment
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Wrote 551 incam vertex frames
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Wrote 551 incam vertex frames
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Wrote 551 incam vertex frames
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Wrote 551 incam vertex frames
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Wrote 551 incam vertex frames
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Wrote 551 incam vertex frames
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Wrote 551 incam vertex frames
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Wrote 551 incam vertex frames
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Wrote 551 incam vertex frames
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Wrote smpl_camera_mesh_0001.bin (87.1 MB), has_camera=True
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Wrote smpl_camera_mesh_0001.bin (87.1 MB), has_camera=True
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Wrote smpl_camera_mesh_0001.bin (87.1 MB), has_camera=True
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001.bin (87.1 MB), has_camera=True
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001.bin (87.1 MB), has_camera=True
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001.bin (87.1 MB), has_camera=True
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001.bin (87.1 MB), has_camera=True
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001.bin (87.1 MB), has_camera=True
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001.bin (87.1 MB), has_camera=True
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Encoding 551 frames as all-intra H.264...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Encoding 551 frames as all-intra H.264...
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Encoding 551 frames as all-intra H.264...
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Encoding 551 frames as all-intra H.264...
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Encoding 551 frames as all-intra H.264...
-  [ComfyUI] [06/06 23:37:10][INFO] [SMPLCameraViewer] Encoding 551 frames as all-intra H.264...
-  [capture-loop] iter=200 t=23.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2 ram=2.7/15.6GB (17%) swap=0.0/3.0GB (0%) cpu=72% browser_rss=1.00GB
-  [capture-loop] iter=250 t=29.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=16 ram=2.7/15.6GB (17%) swap=0.0/3.0GB (0%) cpu=76% browser_rss=0.98GB
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Encoding 551 frames as all-intra H.264...
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Encoding 551 frames as all-intra H.264...
+  [ComfyUI] [06/06 23:44:58][INFO] [SMPLCameraViewer] Encoding 551 frames as all-intra H.264...
+  [capture-loop] iter=200 t=22.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3 ram=2.8/15.6GB (18%) swap=0.0/3.0GB (0%) cpu=53% browser_rss=1.07GB
+  [capture-loop] iter=250 t=28.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=11 ram=2.6/15.6GB (17%) swap=0.0/3.0GB (0%) cpu=75% browser_rss=0.97GB
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Wrote smpl_camera_mesh_0001_ref.mp4 (17.3 MB, 551 frames, all-intra)
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Wrote smpl_camera_mesh_0001_ref.mp4 (17.3 MB, 551 frames, all-intra)
   [ComfyUI] [worker:ComfyUI-MotionCapture] INFO: [SMPLCameraViewer] Wrote smpl_camera_mesh_0001_ref.mp4 (17.3 MB, 551 frames, all-intra)
-  [ComfyUI] [06/06 23:37:25][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001_ref.mp4 (17.3 MB, 551 frames, all-intra)
-  [ComfyUI] [06/06 23:37:25][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001_ref.mp4 (17.3 MB, 551 frames, all-intra)
-  [ComfyUI] [06/06 23:37:25][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001_ref.mp4 (17.3 MB, 551 frames, all-intra)
+  [ComfyUI] [06/06 23:45:09][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001_ref.mp4 (17.3 MB, 551 frames, all-intra)
+  [ComfyUI] [06/06 23:45:09][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001_ref.mp4 (17.3 MB, 551 frames, all-intra)
+  [ComfyUI] [06/06 23:45:09][INFO] [SMPLCameraViewer] Wrote smpl_camera_mesh_0001_ref.mp4 (17.3 MB, 551 frames, all-intra)
   [ComfyUI] [SubprocessWorker] got response: ok
   [ComfyUI] [SubprocessWorker] got response: ok
   [ComfyUI] [SubprocessWorker] got response: ok
-  [ComfyUI] [comfy-env] SMPLCameraViewer done (32.03s): result: NodeOutput
-  [ComfyUI] [comfy-env] SMPLCameraViewer done (32.03s): result: NodeOutput
-  [ComfyUI] [comfy-env] SMPLCameraViewer done (32.03s): result: NodeOutput
-  [ComfyUI] [32m[INFO][0m [32mPrompt executed in 32.06 seconds[0m
-  [ComfyUI] [32m[INFO][0m [32mPrompt executed in 32.06 seconds[0m
-  [ComfyUI] [32m[INFO][0m [32mPrompt executed in 32.06 seconds[0m
+  [ComfyUI] [comfy-env] SMPLCameraViewer done (29.83s): result: NodeOutput
+  [ComfyUI] [comfy-env] SMPLCameraViewer done (29.83s): result: NodeOutput
+  [ComfyUI] [comfy-env] SMPLCameraViewer done (29.83s): result: NodeOutput
+  [ComfyUI] [32m[INFO][0m [32mPrompt executed in 31.50 seconds[0m
+  [ComfyUI] [32m[INFO][0m [32mPrompt executed in 31.50 seconds[0m
+  [ComfyUI] [32m[INFO][0m [32mPrompt executed in 31.50 seconds[0m
   Node executed (1 total), capturing...
-  Frame 5 saved (frame_004.jpg, t=32.4s)
-  [capture-node] freeze=3ms shot=102ms unfreeze=3ms saved=True
-  Execution complete (t=32.7s)
-  Captured 5 unique frames over 32.8s
+  Frame 6 saved (frame_005.jpg, t=32.1s)
+  [capture-node] freeze=2ms shot=84ms unfreeze=0ms saved=True
+  Execution complete (t=32.1s)
+  Captured 6 unique frames over 32.27s
   [debug] iframes: 1
-  [debug]   iframe[0]: src=http://127.0.0.1:41889/extensions/ComfyUI-MotionCapture/viewer_smpl_camera.html?, canvas=413x343, rafFrozen=False
+  [debug]   iframe[0]: src=http://127.0.0.1:41891/extensions/ComfyUI-MotionCapture/viewer_smpl_camera.html?, canvas=413x343, rafFrozen=True
   [timing] trigger_3d_previews: 0.0s
   Saved high-quality screenshot: load_camera_traj_executed.png
-  [timing] final_screenshot: 0.3s
-    Captured 6 video frames
+  [timing] final_screenshot: 0.2s
+    Captured 7 video frames

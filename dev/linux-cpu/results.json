@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-06-06T23:37:39.855464+00:00",
+  "timestamp": "2026-06-06T23:45:22.368516+00:00",
   "platform": "linux",
   "hardware": {
     "os": "Linux-6.17.0-1015-azure-x86_64-with-glibc2.39",
-    "cpu": "AMD EPYC 7763 64-Core Processor"
+    "cpu": "AMD EPYC 9V74 80-Core Processor"
   },
   "commit_hash": "2e0ffb450a6d8f93f66af0d1c25fa3494637366c",
-  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/27076963678",
+  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/27076995670",
   "success": true,
   "summary": {
     "total": 5,
@@ -31,34 +31,34 @@
     {
       "name": "apply_motion_on_character",
       "status": "pass",
-      "duration_seconds": 24.05,
+      "duration_seconds": 80.52,
       "error": null,
       "hardware": {
         "os": "Linux-6.17.0-1015-azure-x86_64-with-glibc2.39",
-        "cpu": "AMD EPYC 7763 64-Core Processor"
+        "cpu": "AMD EPYC 9V74 80-Core Processor"
       },
       "resources": {
         "ram": {
-          "peak": 1.68,
-          "avg": 1.03
+          "peak": 1.78,
+          "avg": 1.12
         },
         "total_ram_gb": 15.6,
-        "samples": 24
+        "samples": 81
       }
     },
     {
       "name": "load_camera_traj",
       "status": "pass",
-      "duration_seconds": 41.14,
+      "duration_seconds": 40.22,
       "error": null,
       "hardware": {
         "os": "Linux-6.17.0-1015-azure-x86_64-with-glibc2.39",
-        "cpu": "AMD EPYC 7763 64-Core Processor"
+        "cpu": "AMD EPYC 9V74 80-Core Processor"
       },
       "resources": {
         "ram": {
           "peak": 1.51,
-          "avg": 1.34
+          "avg": 1.32
         },
         "total_ram_gb": 15.6,
         "samples": 41
@@ -67,19 +67,19 @@
     {
       "name": "smpl_to_bvh_pipeline",
       "status": "pass",
-      "duration_seconds": 11.04,
+      "duration_seconds": 9.4,
       "error": null,
       "hardware": {
         "os": "Linux-6.17.0-1015-azure-x86_64-with-glibc2.39",
-        "cpu": "AMD EPYC 7763 64-Core Processor"
+        "cpu": "AMD EPYC 9V74 80-Core Processor"
       },
       "resources": {
         "ram": {
-          "peak": 1.32,
-          "avg": 1.2
+          "peak": 1.35,
+          "avg": 1.34
         },
         "total_ram_gb": 15.6,
-        "samples": 11
+        "samples": 10
       }
     }
   ]
