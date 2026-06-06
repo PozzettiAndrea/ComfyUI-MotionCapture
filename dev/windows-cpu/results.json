@@ -1,12 +1,12 @@
 {
-  "timestamp": "2026-05-25T19:31:24.851830+00:00",
+  "timestamp": "2026-06-06T23:42:43.704155+00:00",
   "platform": "windows",
   "hardware": {
     "os": "Windows-10-10.0.26100-SP0",
     "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
   },
   "commit_hash": "2e0ffb450a6d8f93f66af0d1c25fa3494637366c",
-  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/26416322296",
+  "run_url": "https://github.com/PozzettiAndrea/comfy-gpu-ci/actions/runs/27076964432",
   "success": true,
   "summary": {
     "total": 5,
@@ -17,7 +17,7 @@
     {
       "name": "apply_motion_on_character",
       "status": "pass",
-      "duration_seconds": 37.83,
+      "duration_seconds": 96.79,
       "error": null,
       "hardware": {
         "os": "Windows-10-10.0.26100-SP0",
@@ -25,11 +25,11 @@
       },
       "resources": {
         "ram": {
-          "peak": 1.6,
-          "avg": 0.9
+          "peak": 1.87,
+          "avg": 0.89
         },
         "total_ram_gb": 16.0,
-        "samples": 38
+        "samples": 96
       }
     },
     {
@@ -49,7 +49,7 @@
     {
       "name": "load_camera_traj",
       "status": "pass",
-      "duration_seconds": 49.88,
+      "duration_seconds": 52.98,
       "error": null,
       "hardware": {
         "os": "Windows-10-10.0.26100-SP0",
@@ -57,17 +57,17 @@
       },
       "resources": {
         "ram": {
-          "peak": 1.27,
-          "avg": 1.07
+          "peak": 1.2,
+          "avg": 0.98
         },
         "total_ram_gb": 16.0,
-        "samples": 50
+        "samples": 53
       }
     },
     {
       "name": "smpl_to_bvh_pipeline",
       "status": "pass",
-      "duration_seconds": 21.45,
+      "duration_seconds": 14.68,
       "error": null,
       "hardware": {
         "os": "Windows-10-10.0.26100-SP0",
@@ -75,11 +75,11 @@
       },
       "resources": {
         "ram": {
-          "peak": 0.9,
-          "avg": 0.89
+          "peak": 0.86,
+          "avg": 0.85
         },
         "total_ram_gb": 16.0,
-        "samples": 22
+        "samples": 15
       }
     }
   ]
