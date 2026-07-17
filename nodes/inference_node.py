@@ -23,6 +23,19 @@ from .motion_utils.simple_vo import SimpleVO
 
 # Check DPVO availability
 DPVO_AVAILABLE = False
+
+# Monkey-patch __main__ module to support Numba inside comfy-env isolated workers
+try:
+    import sys
+    import builtins
+    main_mod = sys.modules.get('__main__')
+    if main_mod is not None:
+        for print_name in ['_forwarded_print', 'print']:
+            if not hasattr(main_mod, print_name):
+                setattr(main_mod, print_name, builtins.print)
+except Exception:
+    pass
+
 try:
     from .dpvo.dpvo import DPVO
     from .dpvo.config import cfg as dpvo_cfg
