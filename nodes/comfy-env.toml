@@ -53,6 +53,11 @@ tabulate = "*"
 portalocker = "*"
 psutil = ">=5.9.0"
 comfy_aimdo = "*"
+kornia = "*"
+pypose = "*"
+numba = "*"
 
 [target.linux-64.pypi-dependencies]
+
 pyrender = ">=0.1.45"
+
