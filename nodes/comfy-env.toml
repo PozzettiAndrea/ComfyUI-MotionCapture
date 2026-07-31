@@ -13,6 +13,7 @@ xorg-libsm = "*"     # libSM.so.6 required by bpy
 packages = ["dpvo_cuda", "torch-scatter"]
 
 [pypi-dependencies]
+comfy-kitchen = "*"
 pillow = ">=9.0.0"
 opencv-python-headless = ">=4.8.0"
 av = ">=13.0.0"
