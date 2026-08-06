@@ -23,14 +23,28 @@ from .motion_utils.simple_vo import SimpleVO
 
 # Check DPVO availability
 DPVO_AVAILABLE = False
+
+# Monkey-patch __main__ module to support Numba inside comfy-env isolated workers
+try:
+    import sys
+    import builtins
+    main_mod = sys.modules.get('__main__')
+    if main_mod is not None:
+        for print_name in ['_forwarded_print', 'print']:
+            if not hasattr(main_mod, print_name):
+                setattr(main_mod, print_name, builtins.print)
+except Exception:
+    pass
+
 try:
     from .dpvo.dpvo import DPVO
     from .dpvo.config import cfg as dpvo_cfg
     from .dpvo.utils import Timer
     DPVO_AVAILABLE = True
     Log.info("[GVHMRInference] DPVO is available")
-except Exception:
-    Log.info("[GVHMRInference] DPVO not installed - only SimpleVO will be available")
+except Exception as e:
+    Log.info(f"[GVHMRInference] DPVO not installed - only SimpleVO will be available (Error: {e})", exc_info=True)
+
 
 # Import local utilities (renamed to avoid conflict with ComfyUI's utils package)
 from .gvhmr_utils import (
@@ -609,9 +623,13 @@ class GVHMRInference(io.ComfyNode):
 
         # Camera intrinsics: use provided K, or estimate from focal_length_mm, or auto-estimate
         if intrinsics is not None:
+            if not isinstance(intrinsics, torch.Tensor):
+                intrinsics = torch.tensor(intrinsics, dtype=torch.float32)
             Log.info(f"[GVHMRInference] Using provided camera intrinsics, input shape: {intrinsics.shape}")
+
             # Squeeze extra dimensions (DA3 outputs [1, 1, 3, 3])
             K = intrinsics.squeeze()
+
             while K.dim() > 3:
                 K = K.squeeze(0)
             # Handle different input shapes
@@ -746,8 +764,13 @@ class GVHMRInference(io.ComfyNode):
         Reads frames directly from video files -- no large float32 tensors in RAM.
         """
         import comfy.model_management
+        if intrinsics is not None and not isinstance(intrinsics, torch.Tensor):
+            intrinsics = torch.tensor(intrinsics, dtype=torch.float32)
         try:
+
+
             static_camera = not moving_camera
+
             Log.info("=" * 60)
             Log.info("[GVHMRInference] Starting GVHMR inference with parameters:")
             Log.info(f"  video:           {video.get_frame_count()} frames @ {video.get_dimensions()}")
