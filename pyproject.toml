@@ -10,4 +10,5 @@ Repository = "https://github.com/PozzettiAndrea/ComfyUI-MotionCapture"
 [tool.comfy]
 PublisherId = "pznodes"
 DisplayName = "MotionCapture"
+web = "javascript"
 Icon = "https://raw.githubusercontent.com/PozzettiAndrea/ComfyUI-MotionCapture/main/assets/icon.png"
